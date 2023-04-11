@@ -38,20 +38,20 @@ export const ProductFilter = () => {
   const handleChecked = async (e) => {    
     
     if(e.target.checked){
-
-      setSubcategorie(oldArray => [...subcategorie, e.target.value.toLowerCase()]);
+      let productos = getProductsBySubCategory( "accesorios", [e.target.value.toLowerCase()] );
+      setProducts( productos );
+    //   setSubcategorie(oldArray => [...subcategorie, e.target.value.toLowerCase()]);
       
-    }else{
+    // }else{
       
-      setSubcategorie(oldArray => subcategorie.filter( item => item !== e.target.value.toLowerCase()))
+    //   setSubcategorie(oldArray => subcategorie.filter( item => item !== e.target.value.toLowerCase()))
     }
 
-    reference.current = subcategorie;
-    console.log(reference.current);
+    // reference.current = subcategorie;
+    // console.log(reference.current);
 
 
-    // let productos = getProductsBySubCategory( "accesorios", subcategorie );
-    // setProducts( productos );
+    
     
       
     // // setProducts(subcategorie);
@@ -69,7 +69,7 @@ export const ProductFilter = () => {
                 <input 
                   type="checkbox"                  
                   id={ subcategory }                
-                  checked= { checked }
+                  
                   value = { subcategory }
                   onChange={ handleChecked }
                 />

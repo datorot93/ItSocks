@@ -10,5 +10,10 @@ export const itSocksReducer = ( state = [], action ) => {
         loaded: true,
         productos: action.payload
       }
+    case types.setBreadCrumb:
+      return {
+        ...state,
+        
+      }
   }
 }

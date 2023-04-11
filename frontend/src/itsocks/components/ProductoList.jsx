@@ -5,7 +5,7 @@ import { ProductoCard } from './ProductoCard';
 import styles from '../../ui/styles/Accesorios.module.css';
 import { ItSocksContext } from '../context/ItSocksContext';
 
-export const ProductoList = ( { categoria }) => {
+export const ProductoList = ( { categoria } ) => {
 
   const { productos } = useContext( ItSocksContext );
 
