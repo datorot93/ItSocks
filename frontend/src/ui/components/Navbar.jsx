@@ -42,7 +42,7 @@ export const Navbar = () => {
             Packs
           </Link>
           <Link
-            
+            to="mas"
           >
             Más
           </Link>

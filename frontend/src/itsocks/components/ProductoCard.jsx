@@ -3,6 +3,8 @@ import React from 'react';
 
 import styles from '../../ui/styles/Accesorios.module.css';
 
+
+
 export const ProductoCard = ({
   id,
   nombre,
@@ -14,12 +16,15 @@ export const ProductoCard = ({
   id_diseño,
   image
 }) => {
+  
 
+  const ruta_imagenes = './assets/accesorios/'
   return (
     
     <div className={ styles.card }>
       
-      <img src={ 	`./assets/accesorios/${ nombre }.jpg` } alt= { nombre } />
+      {/* <img src={ 	`${ ruta_imagenes }/${ nombre }.jpg` } alt= { nomSbre } /> */}
+      <img src={ 	image } alt= { nombre } />
       
     </div>
     

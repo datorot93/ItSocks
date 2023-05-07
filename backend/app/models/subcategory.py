@@ -20,3 +20,4 @@ class Subcategory(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     category_subcategory = relationship('Category', back_populates='subcategory')
+    product = relationship('Product', back_populates='subcategory')

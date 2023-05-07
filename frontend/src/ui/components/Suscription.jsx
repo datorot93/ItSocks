@@ -6,8 +6,6 @@ import styles from '../styles/Susctiption.module.css';
 export const Suscription = () => {
 
   const { pathname } = useLocation();
-  
-  console.log( pathname );
 
 
   return (

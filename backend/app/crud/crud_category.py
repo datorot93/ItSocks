@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, Any, Union, Dict
 
 from sqlalchemy.orm import Session
 
-from app.crud.base import CRUDBase
-from app.models.category import Category
-from app.schemas.category import CategoryCreate, CategoryUpdate
+from crud.base import CRUDBase
+from models.category import Category
+from schemas.category import CategoryCreate, CategoryUpdate
 
 class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
     
@@ -22,6 +22,21 @@ class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
         db.refresh(db_obj)
 
         return db_obj
+    
+    # def update(
+    #         self, 
+    #         db:Session,
+    #         *,
+    #         db_obj: Category,
+    #         obj_in: Union[CategoryUpdate, Dict[str, Any]]
+    #         nombre: str,
+
+    #     ):
+    #     db_obj = Category(
+    #         nombre = nombre
+    #     )
+
+
 
 
 category = CRUDCategory(Category)

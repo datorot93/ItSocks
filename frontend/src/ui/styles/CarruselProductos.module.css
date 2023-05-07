@@ -1,0 +1,11 @@
+
+
+img {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  &.loaded {
+    opacity: 1;
+    transition: 1s;
+  };
+}

@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
+// React Reouter DOM
+import { useNavigate } from 'react-router-dom';
+
+
 import styles from '../../ui/styles/Accesorios.module.css';
 import { ItSocksContext } from '../context/ItSocksContext';
 import { getProductsBySubCategory } from '../helpers/getProductsBySubCategory';
 
-export const ProductFilter = () => {
+export const ProductFilter = ({ subcategoria = null }) => {
+  
+  const navigate = useNavigate();
 
-  const { setProducts } = useContext( ItSocksContext );
-  const [ subcategorie, setSubcategorie ] = useState( [] );
-
-  const reference = useRef()
-
-  const subcategorias = [ 
+  const initialState = [ 
     {
       subcategory: 'Viceras',
       checked: false
@@ -24,54 +25,64 @@ export const ProductFilter = () => {
       subcategory: 'Pines',
       checked: false
     }
-  ];
+  ]
 
-
-
-
-
-  useEffect( () => {
-    // setSubcategorie(oldArray => [...subcategorie, e.target.value.toLowerCase()]);    handleChecked()
-  }, [subcategorie]);
-
-
-  const handleChecked = async (e) => {    
-    
-    if(e.target.checked){
-      let productos = getProductsBySubCategory( "accesorios", [e.target.value.toLowerCase()] );
-      setProducts( productos );
-    //   setSubcategorie(oldArray => [...subcategorie, e.target.value.toLowerCase()]);
-      
-    // }else{
-      
-    //   setSubcategorie(oldArray => subcategorie.filter( item => item !== e.target.value.toLowerCase()))
-    }
-
-    // reference.current = subcategorie;
-    // console.log(reference.current);
-
-
-    
-    
-      
-    // // setProducts(subcategorie);
-
+  const initialState2 = {
+    viceras: false,
+    termos: false,
+    pines: false
   }
 
+  const [ checkedItems, setCheckedItems ] = useState( initialState2 );
 
+  const handleChecked = async (e, subcategory ) => {    
+
+    // const newState = checkedItems;
+    // console.log(subcategory);
+    // console.log(newState[subcategory])
+    // newState[subcategory] = !newState[subcategory];
+    const newState = checkedItems.map( item => {
+      if( item[subcategory] === subcategory){
+        return { ...item, checked: !item.checked}
+      }else{
+        return { ...item, checked: false}
+      }
+    })
+
+    // const newState = {...checkedItems, checkedItems[subcategory]: !checkedItems[subcategory]}
+
+    
+    setCheckedItems([...newState]);
+
+    // console.log("New State");
+    // console.log(newState);
+    // console.log("Checked Items");
+    // console.log(checkedItems);
+    // console.log(e.target.value.toLowerCase());
+    if ( !checkedItems.some( element => element === true )){
+      navigate('/accesorios');
+    }else{
+      navigate(`/accesorios/${ e.target.value.toLowerCase()}`)
+    }
+  }
+
+  useEffect( () => {
+    
+  }, [checkedItems]);
 
   return (
     <>
       <div className={ styles.product_filter }>
         {
-          subcategorias.map( ({subcategory, checked}, index) => (
+          Object.getOwnPropertyNames(checkedItems).map( subcategory => (
               <label key={ subcategory }>                
-                <input 
+                <input
+                  key={ subcategory }
                   type="checkbox"                  
                   id={ subcategory }                
-                  
+                  checked={ checkedItems.subcategoria }
                   value = { subcategory }
-                  onChange={ handleChecked }
+                  onChange={ event => handleChecked( event, subcategory ) }
                 />
                 { subcategory }
               </label>
@@ -81,8 +92,6 @@ export const ProductFilter = () => {
         }
         
       </div>
-
-
     </>
   )
 }

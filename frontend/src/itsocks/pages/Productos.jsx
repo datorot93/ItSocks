@@ -4,7 +4,8 @@ import { ProductoList } from '../components/ProductoList'
 import styles from '../../ui/styles/Accesorios.module.css';
 import { ProductFilter } from '../components/ProductFilter';
 
-export const Accesorios = () => {
+export const Productos = ({ categoria, subcategoria }) => {
+  
   return (
     <>
       <div className={ styles.main }>
@@ -12,8 +13,8 @@ export const Accesorios = () => {
           <div className={ styles.trancking_container }>
             <h1>ACCESORIOS</h1>
           </div>
-          <ProductoList categoria="accesorios" />
-          <ProductFilter />
+          <ProductoList categoria={ categoria } subcategoria={ subcategoria } />
+          <ProductFilter subcategoria={ subcategoria }/>
         </div>
       </div>
     </>

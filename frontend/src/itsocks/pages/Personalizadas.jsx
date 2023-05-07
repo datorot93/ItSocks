@@ -3,6 +3,7 @@ import { MediasTipos } from '../components/MediasTipos';
 
 // STYLES
 import styles from '../../ui/styles/Medias.module.css';
+
 export const Personalizadas = ({ subcategory }) => {
   return (
     <div  className={ styles.main }>

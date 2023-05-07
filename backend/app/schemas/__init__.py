@@ -1,1 +1,1 @@
-from .category import Category, CategoryCreate, CategoryUpdate, CategoryInDB
+from .category import Category, CategoryCreate, CategoryUpdate
