@@ -1,62 +1,46 @@
+import styles from "../../ui/styles/CarruselProductos.module.css";
 
-import styles from '../../ui/styles/CarruselProductos.module.css';
+import slider_1 from "../../../public/assets/homepage/slider/slider_1.jpg";
+import slider_2 from "../../../public/assets/homepage/slider/slider_2.jpg";
 
-import slider_1 from '../../../public/assets/homepage/slider/slider_1.jpg';
-import slider_2 from '../../../public/assets/homepage/slider/slider_2.jpg';
+import { useState } from "react";
 
-import { useState } from 'react';
+// Utilidades
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'animate.css';
 
-export const CarruselProductos = (props) => {
+export const CarruselProductos = ({images}) => {
   
-  // const images = [slider_1, slider_2];
 
-  const images = [
-    {
-      id: "slider1",
-      src: "../../../public/assets/homepage/slider/slider_1.jpg"
-    },
-    {
-      id: "slider2",
-      src: "../../../public/assets/homepage/slider/slider_2.jpg"
-    }
-  ];
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [loaded, setLoaded] = useState(false);
+  const [ isSelected, setIsSelected ] = useState(false)
 
-  const [ selectedIndex, setSelectedIndex ] = useState(0);
-  const [ selectedImage, setSelectedImage ] = useState(images[0]);
-  const [ loaded, setLoaded ] = useState(false)
-
-  const selectNewImage = ( index, images, next=true ) => {
-    setLoaded(false);
-    const condition = next ? selectedIndex < images.length - 1: selectedIndex > 0;
-    const nextIndex = next ? 
-      (condition ? selectedIndex + 1: 0) : 
-      (condition ? selectedIndex - 1: images.length - 1)
-
-    setSelectedImage(images[nextIndex]);
-    setSelectedIndex(nextIndex);
-  };
-
-  const previous = () => {
-    selectNewImage( selectedIndex, images, false );
-  };
-
-  const next = () => {
-    selectNewImage( selectedIndex, images );
-  };
-
-  
+  const showImage = ( index ) => {
+    setTimeout(() => {
+      setSelectedImage(images[index]);
+      setSelectedIndex(index);
+    }, 500);
+  }
 
   return (
-    <div>
-      <LazyLoadImage 
-        src={ selectedImage.src } 
-        alt="Image of slider"
-        className={ loaded ? "loaded" : ""}
-        onLoad={ () => setLoaded(true) }
-      />
-      <button onClick={ previous }>{"<"}</button>
-      <button onClick={ next }>{">"}</button>
+    <div className={styles.container}>
+      <div className={`${ styles.slider_wrapper } animate__fadeInLeft`}>
+        <LazyLoadImage
+          src={selectedImage.src}
+          alt="Image of slider"
+          className={`${styles.img_carrusel} ${
+            loaded ? "loaded" : "not_loaded"
+          }`}
+          onLoad={() => setLoaded(true)}
+        />
+        <div className={styles.slider_nav}>
+          {images.map((image, index) => (
+            <button onClick={ () => showImage( index )} key={image.id}></button>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};

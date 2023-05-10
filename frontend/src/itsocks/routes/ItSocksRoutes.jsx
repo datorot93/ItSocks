@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Navbar } from '../../ui/components/Navbar';
 import { ItSocks, Medias, Packs, Productos } from '../pages';
 import { Estampadas } from '../pages/Estampadas';
@@ -13,6 +13,10 @@ import { PersonalizadaPantorrillera } from '../pages/PersonalizadaPantorrillera'
 
 
 export const ItSocksRoutes = () => {
+
+  const {pathname} = useLocation()
+
+  // console.log(pathname);
   return (
     <>
       <Navbar />

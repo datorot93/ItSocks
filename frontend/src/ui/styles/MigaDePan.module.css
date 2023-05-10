@@ -10,6 +10,7 @@
     height: auto;
     justify-content: center;
     margin-top: 30px;
+    margin-bottom: 20px;
   }
 
   .miga {
@@ -22,6 +23,7 @@
     width: 100%;
     height: auto;
     max-width: 1280px;
+    margin-bottom: 20px;
   }
 
   a {

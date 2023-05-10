@@ -15,18 +15,31 @@ export const MigaDePan = () => {
   
   
   const arrPath = ['Home', ...pathname_array];
-  console.log( arrPath );
+
+  const condition = pathname.pathname == "/";
+
+  console.log(condition)
+  // console.log( arrPath );
   return (
-    <div className={ styles.miga_container }>
-      <div className={ styles.miga } key="miga">
+      <>
         {
-          arrPath.map( (path, index) => (
-            <>
-              <Link key={ path } to={ (path === 'Home') ? '/' : path }>{ path }</Link> | {" "}
-            </>
-          ))
+          !condition
+          ? <div className={ styles.miga_container }>
+          <div className={ styles.miga } key="miga">
+            {
+              arrPath.map( (path, index) => (
+                <>
+                  <Link key={ path } to={ (path === 'Home') ? '/' : path }>{ path }</Link> | {" "}
+                </>
+              ))
+            }
+          </div>
+        </div>
+        : <></>
         }
-      </div>
-    </div>
+        
+      </>
+    
+    
   )
 }

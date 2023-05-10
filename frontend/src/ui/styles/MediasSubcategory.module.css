@@ -11,10 +11,10 @@
 
 .main button {
     background-color: #00B475;
-    padding: 8px;
+    padding: 14px;
     border-radius: 5px;
     color: white;
-    font-size:small;
+    font-size:larger;
     border: none;
     cursor: pointer;
 }

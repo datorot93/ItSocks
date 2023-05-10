@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "localforage": "^1.10.0",
     "match": "^1.2.10",
     "query-string": "^8.1.0",
