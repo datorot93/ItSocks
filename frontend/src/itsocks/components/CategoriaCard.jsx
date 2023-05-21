@@ -14,7 +14,7 @@ export const CategoriaCard = ({
     categoria,
     image
 }) => {
-
+  
   return (
     
     <div className={ styles.card }>

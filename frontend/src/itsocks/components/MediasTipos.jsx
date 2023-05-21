@@ -9,12 +9,13 @@ import { tipos } from '../data/tipos';
 import { CategoriaCard } from './CategoriaCard';
 
 
-export const MediasTipos= ({ category }) => {
+export const MediasTipos= ({ subcategory }) => {
 
+  const tipos_subcategory = tipos.filter( tipo => tipo.subcategoria == subcategory);
   return (
     <div className={ styles.categories_container }>
       {
-          tipos.map( categoria => (
+          tipos_subcategory.map( categoria => (
             <CategoriaCard
               key={ categoria.id }
               { ...categoria }

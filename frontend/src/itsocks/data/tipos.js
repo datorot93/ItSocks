@@ -6,6 +6,7 @@ export const tipos = [
       'nombre': 'larga',
       'estado': 'activo',
       'categoria': 'medias',
+      'subcategoria': 'medias personalizadas',
       'image': '../../../public/assets/medias/tipos/larga.png'
     },
     {
@@ -13,6 +14,7 @@ export const tipos = [
         'nombre': 'media caña',
         'estado': 'activo',
         'categoria': 'medias',
+        'subcategoria': 'medias personalizadas',
         'image': '../../../public/assets/medias/tipos/media_cana.png'
       },
       {
@@ -20,6 +22,31 @@ export const tipos = [
         'nombre': 'pantorrillera',
         'estado': 'activo',
         'categoria': 'medias',
+        'subcategoria': 'medias personalizadas',
         'image': '../../../public/assets/medias/tipos/pantorrillera.png'
-      }
+      },
+      {
+        'id': 4,
+        'nombre': 'larga',
+        'estado': 'activo',
+        'categoria': 'medias',
+        'subcategoria': 'medias estampadas',
+        'image': '../../../public/assets/medias/tipos/estampadas/larga.png'
+      },
+      {
+          'id': 5,
+          'nombre': 'media caña',
+          'estado': 'activo',
+          'categoria': 'medias',
+          'subcategoria': 'medias estampadas',
+          'image': '../../../public/assets/medias/tipos/estampadas/media_cana.png'
+        },
+        {
+          'id': 6,
+          'nombre': 'pantorrillera',
+          'estado': 'activo',
+          'categoria': 'medias',
+          'subcategoria': 'medias estampadas',
+          'image': '../../../public/assets/medias/tipos/estampadas/pantorrillera.png'
+        }
 ]

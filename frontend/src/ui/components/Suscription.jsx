@@ -9,9 +9,7 @@ export const Suscription = () => {
 
 
   return (
-    (pathname === "/")
-    ? <></>
-    : <section className={ styles.main }>
+    <section className={ styles.main }>
         <div className={ styles.text_container }>
             <h2>SUSCRÍBETE</h2>
             <p>Suscríbete a nuestra página de medias de compresión y descubre la comodidad y estilo en cualquier momento del día. Obtén acceso a descuentos exclusivos y novedades de nuestra marca. ¡Haz clic ahora para unirte a nuestra comunidad de amantes de la compresión!</p>
