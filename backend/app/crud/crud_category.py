@@ -23,18 +23,22 @@ class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
 
         return db_obj
     
-    # def update(
-    #         self, 
-    #         db:Session,
-    #         *,
-    #         db_obj: Category,
-    #         obj_in: Union[CategoryUpdate, Dict[str, Any]]
-    #         nombre: str,
+    def update(
+            self, 
+            db:Session,
+            *,
+            db_obj: Category,
+            obj_in: Union[CategoryUpdate, Dict[str, Any]],
+        ) -> Category:
+    
+        if isinstance(obj_in, dict):
+            update_data = obj_in
 
-    #     ):
-    #     db_obj = Category(
-    #         nombre = nombre
-    #     )
+        else:
+            update_data = obj_in.dict(exclude_unset=True)
+
+        return super().update(db, db_obj=db_obj, obj_in=update_data)
+
 
 
 
