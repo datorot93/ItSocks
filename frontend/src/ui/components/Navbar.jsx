@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, useNavigate  } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Iconoso Navbar
 import itsocks_logo from '../../assets/navbar/itsocks_logo.png';
@@ -14,9 +14,11 @@ export const Navbar = () => {
   return (
     <header>
       <nav>
-        <picture>
-          <img src={ itsocks_logo } alt="ItSocks Logo" />
-        </picture>
+        <Link to="/">
+          <picture>
+            <img src={ itsocks_logo } alt="ItSocks Logo" />
+          </picture>
+        </Link>
 
         <div className={ styles.search_container }>
           <img src={ IconoBuscar } alt="Icono buscar"/>
@@ -40,7 +42,7 @@ export const Navbar = () => {
             Packs
           </Link>
           <Link
-            
+            to="mas"
           >
             Más
           </Link>

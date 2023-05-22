@@ -1,3 +1,6 @@
+
+
+
 export const productos = [
   {
     'id': 1,
@@ -8,7 +11,7 @@ export const productos = [
     'subcategoria': 'pines',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/pin_cerebro.jpg'
+    'image': '../../../public/assets/accesorios/Pin Cerebro.jpg'
   },
   {
     'id': 2,
@@ -19,7 +22,7 @@ export const productos = [
     'subcategoria': 'pines',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/pin_corazon.jpg'
+    'image': '../../../public/assets/accesorios/Pin corazon.jpg'
   },
   {
     'id': 3,
@@ -30,7 +33,7 @@ export const productos = [
     'subcategoria': 'termos',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/termo_gris.jpg'
+    'image': '../../../public/assets/accesorios/Termo Gris.jpg'
   },
   {
     'id': 4,
@@ -41,7 +44,7 @@ export const productos = [
     'subcategoria': 'termos',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/termo_rojo.jpg'
+    'image': '../../../public/assets/accesorios/Termo Rojo.jpg'
   },
   {
     'id': 5,
@@ -52,7 +55,7 @@ export const productos = [
     'subcategoria': 'termos',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/termo_verde.jpg'
+    'image': '../../../public/assets/accesorios/Termo Verde.jpg'
   },
   {
     'id': 6,
@@ -63,7 +66,7 @@ export const productos = [
     'subcategoria': 'viceras',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/visera_naranja.jpg'
+    'image': '../../../public/assets/accesorios/Visera Naranja.jpg'
   },
   {
     'id': 7,
@@ -74,6 +77,6 @@ export const productos = [
     'subcategoria': 'viceras',
     'id_referencia_fabrica': 1,
     'id_diseño': 1,
-    'image': '../../assets/accesorios/visera_negra.jpg'
+    'image': '../../../public/assets/accesorios/Visera Negra.jpg'
   }
 ]

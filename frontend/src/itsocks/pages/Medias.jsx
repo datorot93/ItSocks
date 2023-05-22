@@ -1,7 +1,16 @@
-import React from 'react'
+import React from 'react';
+import { MediasCategory } from '../components/MediasCategory';
 
-export const Medias = () => {
+// STYLES
+import styles from '../../ui/styles/Medias.module.css';
+
+export const Medias = ({ subcategory }) => {
   return (
-    <h1>Acá van las medias</h1>
+    <div  className={ styles.main }>
+      <h1>{ subcategory?.toUpperCase() }</h1>
+      <div className={ styles.container }>
+        <MediasCategory />
+      </div>
+    </div>
   )
 }

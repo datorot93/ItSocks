@@ -1,0 +1,47 @@
+.slider {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  width: 100vw;
+}
+
+.slide {
+  flex: 0 0 100%;
+  height: 100vh;
+  scroll-snap-align: start;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease-out;
+}
+
+.slide:nth-child(even) {
+  transform: translateX(50%);
+}
+
+.slide.active {
+  transform: translateX(0);
+}
+
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.slider-dots button {
+  border: none;
+  background-color: transparent;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 10px;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.slider-dots button.active {
+  background-color: #333;
+}

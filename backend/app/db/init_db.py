@@ -3,10 +3,9 @@ import os
 from sqlalchemy.orm import Session
 
 # from app.db.base import base
-from db import base
+from app.db import base
 # from app import crud, schemas
-import crud
-import schemas
+from app import crud, schemas
 
 
 def init_db(db: Session) -> None:
@@ -16,13 +15,13 @@ def init_db(db: Session) -> None:
     # Base.metadata.create_all(bind=engine)
 
     id = 1
-    nombre = "categoría 1"
-
-    category = crud.category.get_category_by_name(db, nombre=nombre)
-
-    if not category:
-        category_in = schemas.CategoryCreate(
-            nombre = nombre
+    username = os.getenv("FIRST_SUPERUSER", "")
+    password = os.getenv("FIRST_SUPERUSER_PASSWORD", "")
+    user = crud.user.get_by_username(db, username=username)
+    if not user:
+        user_in = schemas.UserCreate(
+            id=id, username=username, password=password, is_active=True, is_admin=True, full_name="admin"
         )
-        category = crud.category.create( db, ob_in=category_in)
+        user = crud.user.create(db, obj_in=user_in)  # noqa: F841
+
 

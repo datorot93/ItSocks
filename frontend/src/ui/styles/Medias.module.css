@@ -1,0 +1,32 @@
+.main {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.container {
+  display: grid;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  max-width: 1280px;
+  margin-top: 20px;
+}
+
+.categories_container {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 5px;
+  margin-top: 20px;
+}
+  

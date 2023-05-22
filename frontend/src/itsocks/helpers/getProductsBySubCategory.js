@@ -1,6 +1,6 @@
 import { productos } from '../data/productos';
 
-export const getProductsBySubCategory = ( categoria, subcategorias ) => {
+export const getProductsBySubCategory = ( categoria, subcategoria ) => {
   // console.log('getProductsBySubCategory');
   // console.log(subcategorias);
   // console.log(productos.filter( producto => subcategorias.includes(producto.subcategoria)));
@@ -10,5 +10,5 @@ export const getProductsBySubCategory = ( categoria, subcategorias ) => {
   //   return productos.filter( producto => producto.categoria = categoria )
   // }
 
-  return productos.filter( producto => subcategorias.includes(producto.subcategoria) );
+  return productos.filter( producto => producto.categoria === categoria && producto.subcategoria === subcategoria );
 }

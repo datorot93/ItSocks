@@ -1,4 +1,5 @@
 
 export const types = {
-  setProducts: '[PRODUCTS] SetProducts'  
+  setProducts: '[PRODUCTS] SetProducts',
+  setBreadCrumb: '[BREADCRUMBS] SetBreadCrumb'
 }
