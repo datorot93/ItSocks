@@ -13,6 +13,8 @@ if TYPE_CHECKING:
 
 class Image(Base):
     __tablename__ = 'image'
+    __table_args__ = {'extend_existing': True}
+    
     id = Column(Integer, primary_key=True, index=True)
     id_product = Column(Integer, ForeignKey('product.id'), index=True)
 
