@@ -5,6 +5,7 @@ import { Slider2 } from '../components/Slider2';
 import { CarruselProductos } from '../components/CarruselProductos';
 import { ScrollHorizontal } from '../components/ScrollHorizontal';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { OpinionCliente } from '../components/OpinionCliente';
 
 
 
@@ -79,16 +80,66 @@ export const ItSocks = () => {
     },
   ];
   
+  const beneficiosImage = [
+    {
+      id: "b1",
+      src: "../../../public/assets/homepage/beneficios/b1.png",
+      description: "Imagen beneficios"
+    }
+  ];
+
+  const opinionesClienes = [
+    {
+        id: "c1",
+        src: "../../../public/assets/homepage/opiniones/c1.png",
+        opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Esta es una imagen del cliente",
+    },
+    {
+        id: "c2",
+        src: "../../../public/assets/homepage/opiniones/c2.png",
+        opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Esta es una imagen del cliente",
+    },
+    {
+        id: "c3",
+        src: "../../../public/assets/homepage/opiniones/c3.png",
+        opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Esta es una imagen del cliente",
+    },
+    {
+        id: "c4",
+        src: "../../../public/assets/homepage/opiniones/c4.png",
+        opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Esta es una imagen del cliente",
+    },
+    {
+      id: "c5",
+      src: "../../../public/assets/homepage/opiniones/c4.png",
+      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "Esta es una imagen del cliente",
+  },
+  {
+    id: "c6",
+    src: "../../../public/assets/homepage/opiniones/c4.png",
+    opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: "Esta es una imagen del cliente",
+}
+];
+
   return (
     <section className={ styles.main }>
+
       <div className={ styles.container }>
+
         <CarruselProductos images={ images }/>
         <div className={ styles.mas_vendidos}>
           <h2>LOS PRODUCTOS MÁS VENDIDOS</h2>
           <ScrollHorizontal images={ masVendidos } />
         </div>
+
         <div className={ styles.estilos_vida }>
-          <h2>Estilos de vida</h2>
+          <h2>ESTILOS DE VIDA</h2>
           <div className={ styles.image_container }>
             {estilosVida.map( image => (
               <LazyLoadImage src={ image.src } alt={ image.description } key={ image.id }/>
@@ -97,10 +148,30 @@ export const ItSocks = () => {
 
           
         </div>
-        <h2>Beneficios de nuestras medias</h2>
-        <p>Acá va el video</p>
-        <h2>Que piensan nuestros clientes</h2>
-        <p>Acá van imágenes circulares de los perfiles de los clientes con la descripción abajo de estas</p>
+
+        <div className={ styles.beneficios_container }>
+          <h2>BENEFICIOS DE NUESTRAS MEDIAS</h2>
+          <div className={ styles.beneficios_image_container }>
+            {
+              beneficiosImage.map( image => (                
+                <LazyLoadImage key={ image.id } src={ image.src } alt={ image.description } />
+              ))
+            }
+          </div>
+        </div>
+
+        <div className={ styles.opiniones_container }>
+          <h2>LO QUÉ PIENSASN NUESTROS CLIENTES</h2>
+
+          <div className={ styles.opiniones_clientes }>
+            {
+              opinionesClienes.map( (cliente, index) => (
+
+                <OpinionCliente key={ index } cliente={ cliente }/>
+              ))
+            }
+          </div>
+        </div>
       </div>
     </section>
   )

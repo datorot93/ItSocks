@@ -5,11 +5,12 @@ import { MediasTipos } from '../components/MediasTipos';
 import styles from '../../ui/styles/Medias.module.css';
 
 export const Personalizadas = ({ subcategory }) => {
+  
   return (
     <div  className={ styles.main }>
       <h1>{ subcategory?.toUpperCase() }</h1>
       <div className={ styles.container }>
-        <MediasTipos />
+        <MediasTipos subcategory={ subcategory }/>
       </div>
     </div>
   )

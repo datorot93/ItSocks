@@ -9,9 +9,11 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'pines',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Pin Cerebro.jpg'
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/accesorios/Pin Cerebro.jpg']
   },
   {
     'id': 2,
@@ -20,9 +22,11 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'pines',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Pin corazon.jpg'
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/accesorios/Pin corazon.jpg']
   },
   {
     'id': 3,
@@ -31,9 +35,11 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'termos',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Termo Gris.jpg'
+    'descripcion': 'Mantente hidratado/a a toda hora!! - Capacidad 2 lts - Variedad de colores - Manija en la tapa para facilitar su transporte - Libre de BPA',
+    'images': ['../../../public/assets/accesorios/Termo verde.jpg', '../../../public/assets/accesorios/Termo rojo.jpg', '../../../public/assets/accesorios/Termo Gris.jpg']
   },
   {
     'id': 4,
@@ -42,9 +48,11 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'termos',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Termo Rojo.jpg'
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/accesorios/Termo Rojo.jpg']
   },
   {
     'id': 5,
@@ -53,9 +61,11 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'termos',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Termo Verde.jpg'
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/accesorios/Termo Verde.jpg']
   },
   {
     'id': 6,
@@ -64,9 +74,11 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'viceras',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Visera Naranja.jpg'
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/accesorios/Visera Naranja.jpg']
   },
   {
     'id': 7,
@@ -75,8 +87,168 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'viceras',
-    'id_referencia_fabrica': 1,
+    'tipo': 'accesorios',
+    'id_referencia_fabrica': "",
     'id_diseño': 1,
-    'image': '../../../public/assets/accesorios/Visera Negra.jpg'
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/accesorios/Visera Negra.jpg']
+  },
+
+  // Medias
+  {
+    'id': 8,
+    'nombre': 'Cerditos',
+    'estado': 'activo',
+    'precio': 20000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "animales",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m1.png']
+  },
+  {
+    'id': 9,
+    'nombre': 'Colores',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "figuras_y_colores",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m2.jpg']
+  },
+  {
+    'id': 10,
+    'nombre': 'StarWars',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "temporada",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m3.jpg']
+  },
+  {
+    'id': 11,
+    'nombre': 'Cerditos',
+    'estado': 'activo',
+    'precio': 20000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "animales",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m3.jpg']
+  },
+  {
+    'id': 12,
+    'nombre': 'Colores',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "figuras_y_colores",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m2.jpg']
+  },
+  {
+    'id': 13,
+    'nombre': 'StarWars',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "temporada",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m1.png']
+  },
+  {
+    'id': 14,
+    'nombre': 'Cerditos',
+    'estado': 'activo',
+    'precio': 20000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "animales",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m3.jpg']
+  },
+  {
+    'id': 15,
+    'nombre': 'Colores',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "figuras_y_colores",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m2.jpg']
+  },
+  {
+    'id': 16,
+    'nombre': 'StarWars',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'medias',
+    'subcategoria': 'estampadas',
+    'tipo': 'pantorrilleras',
+    'id_referencia_fabrica': "temporada",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/m1.png']
+  },
+  {
+    'id': 17,
+    'nombre': 'packx4',
+    'estado': 'activo',
+    'precio': 20000,
+    'categoria': 'packs',
+    'subcategoria': 'packs',
+    'tipo': 'packs',
+    'id_referencia_fabrica': "packs",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/pack3.jpg']
+  },
+  {
+    'id': 18,
+    'nombre': 'packx3',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'packs',
+    'subcategoria': 'packs',
+    'tipo': 'packs',
+    'id_referencia_fabrica': "figuras_y_colores",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/pack2.jpg']
+  },
+  {
+    'id': 1,
+    'nombre': 'packx3',
+    'estado': 'activo',
+    'precio': 15000,
+    'categoria': 'packs',
+    'subcategoria': 'packs',
+    'tipo': 'packs',
+    'id_referencia_fabrica': "packs",
+    'id_diseño': 1,
+    'descripcion': 'Esto es una descripción del producto',
+    'images': ['../../../public/assets/medias/productos/pack1.jpg']
   }
 ]
