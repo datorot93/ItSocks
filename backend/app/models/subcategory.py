@@ -9,6 +9,7 @@ from app.db.base_class import Base
 
 class Subcategory(Base):
     __tablename__ = 'subcategory'
+    
 
     id = Column(Integer, primary_key=True, index=True)
     id_category = Column(Integer, ForeignKey("category.id"), index=True)
@@ -19,6 +20,6 @@ class Subcategory(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
-    category_subcategory = relationship('Category', back_populates='subcategory')
+    category = relationship('Category', back_populates='subcategory')
     type_subcategory = relationship('TypeSubcategory', back_populates='subcategory')
 

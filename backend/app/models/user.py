@@ -7,12 +7,14 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
-if TYPE_CHECKING:
-    from .user_order import UserOrder  # noqa: F401
+# if TYPE_CHECKING:
+#     from .user_order import UserOrder  # noqa: F401
 
 
 class User(Base):
     __tablename__ = "user"
+    __table_args__ = {'extend_existing': True}
+
     id = Column(Integer, primary_key=True, index=True)
 
     full_name = Column(String, nullable=False)
@@ -23,4 +25,4 @@ class User(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     
-    user_order = relationship("UserOrder", back_populates="user")
+    # user_order = relationship("UserOrder", back_populates="user")

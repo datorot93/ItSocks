@@ -12,14 +12,15 @@ if TYPE_CHECKING:
     from .design import Design
     from .image import Image
 
-class Product( Base ):
+class Product(Base):
 
     __tablename__ = 'product'
+    
 
     id = Column(Integer, primary_key=True, index=True)
 
     # Llaves Foráneas
-    id_subcategoria = Column(Integer, ForeignKey('subcategory.id'), index=True)
+    
     id_design = Column(Integer, ForeignKey('design.id'), index=True)
     
 
