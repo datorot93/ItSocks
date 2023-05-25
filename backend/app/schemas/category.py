@@ -1,23 +1,24 @@
 from typing import Optional
+
 from pydantic import BaseModel
 
 
 class CategoryBase( BaseModel ):
-    nombre: str = None
+    name: str = None
 
 class CategoryCreate( CategoryBase ):
-    nombre: str
-
-class CategoryUpdate( CategoryBase ):
-    nombre: str
+    pass
 
 class CategoryInDBBase( CategoryBase ):
     id: Optional[ int ] = None
-
+    
     class Config:
-        orm_mode: True
+        orm_mode = True
 
-class Category( CategoryInDBBase ):
+class CategoryUpdate( CategoryBase ):
+    pass
+
+class Category(CategoryInDBBase):
     pass
 
 class CategoryInDB( CategoryInDBBase ):

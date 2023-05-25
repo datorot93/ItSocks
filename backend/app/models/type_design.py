@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 class TypeDesign(Base):
     __tablename__ = 'type_design'
+    
 
     type_id = Column(Integer, ForeignKey('type.id'), primary_key=True, index=True)
     design_id = Column(Integer, ForeignKey('design.id'), primary_key=True, index=True)
