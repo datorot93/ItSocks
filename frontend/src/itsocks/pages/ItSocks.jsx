@@ -82,9 +82,9 @@ export const ItSocks = () => {
   
   const beneficiosImage = [
     {
-      id: "b1",
-      src: "../../../public/assets/homepage/beneficios/b1.png",
-      description: "Imagen beneficios"
+      id: "b2",
+      src: "../../../public/assets/homepage/beneficios/b2.mp4",
+      description: "Video beneficios"
     }
   ];
 
@@ -154,7 +154,9 @@ export const ItSocks = () => {
           <div className={ styles.beneficios_image_container }>
             {
               beneficiosImage.map( image => (                
-                <LazyLoadImage key={ image.id } src={ image.src } alt={ image.description } />
+                <video width={1280}  height={850} controls>
+                  <source src={ image.src } type="video/mp4" />
+                </video>
               ))
             }
           </div>
