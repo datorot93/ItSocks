@@ -13,9 +13,16 @@ class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
             db: Session, 
             *, 
             name: str 
-        ):
+    ):
         return db.query(Category).filter(Category.name == name).first()
-
+    
+    def get_category_by_id(
+        self,
+        db: Session,
+        *,
+        id: int
+    ):
+        return db.query(Category).filter(Category.id == id).first()
 
     def create(
             self,
