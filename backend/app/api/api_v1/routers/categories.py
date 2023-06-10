@@ -24,7 +24,6 @@ async def category_create(
         raise HTTPException(
             status_code=400, detail="The Category type already exists",
         )
-    
     category = crud.category.create(db, obj_in=category_in)
     
     
