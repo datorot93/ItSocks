@@ -18,7 +18,8 @@ class Type(Base):
     
 
     id = Column(Integer, primary_key=True, index=True)
-    desription = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    code = Column(String)
     
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
