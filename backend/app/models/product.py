@@ -11,6 +11,8 @@ from app.db.base_class import Base
 if TYPE_CHECKING:
     from .design import Design
     from .image import Image
+    from .type import Type
+    from .subcategory import Subcategory
 
 class Product(Base):
 
@@ -22,13 +24,15 @@ class Product(Base):
     # Llaves Foráneas
     
     id_design = Column(Integer, ForeignKey('design.id'), index=True)
+    id_type = Column(Integer, ForeignKey('type.id'), index=True)
+    id_subcategory = Column(Integer, ForeignKey('subcategory.id'), index=True)
     
 
     name = Column(String, nullable=False)
     talla = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     state = Column(Boolean, nullable=False, default=True)
-    factory_rference = Column(String, nullable=False)
+    color = Column(String, nullable=True)
     compresion = Column(Boolean, nullable=False, default=False)
     
 
@@ -36,5 +40,7 @@ class Product(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     design = relationship('Design', back_populates='product')
+    type = relationship('Type', back_populates='product')
+    subcategory = relationship('Subcategory', back_populates='product')
     image = relationship('Image', back_populates='product')
     

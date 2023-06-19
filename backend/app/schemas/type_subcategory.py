@@ -1,27 +1,27 @@
-from typing import Optional
-from pydantic import BaseModel
+# from typing import Optional
+# from pydantic import BaseModel
 
 
-class TypeSubcategoryBase( BaseModel ):
-    type_id: int = None
-    subcategory_id: int = None
+# class TypeSubcategoryBase( BaseModel ):
+#     type_id: int = None
+#     subcategory_id: int = None
 
-class TypeSubcategoryCreate( TypeSubcategoryBase ):
-    pass
+# class TypeSubcategoryCreate( TypeSubcategoryBase ):
+#     pass
 
-class TypeSubcategoryUpdate( TypeSubcategoryBase ):
-    pass
+# class TypeSubcategoryUpdate( TypeSubcategoryBase ):
+#     pass
 
-class TypeSubcategoryInDBBase( TypeSubcategoryBase ):
-    id: int
-
-
-    class Config:
-        orm_mode = True
+# class TypeSubcategoryInDBBase( TypeSubcategoryBase ):
+#     id: int
 
 
-class TypeSubcategory( TypeSubcategoryInDBBase ):
-    pass
+#     class Config:
+#         orm_mode = True
 
-class TypeSubcategoryInDB( TypeSubcategoryInDBBase ):
-    pass
+
+# class TypeSubcategory( TypeSubcategoryInDBBase ):
+#     pass
+
+# class TypeSubcategoryInDB( TypeSubcategoryInDBBase ):
+#     pass
