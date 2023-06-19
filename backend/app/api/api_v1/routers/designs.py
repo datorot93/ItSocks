@@ -8,30 +8,29 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.post("", response_model=schemas.Type, response_model_exclude_none=True)
-async def type_create(
+@router.post("", response_model=schemas.Design, response_model_exclude_none=True)
+async def design_create(
     request: Request,
-    type_in: schemas.TypeCreate,
+    design_in: schemas.DesignCreate,
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Subcategory
     """
+    design = crud.design.get_design_by_name(db, name=design_in.name)
 
-    type = crud.type.get_type_by_name(db, name=type_in.name)
-
-    if type:
+    if design:
         raise HTTPException(
-            status_code=400, detail=f"Ya existe el tipo con el nombre {type_in.name}",
+            status_code=400, detail=f"Ya existe un diseño con el nombre {design_in.name}",
         )
     
-    type = crud.type.create(
+    design = crud.design.create(
         db,
-        obj_in=type_in
+        obj_in=design_in
     )
     
-    return type
+    return design
 
 @router.put(
     "/{code}", response_model=schemas.Type, response_model_exclude_none=True

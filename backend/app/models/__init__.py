@@ -5,7 +5,7 @@ from .subcategory import Subcategory
 from .design import Design
 from .type import Type
 from .image import Image
-from .type_design import TypeDesign
-from .type_subcategory import TypeSubcategory
+# from .type_design import TypeDesign
+# from .type_subcategory import TypeSubcategory
 # from .order import Order
 # from .user_order import UserOrder
