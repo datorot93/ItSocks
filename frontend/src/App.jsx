@@ -1,3 +1,8 @@
+
+import { Provider } from 'react-redux';
+
+import { store } from './store/store';
+
 import { ItSocksProvider } from './itsocks/context/ItSocksProvider';
 import { AppRouter } from './router/AppRouter';
 
@@ -5,9 +10,11 @@ import { AppRouter } from './router/AppRouter';
 export const App = () => {
   
   return (
-    <ItSocksProvider>
-      <AppRouter />
-    </ItSocksProvider>
+    <Provider store={ store }>
+      <ItSocksProvider>
+        <AppRouter />
+      </ItSocksProvider>
+    </Provider>
   )
 }
 

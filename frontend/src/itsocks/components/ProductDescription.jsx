@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+// React
+import React, { useState } from 'react'
 
 // Estilos
 import styles from '../../ui/styles/ProductDescription.module.css';
-import { Link, useParams } from 'react-router-dom';
-import { getProductsByName } from '../helpers/getProductByName';
+
+// Utilidades
+// import { getProductsByName } from '../helpers/getProductByName';
 import { getProductsByPartOfName } from '../helpers/getProductsByPartOfName';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -12,35 +14,42 @@ import carrito from '../../../public/assets/producto/carrito.svg';
 import corazon from '../../../public/assets/producto/corazon.svg';
 import camion from '../../../public/assets/producto/camion.svg';
 import reloj from '../../../public/assets/producto/reloj.svg';
+import { PopUpCarrito } from './PopUpCarrito';
+
+// React Reducx
+
+
+
 
 export const ProductDescription = () => {
 
     const [selectedIndex, setSelectedIdenx] = useState(0);
-    
-    const { nombre, ...rest} =useParams();
-    const [ producto ]= getProductsByName( nombre );
-    const initialState = producto.images.slice(1, producto.images.length);
-    const [ otherPhotos, setOtherPhotos ] = useState(initialState);
-    const similares = getProductsByPartOfName( producto.nombre );
 
-    const [ cantProducts, setCantProducts ] = useState(0);
+    const product = localStorage.getItem('current_product');
+    const producto = JSON.parse(product);
+
+    const similares = getProductsByPartOfName( producto.name );
     
+    const initialState = Object.keys(producto.images).slice(1, Object.keys(producto.images).length);
+    
+    const [ otherPhotos, setOtherPhotos ] = useState(initialState);
+    const [ cantProducts, setCantProducts ] = useState(0);
 
     const next = () => {
-        const condition = selectedIndex < (producto.images.length -1)
+        const condition = selectedIndex < (Object.keys(producto.images).length -1)
         const nextIndex = condition ? selectedIndex + 1 : 0;
         setSelectedIdenx(nextIndex);
-        setOtherPhotos( producto.images.filter( image => image != producto.images[nextIndex]));
+        setOtherPhotos( Object.keys(producto.images).filter( image => image != Object.keys(producto.images)[nextIndex]));
     }
-
-    
 
     const previus = () => {
         const condition = selectedIndex > 0
-        const nextIndex = condition ? selectedIndex - 1 : (producto.images.length -1);
+        const nextIndex = condition ? selectedIndex - 1 : (Object.keys(producto.images).length -1);
         setSelectedIdenx(nextIndex);
-        setOtherPhotos( producto.images.filter( image => image != producto.images[nextIndex]));
+        setOtherPhotos( Object.keys(producto.images).filter( image => image != Object.keys(producto.images)[nextIndex]));
     }
+
+    
     
 
   return (
@@ -50,36 +59,31 @@ export const ProductDescription = () => {
             <div className={ styles.image_container }>
                 <div className={ styles.principal_image }>
                     <button  className={ `${styles.arrow_button} ${ styles.left}`} onClick={ previus }>{'<'}</button>
-                    <LazyLoadImage src={ producto.images[selectedIndex] } alt={ producto.nombre } />
+                    <LazyLoadImage src={ producto.images[Object.keys(producto.images)[selectedIndex]] } alt={ producto.name } />
                     <button  className={ `${styles.arrow_button} ${ styles.right }`} onClick={ next }>{'>'}</button>
                 </div>
                 <div className={ styles.similares }>
                     {otherPhotos.map( (image, index) => (
-                        <LazyLoadImage src={ image } alt={ producto.nombre } key={ index } />
+                        <LazyLoadImage src={ producto.images[image] } alt={ producto.name } key={ index } />
                     ))}
                 </div>
             </div>
 
             <div className={ styles.description }>
-                <h2>{ nombre }</h2>
+                <h2>{ producto.name }</h2>
                 <div className={ styles.precio }>
-                    <p>{ `$ ${producto.precio}` }</p>
+                    <p>{ `$ ${producto.price}` }</p>
                 </div>
                 <div className={ styles.description_p }>
-                    <p>{ producto.descripcion }</p>
+                    <p>{ producto.description }</p>
                 </div>
-                {/* <div className={ styles.colores }>
-                    <span>Colores: </span>
-                    {
-                        all_products.map( producto => (
-                            <div className={ styles.single_color } key={ producto.id }></div>
-                        ))
-                    }
-                </div> */}
+
                 <div className={ styles.acciones }>
-                    <div className={ styles.carrito }>
-                        <img src={ carrito } alt= "Carrito de compras" />
-                        <span>Agregar a carrito</span>
+                    <div className={ styles.carrito } onClick={ () => alert('Acá debo mostrar el pop up de la izquierda') }>
+                        
+                            <img src={ carrito } alt= "Carrito de compras" />
+                            <span>Agregar a carrito</span>
+                        
                     </div>
                     <div className={ styles.corazon }>
                         <img src={ corazon } alt= "Corazon" />
@@ -124,6 +128,7 @@ export const ProductDescription = () => {
                 ))}
             </div>
         </div>
+        <PopUpCarrito title={ 'Carrito de compra' } product = { producto }/>
     </div>
   )
 }

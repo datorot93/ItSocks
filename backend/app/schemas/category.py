@@ -11,6 +11,7 @@ class CategoryCreate( CategoryBase ):
 
 class CategoryInDBBase( CategoryBase ):
     id: Optional[ int ] = None
+    name: Optional[ str ] = None
     
     class Config:
         orm_mode = True
@@ -19,7 +20,7 @@ class CategoryUpdate( CategoryBase ):
     pass
 
 class Category(CategoryInDBBase):
-    pass
+    name: Optional[ str ] = None
 
 class CategoryInDB( CategoryInDBBase ):
     pass

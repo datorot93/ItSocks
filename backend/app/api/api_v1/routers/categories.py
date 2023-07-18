@@ -36,7 +36,7 @@ async def category_create(
     response_model=schemas.Category, 
     response_model_exclude_none=True
 )
-async def station_edit(
+async def category_edit(
     request: Request,
     category_id: int,
     category_in: schemas.CategoryUpdate,

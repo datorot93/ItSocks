@@ -6,30 +6,24 @@ import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import styles from '../../ui/styles/Accesorios.module.css';
+import { getSpecificProduct } from '../../actions/getSpecificProduct';
+import { useDispatch } from 'react-redux';
 
 
 
-export const ProductoCard = ({
-  id,
-  nombre,
-  estado,
-  precio,
-  categoria,
-  subcategoria,
-  id_referencia_fabrica,
-  id_diseño,
-  descripcion,
-  images
-}) => {
-  
+export const ProductoCard = ( product ) => {
 
-  const ruta_imagenes = './assets/accesorios/'
+  const ruta = `/${product.category}/${ product.subcategory == "estampadas" ? "estampadas/pantorrillera/" : ""}${product.name}`
 
-  const ruta = `/${categoria}/${ subcategoria == "estampadas" ? "estampadas/pantorrillera/" : ""}${nombre}`
-  console.log(ruta);
-  console.log(nombre);
-  console.log(categoria);
-  console.log(subcategoria);
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch( getSpecificProduct( product ));
+    const current_product = JSON.stringify(product);
+
+    localStorage.setItem('current_product', current_product);
+  };
+
   return (
     
     <div className={ styles.card }>
@@ -39,8 +33,13 @@ export const ProductoCard = ({
         to={ 
           ruta
         }
+        onClick={ handleClick }
       >
-      <LazyLoadImage src={ images[0] } alt= { nombre } />
+        <LazyLoadImage src={ product.images.image1 } alt= { product.name } />
+        <div className={ styles.product_info }>
+          <p>{ product.name } { product.color != 'N/A' ? product.color : ''}</p>
+          <p>{ product.price }</p>
+        </div>
       </Link>
       
     </div>

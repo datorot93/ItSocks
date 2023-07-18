@@ -72,7 +72,7 @@
 .description {
     display: flex;
     width: 800px;
-    height:640px;
+    height: auto;
     flex-direction: column;
     align-items: center;
 }
@@ -93,9 +93,10 @@
 }
 
 .description_p {
-    font-size: 27px;
+    font-size: 25px;
     margin-top: 20px;
-    line-height: 40px;
+    line-height: 30px;
+    /* height: auto; */
 }
 
 .colores {
@@ -128,6 +129,7 @@
     align-items: center;
     font-size: 24px;
     gap: 15px;
+    cursor: pointer;
 }
 
 .corazon {
@@ -135,6 +137,7 @@
     align-items: center;
     font-size: 24px;
     gap: 15px;
+    cursor: pointer;
 }
 
 .comprar {
