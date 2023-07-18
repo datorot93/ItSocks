@@ -9,8 +9,6 @@ from typing import TYPE_CHECKING
 from app.db.base_class import Base
 
 if TYPE_CHECKING:
-    from .type_subcategory import TypeSubcategory
-    from .type_design import TypeDesign
     from .product import Product
 
 class Type(Base):

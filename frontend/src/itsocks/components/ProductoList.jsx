@@ -1,30 +1,26 @@
-import React, { useContext, useMemo } from 'react';
-import { getProductsByCategory } from '../helpers/getProductsByCategory';
-import { getProductsBySubCategory } from '../helpers/getProductsBySubCategory';
+//REACT
+import React from 'react';
+
+// ACTIONS
 import { ProductoCard } from './ProductoCard';
 
+// STYLES
 import styles from '../../ui/styles/Accesorios.module.css';
-// import { ItSocksContext } from '../context/ItSocksContext';
 
-export const ProductoList = ( { categoria, subcategoria } ) => {
+export const ProductoList = ( {products} ) => {
 
-  // const { productos } = useContext( ItSocksContext );
-  let productos = null;
-  
-  if (subcategoria){
-    productos = getProductsBySubCategory( categoria, subcategoria );
-  }else{
-    productos = getProductsByCategory( categoria );
-  }
+  // console.log( products );
 
   return (    
-      <div className={ styles.products_container }>
+      <div className={ styles.products_container }>            
         {
-          productos.map( producto => (
-            <ProductoCard 
-              key={ producto.id }
-              { ...producto }
-            />
+          Object.keys(products).map( producto => (
+            
+              <ProductoCard 
+                key={ producto }
+                { ...products[producto] }
+              />
+            
           ))
         }
       </div>    

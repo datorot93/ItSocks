@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+
 from starlette.requests import Request
 import uvicorn
 
@@ -13,6 +15,12 @@ from app.core.celery_app import celery_app
 
 app = FastAPI(title=config.PROJECT_NAME, docs_url='/api/docs', openapi_url='/api')
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):

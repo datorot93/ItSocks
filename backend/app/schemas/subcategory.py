@@ -13,6 +13,7 @@ class SubcategoryCreate( SubcategoryBase ):
 class SubcategoryInDBBase( SubcategoryBase ):
     id: Optional[ int ] = None
     id_category: Optional[ int ] = None
+    name: Optional[ str ] = None
 
     
     class Config:
@@ -22,7 +23,8 @@ class SubcategoryUpdate( SubcategoryBase ):
     id_category: Optional[ int ] = None
 
 class Subcategory(SubcategoryInDBBase):
-    pass
+    id_category: Optional[ int ] = None
+    name: Optional[ str ] = None
 
 class SubcategoryInDB( SubcategoryInDBBase ):
     pass
