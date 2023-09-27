@@ -5,24 +5,34 @@ import { useNavigate } from 'react-router-dom';
 
 //UTILITIES
 import { types } from '../../types/types';
+import { filters } from '../data/filters'
 
 import styles from '../../ui/styles/Accesorios.module.css';
-import { useDispatch } from 'react-redux';
-import { getProductsFilteredBySubcategory } from '../../actions/getProductsFilteredBySubcategory';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductsListByFilterSubcategory, getProductsListByTypeAndDesign } from '../../actions/getProductsList';
+
+const armarEstadoInicial = ( lista_productos ) => {
+  
+  return lista_productos
+}
+
+export const ProductFilter = ({ subcategoria = null, categoria, type = null }) => {
+  
+  const initialState2 = filters[categoria]
+  // const initialState2 = {
+  //   viceras: false,
+  //   termos: false,
+  //   pines: false
+  // };
 
 
-const initialState2 = {
-  viceras: false,
-  termos: false,
-  pines: false
-};
-
-export const ProductFilter = ({ subcategoria = null }) => {
+  const [ checkedItems, setCheckedItems ] = useState( initialState2 )
+  const lista_productos = useSelector(state => state.product.products)
 
 
-  const [ checkedItems, setCheckedItems ] = useState( initialState2 );
-
-  const dispatch = useDispatch();
+  // console.log( armarEstadoInicial(lista_productos) )
+  
+  const dispatch = useDispatch()
 
   let subcategory = null;
 
@@ -32,19 +42,6 @@ export const ProductFilter = ({ subcategoria = null }) => {
       break;
     }
   };
-  // useEffect( () => {
-  //   getProductsFilteredBySubcategory( subcategory );
-
-  // }, []);
-  // useEffect( () => {
-  //   dispatch( getProductsFilteredBySubcategory( subcategory ));
-  //   return ( () => {
-  //     dispatch({
-  //       type: types.unmountProducts
-  //     })
-  //   })
-  // }, [checkedItems]);
-
 
 
   const handleChecked = async (e, subcategory ) => {    
@@ -56,8 +53,22 @@ export const ProductFilter = ({ subcategoria = null }) => {
       });
       return updatedItems;
     });
+    
+    
 
   };
+
+  
+  useEffect( () => {
+    if (!subcategoria && !type ){
+      dispatch( getProductsListByFilterSubcategory( categoria, checkedItems));
+    }else if(!subcategoria && type) {
+      dispatch( getProductsListByTypeAndDesign( checkedItems, categoria, type));
+    }else {
+      dispatch( getProductsListByFilterSubcategory( categoria, checkedItems, subcategoria, type) )
+    }
+  }, [checkedItems])
+
 
   return (
     <>

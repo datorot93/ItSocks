@@ -3,7 +3,7 @@ import styles from "../../ui/styles/CarruselProductos.module.css";
 import slider_1 from "../../../public/assets/homepage/slider/slider_1.jpg";
 import slider_2 from "../../../public/assets/homepage/slider/slider_2.jpg";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Utilidades
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -17,12 +17,23 @@ export const CarruselProductos = ({images}) => {
   const [loaded, setLoaded] = useState(false);
   const [ isSelected, setIsSelected ] = useState(false)
 
-  const showImage = ( index ) => {
-    setTimeout(() => {
-      setSelectedImage(images[index]);
-      setSelectedIndex(index);
-    }, 500);
+  const showImage = (  ) => {
+    // setTimeout(() => {
+      const newIndex = (selectedIndex + 1) % images.length;
+      setSelectedImage(images[newIndex]);
+      setSelectedIndex(newIndex);
+    // }, 2000);
   }
+
+  useEffect(() => {
+    // Configurar un intervalo para cambiar de imagen cada 2 segundos
+    const interval = setInterval(showImage, 3000);
+
+    // Limpieza del intervalo cuando el componente se desmonta
+    return () => {
+      clearInterval(interval);
+    };
+  }, [selectedIndex]);
 
   return (
     <div className={styles.container}>

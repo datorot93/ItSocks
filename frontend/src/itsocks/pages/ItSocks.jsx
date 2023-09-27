@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useId } from 'react'
 
+// Styles
 import styles from '../../ui/styles/HomePage.module.css';
+
 import { Slider2 } from '../components/Slider2';
 import { CarruselProductos } from '../components/CarruselProductos';
 import { ScrollHorizontal } from '../components/ScrollHorizontal';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { OpinionCliente } from '../components/OpinionCliente';
+import { Link } from 'react-router-dom';
 
 
 
@@ -127,6 +130,8 @@ export const ItSocks = () => {
 }
 ];
 
+
+
   return (
     <section className={ styles.main }>
 
@@ -141,8 +146,13 @@ export const ItSocks = () => {
         <div className={ styles.estilos_vida }>
           <h2>ESTILOS DE VIDA</h2>
           <div className={ styles.image_container }>
-            {estilosVida.map( image => (
-              <LazyLoadImage src={ image.src } alt={ image.description } key={ image.id }/>
+            {estilosVida.map( (image, index) => (
+              <Link key={ index } to={ image.description.toLowerCase() }>
+                <div className={ styles.estilos_card } key={ index }>
+                  <LazyLoadImage src={ image.src } alt={ image.description } key={ index }/>
+                  <p>{ image.description }</p>
+                </div>
+              </Link>
             ))}
           </div>
 
@@ -153,8 +163,8 @@ export const ItSocks = () => {
           <h2>BENEFICIOS DE NUESTRAS MEDIAS</h2>
           <div className={ styles.beneficios_image_container }>
             {
-              beneficiosImage.map( image => (                
-                <video width={1280}  height={850} controls>
+              beneficiosImage.map( (image, index) => (                
+                <video width={750}  height={850} controls key={index}>
                   <source src={ image.src } type="video/mp4" />
                 </video>
               ))
@@ -168,7 +178,6 @@ export const ItSocks = () => {
           <div className={ styles.opiniones_clientes }>
             {
               opinionesClienes.map( (cliente, index) => (
-
                 <OpinionCliente key={ index } cliente={ cliente }/>
               ))
             }

@@ -1,5 +1,3 @@
-
-
 .main {
   display: flex;
   position: relative;
@@ -66,19 +64,6 @@
   object-fit: cover;
 }
 
-/* .product_info {
-  display: flex;
-  justify-self: center;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  margin: auto;
-  width: auto;
-  height: auto;
-  font-size: 12px;
-  padding-left: 10px;
-
-} */
 .product_info {
   display: flex;
   padding: 10px;
@@ -86,5 +71,6 @@
   font-size: 16px;
   align-items: flex-start;
   gap: 5px;
-
 }
+
+

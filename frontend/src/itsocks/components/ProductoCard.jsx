@@ -31,14 +31,14 @@ export const ProductoCard = ( product ) => {
       {/* <img src={ 	`${ ruta_imagenes }/${ nombre }.jpg` } alt= { nomSbre } /> */}
       <Link
         to={ 
-          ruta
+          product.name
         }
         onClick={ handleClick }
       >
         <LazyLoadImage src={ product.images.image1 } alt= { product.name } />
         <div className={ styles.product_info }>
           <p>{ product.name } { product.color != 'N/A' ? product.color : ''}</p>
-          <p>{ product.price }</p>
+          <p>{ product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</p>
         </div>
       </Link>
       

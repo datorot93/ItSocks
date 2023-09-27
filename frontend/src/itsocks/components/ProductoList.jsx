@@ -11,6 +11,7 @@ export const ProductoList = ( {products} ) => {
 
   // console.log( products );
 
+
   return (    
       <div className={ styles.products_container }>            
         {
@@ -23,6 +24,6 @@ export const ProductoList = ( {products} ) => {
             
           ))
         }
-      </div>    
+      </div>     
   )
 }
