@@ -11,9 +11,9 @@ import './assets/fonts/Montserrat/static/Montserrat-Regular.ttf';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>
+  
 )

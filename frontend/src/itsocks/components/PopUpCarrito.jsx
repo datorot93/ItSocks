@@ -1,23 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Estilos
 import styles from '../../ui/styles/PopUpCarrito.module.css';
 import camion from '../../../public/assets/producto/camion.svg';
+import { Link, useNavigate } from 'react-router-dom';
 
-export const PopUpCarrito = ({ title, product }) => {
+export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
+
+    const handleClickCarrito = () => {
+        console.log('Este es un mensaje temporal');
+    }
     
-    const [showComponent, setShowComponent] = useState(true);
-
     const handleCloseClick = () => {
-        setShowComponent(false);
+        setShowPopUp(false);
     };
 
-
+    const handleClickComprar = () => {
+        useNavigate('')
+    }
 
     return (
         <>
         {
-            showComponent && (
+            showPopUp && (
                 <div className={ styles.container }>
                     
                     <div className= { styles.title } onClick={ handleCloseClick }>
@@ -41,7 +46,9 @@ export const PopUpCarrito = ({ title, product }) => {
                     
                     <div className={ styles.costo_envio }>
                         <img src={ camion } alt="Ícono camion" />
-                        <p>{'Lleva $ '}</p><strong>{ `${ 200000 - product.price }`}</strong> <p>{' más y el envio te sale gratis'}</p>
+                        
+                        <p>{'Lleva $'} <strong>{ `${ 200000 - product.price } `}</strong> {' más y el envio te sale gratis'}</p>
+                        
                     </div>
 
                     
@@ -56,12 +63,15 @@ export const PopUpCarrito = ({ title, product }) => {
                     </div>
 
                     <div className={ styles.buttons}>
-                        <button className={ styles.boton_comprar }>
+                        <button className={ styles.boton_comprar } onClick={ handleClickCarrito }>
                             COMPRAR AHORA
                         </button>
-                        <button className={ styles.boton_ver_carrito }>
-                            VER CARRITO
-                        </button>
+                        
+                        <Link to={'../../carrito'} className={ styles.link_boton_carrito}>
+                            <button className={ styles.boton_ver_carrito }>
+                                VER CARRITO
+                            </button>
+                        </Link>
                     </div>
                 </div>          
             )

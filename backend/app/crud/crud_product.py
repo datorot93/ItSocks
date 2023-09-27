@@ -11,6 +11,8 @@ from app.crud.base import CRUDBase
 from app.models.product import Product
 from app.models.subcategory import Subcategory
 from app.models.category import Category
+from app.models.type import Type
+from app.models.design import Design
 from app.models.image import Image
 from app.schemas.product import ProductCreate, ProductUpdate
 
@@ -53,10 +55,14 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 Product.quantity,
                 Product.description,
                 Category.name.label('category'),
-                Subcategory.name.label('subcategory')
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design')
             ).\
             join(Subcategory, Subcategory.id == Product.id_subcategory).\
             join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
             filter(Category.name == category).offset(skip).limit(limit).all()
         # print(products)
         product_images = db.query(

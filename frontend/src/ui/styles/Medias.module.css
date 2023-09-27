@@ -28,5 +28,34 @@
   grid-template-rows: auto;
   gap: 5px;
   margin-top: 20px;
+  transition: background-color 0.3s;
 }
+
+
+.imageContainer {
+  position: relative;
   
+  content: "";
+}
+
+.hoverText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo negro transparente */
+  color: white;
+  padding: 10px;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.imageContainer:hover .hoverText {
+  opacity: 1;
+}
+
+.hovered {
+  background: rgba(0, 180, 117, 0.50); /* Fondo verde transparente */
+}

@@ -15,6 +15,7 @@ import corazon from '../../../public/assets/producto/corazon.svg';
 import camion from '../../../public/assets/producto/camion.svg';
 import reloj from '../../../public/assets/producto/reloj.svg';
 import { PopUpCarrito } from './PopUpCarrito';
+import { useCart } from '../../hooks/useCart';
 
 // React Reducx
 
@@ -23,18 +24,28 @@ import { PopUpCarrito } from './PopUpCarrito';
 
 export const ProductDescription = () => {
 
+    
+    const { addToCart, removeFromCart, cart } = useCart();
+
+    // console.log(cart);
     const [selectedIndex, setSelectedIdenx] = useState(0);
 
     const product = localStorage.getItem('current_product');
     const producto = JSON.parse(product);
 
-    const similares = getProductsByPartOfName( producto.name );
     
-    const initialState = Object.keys(producto.images).slice(1, Object.keys(producto.images).length);
+
+    const similares = getProductsByPartOfName( producto.name )
     
+    const initialState = Object.keys(producto.images).slice(1, Object.keys(producto.images).length)
+    
+
+
+    // States
     const [ otherPhotos, setOtherPhotos ] = useState(initialState);
     const [ cantProducts, setCantProducts ] = useState(0);
-
+    
+    
     const next = () => {
         const condition = selectedIndex < (Object.keys(producto.images).length -1)
         const nextIndex = condition ? selectedIndex + 1 : 0;
@@ -49,11 +60,37 @@ export const ProductDescription = () => {
         setOtherPhotos( Object.keys(producto.images).filter( image => image != Object.keys(producto.images)[nextIndex]));
     }
 
-    
-    
+    const [ showPopUp, setShowPopUp ] = useState(false);
+    const [ title, setTitle ] = useState('');
 
+    const handleShowPopUp = ( title ) => {
+        
+        if (cantProducts > 0){
+            if ( title === 'carrito') {
+                    
+                    setTitle('Carrito de compras')
+                    console.log(cantProducts)
+                    const product_to_add = { ...producto, cantidad: cantProducts}
+                    addToCart(product_to_add)
+                    // setCarritoCompras( [ ...carritoCompras, product_to_add ] )
+                    // console.log(carritoCompras);
+                    // localStorage.setItem('carrito_compras', JSON.stringify(carritoCompras))
+                
+            }else {
+                setTitle('Lista de regalos')
+            };
+            setShowPopUp(true)
+        }
+
+    };
+    
   return (
     <div className={ styles.main }>
+        {
+            showPopUp 
+            ? <div className={ styles.block_page }></div>
+            : <></>
+        }
         <div className={ styles.description_container }>
 
             <div className={ styles.image_container }>
@@ -72,20 +109,21 @@ export const ProductDescription = () => {
             <div className={ styles.description }>
                 <h2>{ producto.name }</h2>
                 <div className={ styles.precio }>
-                    <p>{ `$ ${producto.price}` }</p>
+                    <p>{ `${producto.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}` }</p>
                 </div>
                 <div className={ styles.description_p }>
                     <p>{ producto.description }</p>
                 </div>
 
                 <div className={ styles.acciones }>
-                    <div className={ styles.carrito } onClick={ () => alert('Acá debo mostrar el pop up de la izquierda') }>
+                    
+                    <div className={ styles.carrito } onClick={ () => handleShowPopUp('carrito') }>
                         
                             <img src={ carrito } alt= "Carrito de compras" />
                             <span>Agregar a carrito</span>
                         
                     </div>
-                    <div className={ styles.corazon }>
+                    <div className={ styles.corazon } onClick={ () => handleShowPopUp('deseos')}>
                         <img src={ corazon } alt= "Corazon" />
                         <span>Añadir a mi lista</span>
                     </div>
@@ -95,10 +133,9 @@ export const ProductDescription = () => {
                     <div className={ styles.conteo }>
                         <button onClick={ () => setCantProducts( cantProducts + 1)}>+</button>
                         <span>{ cantProducts }</span>
-                        <button onClick={ () => setCantProducts( cantProducts - 1)}>-</button>
+                        <button onClick={ () => setCantProducts( cantProducts > 0 ? cantProducts - 1 : cantProducts)}>-</button>
                     </div>
                     <button className={ styles.boton_comprar}>¡¡COMPRAR AHORA!!</button>
-
                 </div>
 
                 <div className={ styles.informacion_adicional }>
@@ -128,7 +165,12 @@ export const ProductDescription = () => {
                 ))}
             </div>
         </div>
-        <PopUpCarrito title={ 'Carrito de compra' } product = { producto }/>
+        {
+            showPopUp && (
+                <PopUpCarrito title={ title } product = { producto } showPopUp = { showPopUp } setShowPopUp={ setShowPopUp }/>
+            )
+        }
+        
     </div>
   )
 }

@@ -47,9 +47,13 @@ export const Navbar = () => {
             Más
           </Link>
 
-          <img src={ IconoCorazon } alt="Icono buscar"/>
+          <Link>
+            <img src={ IconoCorazon } alt="Icono buscar"/>
+          </Link>
           
-          <img src={ IconoCarrito } alt="Icono carrito"/>
+          <Link to={'carrito'}>
+            <img src={ IconoCarrito } alt="Icono carrito"/>
+          </Link>
           
         </div>
       </nav>

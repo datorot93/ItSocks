@@ -3,7 +3,7 @@
 export const tipos = [
     {
       'id': 1,
-      'nombre': 'larga',
+      'nombre': 'largas',
       'estado': 'activo',
       'categoria': 'medias',
       'subcategoria': 'medias personalizadas',
@@ -11,7 +11,7 @@ export const tipos = [
     },
     {
         'id': 2,
-        'nombre': 'media caña',
+        'nombre': 'media_cania',
         'estado': 'activo',
         'categoria': 'medias',
         'subcategoria': 'medias personalizadas',
@@ -25,6 +25,7 @@ export const tipos = [
         'subcategoria': 'medias personalizadas',
         'image': '../../../public/assets/medias/tipos/pantorrillera.png'
       },
+      // 
       {
         'id': 4,
         'nombre': 'larga',
@@ -35,7 +36,7 @@ export const tipos = [
       },
       {
           'id': 5,
-          'nombre': 'media caña',
+          'nombre': 'media_cania',
           'estado': 'activo',
           'categoria': 'medias',
           'subcategoria': 'medias estampadas',
@@ -48,5 +49,30 @@ export const tipos = [
           'categoria': 'medias',
           'subcategoria': 'medias estampadas',
           'image': '../../../public/assets/medias/tipos/estampadas/pantorrillera.png'
-        }
+        },
+        // TEJIDAS
+        {
+          'id': 4,
+          'nombre': 'larga',
+          'estado': 'activo',
+          'categoria': 'medias',
+          'subcategoria': 'medias tejidas',
+          'image': '../../../public/assets/medias/tipos/estampadas/larga.png'
+        },
+        {
+            'id': 5,
+            'nombre': 'media_cania',
+            'estado': 'activo',
+            'categoria': 'medias',
+            'subcategoria': 'medias tejidas',
+            'image': '../../../public/assets/medias/tipos/estampadas/media_cana.png'
+          },
+          {
+            'id': 6,
+            'nombre': 'pantorrillera',
+            'estado': 'activo',
+            'categoria': 'medias',
+            'subcategoria': 'medias tejidas',
+            'image': '../../../public/assets/medias/tipos/estampadas/pantorrillera.png'
+          }
 ]
