@@ -1,10 +1,13 @@
 import React, { createContext, useReducer } from 'react'
 import { cartReducer, cartInitialState } from '../reducers/cartReducer'
 
+console.log('CART REDUCER')
+console.log(cartReducer)
 
 export const useCartReducer = () => {
+
   const [ state, dispatch ] = useReducer(cartReducer, cartInitialState)
-  // console.log(state)
+  
   const addToCart = product => dispatch({
     type: 'ADD_TO_CART',
     payload: product
@@ -15,7 +18,6 @@ export const useCartReducer = () => {
     payload: product
   })
 
-  // const SUBTRACT_ONE_TO_CART
   const subtractOneToCart = product => dispatch({
     type: 'SUBTRACT_ONE_TO_CART',
     payload: product

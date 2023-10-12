@@ -24,8 +24,7 @@ export const PackCard = ( pack ) => {
     const current_product = JSON.stringify(pack);
     const packs =JSON.stringify({ ...pack, 'prductos': []})
     
-    localStorage.setItem('current_product', current_product);
-    localStorage.setItem('packs', packs);
+    localStorage.setItem('pack', packs);
     
   };
 
@@ -42,8 +41,8 @@ export const PackCard = ( pack ) => {
       >
         <LazyLoadImage src={ pack.imagen } alt= { pack.nombre } />
         <div className={ styles.product_info }>
-          <p>{ pack.nombre }</p>
-          <p>{ pack.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</p>
+          <p>{ pack.nombre } asdfasdfa sdf asdf as</p>
+          {/* <p>{ pack.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</p> */}
         </div>
       </Link>
       

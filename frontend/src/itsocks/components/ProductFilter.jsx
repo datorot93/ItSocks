@@ -4,33 +4,20 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //UTILITIES
-import { types } from '../../types/types';
 import { filters } from '../data/filters'
 
 import styles from '../../ui/styles/Accesorios.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsListByFilterSubcategory, getProductsListByTypeAndDesign } from '../../actions/getProductsList';
 
-const armarEstadoInicial = ( lista_productos ) => {
-  
-  return lista_productos
-}
 
 export const ProductFilter = ({ subcategoria = null, categoria, type = null }) => {
   
   const initialState2 = filters[categoria]
-  // const initialState2 = {
-  //   viceras: false,
-  //   termos: false,
-  //   pines: false
-  // };
 
 
   const [ checkedItems, setCheckedItems ] = useState( initialState2 )
   const lista_productos = useSelector(state => state.product.products)
-
-
-  // console.log( armarEstadoInicial(lista_productos) )
   
   const dispatch = useDispatch()
 
@@ -53,9 +40,6 @@ export const ProductFilter = ({ subcategoria = null, categoria, type = null }) =
       });
       return updatedItems;
     });
-    
-    
-
   };
 
   
