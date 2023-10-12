@@ -240,7 +240,7 @@
 
 .regresar_catalogo {
     padding: 5px;
-    width: 100%;
+    width: 50%;
     height: 45px;
     margin-top: 15px;
     color: #232CC7;
@@ -251,4 +251,12 @@
     line-height: normal;
     align-items: center;
     margin: 25px 0;
+    cursor: pointer;
+}
+
+.agregar_carrito_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
 }

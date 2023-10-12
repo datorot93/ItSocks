@@ -19,16 +19,17 @@ export const PackProductoCard = ( product ) => {
 
     const handleClick = () => {
         dispatch( getSpecificProduct( product ));
-        const current_product = JSON.stringify(product);
 
-        localStorage.setItem('current_product', current_product);
+        const current_product = JSON.stringify(product);
+        const packs =JSON.stringify({ ...product, 'prductos': []})
+
+        localStorage.setItem('current_product', current_product)        
     };
 
     return (
 
     <div className={ styles.card }>
         
-        {/* <img src={ 	`${ ruta_imagenes }/${ nombre }.jpg` } alt= { nomSbre } /> */}
         <Link
             to={ 
                 product.name
