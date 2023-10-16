@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 //UTILITIES
 import { filters } from "../../data/filters";
-
+// STYLES
 import styles from "../../../ui/styles/Accesorios.module.css";
+// UTILS
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsListByFilterSubcategory,
@@ -14,19 +15,19 @@ import {
 } from "../../../actions/getProductsList";
 import { usePack } from "../../../hooks/usePack";
 
-export const PackProductFilter = ({
+export const PackProductFilter2 = ({
   subcategoria = null,
   categoria,
   type = null,
+  disenio,
 }) => {
   const initialState2 = filters[categoria];
 
+  // const productos_pack = JSON.parse(localStorage.getItem("pack")).prductos;
+
   const { pack } = usePack();
 
-  const initialStatePack = pack.prductos.map((producto) => producto.name);
-
-  console.log("ESTOS SON LOS PRODUCTOS DE PACK");
-  console.log(pack.prductos);
+  // const [listaProdsPack, setListaProdsPack] = useState();
 
   const [checkedItems, setCheckedItems] = useState(initialState2);
 
@@ -41,7 +42,23 @@ export const PackProductFilter = ({
     }
   }
 
-  const [productosPack, setProductosPack] = useState(initialStatePack);
+  const mounted = useRef(false);
+
+  const [productosPack, setProductosPack] = useState(Array(pack.cantidad));
+  useEffect(() => {
+    for (let index = 0; index < pack.cantidad; index++) {
+      setProductosPack(productosPack.pop());
+      setProductosPack(productosPack.splice(0, 0, pack.prductos[index]));
+      // console.log(productosPack);
+    }
+    mounted.current = true;
+  }, []);
+
+  const handleProductosPack = () => {
+    pack.prductos.map(() => productosPack.pop());
+    pack.prductos.map((producto) => productosPack.splice(0, 0, producto));
+  };
+  // console.log(productos_pack);
 
   const handleChecked = async (e, subcategory) => {
     setCheckedItems((prevState) => {
@@ -54,12 +71,10 @@ export const PackProductFilter = ({
   };
   // FILTRAR POR DISENIO
   const navigate = useNavigate();
-
   const handleDisenio = (event, disenio) => {
     navigate(disenio);
   };
 
-  // CARGA INICIAL
   useEffect(() => {
     if (!subcategoria && !type) {
       dispatch(getProductsListByFilterSubcategory(categoria, checkedItems));
@@ -77,47 +92,34 @@ export const PackProductFilter = ({
     }
   }, [checkedItems]);
 
-  useEffect(() => {
-    for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
-      setProductosPack([...productosPack, ""]);
-      console.log(index);
-    }
-  });
-
-  // for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
-  //   setProductosPack(productosPack.push(""));
-  //   console.log(index);
-  // }
-  console.log("ESTE ES EL PRODUCTO PACK");
-  console.log(productosPack);
-
   return (
     <>
-      <div className={styles.product_filter_pack}>
-        <button className={styles.selected_button} value={pack.nombre}>
+      <div className={styles.product_filter_pack_selected}>
+        <button className={styles.selected_button} value={disenio}>
           {pack.nombre}
         </button>
 
-        {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
-          <Link to={disenio} key={disenio}>
-            <button className={styles.filter_buttons} value={disenio}>
-              {disenio}
-            </button>
-          </Link>
-        ))}
+        <button className={styles.selected_button} value={disenio}>
+          {disenio}
+        </button>
 
-        {productosPack.length !== 0 && typeof productosPack === "object" ? (
+        <h4>Filtrar por compresión</h4>
+        <button className={styles.selected_button} value={disenio}>
+          Medias de compresión
+        </button>
+
+        {pack.prductos.length !== 0 ? (
           <div className={styles.pack_products}>
             <h5>Medias seleccionadas</h5>
             <div className={styles.pack_products_checks}>
-              {productosPack?.map((producto, index) => (
+              {pack.prductos.map((producto, index) => (
                 <label key={index}>
                   <input
                     type="checkbox"
-                    value={producto}
-                    defaultChecked={producto !== "" ? true : false}
+                    value={producto.name}
+                    defaultChecked={true}
                   />
-                  {producto !== "" ? producto : "Pendiente"}
+                  {producto.name}
                 </label>
               ))}
             </div>

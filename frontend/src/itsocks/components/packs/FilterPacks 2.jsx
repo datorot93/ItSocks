@@ -25,6 +25,8 @@ export const FilterPacks = () => {
   const [checkedItems, setCheckedItems] = useState(initialState);
   const lista_productos = useSelector((state) => state.product.products);
 
+  const dispatch = useDispatch();
+
   let subcategory = null;
 
   for (let clave in checkedItems) {

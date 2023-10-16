@@ -1,7 +1,7 @@
 // React
 import React, { useEffect, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Estilos
 import styles from "../../../ui/styles/ProductDescription.module.css";
@@ -131,23 +131,9 @@ export const PackProductDescription = () => {
             <p>{producto.description}</p>
           </div>
 
-          {/* TALLAS */}
-          <div className={styles.tallas}>
-            <div className={styles.tallas_label}>Tallas: </div>
-            <div className={styles.numeros_tallas}>
-              {["8-10", "9-11", "10-12"].map((talla) => (
-                <div className={styles.talla_button} key={talla}>
-                  {talla}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.guia_tallas}>
-            <Link to={"/guia_tallas"}>
-              <span>¡Consulta tu guia de talla!</span>
-            </Link>
-          </div>
+          {/* <div className={ styles.guia_tallas }>                    
+                    <span>¡¡Consulta tu guia de talla!!</span>         
+                </div> */}
 
           <div className={styles.cantidad_packs}>
             <img src={icono_regalo} alt="" />
@@ -174,18 +160,6 @@ export const PackProductDescription = () => {
           <div className={styles.comprar}>
             <div className={styles.conteo}>
               <button
-                className={styles.minus_button}
-                onClick={() =>
-                  setCantProducts(
-                    cantProducts > 0 ? cantProducts - 1 : cantProducts
-                  )
-                }
-              >
-                -
-              </button>
-              <span>{cantProducts}</span>
-              <button
-                className={styles.plus_button}
                 onClick={() =>
                   setCantProducts(
                     cantProducts < pack.cantidad - pack.prductos.length
@@ -195,6 +169,16 @@ export const PackProductDescription = () => {
                 }
               >
                 +
+              </button>
+              <span>{cantProducts}</span>
+              <button
+                onClick={() =>
+                  setCantProducts(
+                    cantProducts > 0 ? cantProducts - 1 : cantProducts
+                  )
+                }
+              >
+                -
               </button>
             </div>
             <button
@@ -207,29 +191,23 @@ export const PackProductDescription = () => {
             </button>
           </div>
 
-          <div className={styles.tiempo_estimado}>
-            <img src={reloj} alt="Reloj" />
-            <p>
-              Tiempos de envío: 3 a 4 días hábiles después del pago + 1 o 2 días
-              que demora la transportadora en entregar
-            </p>
-          </div>
-
           <div className={styles.informacion_adicional}>
             <img src={camion} alt="Envíos" />
             <p>
-              Lleva{" "}
-              <span>{`${(200000 - producto.price).toLocaleString("es-CO", {
-                style: "currency",
-                currency: "COP",
-              })}`}</span>{" "}
-              más y el envío te sale gratis
+              Lleva <span>$200.000</span> más y el envío te sale gratis
+            </p>
+          </div>
+
+          <div className={styles.tiempo_estimado}>
+            <img src={reloj} alt="Reloj" />
+            <p>
+              Tiempo estimado de envio entre lunes 24 abril and martes 25 abril.
             </p>
           </div>
         </div>
       </div>
 
-      {/* <div className={styles.productos_recomendados}>
+      <div className={styles.productos_recomendados}>
         <h2>Productos recomendados 🔥</h2>
         <div className={styles.recommended_images}>
           {similares.map((producto) => (
@@ -240,7 +218,7 @@ export const PackProductDescription = () => {
             />
           ))}
         </div>
-      </div> */}
+      </div>
       {showPopUp && (
         <PopUpCarrito
           title={title}

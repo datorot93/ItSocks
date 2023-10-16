@@ -200,7 +200,14 @@
 }
 
 .informacion_adicional span{
-    font-weight: bold;
+    color: #000;
+
+    /* carrito de compra resaltado */
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .tiempo_estimado {
@@ -208,8 +215,17 @@
     width: 100%;
     gap: 15px;
     margin-top: 40px;
-    font-size: 22px;
     align-items: center;
+
+    color: #000;
+
+/* carrito de compra resaltado */
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
 }
 
 .productos_recomendados {
@@ -259,4 +275,65 @@
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
+}
+
+/* TALLAS */
+
+.tallas {
+    display: flex;
+    flex-direction: row;
+    height: 47px;
+    gap: 28px;
+    width: 100%;
+    margin: 35px 0 10px 0;
+}
+
+.tallas_label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #000;
+    text-align: center;
+
+    /* Cuerpo de texto */
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px; /* 112.5% */
+}
+
+.numeros_tallas {
+    display: flex;
+    flex-direction: row;
+    gap: 28px;
+    align-items: center;
+    justify-content: center;
+}
+
+.talla_button {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 70px;
+    height: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--gris-stroke, rgba(0, 0, 0, 0.10));
+    background: #FFF;
+
+    /* Sombra lvl 1 */
+    box-shadow: 0px 4px 4px -2px rgba(24, 39, 75, 0.08), 0px 2px 4px -2px rgba(24, 39, 75, 0.12);
+
+    cursor: pointer;
+
+
+    /* Cuerpo de texto */
+    font-family: Montserrat;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px; /* 112.5% */
 }

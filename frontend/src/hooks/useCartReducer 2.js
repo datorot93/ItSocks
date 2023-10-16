@@ -1,6 +1,9 @@
 import React, { createContext, useReducer } from 'react'
 import { cartReducer, cartInitialState } from '../reducers/cartReducer'
 
+console.log('CART REDUCER')
+console.log(cartReducer)
+
 export const useCartReducer = () => {
 
   const [ state, dispatch ] = useReducer(cartReducer, cartInitialState)

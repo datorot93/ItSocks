@@ -21,12 +21,11 @@ export const PackProductFilter = ({
 }) => {
   const initialState2 = filters[categoria];
 
+  // const productos_pack = JSON.parse(localStorage.getItem("pack")).prductos;
+
   const { pack } = usePack();
 
-  const initialStatePack = pack.prductos.map((producto) => producto.name);
-
-  console.log("ESTOS SON LOS PRODUCTOS DE PACK");
-  console.log(pack.prductos);
+  // const [listaProdsPack, setListaProdsPack] = useState();
 
   const [checkedItems, setCheckedItems] = useState(initialState2);
 
@@ -41,7 +40,23 @@ export const PackProductFilter = ({
     }
   }
 
-  const [productosPack, setProductosPack] = useState(initialStatePack);
+  const mounted = useRef(false);
+
+  const [productosPack, setProductosPack] = useState(Array(pack.cantidad));
+  useEffect(() => {
+    for (let index = 0; index < pack.cantidad; index++) {
+      setProductosPack(productosPack.pop());
+      setProductosPack(productosPack.splice(0, 0, pack.prductos[index]));
+      // console.log(productosPack);
+    }
+    mounted.current = true;
+  }, []);
+
+  const handleProductosPack = () => {
+    pack.prductos.map(() => productosPack.pop());
+    pack.prductos.map((producto) => productosPack.splice(0, 0, producto));
+  };
+  // console.log(productos_pack);
 
   const handleChecked = async (e, subcategory) => {
     setCheckedItems((prevState) => {
@@ -54,12 +69,10 @@ export const PackProductFilter = ({
   };
   // FILTRAR POR DISENIO
   const navigate = useNavigate();
-
   const handleDisenio = (event, disenio) => {
     navigate(disenio);
   };
 
-  // CARGA INICIAL
   useEffect(() => {
     if (!subcategoria && !type) {
       dispatch(getProductsListByFilterSubcategory(categoria, checkedItems));
@@ -77,20 +90,6 @@ export const PackProductFilter = ({
     }
   }, [checkedItems]);
 
-  useEffect(() => {
-    for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
-      setProductosPack([...productosPack, ""]);
-      console.log(index);
-    }
-  });
-
-  // for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
-  //   setProductosPack(productosPack.push(""));
-  //   console.log(index);
-  // }
-  console.log("ESTE ES EL PRODUCTO PACK");
-  console.log(productosPack);
-
   return (
     <>
       <div className={styles.product_filter_pack}>
@@ -106,18 +105,18 @@ export const PackProductFilter = ({
           </Link>
         ))}
 
-        {productosPack.length !== 0 && typeof productosPack === "object" ? (
+        {pack.prductos.length !== 0 ? (
           <div className={styles.pack_products}>
             <h5>Medias seleccionadas</h5>
             <div className={styles.pack_products_checks}>
-              {productosPack?.map((producto, index) => (
+              {pack.prductos.map((producto, index) => (
                 <label key={index}>
                   <input
                     type="checkbox"
-                    value={producto}
-                    defaultChecked={producto !== "" ? true : false}
+                    value={producto.name}
+                    defaultChecked={true}
                   />
-                  {producto !== "" ? producto : "Pendiente"}
+                  {producto.name}
                 </label>
               ))}
             </div>
