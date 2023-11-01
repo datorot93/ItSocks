@@ -34,8 +34,6 @@ export const PacksProducts = ({ categoria, type, disenio = null }) => {
     };
   }, []);
 
-  //   const products = useSelector((state) => state.product.products);
-
   return (
     <>
       <div className={styles.main}>

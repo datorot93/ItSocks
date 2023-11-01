@@ -10,13 +10,13 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const PackProductoList = ({ disenio }) => {
+  // EXTRAER EL ÚLTIMO SEGMENTO DE LA RUTA ACTUAL
   const location = useLocation();
-  const pathSegments = location.pathname.split("/"); // Dividir la ruta en segmentos
+  const pathSegments = location.pathname.split("/");
   const lastSegment = pathSegments[pathSegments.length - 1];
 
   let products = useSelector((state) => state.product.products);
 
-  // console.log(products)
   if (["animales", "naturaleza", "comida"].includes(lastSegment) && products) {
     products = products.filter((producto) => producto.design === disenio);
   }

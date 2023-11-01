@@ -19,6 +19,7 @@ import { BillingInfo } from "../pages/BillingInfo";
 import { PacksProducts } from "../pages/PacksProducts";
 import { PackProductDescription } from "../components/packs/PackProductDescription";
 import { PackProvider } from "../../context/pack";
+import { GuiaTallas } from "../pages/GuiaTallas";
 
 export const ItSocksRoutes = () => {
   const { pathname } = useLocation();
@@ -283,6 +284,9 @@ export const ItSocksRoutes = () => {
                   />
                 }
               />
+
+              {/* GUÍA DE TALLAS */}
+              <Route path="guia_tallas" element={<GuiaTallas />} />
 
               <Route path="running" element={<Estilos estilo={"running"} />} />
               <Route
