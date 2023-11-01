@@ -19,8 +19,21 @@ import camion from "../../../../public/assets/producto/camion.svg";
 import reloj from "../../../../public/assets/producto/reloj.svg";
 import { PopUpCarrito } from ".././PopUpCarrito";
 import { usePack } from "../../../hooks/usePack";
+import { useCart } from "../../../hooks/useCart";
+import { PopUpCarritoPack } from "./PopUpCarritoPack";
 
 export const PackProductDescription = () => {
+  const { addToCart, removeFromCart, cart } = useCart();
+
+  const total = cart.reduce((acumulador, objeto) => {
+    // Agregar una condición para filtrar elementos
+    if (Object.keys(objeto).length == 12) {
+      return acumulador + objeto.cantidad * objeto.price;
+    } else {
+      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
+    }
+  }, 0);
+
   const navigate = useNavigate();
   const { pack, addToPack } = usePack();
 
@@ -75,6 +88,7 @@ export const PackProductDescription = () => {
     navigate(-1);
   };
 
+  // HANDLES
   const handleAgregarSeleccionado = () => {
     if (pack.cantidad - pack.prductos.length === 0) {
       navigate("/carrito");
@@ -82,6 +96,19 @@ export const PackProductDescription = () => {
       for (let index = 0; index < cantProducts; index++) {
         addToPack(currentProduct);
       }
+    }
+  };
+
+  const handleShowPopUp = (title) => {
+    if (cantProducts > 0) {
+      if (title === "carrito") {
+        setTitle("Carrito de compras");
+        const product_to_add = { ...producto, cantidad: cantProducts };
+        addToCart(pack);
+      } else {
+        setTitle("Lista de regalos");
+      }
+      setShowPopUp(true);
     }
   };
 
@@ -160,15 +187,19 @@ export const PackProductDescription = () => {
             <div className={styles.regresar_catalogo} onClick={handleGoBack}>
               <span>REGRESAR AL CATALOGO</span>
             </div>
-            {
-              <div
-                className={styles.carrito}
-                onClick={() => handleShowPopUp("carrito")}
-              >
-                <img src={carrito} alt="Carrito de compras" />
-                <span>Agregar a carrito</span>
-              </div>
-            }
+            <div
+              className={styles.carrito}
+              onClick={() => handleShowPopUp("carrito")}
+            >
+              {pack.cantidad - pack.prductos.length === 0 ? (
+                <>
+                  <img src={carrito} alt="Carrito de compras" />
+                  <span>Agregar a carrito</span>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
 
           <div className={styles.comprar}>
@@ -217,32 +248,25 @@ export const PackProductDescription = () => {
 
           <div className={styles.informacion_adicional}>
             <img src={camion} alt="Envíos" />
-            <p>
-              Lleva{" "}
-              <span>{`${(200000 - producto.price).toLocaleString("es-CO", {
-                style: "currency",
-                currency: "COP",
-              })}`}</span>{" "}
-              más y el envío te sale gratis
-            </p>
+            {total < 250000 ? (
+              <p>
+                Lleva{" "}
+                <span>{`${(250000 - total).toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                })}`}</span>{" "}
+                más y el envío te sale gratis
+              </p>
+            ) : (
+              <p>
+                Envío totalmente <strong>GRATIS</strong>.
+              </p>
+            )}
           </div>
         </div>
       </div>
-
-      {/* <div className={styles.productos_recomendados}>
-        <h2>Productos recomendados 🔥</h2>
-        <div className={styles.recommended_images}>
-          {similares.map((producto) => (
-            <LazyLoadImage
-              key={producto.id}
-              src={producto.images}
-              alt={producto.nombre}
-            />
-          ))}
-        </div>
-      </div> */}
       {showPopUp && (
-        <PopUpCarrito
+        <PopUpCarritoPack
           title={title}
           product={producto}
           showPopUp={showPopUp}
