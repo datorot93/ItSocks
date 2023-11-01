@@ -12,7 +12,7 @@ const initialState = {
 export const lista_packs = [
     // PARES DE MEDIAS LARGAS
     {
-        "id": 1,
+        "id": 101,
         "nombre": "PARES DE MEDIAS LARGAS X4",
         "price": 70000,
         "cantidad": 4,
@@ -20,7 +20,7 @@ export const lista_packs = [
         "to": "/packs/largas"
     },
     {
-        "id": 2,
+        "id": 102,
         "nombre": "PARES DE MEDIAS LARGAS X3",
         "price": 60000,
         "cantidad": 3,
@@ -29,7 +29,7 @@ export const lista_packs = [
     },
     // PARES DE MEDIAS PANTORRILLERAS
     {
-        "id": 3,
+        "id": 103,
         "nombre": "PARES DE MEDIAS PANTORILLERAS X4",
         "price": 70000,
         "cantidad": 4,
@@ -37,7 +37,7 @@ export const lista_packs = [
         "to": "/packs/pantorrilleras"
     },
     {
-        "id": 4,
+        "id": 104,
         "nombre": "PARES DE MEDIAS PANTORILLERAS X3",
         "price": 60000,
         "cantidad": 3,
@@ -46,7 +46,7 @@ export const lista_packs = [
     },
     // PARES DE MEDIAS MEDIA CANIA
     {
-        "id": 5,
+        "id": 105,
         "nombre": "PARES MEDIA CAÑA X4",
         "price": 70000,
         "cantidad": 4,
@@ -54,7 +54,7 @@ export const lista_packs = [
         "to": "/packs/media_cania"
     },
     {
-        "id": 6,
+        "id": 106,
         "nombre": "PARES MEDIA CAÑA X3",
         "price": 60000,
         "cantidad": 3,
