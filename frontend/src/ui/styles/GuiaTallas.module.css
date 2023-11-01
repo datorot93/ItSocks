@@ -1,0 +1,12 @@
+
+
+.guia_tallas {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.guia_tallas img {
+    object-fit: cover;
+}
