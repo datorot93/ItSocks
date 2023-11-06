@@ -9,7 +9,7 @@ from app.api import deps
 router = APIRouter()
 
 
-@router.post("", response_model=schemas.Category, response_model_exclude_none=True)
+@router.post("", response_model=schemas.Product, response_model_exclude_none=True)
 async def product_create(
     request: Request,
     product_in: schemas.ProductCreate,
@@ -19,8 +19,7 @@ async def product_create(
     """
     Create a new Product
     """
-    print('ESTE ES EL COLOR DE ENTRADA')
-    print(product_in.color)
+
     product = crud.product.get_product(
         db, 
         name=product_in.name, 
@@ -51,7 +50,7 @@ async def product_edit(
     db: Session = Depends(deps.get_db)
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    """ Update an existing Category """
+    """ Update an existing Product """
     product = crud.product.get(db, id=product_id)
 
     if not product:
