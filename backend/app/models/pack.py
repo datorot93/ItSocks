@@ -1,10 +1,6 @@
 from datetime import datetime
 
-from typing import TYPE_CHECKING
-
-from sqlalchemy import Column, Integer, String, DateTime, Float
-from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, DateTime, Float, Boolean
 
 from app.db.base_class import Base
 
@@ -18,6 +14,8 @@ class Pack(Base):
     image_url = Column(String, nullable=False)
     product_quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
+    discount = Column(Integer, nullable=True, default=0)
+    state = Column(Boolean, nullable=False, default=True)
     description = Column(String, nullable=True)
     
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())

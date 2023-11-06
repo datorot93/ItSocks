@@ -23,5 +23,7 @@ class Tag(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
+    tag_product = relationship('TagProduct', back_populates=('tag'))
+
     
     

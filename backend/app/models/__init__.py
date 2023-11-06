@@ -7,6 +7,7 @@ from .type import Type
 from .image import Image
 from .tag_product import TagProduct
 from .tag import Tag
+from .pack import Pack
 # from .type_design import TypeDesign
 # from .type_subcategory import TypeSubcategory
 # from .order import Order

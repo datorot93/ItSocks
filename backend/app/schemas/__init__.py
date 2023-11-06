@@ -5,5 +5,6 @@ from .type import Type, TypeCreate, TypeUpdate
 from .design import Design, DesignCreate, DesignUpdate
 from .product import Product, ProductCreate, ProductUpdate
 from .image import Image, ImageCreate, ImageUpdate
+from .pack import Pack, PackCreate, PackUpdate
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 
