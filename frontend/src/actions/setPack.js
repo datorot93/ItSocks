@@ -6,11 +6,9 @@ import { types } from "../types/types";
 // const [stations, setStations] = useState([]);
 
 
-export const getProductsList = ( category, subcategory = null, type = null ) => {
+export const setPack = () => {
 
     return async ( dispatch ) => {
-
-        dispatch( { type: types.startLoadingProducts } );
 
         const products = await getProductsByCategory( category );
         
