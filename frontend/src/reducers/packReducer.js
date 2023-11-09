@@ -20,7 +20,7 @@ export const updateLocalStorage = (state) => {
 const UPDATE_STATE_BY_ACTION = {
   [PACK_ACTION_TYPES.ADD_TO_PACK]: (state, action) => {
     
-    if ( state.prductos.length < state.cantidad) {
+    if ( state.prductos.length < state.product_quantity) {
 
       const newState = 
         {

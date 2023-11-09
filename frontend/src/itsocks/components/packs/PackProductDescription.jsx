@@ -17,7 +17,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import carrito from "../../../../public/assets/producto/carrito.svg";
 import camion from "../../../../public/assets/producto/camion.svg";
 import reloj from "../../../../public/assets/producto/reloj.svg";
-import { PopUpCarrito } from ".././PopUpCarrito";
 import { usePack } from "../../../hooks/usePack";
 import { useCart } from "../../../hooks/useCart";
 import { PopUpCarritoPack } from "./PopUpCarritoPack";
@@ -88,13 +87,15 @@ export const PackProductDescription = () => {
     navigate(-1);
   };
 
+  console.log(cantProducts);
+
   // HANDLES
   const handleAgregarSeleccionado = () => {
-    if (pack.cantidad - pack.prductos.length === 0) {
+    if (pack.product_quantity - pack.prductos.length === 0) {
       navigate("/carrito");
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
-        addToPack(currentProduct);
+        addToPack({ ...currentProduct, cantidad: 1 });
       }
     }
   };
@@ -103,8 +104,8 @@ export const PackProductDescription = () => {
     if (cantProducts > 0) {
       if (title === "carrito") {
         setTitle("Carrito de compras");
-        const product_to_add = { ...producto, cantidad: cantProducts };
-        addToCart(pack);
+        const product_to_add = { ...producto, cantidad: 1 };
+        addToCart({ ...pack, cantidad: 1 });
       } else {
         setTitle("Lista de regalos");
       }
@@ -112,6 +113,7 @@ export const PackProductDescription = () => {
     }
   };
 
+  console.log(pack);
   return (
     <div className={styles.main}>
       {showPopUp ? <div className={styles.block_page}></div> : <></>}
@@ -180,7 +182,7 @@ export const PackProductDescription = () => {
             <img src={icono_regalo} alt="" />
             <span>
               Productos seleccionados {pack["prductos"].length}/
-              {pack["cantidad"]}{" "}
+              {pack["product_quantity"]}{" "}
             </span>
           </div>
           <div className={styles.agregar_carrito_container}>
@@ -191,7 +193,7 @@ export const PackProductDescription = () => {
               className={styles.carrito}
               onClick={() => handleShowPopUp("carrito")}
             >
-              {pack.cantidad - pack.prductos.length === 0 ? (
+              {pack.product_quantity - pack.prductos.length === 0 ? (
                 <>
                   <img src={carrito} alt="Carrito de compras" />
                   <span>Agregar a carrito</span>
@@ -219,7 +221,7 @@ export const PackProductDescription = () => {
                 className={styles.plus_button}
                 onClick={() =>
                   setCantProducts(
-                    cantProducts < pack.cantidad - pack.prductos.length
+                    cantProducts < pack.product_quantity - pack.prductos.length
                       ? cantProducts + 1
                       : cantProducts
                   )
@@ -232,7 +234,7 @@ export const PackProductDescription = () => {
               className={styles.boton_comprar}
               onClick={handleAgregarSeleccionado}
             >
-              {pack.cantidad - pack.prductos.length === 0
+              {pack.product_quantity - pack.prductos.length === 0
                 ? "COMPRAR AHORA"
                 : "AÑADIR A MI SELECCIÓN"}
             </button>

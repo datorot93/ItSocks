@@ -15,27 +15,10 @@ export const updateLocalStorage = state => {
 
 const UPDATE_STATE_BY_ACTION = {
   [CART_ACTION_TYPES.ADD_TO_CART]: (state, action) => {
-    const { id } = action.payload
-    const productInCartIndex = state.findIndex(item => item.id === id)
+    const { id, name } = action.payload
+    const productInCartIndex = state.findIndex(item => item.name === name && item.id === id)
 
-    if (productInCartIndex >= 0) {
-      // 👀 una forma sería usando structuredClone
-      // const newState = structuredClone(state)
-      // newState[productInCartIndex].quantity += 1
-
-      // 👶 usando el map
-      // const newState = state.map(item => {
-      //   if (item.id === id) {
-      //     return {
-      //       ...item,
-      //       quantity: item.quantity + 1
-      //     }
-      //   }
-
-      //   return item
-      // })
-
-      // ⚡ usando el spread operator y slice
+    if (productInCartIndex > 0) {
       const newState = [
         ...state.slice(0, productInCartIndex),
         { ...state[productInCartIndex], cantidad: state[productInCartIndex].cantidad + action.payload.cantidad },
@@ -49,8 +32,7 @@ const UPDATE_STATE_BY_ACTION = {
     const newState = [
       ...state,
       {
-        ...action.payload, // product
-        quantity: 1
+        ...action.payload
       }
     ]
 
@@ -86,10 +68,10 @@ const UPDATE_STATE_BY_ACTION = {
   },
   
   [CART_ACTION_TYPES.SUBTRACT_ONE_TO_CART]: (state, action) => {
-    const { id } = action.payload
-    const productInCartIndex = state.findIndex(item => item.id === id)
+    const { id, name } = action.payload
+    const productInCartIndex = state.findIndex(item => item.id === id && item.name === name)
 
-    if (productInCartIndex >= 0) {
+    if (productInCartIndex > 0) {
       if ( state[productInCartIndex].cantidad > 0){
         const newState = [
           ...state.slice(0, productInCartIndex),
@@ -104,8 +86,10 @@ const UPDATE_STATE_BY_ACTION = {
   },
 
   [CART_ACTION_TYPES.REMOVE_FROM_CART]: (state, action) => {
-    const { id } = action.payload
-    const newState = state.filter(item => item.id !== id)
+    const { id, name } = action.payload
+    console.log("ESTE ES EL ACTION")
+    console.log(action)
+    const newState = state.filter(item => item.id !== id && item.name !== name)
     updateLocalStorage(newState)
     return newState
   },

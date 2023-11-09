@@ -148,10 +148,6 @@ export const ProductDescription = () => {
 
           <div className={styles.comprar}>
             <div className={styles.conteo}>
-              <button onClick={() => setCantProducts(cantProducts + 1)}>
-                +
-              </button>
-              <span>{cantProducts}</span>
               <button
                 onClick={() =>
                   setCantProducts(
@@ -160,6 +156,10 @@ export const ProductDescription = () => {
                 }
               >
                 -
+              </button>
+              <span>{cantProducts}</span>
+              <button onClick={() => setCantProducts(cantProducts + 1)}>
+                +
               </button>
             </div>
             <button className={styles.boton_comprar}>¡¡COMPRAR AHORA!!</button>

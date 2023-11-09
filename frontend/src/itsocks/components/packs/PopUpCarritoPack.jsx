@@ -20,11 +20,14 @@ export const PopUpCarritoPack = ({
   const { pack } = usePack();
   const { cart } = useCart();
 
+  console.log(cart);
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
-    if (Object.keys(objeto).length == 12) {
+    if (!objeto.name.toLowerCase().includes("pack")) {
+      console.log("Entré");
       return acumulador + objeto.cantidad * objeto.price;
     } else {
+      console.log("No entré");
       return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
     }
   }, 0);
@@ -44,13 +47,12 @@ export const PopUpCarritoPack = ({
           <div className={styles.title} onClick={handleCloseClick}>
             <span>X</span>
           </div>
-
           <div className={styles.product_container}>
             <div className={styles.product_image}>
-              <img src={`../${pack.imagen}`} alt="Imagen PACK" />
+              <img src={`${pack.image_url}`} alt="Imagen PACK" />
             </div>
-            <div className={styles.product_description}>
-              <p> {pack.nombre + " " + product.color}</p>
+            <div className={styles.description}>
+              <p> {pack.name}</p>
               <div className={styles.price}>
                 <p>
                   {pack.price.toLocaleString("es-CO", {
