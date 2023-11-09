@@ -19,12 +19,23 @@ export const PackCard = (pack) => {
     localStorage.setItem("pack", packs);
   };
 
+  const pack_routes = {
+    "PARES DE MEDIAS LARGAS X4": "largas",
+    "PARES DE MEDIAS LARGAS X3": "largas",
+    "PARES DE PANTORRILLERAS X4": "pantorrilleras",
+    "PARES DE PANTORRILLERAS X3": "pantorrilleras",
+    "PARES MEDIA CAÑA X4": "media_cania",
+    "PARES MEDIA CAÑA X3": "media_cania",
+  };
+
+  console.log(pack_routes[pack.name]);
+
   return (
     <div className={styles.card}>
-      <Link to={pack.to} onClick={handleClick}>
-        <LazyLoadImage src={pack.imagen} alt={pack.nombre} />
+      <Link to={pack_routes[pack.name.toUpperCase()]} onClick={handleClick}>
+        <LazyLoadImage src={pack.image_url} alt={pack.name} />
         <div className={styles.product_info}>
-          <p>{pack.nombre} asdfasdfa sdf asdf as</p>
+          <p>{pack.name.toUpperCase()}</p>
         </div>
       </Link>
     </div>

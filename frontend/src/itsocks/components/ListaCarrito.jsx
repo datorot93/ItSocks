@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 
 // Components
 import { useCart } from "../../hooks/useCart";
@@ -8,6 +8,8 @@ import { ProductoCarrito } from "./ProductoCarrito";
 import styles from "../../ui/styles/CarritoCompras.module.css";
 
 export const ListaCarrito = () => {
+  const id = useId();
+
   const [cantProducts, setCantProducts] = useState(0);
   const { cart, addOneToCart, subtractOneToCart, removeFromCart } = useCart();
 
@@ -24,7 +26,7 @@ export const ListaCarrito = () => {
         </thead>
         <tbody>
           {cart.map((producto) =>
-            Object.keys(producto).length == 12 ? (
+            "subcategory" in producto ? (
               <tr key={producto.id}>
                 <td>
                   <div className={styles.td_producto}>
@@ -38,7 +40,9 @@ export const ListaCarrito = () => {
                       src={producto.images.image1}
                       alt={producto.description}
                     />
-                    <span>{producto.name.toUpperCase()}</span>
+                    <span>
+                      <strong>{producto.name.toUpperCase()}</strong>
+                    </span>
                   </div>
                 </td>
                 <td>
@@ -82,8 +86,17 @@ export const ListaCarrito = () => {
                     >
                       <span>X</span>
                     </div>
-                    <img src={producto.imagen} alt={producto.nombre} />
-                    <span>{producto.nombre.toUpperCase()}</span>
+                    <img src={producto.image_url} alt={producto.name} />
+                    <div className={styles.pack_description}>
+                      <span>
+                        <strong>{producto.name.toUpperCase()}</strong>
+                      </span>
+                      <ul>
+                        {producto.prductos.map((item, index) => (
+                          <li key={`${id}-${index}`}>{item.name}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -96,19 +109,19 @@ export const ListaCarrito = () => {
                 </td>
                 <td>
                   <div className={styles.comprar}>
-                    {/* <div className={styles.conteo}>
+                    <div className={styles.conteo}>
                       <button onClick={() => addOneToCart(producto)}>+</button>
-                      <span>1</span>
+                      <span>{producto.cantidad}</span>
                       <button onClick={() => subtractOneToCart(producto)}>
                         -
                       </button>
-                    </div> */}
+                    </div>
                   </div>
                 </td>
                 <td>
-                  <div
-                    className={styles.centrar}
-                  >{`${producto.price.toLocaleString("es-CO", {
+                  <div className={styles.centrar}>{`${(
+                    producto.price * producto.cantidad
+                  ).toLocaleString("es-CO", {
                     style: "currency",
                     currency: "COP",
                   })}`}</div>

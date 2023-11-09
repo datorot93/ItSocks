@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // ACTIONS
 import { getProductsList } from "../../actions/getProductsList";
@@ -15,10 +15,20 @@ import { FilterPacks } from "../components/packs/FilterPacks";
 import { getPacks } from "../helpers/getPacks";
 
 export const Packs = () => {
-  const mounted = useRef(true);
-  const dispatch = useDispatch();
+  const [resultado, setResultado] = useState(null);
 
-  const lista_packs = getPacks();
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getPacks();
+        setResultado(data);
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -27,8 +37,14 @@ export const Packs = () => {
           <div className={styles.trancking_container}>
             <h1>{"PACKS"} </h1>
           </div>
-          <ListaPacks lista_packs={lista_packs} />
-          <FilterPacks lista_packs={lista_packs} />
+          {resultado ? (
+            <>
+              <ListaPacks lista_packs={resultado} />
+              <FilterPacks lista_packs={resultado} />
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>

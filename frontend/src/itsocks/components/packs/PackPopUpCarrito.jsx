@@ -22,7 +22,8 @@ export const PackPopUpCarrito = ({
   const handleClickComprar = () => {
     useNavigate("");
   };
-
+  console.log("ESTE ES EL PRODUCTO DEL POPUP");
+  console.log(product);
   return (
     <>
       {showPopUp && (
@@ -34,10 +35,7 @@ export const PackPopUpCarrito = ({
 
           <div className={styles.product_container}>
             <div className={styles.product_image}>
-              <img
-                src={product.images[Object.keys(product.images)[0]]}
-                alt="Imagen producto"
-              />
+              <img src={product.image_url} alt="Imagen producto" />
             </div>
             <div className={styles.product_description}>
               <p> {product.name + " " + product.color}</p>

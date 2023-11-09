@@ -76,3 +76,24 @@ a {
   font-size: 20px;
   font-weight: bold;
 }
+
+.contenedor_contador{
+  position: relative;
+  font-size: 14px;
+  
+}
+
+.contador_carrito {
+  position: absolute;
+  display: flex;
+  color: white;
+  width: 18px;
+  height: 18px;
+  background-color: rgb(240, 66, 66);
+  border-radius: 50%;
+  top: -9px;
+  right: -9px;
+
+  align-items: center;
+  justify-content: center;
+}

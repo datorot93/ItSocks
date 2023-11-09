@@ -88,14 +88,14 @@ export const PackProductFilter = ({
   //   setProductosPack(productosPack.push(""));
   //   console.log(index);
   // }
-  console.log("ESTE ES EL PRODUCTO PACK");
-  console.log(productosPack);
+  // console.log("ESTE ES EL PRODUCTO PACK");
+  // console.log(productosPack);
 
   return (
     <>
       <div className={styles.product_filter_pack}>
-        <button className={styles.selected_button} value={pack.nombre}>
-          {pack.nombre}
+        <button className={styles.selected_button} value={pack.name}>
+          {pack.name.toUpperCase()}
         </button>
 
         {Object.getOwnPropertyNames(checkedItems).map((disenio) => (

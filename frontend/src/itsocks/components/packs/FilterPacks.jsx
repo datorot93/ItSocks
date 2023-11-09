@@ -11,19 +11,15 @@ import { types } from "../../types/types";
 
 import styles from "../../../ui/styles/Accesorios.module.css";
 
-export const FilterPacks = () => {
-  //   const initialState2 = filters[categoria]
-  const initialState = {
-    "PARES DE MEDIAS LARGAS X4": false,
-    "PARES DE MEDIAS LARGAS X3": false,
-    "PARES DE PANTORRILLERAS X4": false,
-    "PARES DE PANTORRILLERAS X3": false,
-    "PARES MEDIA CAÑA X4": false,
-    "PARES MEDIA CAÑA X3": false,
-  };
+export const FilterPacks = ({ lista_packs }) => {
+  const initialState = {};
+
+  lista_packs.map((item) => {
+    const key = item.name.toUpperCase();
+    initialState[key] = false;
+  });
 
   const [checkedItems, setCheckedItems] = useState(initialState);
-  const lista_productos = useSelector((state) => state.product.products);
 
   let subcategory = null;
 
@@ -46,21 +42,25 @@ export const FilterPacks = () => {
 
   return (
     <>
-      <div className={styles.product_filter}>
-        {Object.getOwnPropertyNames(checkedItems).map((subcategory) => (
-          <label key={subcategory}>
-            <input
-              key={subcategory}
-              type="checkbox"
-              id={subcategory}
-              checked={checkedItems[subcategory]}
-              value={subcategory}
-              onChange={(event) => handleChecked(event, subcategory)}
-            />
-            {subcategory}
-          </label>
-        ))}
-      </div>
+      {lista_packs ? (
+        <div className={styles.product_filter}>
+          {Object.getOwnPropertyNames(checkedItems).map((subcategory) => (
+            <label key={subcategory}>
+              <input
+                key={subcategory}
+                type="checkbox"
+                id={subcategory}
+                checked={checkedItems[subcategory]}
+                value={subcategory}
+                onChange={(event) => handleChecked(event, subcategory)}
+              />
+              {subcategory}
+            </label>
+          ))}
+        </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
