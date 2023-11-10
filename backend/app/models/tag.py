@@ -19,6 +19,7 @@ class Tag(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False) # cilclismo, running, trabajo, casual, fitness
     image_url = Column(String, nullable=False)
+    discount = Column(Integer, nullable=True, default=0)
     
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())

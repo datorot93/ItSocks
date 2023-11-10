@@ -34,6 +34,7 @@ class Product(Base):
     price = Column(Float, nullable=False)
     state = Column(Boolean, nullable=False, default=True)
     color = Column(String, nullable=True)
+    discount = Column(Integer, nullable=True, default=0)
     compresion = Column(Boolean, nullable=False, default=False)
     quantity = Column(Integer, nullable=False)
     description = Column(
