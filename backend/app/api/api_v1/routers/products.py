@@ -92,11 +92,54 @@ async def get_accesorios(
     # response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
+@router.get("/q/colors_tallas/{name}", response_model_exclude_none=True)
+async def get_colors_tallas_by_product(
+    response: Response,
+    name: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener todos los colores de un producto
+    """
+    
+    print(name)
+    print('ANTES DEL CRUD')
+    product = crud.product.get_products_by_name(db=db, name=name)
+    print('DESPUES DEL CRUD')
+    # print(product)
 
+    if not product:
+        print('ENTRO AL IF')
+        raise HTTPException(
+            status_code=404, detail="No existe el producto con el nombre especificado",
+        )
+    
+    colors = crud.product.get_colors_tallas_by_product(db=db, name=name)
+    return colors
+
+
+@router.get("/q/products/{name}", response_model_exclude_none=True)
+async def product_by_name(
+    response: Response,
+    name: str,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Get a specific product by name.
+    """
+    print('ANTES DEL CRUD')
+    product = crud.product.get_products_by_name(db=db, name=name)
+    print('DESPUES DEL CRUD')
+
+    if product:
+        return product
+    else:
+        raise HTTPException(status_code=400, detail="The product doesn't exists")
 
 
 @router.delete(
-    "/{product_id}", response_model=schemas.Product, response_model_exclude_none=True
+    "/d/{product_id}", response_model=schemas.Product, response_model_exclude_none=True
 )
 async def product_delete(
     request: Request,
@@ -134,21 +177,4 @@ async def category_by_id(
     else:
         raise HTTPException(status_code=400, detail="The product doesn't exists")
     
-@router.get(
-    "/{product_name}", response_model=schemas.Product, response_model_exclude_none=True
-)
-async def product_by_name(
-    product_name: str,
-    # current_user: models.User = Depends(deps.get_current_active_user),
-    db: Session = Depends(deps.get_db),
-):
-    """
-    Get a specific product by id.
-    """
-    product = crud.product.get_products_by_name(db, name=product_name.capitalize())
-
-    if product:
-        return product
-    else:
-        raise HTTPException(status_code=400, detail="The product doesn't exists")
 

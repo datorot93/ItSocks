@@ -9,6 +9,7 @@ from .tag_product import TagProduct
 from .tag import Tag
 from .pack import Pack
 from .shipping import Shipping
+from .discount_code import DiscountCode
 # from .type_design import TypeDesign
 # from .type_subcategory import TypeSubcategory
 # from .order import Order

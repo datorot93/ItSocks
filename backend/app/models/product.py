@@ -28,7 +28,7 @@ class Product(Base):
     id_type = Column(Integer, ForeignKey('type.id'), index=True)
     id_subcategory = Column(Integer, ForeignKey('subcategory.id'), index=True)
     
-
+    code = Column(String, nullable=True, unique=False, default='prueba1')
     name = Column(String, nullable=False)
     talla = Column(String, nullable=False)
     price = Column(Float, nullable=False)

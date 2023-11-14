@@ -120,10 +120,31 @@ export const ProductDescription = () => {
         <div className={styles.description}>
           <h2>{producto.name}</h2>
           <div className={styles.precio}>
-            <p>{`${producto.price.toLocaleString("es-CO", {
-              style: "currency",
-              currency: "COP",
-            })}`}</p>
+            {producto.discount === 0 ? (
+              <p>{`${producto.price.toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+              })}`}</p>
+            ) : (
+              <>
+                <p
+                  className={styles.porcentaje_descuento}
+                >{`${producto.discount}% OFF`}</p>
+                <p
+                  className={styles.precio_sin_descuento}
+                >{`${producto.price.toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                })}`}</p>
+                <p>{`${(
+                  producto.price -
+                  producto.price * (producto.discount / 100)
+                ).toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                })}`}</p>
+              </>
+            )}
           </div>
           <div className={styles.description_p}>
             <p>{producto.description}</p>
