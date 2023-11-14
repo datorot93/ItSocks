@@ -28,12 +28,13 @@ class Product(Base):
     id_type = Column(Integer, ForeignKey('type.id'), index=True)
     id_subcategory = Column(Integer, ForeignKey('subcategory.id'), index=True)
     
-
+    code = Column(String, nullable=True, unique=False, default='prueba1')
     name = Column(String, nullable=False)
     talla = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     state = Column(Boolean, nullable=False, default=True)
     color = Column(String, nullable=True)
+    discount = Column(Integer, nullable=True, default=0)
     compresion = Column(Boolean, nullable=False, default=False)
     quantity = Column(Integer, nullable=False)
     description = Column(

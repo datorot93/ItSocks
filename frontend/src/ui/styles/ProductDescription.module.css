@@ -337,3 +337,14 @@
     font-weight: 400;
     line-height: 27px; /* 112.5% */
 }
+
+.precio_sin_descuento {
+    color: grey;
+    text-decoration: line-through;
+    font-size: 18px;
+}
+
+.porcentaje_descuento {
+    color: rgb(236, 74, 74);
+    font-size: 18px;
+}

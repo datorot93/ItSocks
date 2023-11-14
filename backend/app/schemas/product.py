@@ -12,6 +12,7 @@ class ProductBase(BaseModel):
     color: str = None
     description: str = None
     compresion: bool = None
+    code: str = None
     quantity: int = None
 
 
@@ -35,6 +36,7 @@ class ProductInDBBase(ProductBase):
     state: bool = None
     color: str = None
     compresion: bool = None
+    code: str = None
     quantity: int = None
     description: str = None
     id_design: Optional[int]
@@ -52,6 +54,7 @@ class Product(ProductInDBBase):
     state: bool = None
     color: str = None
     compresion: bool = None
+    code: str = None
     quantity: int = None
     description: str = None
     id_design: Optional[int]
