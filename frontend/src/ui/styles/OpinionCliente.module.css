@@ -1,0 +1,31 @@
+
+.main{
+    display: flex;
+    flex-direction: column;
+    min-width: 340px;
+    max-height: 484px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.imagen_cliente_container {
+    max-width: 316px;
+    max-height: 330px;
+    margin-bottom: 20px;    
+}
+
+
+.imagen_cliente_container img {
+    width: 100%;
+}
+
+.opinion_cliente {
+    max-width: 320px;
+}
+
+.opinion_cliente p{
+    font-size: 27px;
+    line-height: 40px;
+    font-weight: 400;
+}

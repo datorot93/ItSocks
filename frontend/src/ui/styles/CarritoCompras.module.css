@@ -1,0 +1,139 @@
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.main_container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 10px;
+    width: 1388px;
+    margin-top: 40px;
+}
+
+.lista_carrito {
+    width: 100%;
+    height: auto;
+}
+
+/* TABLE */
+
+.lista_carrito table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.lista_carrito table thead {
+    background: #F2F2F2;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+    height: 52px;
+    
+    
+}
+
+.lista_carrito table thead th {
+    border: none;
+}
+
+.lista_carrito table tbody tr {
+    border-bottom: 1px solid black;
+}
+
+.lista_carrito img {
+    width: 156px;
+    height: 157px;
+    object-fit: cover;
+    margin: 15px;
+}
+
+.td_producto {
+    
+    display: flex;
+    align-items: center;
+}
+
+.quitar_producto {
+    display: flex;
+    width: 31px;
+    height: 31px;
+    background-color: #00A968;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+/* PARTE DE ABAJO DEL COMPONENTE */
+
+.seguir_comprando {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: auto;
+    width: auto;
+    color: #0096E1;
+    font-family: PT Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin-top: 50px;
+}
+
+.item p {
+    margin-top: 40px;
+    color: #424242;
+    font-family: PT Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.comprar {
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+}
+
+.conteo {
+    display: flex;
+    border: 1px solid black;
+    height: auto;
+    align-items: center;
+}
+
+.conteo button {
+    height: 30px;
+    border: none;
+    background-color: white;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.conteo span {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.centrar {
+    display: flex;
+    justify-content: center;
+}
+
+/* .pack_description {
+    display: fle;
+} */
