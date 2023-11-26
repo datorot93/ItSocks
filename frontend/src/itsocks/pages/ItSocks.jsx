@@ -137,7 +137,7 @@ export const ItSocks = () => {
         </div>
 
         <div className={styles.estilos_vida}>
-          <h2>ESTILOS DE VIDA adf;kjsdfgjjsdf</h2>
+          <h2>ESTILOS DE VIDAs</h2>
           <div className={styles.image_container}>
             {estilosVida.map((image, index) => (
               <Link key={index} to={image.description.toLowerCase()}>
