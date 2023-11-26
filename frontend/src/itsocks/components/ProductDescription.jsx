@@ -1,5 +1,5 @@
 // React
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Estilos
 import styles from "../../ui/styles/ProductDescription.module.css";
@@ -14,19 +14,25 @@ import carrito from "../../../public/assets/producto/carrito.svg";
 import corazon from "../../../public/assets/producto/corazon.svg";
 import camion from "../../../public/assets/producto/camion.svg";
 import reloj from "../../../public/assets/producto/reloj.svg";
+
+import { colores } from "../types/types";
+
 import { PopUpCarrito } from "./PopUpCarrito";
 import { useCart } from "../../hooks/useCart";
+import { getProductExtraInfo } from "../helpers/getProductsByCategory";
 
 // React Reducx
 
 export const ProductDescription = () => {
   const { addToCart, removeFromCart, cart } = useCart();
 
-  // console.log(cart);
   const [selectedIndex, setSelectedIdenx] = useState(0);
 
   const product = localStorage.getItem("current_product");
   const producto = JSON.parse(product);
+
+  const [colors, setColors] = useState([]);
+  const [tallas, setTallas] = useState([]);
 
   const similares = getProductsByPartOfName(producto.name);
 
@@ -34,6 +40,16 @@ export const ProductDescription = () => {
     1,
     Object.keys(producto.images).length
   );
+
+  // Petición de colores y tallas del producto
+  useEffect(() => {
+    const getColorsAndSizes = async () => {
+      const extra_info = await getProductExtraInfo(producto.name);
+      setColors(extra_info[0].colores);
+      setTallas(extra_info[0].tallas);
+    };
+    getColorsAndSizes();
+  }, []);
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
@@ -69,19 +85,17 @@ export const ProductDescription = () => {
   const handleShowPopUp = (title) => {
     if (cantProducts > 0) {
       if (title === "carrito") {
-        setTitle("Carrito de compras");
-        // console.log(cantProducts)
+        setTitle("Producto agregado");
         const product_to_add = { ...producto, cantidad: cantProducts };
         addToCart(product_to_add);
-        // setCarritoCompras( [ ...carritoCompras, product_to_add ] )
-        // console.log(carritoCompras);
-        // localStorage.setItem('carrito_compras', JSON.stringify(carritoCompras))
       } else {
         setTitle("Lista de regalos");
       }
       setShowPopUp(true);
     }
   };
+
+  console.log(showPopUp);
 
   return (
     <div className={styles.main}>
@@ -149,6 +163,32 @@ export const ProductDescription = () => {
           <div className={styles.description_p}>
             <p>{producto.description}</p>
           </div>
+
+          {tallas[0] && tallas[0] !== "unica" ? (
+            <div className={styles.tallas}>Estas son las tallas</div>
+          ) : (
+            <></>
+          )}
+
+          {colors[0] !== "nan" ? (
+            <div className={styles.colores}>
+              <div className={styles.colores_label}>Colores: </div>
+              <div className={styles.numeros_colores}>
+                {colors.map((color) => (
+                  <div
+                    className={`${styles.color_circle}`}
+                    style={{
+                      backgroundColor: colores[color.toUpperCase()],
+                    }}
+                    key={color}
+                    onClick={() => console.log(color)}
+                  ></div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className={styles.acciones}>
             <div

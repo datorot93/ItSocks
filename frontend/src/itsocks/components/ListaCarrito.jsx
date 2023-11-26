@@ -25,9 +25,9 @@ export const ListaCarrito = () => {
           </tr>
         </thead>
         <tbody>
-          {cart.map((producto) =>
+          {cart.map((producto, index) =>
             "subcategory" in producto ? (
-              <tr key={producto.id}>
+              <tr key={`${producto.id}-${index}`}>
                 <td>
                   <div className={styles.td_producto}>
                     <div

@@ -6,7 +6,7 @@ export const tipos = [
       'nombre': 'largas',
       'estado': 'activo',
       'categoria': 'medias',
-      'subcategoria': 'medias personalizadas',
+      'subcategoria': 'Personalizadas',
       'image': '../../../public/assets/medias/tipos/larga.png'
     },
     {
@@ -14,7 +14,7 @@ export const tipos = [
         'nombre': 'media_cania',
         'estado': 'activo',
         'categoria': 'medias',
-        'subcategoria': 'medias personalizadas',
+        'subcategoria': 'Personalizadas',
         'image': '../../../public/assets/medias/tipos/media_cana.png'
       },
       {
@@ -22,7 +22,7 @@ export const tipos = [
         'nombre': 'pantorrillera',
         'estado': 'activo',
         'categoria': 'medias',
-        'subcategoria': 'medias personalizadas',
+        'subcategoria': 'Personalizadas',
         'image': '../../../public/assets/medias/tipos/pantorrillera.png'
       },
       // 
@@ -31,7 +31,7 @@ export const tipos = [
         'nombre': 'larga',
         'estado': 'activo',
         'categoria': 'medias',
-        'subcategoria': 'medias estampadas',
+        'subcategoria': 'Estampadas',
         'image': '../../../public/assets/medias/tipos/estampadas/larga.png'
       },
       {
@@ -39,7 +39,7 @@ export const tipos = [
           'nombre': 'media_cania',
           'estado': 'activo',
           'categoria': 'medias',
-          'subcategoria': 'medias estampadas',
+          'subcategoria': 'Estampadas',
           'image': '../../../public/assets/medias/tipos/estampadas/media_cana.png'
         },
         {
@@ -47,7 +47,7 @@ export const tipos = [
           'nombre': 'pantorrillera',
           'estado': 'activo',
           'categoria': 'medias',
-          'subcategoria': 'medias estampadas',
+          'subcategoria': 'Estampadas',
           'image': '../../../public/assets/medias/tipos/estampadas/pantorrillera.png'
         },
         // TEJIDAS
@@ -56,7 +56,7 @@ export const tipos = [
           'nombre': 'larga',
           'estado': 'activo',
           'categoria': 'medias',
-          'subcategoria': 'medias tejidas',
+          'subcategoria': 'Tejidas',
           'image': '../../../public/assets/medias/tipos/estampadas/larga.png'
         },
         {
@@ -64,7 +64,7 @@ export const tipos = [
             'nombre': 'media_cania',
             'estado': 'activo',
             'categoria': 'medias',
-            'subcategoria': 'medias tejidas',
+            'subcategoria': 'Tejidas',
             'image': '../../../public/assets/medias/tipos/estampadas/media_cana.png'
           },
           {
@@ -72,7 +72,7 @@ export const tipos = [
             'nombre': 'pantorrillera',
             'estado': 'activo',
             'categoria': 'medias',
-            'subcategoria': 'medias tejidas',
+            'subcategoria': 'Tejidas',
             'image': '../../../public/assets/medias/tipos/estampadas/pantorrillera.png'
           }
 ]

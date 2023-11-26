@@ -9,8 +9,6 @@ import { types } from "../types/types";
 export const getProductsList = ( category, subcategory = null, type = null ) => {
 
 
-    // console.log( subcategory )
-
     return async ( dispatch ) => {
 
         dispatch( { type: types.startLoadingProducts } );
