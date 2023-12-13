@@ -22,7 +22,16 @@
 
 .link_container {
     display: flex;
+    align-items: center;
     flex-direction: row;
     margin-top: 20px;
     gap: 10px;
+}
+
+.link_container a p {
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 0px; /* 0% */
 }

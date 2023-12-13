@@ -71,7 +71,9 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             join(Category, Category.id == Subcategory.id_category).\
             join(Type, Type.id == Product.id_type).\
             join(Design, Design.id == Product.id_design).\
-            filter(Category.name == category, Product.state == True).offset(skip).limit(limit).all()
+            filter(
+                unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                Product.state == True).offset(skip).limit(limit).all()
 
         product_images = db.query(
             Image.url,
@@ -80,7 +82,9 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         join(Product, Product.id == Image.id_product).\
         join(Subcategory, Product.id_subcategory == Subcategory.id).\
         join(Category, Category.id == Subcategory.id_category).\
-        filter(Category.name == category).\
+        filter(
+            unaccent(func.lower(Category.name)) == unidecode(category.strip().lower())
+        ).\
         all()
 
 
@@ -91,7 +95,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         
         return lista_productos
     
-    def _get_product_list(self, products, selected_fields, product_images):
+    def _get_product_list(self, products, product_images):
         product_list = []
 
         selected_fields = [
@@ -160,9 +164,9 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 join(Type, Type.id == Product.id_type).\
                 join(Design, Design.id == Product.id_design).\
                 filter(
-                    Category.name == category, 
-                    Product.state == True, 
-                    Subcategory.name == Subcategory
+                    Product.state == True,
+                    unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                    unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower())
                 ).offset(skip).limit(limit).all()
     
             product_images = db.query(
@@ -173,8 +177,8 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             join(Subcategory, Product.id_subcategory == Subcategory.id).\
             join(Category, Category.id == Subcategory.id_category).\
             filter(
-                Category.name == category,
-                Subcategory.name == subcategory
+                unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower())
             ).\
             all()
     
@@ -185,7 +189,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             
             return lista_productos
     
-    def products_by_cat_subcat_type(
+    def get_products_by_cat_subcat_type(
         self,
         db: Session,
         *,
@@ -216,10 +220,10 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             join(Type, Type.id == Product.id_type).\
             join(Design, Design.id == Product.id_design).\
             filter(
-                Category.name == category, 
-                Product.state == True, 
-                Type.name == type,
-                Subcategory.name == subcategory
+                unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                Product.state == True,
             ).offset(skip).limit(limit).all()
         
         product_images = db.query(
@@ -230,8 +234,9 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             join(Subcategory, Product.id_subcategory == Subcategory.id).\
             join(Category, Category.id == Subcategory.id_category).\
             filter(
-                Category.name == category,
-                Subcategory.name == subcategory
+                unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower())
             ).\
         all()
 

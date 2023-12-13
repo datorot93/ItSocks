@@ -4,5 +4,6 @@ export const types = {
     loadSpecificProduct: '[products] Load Stations',
     unmountProducts: '[products] Unmount products',
     startLoadingProducts: '[products] Start loading products',
-    startLoadingSpecificProduct: '[products] Start loading specific product'
+    startLoadingSpecificProduct: '[products] Start loading specific product',
+    addProducts: '[products] Add products',
 }

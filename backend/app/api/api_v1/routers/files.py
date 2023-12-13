@@ -2,6 +2,8 @@ import pandas as pd
 import os
 from pathlib import Path
 
+from PIL import Image
+
 import sqlalchemy
 from fastapi import UploadFile, APIRouter, Request, Depends, File, HTTPException
 from fastapi.responses import FileResponse
@@ -31,7 +33,7 @@ dict_disenio = {
     'PROFESIONES': 9,
     'TEMPORADA': 10,
     'TERMOS': 11,
-    'VISERAS': 12
+    'VISERAS': 12,
 }
 
 dict_subcategory = {
@@ -78,8 +80,6 @@ IMAGES_FOLDER = os.path.dirname(ruta_script)
 
 
 def get_images_from_folder(folder):
-    print('ESTE ES EL FOLDER')
-    print(folder)
     images = []
     if os.path.exists(folder):
         for filename in os.listdir(folder):
@@ -89,6 +89,39 @@ def get_images_from_folder(folder):
         print(f'La carpeta {folder} no existe')
 
     return images
+
+def compress_image(input_path, image, calidad=85, compress_level=6, new_width=800):
+    """
+    Comprime una imagen en el camino de entrada y guarda la imagen comprimida en el camino de salida.
+    
+    :param input_path: Ruta de la imagen de entrada.
+    :param output_path: Ruta donde se guardará la imagen comprimida.
+    :param calidad: Nivel de calidad de compresión (0-100), donde 100 es la mejor calidad.
+    """
+    try:
+        print('ESTA ES LA IMAGEN')
+        print(image)
+        # Abrir la imagen
+        imagen = Image.open(input_path + '/' + image)
+
+        aspect_ratio = imagen.width / imagen.height
+
+        new_height = int(new_width / aspect_ratio)
+
+        resized_image = imagen.resize((new_width, new_height))
+        print('YA REDIMENSIONÉ LA IMAGEN')
+        # Convertir la imagen a RGB si es necesario
+        if resized_image.mode in ("RGBA", "P"):
+            resized_image.save(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/{image}', 'PNG', optimize=True, quality=calidad, compress_level=compress_level)
+
+        else:
+            resized_image.save(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/{image}', 'JPEG', optimize=True, quality=calidad)
+
+        print(f'Imagen comprimida y guardada en: ./temp_images/{image}')
+
+    except Exception as e:
+        raise Exception(f'Ocurrió un error: {e}')
+        # print(f'Ocurrió un error: {e}')
 
 
 
@@ -140,21 +173,25 @@ async def create_upload_file(
             aws_secret_access_key=aws_secret_key,
             region_name=aws_region_name
         )
-
-        
-
+        print('ESTA ES LA ROW 12')
+        print(row[12])
         if row[12] == '':
             continue
         else:
-            image_folder = IMAGES_FOLDER + '/Datos_ItSocks/IMAGENES/' + row[12] 
+            print('VOY A SUBIR LA IMAGEN A S3')
+            image_folder = IMAGES_FOLDER + '/Datos_ItSocks/IMAGENES/' + row[12]
+
             images = get_images_from_folder(image_folder)
-            for image in images:
+            for image_name in images:
                 url = ""
-                with open(image_folder + '/' + image, "rb") as buffer:
+                compress_image(image_folder, image_name)
+
+                with open(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/' + image_name, "rb") as buffer:
                     bucket = s3.Bucket('itsocks-images')
-                    obj = bucket.Object(image_folder.split('/')[-1] + '_' +image)
+                    obj = bucket.Object(image_folder.split('/')[-1] + '_' +image_name)
                     obj.upload_file(buffer.name)
                     url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+
 
                 image_in = schemas.ImageCreate(
                     id_product=prodcut.id,
@@ -164,5 +201,8 @@ async def create_upload_file(
                     db,
                     obj_in=image_in
                 )
+
+                os.remove(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/{image_name}')
+
 
     return "Archivo cargado con éxito"

@@ -6,24 +6,24 @@ export const tipos = [
       'nombre': 'largas',
       'estado': 'activo',
       'categoria': 'medias',
-      'subcategoria': 'Personalizadas',
-      'image': '../../../public/assets/medias/tipos/larga.png'
+      'subcategoria': 'personalizadas',
+      'image': '../../../public/assets/medias/tipos/personalizadas/larga.png'
     },
     {
         'id': 2,
         'nombre': 'media_cania',
         'estado': 'activo',
         'categoria': 'medias',
-        'subcategoria': 'Personalizadas',
-        'image': '../../../public/assets/medias/tipos/media_cana.png'
+        'subcategoria': 'personalizadas',
+        'image': '../../../public/assets/medias/tipos/personalizadas/media_cania.png'
       },
       {
         'id': 3,
         'nombre': 'pantorrillera',
         'estado': 'activo',
         'categoria': 'medias',
-        'subcategoria': 'Personalizadas',
-        'image': '../../../public/assets/medias/tipos/pantorrillera.png'
+        'subcategoria': 'personalizadas',
+        'image': '../../../public/assets/medias/tipos/personalizadas/pantorrillera.png'
       },
       // 
       {
@@ -57,7 +57,7 @@ export const tipos = [
           'estado': 'activo',
           'categoria': 'medias',
           'subcategoria': 'Tejidas',
-          'image': '../../../public/assets/medias/tipos/estampadas/larga.png'
+          'image': '../../../public/assets/medias/tipos/tejidas/larga.png'
         },
         {
             'id': 5,
@@ -65,7 +65,7 @@ export const tipos = [
             'estado': 'activo',
             'categoria': 'medias',
             'subcategoria': 'Tejidas',
-            'image': '../../../public/assets/medias/tipos/estampadas/media_cana.png'
+            'image': '../../../public/assets/medias/tipos/tejidas/media_cana.png'
           },
           {
             'id': 6,
@@ -73,6 +73,6 @@ export const tipos = [
             'estado': 'activo',
             'categoria': 'medias',
             'subcategoria': 'Tejidas',
-            'image': '../../../public/assets/medias/tipos/estampadas/pantorrillera.png'
+            'image': '../../../public/assets/medias/tipos/tejidas/pantorrillera.png'
           }
 ]

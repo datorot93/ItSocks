@@ -1,8 +1,5 @@
 import styles from "../../ui/styles/CarruselProductos.module.css";
 
-import slider_1 from "../../../public/assets/homepage/slider/slider_1.jpg";
-import slider_2 from "../../../public/assets/homepage/slider/slider_2.jpg";
-
 import { useEffect, useState } from "react";
 
 // Utilidades

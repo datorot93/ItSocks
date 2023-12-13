@@ -20,6 +20,8 @@ import { PacksProducts } from "../pages/PacksProducts";
 import { PackProductDescription } from "../components/packs/PackProductDescription";
 import { PackProvider } from "../../context/pack";
 import { GuiaTallas } from "../pages/GuiaTallas";
+import { EnviosGarantiasCambios } from "../pages/EnviosGarantiasCambios";
+import { PoliticaProteccionDatos } from "../pages/PoliticaProteccionDatos";
 
 export const ItSocksRoutes = () => {
   const { pathname } = useLocation();
@@ -145,11 +147,17 @@ export const ItSocksRoutes = () => {
                 element={<PackProductDescription />}
               />
 
+              {/* MAS */}
               <Route path="mas" element={<Mas />} />
               <Route
                 path="mas/preguntas_frecuentes"
                 element={<PreguntasFrecuentes />}
               />
+              <Route
+                path="mas/envios_garantias_cambios"
+                element={<EnviosGarantiasCambios />}
+              />
+              <Route path="politicas_proteccion_datos" element={ <PoliticaProteccionDatos />} />
 
               <Route
                 path="medias"
@@ -164,6 +172,18 @@ export const ItSocksRoutes = () => {
                 path="medias/personalizadas/pantorrilleras"
                 element={
                   <PersonalizadaPantorrillera subcategory={"Pantorrilleras"} />
+                }
+              />
+              <Route
+                path="medias/personalizadas/largas"
+                element={
+                  <PersonalizadaPantorrillera subcategory={"Largas"} />
+                }
+              />
+              <Route
+                path="medias/personalizadas/media_cania"
+                element={
+                  <PersonalizadaPantorrillera subcategory={"Media_Cania"} />
                 }
               />
 
@@ -202,6 +222,20 @@ export const ItSocksRoutes = () => {
                     type={"Largas"}
                   />
                 }
+              />
+              <Route 
+                path="medias/estampadas/larga/:disenio"
+                element={
+                  <Productos
+                    categoria={"Medias"}
+                    subcategoria={"Estampadas"}
+                    type={"Largas"}
+                  />
+                }
+              />
+              <Route
+                path="medias/estampadas/larga/:disenio/:nombre"
+                element={<ProductDescription />}
               />
               <Route
                 path="medias/estampadas/larga/:nombre"

@@ -26,9 +26,9 @@ export const Mas = () => {
             <div className={ styles.link_container}>
                 <img src={ icono_envios } alt="Ventas al por mayor" />
                 <Link
-                    to=""
+                    to="/mas/envios_garantias_cambios"
                 >
-                    <p>Tiempos de envío</p>
+                    <p>Envíos, Garantías y Cambios</p>
                 </Link>
             </div>
             <div className={ styles.link_container}>
