@@ -1,12 +1,18 @@
 export const filters = {
-    "accesorios": {
-        "viceras": false,
-        "termos": false,
-        "pines": false
+    "Accesorios": {
+        "VISERAS": false,
+        "TERMOS": false,
+        "PINES": false,
+        "CANGUROS": false
     },
-    "medias": {
-        "animales": false,
-        "comida": false,
-        "naturaleza": false
+    "Medias": {
+        'ANIMALES': false,
+        'COMIDA': false,
+        'NATURALEZA': false,
+        'PERSONAJES': false,
+        'FIGURAS Y COLORES': false,
+        'PROFESIONES': false,
+        'TEMPORADA': false,
+        "DEPORTES": false
     }
 }

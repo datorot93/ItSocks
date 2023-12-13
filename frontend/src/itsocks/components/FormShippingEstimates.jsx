@@ -45,6 +45,19 @@ export const FormShippingEstimates = () => {
     }
   };
 
+  const total = cart.reduce((acumulador, objeto) => {
+    // Agregar una condición para filtrar elementos
+    if (!objeto.name.toLowerCase().includes("pack")) {
+      console.log("Entré");
+      return acumulador + objeto.cantidad * objeto.price;
+    } else {
+      console.log("No entré");
+      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
+    }
+  }, 0);
+
+  console.log(total);
+
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
   };
@@ -100,13 +113,9 @@ export const FormShippingEstimates = () => {
     if (Object.keys(objeto).length == 12) {
       return acumulador + objeto.cantidad * objeto.price;
     } else {
-      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
+      return acumulador + objeto.price;
     }
   }, 0);
-
-  // const subtotal = cart.reduce( (acumulador, objeto) => {
-  //   return acumulador + (objeto.cantidad * objeto.price)
-  // }, 0)
 
   return (
     <div className={styles.main_container}>
@@ -224,7 +233,7 @@ export const FormShippingEstimates = () => {
               </div>
               <div>
                 <span>
-                  {subtotal.toLocaleString("es-CO", {
+                  {total.toLocaleString("es-CO", {
                     style: "currency",
                     currency: "COP",
                   })}
@@ -233,19 +242,15 @@ export const FormShippingEstimates = () => {
             </div>
 
             <div className={styles.costo_envio}>
-              {isCalculated ? (
-                subtotal > 250000 ? (
-                  <>
-                    <img src={camion} alt="Ícono de regalo" />
-                    <p>
-                      Tienes <strong>ENVÍO GRATIS</strong>
-                    </p>
-                  </>
-                ) : (
-                  <p>Envío: $ 5.000</p>
-                )
+              {total > 250000 ? (
+                <>
+                  <img src={camion} alt="Ícono de regalo" />
+                  <p>
+                    Tienes <strong>ENVÍO GRATIS</strong>
+                  </p>
+                </>
               ) : (
-                <></>
+                <p>Envío: $ 5.000</p>
               )}
             </div>
 

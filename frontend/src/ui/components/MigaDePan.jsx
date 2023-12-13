@@ -18,10 +18,10 @@ export const MigaDePan = () => {
         <Link to="/">{"Inicio"}</Link>
         {pathnames.map((path, index) => {
           const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-
+          let capitalizedPath = path.charAt(0).toUpperCase() + path.slice(1);
           return (
             <Link key={index} to={routeTo}>
-              {" > " + path + " "}
+              {" | " + capitalizedPath.replace('_', '') + " "}
             </Link>
           );
         })}

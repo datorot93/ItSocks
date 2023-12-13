@@ -14,7 +14,7 @@ const initialData = () => {
 };
 
 export const ItSocksProvider = ({ children }) => {
-  const [itSocksState, dispatch] = useReducer(itSocksReducer, {}, initialData);
+  const [itSocksState, dispatch] = useReducer(itSocksReducer, [], initialData);
 
   const setProducts = (productos = []) => {
     const action = {

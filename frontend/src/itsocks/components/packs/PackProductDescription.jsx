@@ -22,14 +22,13 @@ import { useCart } from "../../../hooks/useCart";
 import { PopUpCarritoPack } from "./PopUpCarritoPack";
 
 export const PackProductDescription = () => {
-  const { addToCart, removeFromCart, cart } = useCart();
+  const { addToCart, cart } = useCart();
 
   const total = cart.reduce((acumulador, objeto) => {
-    // Agregar una condición para filtrar elementos
     if (Object.keys(objeto).length == 12) {
       return acumulador + objeto.cantidad * objeto.price;
     } else {
-      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
+      return acumulador + objeto.price;
     }
   }, 0);
 
@@ -113,7 +112,6 @@ export const PackProductDescription = () => {
     }
   };
 
-  console.log(pack);
   return (
     <div className={styles.main}>
       {showPopUp ? <div className={styles.block_page}></div> : <></>}

@@ -27,18 +27,28 @@ export const CategoriaCard = ({
   };  
   return (
     
-    <div className={ `${styles.imageContainer} ${isHovered ? styles.hovered : ""}` }
+    <div className={ `${styles.imageContainer}` }
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link to={ nombre }>
-        <img src={ image } alt= { nombre } />
-      </Link>
-      {isHovered && (
-        <div className={styles.hoverText}>
-          <p>{ nombre }</p>
+      
+      <Link to={ nombre } >
+        <img src={ image } alt= { nombre } />        
+        <div className={`${ styles.blur_div} ${isHovered ? styles.hovered : ""}`}>
+          <div className={styles.hoverText}>
+              <p>{ nombre }</p>
+          </div>
         </div>
-      )}
+      </Link>
+
+      {/* <div className={`${styles.blur_div} ${isHovered ? styles.hovered : ""}`} `}>
+          <div className={styles.hoverText}>
+              <p>{ nombre }</p>
+          </div>
+        </div> */}
+      {/* {isHovered && (
+        
+      )} */}
     </div>
     
   )

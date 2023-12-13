@@ -9,8 +9,20 @@
     padding-top: 50px;
 }
 
+.main h1 {
+    font-family: Montserrat;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
 .main button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #00B475;
+    width: 362px;
+    height: 40px;
     padding: 14px;
     border-radius: 5px;
     color: white;
@@ -32,6 +44,6 @@
 }
 
 .medias_container p{
-    margin: 50px 200px;    
+    margin: 25px 100px;    
     font-size: 20px;
 }

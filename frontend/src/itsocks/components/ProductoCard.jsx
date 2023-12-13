@@ -26,7 +26,7 @@ export const ProductoCard = (product) => {
   return (
     <div className={styles.card}>
       {/* <img src={ 	`${ ruta_imagenes }/${ nombre }.jpg` } alt= { nomSbre } /> */}
-      <Link to={product.name} onClick={handleClick}>
+      <Link to={`${product.design}/${product.name}`} onClick={handleClick}>
         <LazyLoadImage src={product.images.image1} alt={product.name} />
         <div className={styles.product_info}>
           <p>

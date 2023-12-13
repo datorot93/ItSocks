@@ -92,6 +92,52 @@ async def get_accesorios(
     # response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
+@router.get("/q/products_categories", response_model_exclude_none=True)
+async def get_products_by_subcat_cat(
+    response: Response,
+    category: str,
+    subcategory: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Obtener todos los productos por subcategoria y categoria
+    """
+    products = crud.product.get_products_by_subcat_cat( 
+        db=db,
+        category=category,
+        subcategory=subcategory,
+        skip=skip,
+        limit=limit
+    )
+
+    return products
+
+@router.get("/q/products_categories_types", response_model_exclude_none=True)
+async def get_products_by_cat_subcat_type(
+    response: Response,
+    category: str,
+    subcategory: str,
+    type: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Obtener todos los productos por subcategoria y categoria
+    """
+    products = crud.product.get_products_by_cat_subcat_type( 
+        db=db,
+        category=category,
+        subcategory=subcategory,
+        type=type,
+        skip=skip,
+        limit=limit
+    )
+
+    return products
+
 @router.get("/q/colors_tallas/{name}", response_model_exclude_none=True)
 async def get_colors_tallas_by_product(
     response: Response,
