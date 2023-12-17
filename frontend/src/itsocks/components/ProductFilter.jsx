@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 // React Reouter DOM
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -23,12 +23,23 @@ import {
 import { types } from "../../types/types";
 
 export const ProductFilter = ({
-  products,
   subcategoria = null,
   categoria,
   type = null,
 }) => {
+
+  const products = useSelector((state) => state.product.products);
+
+  
+  // let resultado = useMemo(
+  //   () => products.flatMap( obj => obj.design ? [obj.design] : []),
+  //   [products]
+  // );
+
+  // console.log(resultado); 
+
   const initialState2 = filters[categoria];
+
 
   const navigate = useNavigate();
 
@@ -91,12 +102,6 @@ export const ProductFilter = ({
     navigate(-1);
   };
 
-  // if(location.split("/").length == 5){
-  //   setCheckedItems({
-  //     [location.split("/")[4]]: true,
-  //   })
-  // }
-
   return (
     <>
       {
@@ -126,10 +131,10 @@ export const ProductFilter = ({
             <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ retroceder }/>
             <p>Volver a filtro por diseño</p>
           </div>
-          {Object.getOwnPropertyNames(checkedItems).filter( item => item == location.split("/")[4]).map((disenio) => (
+          {Object.getOwnPropertyNames(checkedItems).filter( item => item.toLowerCase() == location.split("/")[4].replaceAll('%20', ' ').toLowerCase()).map((disenio) => (
           
               
-              <div className={`${ styles.filter_selected}`} key={ disenio }>              
+              <div className={`${ styles.filter_selected}`} key={ disenio }>
                   <button 
                     className={`${styles.selected_button}`} 
                     value={disenio}              

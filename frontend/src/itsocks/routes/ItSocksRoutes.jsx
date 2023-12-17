@@ -207,6 +207,20 @@ export const ItSocksRoutes = () => {
                   />
                 }
               />
+              <Route 
+                path="medias/estampadas/pantorrillera/:disenio"
+                element={
+                  <Productos
+                    categoria={"Medias"}
+                    subcategoria={"Estampadas"}
+                    type={"Largas"}
+                  />
+                }
+              />
+              <Route
+                path="medias/estampadas/pantorrillera/:disenio/:nombre"
+                element={<ProductDescription />}
+              />
               <Route
                 path="medias/estampadas/pantorrillera/:nombre"
                 element={<ProductDescription />}
@@ -253,6 +267,20 @@ export const ItSocksRoutes = () => {
                   />
                 }
               />
+              <Route 
+                path="medias/estampadas/media_cania/:disenio"
+                element={
+                  <Productos
+                    categoria={"Medias"}
+                    subcategoria={"Estampadas"}
+                    type={"Largas"}
+                  />
+                }
+              />
+              <Route
+                path="medias/estampadas/media_cania/:disenio/:nombre"
+                element={<ProductDescription />}
+              />
               <Route
                 path="medias/estampadas/media_cania/:nombre"
                 element={<ProductDescription />}
@@ -260,7 +288,7 @@ export const ItSocksRoutes = () => {
 
               {/* TEJIDAS PANTORRILLERAS */}
               <Route
-                path="medias/tejidas/Pantorrillera"
+                path="medias/tejidas/pantorrillera"
                 element={
                   <Productos
                     categoria={"Medias"}
@@ -268,6 +296,25 @@ export const ItSocksRoutes = () => {
                     type={"Pantorrilleras"}
                   />
                 }
+              />
+
+              {/* {
+                pathname.split("/").length !=  ?
+
+              } */}
+              <Route 
+                path="medias/tejidas/pantorrillera/:disenio"
+                element={
+                  <Productos
+                    categoria={"Medias"}
+                    subcategoria={"Tejidas"}
+                    type={"Pantorrilleras"}
+                  />
+                }
+              />
+              <Route
+                path="medias/tejidas/pantorrillera/:disenio/:nombre"
+                element={<ProductDescription />}
               />
               <Route
                 path="medias/tejidas/pantorrillera/:nombre"
