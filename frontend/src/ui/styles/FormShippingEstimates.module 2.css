@@ -1,0 +1,207 @@
+.main_container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    background: #F2F2F2;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);    
+    margin-left: 10px;
+    border: 1px solid #F2F2F2;
+}
+
+.main_container h3 {
+    margin: 15px 25px 25px 25px;
+}
+
+.form_field {
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+    gap: 10px;
+}
+
+.form_field p{
+    color: #2D2D2D;
+    font-family: PT Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form_field select {
+    height: 44px;
+    border: 0.4px solid #b7b7b7;
+    display: flex;
+    height: 54px;
+    padding: 18px 24px 18px 18px;
+    align-items: center;
+    gap: 259px;
+    flex-shrink: 0;    
+}
+
+.form_field input {
+    height: 44px;
+    flex-shrink: 0;
+    padding: 18px 24px 18px 18px;
+    border: 0.4px solid #b7b7b7;
+    background: #FFF;
+}
+
+.form_field_regalo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 15px 25px;
+    color: #2D2D2D;
+    font-family: PT Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;    
+}
+
+.form_field_regalo input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    border-radius: 10px;
+}
+
+.form_field_regalo input[type="checkbox"]:checked + label {
+    background-color: #232CC7;    
+}
+
+.form_field p strong {
+    color: #000;
+    font-family: Oswald;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: bolder;
+}
+
+.form_field textarea {
+    width: 384px;
+    height: 80px;
+    flex-shrink: 0;
+    resize: none;
+}
+
+.calculate_shipping {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+}
+.calculate_shipping_button {
+    display: inline-flex;
+    padding: 10px 117px;
+    width: 100%;
+    margin: 0px 25px 25px 25px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #232CC7;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.subtotal {
+    display: flex;
+    flex-direction: row;
+    padding: 0 25px;
+    width: 100%;    
+    justify-content: space-between;
+    color: #000;
+    font-family: Oswald;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.costo_envio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 25px;
+}
+
+.mensaje_envio {
+    margin: 25px;
+    color: #424242;
+    font-family: PT Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form_field_tyc {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 15px 25px;
+    color: #2D2D2D;
+    font-family: PT Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;  
+}
+
+.form_field_tyc input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    border-radius: 10px;
+}
+
+.form_field_tyc input[type="checkbox"]:checked{
+    background-color: #00B475;
+    border: none;    
+}
+
+.finalizar_pedido {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.finalizar_pedido_button {
+    display: inline-flex;
+    padding: 10px 117px;
+    width: 100%;
+    margin: 0px 25px 25px 25px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #00B475;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.disabled_button {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.envios_exterior {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.envios_exterior p{
+    margin: 25px;
+}
+
+.envios_exterior button{
+    margin: 0;
+}
