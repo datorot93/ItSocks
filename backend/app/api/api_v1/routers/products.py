@@ -164,6 +164,43 @@ async def get_colors_tallas_by_product(
     return colors
 
 
+@router.get("/q/products_designs", response_model_exclude_none=True)
+async def get_designs_by_cat_subcat(
+    response: Response,
+    category: str,
+    subcategory: str,
+    type: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener todos los productos por subcategoria y categoria
+    """
+    products_design = crud.product.get_designs_by_cat_subcat( 
+        db=db,
+        category=category,
+        subcategory=subcategory,
+        type=type
+    )
+
+    return products_design
+
+@router.get("/q/accesorios_designs", response_model_exclude_none=True)
+async def get_accesorios_designs(
+    response: Response,
+    category: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener todos los productos por subcategoria y categoria
+    """
+    products_design = crud.product.get_accesorios_designs( 
+        db=db,
+        category=category
+    )
+
+    return products_design
+
+
 @router.get("/q/products/{name}", response_model_exclude_none=True)
 async def product_by_name(
     response: Response,
@@ -174,9 +211,7 @@ async def product_by_name(
     """
     Get a specific product by name.
     """
-    print('ANTES DEL CRUD')
     product = crud.product.get_products_by_name(db=db, name=name)
-    print('DESPUES DEL CRUD')
 
     if product:
         return product

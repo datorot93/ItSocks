@@ -246,6 +246,51 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             )
             
         return lista_productos
+    
+    def get_designs_by_cat_subcat(
+            self,
+            db: Session,
+            *,
+            category: str,
+            subcategory: str,
+            type: str,
+    ):
+        products_design = db.query(
+                Product.id,
+                Design.name.label('design')
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            filter(
+                unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                Product.state == True,
+            ).all()
+        
+        return {item['design']: False for item in products_design}
+    
+
+    def get_accesorios_designs(
+            self,
+            db: Session,
+            *,
+            category: str
+    ):
+        products_design = db.query(
+                Product.id,
+                Subcategory.name.label('subcategory')
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            filter(
+                unaccent(func.lower(Category.name)) == unidecode(category.strip().lower()),
+                Product.state == True,
+            ).all()
+        
+        return {item['subcategory']: False for item in products_design}
 
 
     def eliminar_repetidos(self, lista_diccionarios):
