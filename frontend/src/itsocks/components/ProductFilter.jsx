@@ -21,6 +21,7 @@ import {
 } from "../../actions/getProductsList";
 
 import { types } from "../../types/types";
+import { getFiltersAccesorios, getProductsFilters } from "../helpers/getProductsByCategory";
 
 export const ProductFilter = ({
   subcategoria = null,
@@ -30,21 +31,27 @@ export const ProductFilter = ({
 
   const products = useSelector((state) => state.product.products);
 
-  
-  // let resultado = useMemo(
-  //   () => products.flatMap( obj => obj.design ? [obj.design] : []),
-  //   [products]
-  // );
+  const [filters2, setFilters2] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
 
-  // console.log(resultado); 
-
-  const initialState2 = filters[categoria];
+  useEffect(() => {
+    if(subcategoria && type) {
+      getProductsFilters( categoria, subcategoria, type).then(
+        (res) => setCheckedItems(res)
+      ).catch(
+        (err) => console.log(err)
+      )
+    } else {
+      getFiltersAccesorios( categoria, subcategoria, type).then(
+        (res) => setCheckedItems(res)
+      ).catch(
+        (err) => console.log(err)
+      )
+    };
+  }, [categoria, subcategoria, type])
 
 
   const navigate = useNavigate();
-
-  const [checkedItems, setCheckedItems] = useState(initialState2);
-  const [selectedDesign, setSelectedDesign] = useState(null);
 
   const location = useLocation().pathname;
 

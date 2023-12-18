@@ -62,7 +62,25 @@ export const ItSocksRoutes = () => {
                 }
               />
               <Route
-                path="accesorios/:nombre"
+                path="accesorios/canguros"
+                element={
+                  <Productos categoria={"Accesorios"} subcategoria={"CANGUROS"} />
+                }
+              />
+              <Route
+                path="accesorios/termos/:nombre"
+                element={<ProductDescription />}
+              />
+              <Route
+                path="accesorios/viseras/:nombre"
+                element={<ProductDescription />}
+              />
+              <Route
+                path="accesorios/pines/:nombre"
+                element={<ProductDescription />}
+              />
+              <Route
+                path="accesorios/canguros/:nombre"
                 element={<ProductDescription />}
               />
 
@@ -297,11 +315,6 @@ export const ItSocksRoutes = () => {
                   />
                 }
               />
-
-              {/* {
-                pathname.split("/").length !=  ?
-
-              } */}
               <Route 
                 path="medias/tejidas/pantorrillera/:disenio"
                 element={
@@ -332,6 +345,20 @@ export const ItSocksRoutes = () => {
                   />
                 }
               />
+              <Route 
+                path="medias/tejidas/larga/:disenio"
+                element={
+                  <Productos
+                    categoria={"Medias"}
+                    subcategoria={"Tejidas"}
+                    type={"Largas"}
+                  />
+                }
+              />
+              <Route 
+                path="medias/tejidas/larga/:disenio/:nombre"
+                element={<ProductDescription />}
+              />
               <Route
                 path="medias/tejidas/larga/:nombre"
                 element={<ProductDescription />}
@@ -349,10 +376,25 @@ export const ItSocksRoutes = () => {
                 }
               />
               <Route
+                path="medias/tejidas/media_cania/:disenio"
+                element={
+                  <Productos
+                    categoria={"Medias"}
+                    subcategoria={"Tejidas"}
+                    type={"Media caña"}
+                  />
+                }
+              />
+              <Route
+                path="medias/tejidas/media_cania/:disenio/:nombre"
+                element={<ProductDescription />}
+              />
+              <Route
                 path="medias/tejidas/media_cania/:nombre"
                 element={<ProductDescription />}
               />
 
+              {/* PERSONALIZADAS */}
               <Route
                 path="medias/personalizadas/pantorrillera"
                 element={

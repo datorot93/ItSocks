@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import styles from "../../ui/styles/ProductDescription.module.css";
 
 // Utilidades
-// import { getProductsByName } from '../helpers/getProductByName';
 import { getProductsByPartOfName } from "../helpers/getProductsByPartOfName";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -50,6 +49,8 @@ export const ProductDescription = () => {
     };
     getColorsAndSizes();
   }, []);
+
+  console.log(tallas)
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
@@ -165,7 +166,17 @@ export const ProductDescription = () => {
           </div>
 
           {tallas[0] && tallas[0] !== "unica" ? (
-            <div className={styles.tallas}>Estas son las tallas</div>
+            <div className={styles.tallas}>
+            <div className={styles.tallas_label}>Tallas: </div>
+            <div className={styles.numeros_tallas}>
+              {tallas.map((talla) => (
+                <div className={styles.talla_button} key={talla}>
+                  {talla}
+                </div>
+              ))}
+            </div>
+          </div>
+
           ) : (
             <></>
           )}
