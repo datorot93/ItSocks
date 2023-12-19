@@ -15,7 +15,7 @@ from app.schemas.shipping import ShippingCreate, ShippingUpdate
 # Utils
 import re
 from unicodedata import normalize
-import unicodedata
+from unidecode import unidecode
 
 class unaccent(ReturnTypeFromArgs):
     pass
@@ -28,7 +28,7 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
         *,
         municipio_ciudad,
     ):
-
+        
         return db.query(Shipping).filter(
             Shipping.municipio_ciudad == municipio_ciudad
         ).first()
@@ -91,7 +91,13 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
                 Shipping.municipio_ciudad
             ).all()
         
-        return shipping_municipios
+        lista_departamentos = [item["municipio_ciudad"] for item in shipping_municipios]
+
+        result = {
+                "municipio_ciudad": lista_departamentos
+            }
+        
+        return result
     
     def get_shipping_departamentos(
         self,
@@ -104,7 +110,14 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
                 Shipping.departamento
             ).distinct().all()
         
-        return shipping_departamentos
+        lista_departamentos = [item["departamento"] for item in shipping_departamentos]
+
+        result = {
+                "departamentos": lista_departamentos
+            }
+        
+        
+        return result
     
     def get_municipios_by_departamento(
         self,
@@ -118,18 +131,36 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
         shipping_municipios = db.query(
                 Shipping.municipio_ciudad
             ).filter(
-                unaccent(func.lower(Shipping.departamento)) == departamento.lower()
+                unaccent(func.lower(Shipping.departamento)) == unidecode(departamento.lower())
             ).distinct().all()
         
-        return shipping_municipios
-    
-    def limpiar_texto(self, s):
+        lista_departamentos = [item["municipio_ciudad"] for item in shipping_municipios]
 
-        s1 = s.replace("ñ", "#").replace("Ñ", "%")
-        s2 = unicodedata.normalize("NFKD", s1)\
-            .encode("ascii","ignore").decode("ascii")\
-            .replace("#", "ñ").replace("%", "Ñ")
-        return s2
+        result = {
+                "municipio_ciudad": lista_departamentos
+            }
+        
+        return result
+    
+    def get_shipping_cost(
+        self,
+        db: Session,
+        departamento,
+        municipio_ciudad,
+        *,
+        skip: int,
+        limit: int
+    ):
+        shipping_cost = db.query(
+                Shipping.tarifa
+            ).filter(
+                unaccent(func.lower(Shipping.departamento)) == unidecode(departamento.lower()),
+                unaccent(func.lower(Shipping.municipio_ciudad)) == unidecode(municipio_ciudad.lower())
+            ).first()
+        
+        print(shipping_cost)
+        
+        return shipping_cost
 
 
     # def create(
