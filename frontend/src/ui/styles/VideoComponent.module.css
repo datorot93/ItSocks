@@ -1,0 +1,17 @@
+.beneficios_image_container video {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.container_beneficios {
+    background-color: white;
+    border-radius: 17px;
+    margin: 50px 20px 50px 20px;
+    padding: 25px;
+}
+
+.container_beneficios h5 {
+    color: #232cc7;
+    font-weight: 600;
+}
