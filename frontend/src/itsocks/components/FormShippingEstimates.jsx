@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // DATA
 import { countries } from "../data/lista_paises";
-import { departamentos } from "../data/lista_departamentos";
+// import { departamentos } from "../data/lista_departamentos";
 // ESTILOS
 import styles from "../../ui/styles/FormShippingEstimates.module.css";
 import { useCart } from "../../hooks/useCart";
@@ -11,11 +11,13 @@ import camion from "../../../public/assets/carrito/Truck.svg";
 import regalo from "../../../public/assets/carrito/regalo 1.svg";
 import { Link } from "react-router-dom";
 import { useShipping } from "../../hooks/useShipping";
+import { getCiudadesPorDepartamento, getDepartamentos, getShippingCost } from "../helpers/getShippingInfo";
 
 export const FormShippingEstimates = () => {
   const { cart } = useCart();
   const { addShipping } = useShipping();
-
+  const [departamentos, setDepartamentos] = useState([]);
+  const [shippingCost, setShippingCost] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState("Colombia");
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -29,22 +31,6 @@ export const FormShippingEstimates = () => {
   const [isAcepted, setIsAcepted] = useState(false);
   const [isCalculated, setIsCalculated] = useState(false);
 
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
-  };
-
-  const handleRegionChange = (event) => {
-    const selectedRegionValue = event.target.value; // Almacenamos el valor seleccionado en una variable temporal
-    setSelectedRegion(selectedRegionValue); // Actualizamos el estado con el valor seleccionado
-
-    // Actualizamos las ciudades según la región seleccionada
-    if (departamentos[selectedRegionValue]) {
-      setCities(departamentos[selectedRegionValue]);
-    } else {
-      setCities([]);
-    }
-  };
-
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
     if (!objeto.name.toLowerCase().includes("pack")) {
@@ -52,9 +38,54 @@ export const FormShippingEstimates = () => {
       return acumulador + objeto.cantidad * objeto.price;
     } else {
       console.log("No entré");
-      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
+      return acumulador + objeto.price;
     }
   }, 0);
+
+  useEffect(() => {
+    if(selectedCountry === "Colombia") {
+      getDepartamentos().then(
+        (res) => setDepartamentos(res.departamentos)
+      ).catch(
+        (err) => console.log(err)
+      )
+    }
+  }, [selectedCountry])
+
+  useEffect(() => {
+    if(selectedCountry === "Colombia") {
+      getCiudadesPorDepartamento( selectedRegion ).then(
+        (res) => setCities(res.municipio_ciudad)
+      ).catch(
+        (err) => console.log(err)
+      )
+    }
+  }, [selectedRegion])
+
+  useEffect(() => {
+    if(selectedCountry === "Colombia") {
+      if (total < 250000) {
+        getShippingCost( selectedRegion, selectedCity ).then(
+          (res) => setShippingCost(Number(res.tarifa))
+        ).catch(
+          (err) => console.log(err)
+        )
+      }else{
+        setShippingCost(0)
+      }
+    }
+  }, [selectedRegion, selectedCity])
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
+  const handleRegionChange = (event) => {
+    const selectedRegionValue = event.target.value; // Almacenamos el valor seleccionado en una variable temporal
+    setSelectedRegion(selectedRegionValue); // Actualizamos el estado con el valor seleccionado
+  };
+
+  
 
   console.log(total);
 
@@ -94,20 +125,6 @@ export const FormShippingEstimates = () => {
     setIsCalculated(true);
   };
 
-  const handleFinishOrder = () => {
-    addShipping({
-      country: selectedCountry,
-      region: selectedRegion,
-      city: selectedCity,
-      address: direccion,
-      from: from,
-      to: to,
-      extra_information: datosExtra,
-      shipping_value: 0,
-    });
-    console.log("Orden finalizada");
-  };
-
   const subtotal = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
     if (Object.keys(objeto).length == 12) {
@@ -119,10 +136,10 @@ export const FormShippingEstimates = () => {
 
   return (
     <div className={styles.main_container}>
-      <h3>GET SHIPPING ESTIMATES</h3>
+      <h3>DATOS DE ENVÍO</h3>
       <div className={styles.form_shipping}>
         <div className={styles.form_field}>
-          <p>País/Region</p>
+          <p>País/Región</p>
           <select value={selectedCountry} onChange={handleCountryChange}>
             {countries.map((country) => (
               <option value={country} key={country}>
@@ -135,10 +152,10 @@ export const FormShippingEstimates = () => {
         {selectedCountry === "Colombia" ? (
           <>
             <div className={styles.form_field}>
-              <p>Provincia</p>
+              <p>Departamento</p>
               <select value={selectedRegion} onChange={handleRegionChange}>
                 <option value="">Seleccione una provincia</option>
-                {Object.keys(departamentos).map((departamento) => (
+                {departamentos.map((departamento) => (
                   <option value={departamento} key={departamento}>
                     {departamento}
                   </option>
@@ -159,7 +176,7 @@ export const FormShippingEstimates = () => {
             </div>
 
             <div className={styles.form_field}>
-              <p>Direcicón</p>
+              <p>Direcicón de envío</p>
               <input
                 type="text"
                 value={direccion}
@@ -199,7 +216,7 @@ export const FormShippingEstimates = () => {
                   <input
                     type="text"
                     value={to}
-                    placeholder="Apartamento, local, etc (opcional)"
+                    placeholder="Apartamento, local, etc(opcional)"
                     onChange={handleTo}
                   />
                 </div>
@@ -216,15 +233,6 @@ export const FormShippingEstimates = () => {
                 value={indicacionesExtra}
                 onChange={handleIndicacionesExtra}
               />
-            </div>
-
-            <div className={styles.calculate_shipping}>
-              <button
-                className={styles.calculate_shipping_button}
-                onClick={handleCalculateShipping}
-              >
-                CALCULATE SHIPPING
-              </button>
             </div>
 
             <div className={styles.subtotal}>
@@ -250,7 +258,10 @@ export const FormShippingEstimates = () => {
                   </p>
                 </>
               ) : (
-                <p>Envío: $ 5.000</p>
+                <p>Envío: { shippingCost.toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                }) }</p>
               )}
             </div>
 
@@ -269,27 +280,31 @@ export const FormShippingEstimates = () => {
             </div>
 
             <div className={styles.finalizar_pedido}>
-              <Link to="billing">
-                <button
-                  className={`${styles.finalizar_pedido_button} ${
-                    isAcepted ? "" : styles.disabled_button
-                  }`}
-                  onClick={() =>
-                    addShipping({
-                      country: selectedCountry,
-                      region: selectedRegion,
-                      city: selectedCity,
-                      address: direccion,
-                      from: from,
-                      to: to,
-                      extra_information: datosExtra,
-                      shipping_value: 0,
-                    })
-                  }
-                >
-                  FINALIZAR PEDIDO
-                </button>
-              </Link>
+              {
+                isAcepted ?
+                <Link to="billing">
+                  <button
+                    className={`${styles.finalizar_pedido_button} ${
+                      isAcepted ? "" : styles.disabled_button
+                    }`}
+                    onClick={() =>
+                      addShipping({
+                        country: selectedCountry,
+                        region: selectedRegion,
+                        city: selectedCity,
+                        address: direccion,
+                        from: from,
+                        to: to,
+                        extra_information: datosExtra,
+                        shipping_value: shippingCost,
+                      })
+                    }
+                  >
+                    FINALIZAR PEDIDO
+                  </button>
+                </Link>
+                :<></>
+              }
             </div>
           </>
         ) : (
