@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // STYLES
 import styles from '../../ui/styles/Billing.module.css'
@@ -10,12 +10,63 @@ import metodo_pago from '../../../public/assets/pago/metodo_pago.jpg'
 import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
+// MERCADOPAGO
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import { getPreference } from '../helpers/getPreference'
+
+
 
 
 export const FinishOrderForm = () => {
 
+    initMercadoPago('APP_USR-394df966-9b8b-442a-9c5c-71f6923d3ad0', {
+        locale: 'es-CO'
+    });
+    const carrito = JSON.parse(localStorage.getItem('cart'))
+    const shipping = JSON.parse(localStorage.getItem('shipping'))
 
-    const [ direccion, setDireccion ] = useState('')
+    // const [ carrito, setCarrito ] = useState(JSON.parse(localStorage.getItem('cart')))
+    const [ preference , setPreference ] = useState({})
+
+    useEffect( ()=> {
+        let items_compra = []
+        let envio = shipping.shipping_value / carrito.reduce((accumulator, item) => accumulator + item.cantidad, 0)
+        console.log('envio', envio)
+        if(carrito){
+            carrito.forEach(item => {
+                items_compra.push({
+                    id: item.id,
+                    title: item.name,
+                    code: item.code,
+                    unit_price: item.price,
+                    compresion: item.compresion,
+                    quantity: item.cantidad,
+                    description: item.description,
+                    discount: item.discount,
+                    category_discount: item.category_discount,
+                    subcategory_discount: item.subcategory_discount,
+                    category: item.category,
+                    subcategory: item.subcategory,
+                    type: item.type,
+                    design: item.design,
+                    images: item.images
+                })
+            });
+        }
+        const datos_compra = {
+            items: [...items_compra, {title: 'Envío', unit_price: shipping.shipping_value, quantity: 1}],
+        }
+
+        getPreference(datos_compra).then( 
+            res => setPreference(res)
+        ).catch(
+            err => console.log(err)
+        )
+    }, [])
+    
+    console.log(preference)
+
+    // const [ direccion, setDireccion ] = useState('')
 
     const handleDireccion = (e) => {        
         setDireccion(e.target.value)
@@ -41,7 +92,7 @@ export const FinishOrderForm = () => {
                 <div className={ styles.opciones_envio }>
                     <div className={ styles.opciones_envio_check}>
 
-                        <label className={ styles.custom_checkbox }>
+                        {/* <label className={ styles.custom_checkbox }>
                             <input 
                                 type="radio" 
                                 value='Envío gratis' 
@@ -49,27 +100,15 @@ export const FinishOrderForm = () => {
                                 onChange={ handleDireccion }                         
                             /> 
                             <span className={ styles.checkmark}></span>
-                        </label>
-                        <p>Envío gratis</p>
+                        </label> */}
+                        <p>Envío</p>
                     </div>
-                    <p><strong>Gratis</strong></p>
-                </div>
-            
-                
-                <div className={ styles.opciones_envio }>
-                    <div className={ styles.opciones_envio_check}>
-                        <label className={ styles.custom_checkbox }>
-                            <input 
-                                type="radio" 
-                                value='Bogotá y alrededores' 
-                                name='opciones_facturacion'
-                                onChange={ handleDireccion }
-                            />
-                            <span className={ styles.checkmark}></span>
-                        </label>
-                        <p>Bogotá y alrededores</p>
-                    </div>             
-                    <p><strong>{ '$ 5.600,00'.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
+                    {
+                        shipping.shipping_value > 0 ?
+                        <p><strong>{ shipping.shipping_value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
+                        :<p><strong>Envío Gratis</strong></p>
+                    }
+                    
                 </div>
                 
             </div>
@@ -88,11 +127,10 @@ export const FinishOrderForm = () => {
                     <span>Seguir comprando</span>
                 </div>
 
-                {/* <input type="submit" className={ styles.continuar_confirmacion} value="Continuar con confirmación" /> */}
-                <Link                    
-                >
-                    <button className={ styles.continuar_confirmacion} value="Continuar con confirmación">Continuar con el pago</button>
-                </Link>
+
+                <div id="wallet_container">
+                    <Wallet initialization={{ preferenceId: preference.id }} />
+                </div>
             </div>
         </form>
 

@@ -9,6 +9,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 export const ProductsBillingList = ({ precio_envio = ''}) => {
 
   const products = localStorage.getItem('cart')
+  const shipping = JSON.parse(localStorage.getItem('shipping'))
+
   const products_list = JSON.parse(products)
   
   const subtotal = products_list.reduce( (acumulador, objeto) => {
@@ -50,7 +52,7 @@ export const ProductsBillingList = ({ precio_envio = ''}) => {
                 ?
               </div>
             </div>
-            <span><strong>{ precio_envio.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
+            <span><strong>{ shipping.shipping_value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
           </div>
           
         </div>
@@ -58,7 +60,7 @@ export const ProductsBillingList = ({ precio_envio = ''}) => {
         <div className={ styles.subtotal}>
           <div className={ styles.subtotal_up}>
             <span>Total</span>
-            <span><strong>{ (subtotal + (subtotal * 0.19)).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
+            <span><strong>{ ((subtotal) + shipping.shipping_value).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
           </div>
         </div>
       </div>
