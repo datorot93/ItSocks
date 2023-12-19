@@ -9,6 +9,7 @@ import { ScrollHorizontal } from "../components/ScrollHorizontal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { OpinionCliente } from "../components/OpinionCliente";
 import { Link } from "react-router-dom";
+import VideoComponent from "../components/VideoComponent";
 
 export const ItSocks = () => {
   const images = [
@@ -42,11 +43,6 @@ export const ItSocks = () => {
     },
     {
       id: "p4",
-      src: "../../../public/assets/medias/productos/p4.png",
-      description: "Esta es una media",
-    },
-    {
-      id: "p5",
       src: "../../../public/assets/medias/productos/p5.png",
       description: "Esta es una media",
     },
@@ -80,6 +76,7 @@ export const ItSocks = () => {
     },
   ];
 
+
   const beneficiosImage = [
     {
       id: "b2",
@@ -94,8 +91,16 @@ export const ItSocks = () => {
       src: "../../../public/assets/homepage/opiniones/c1.png",
       opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
       description: "Esta es una imagen del cliente",
+      id: "c1",
+      src: "../../../public/assets/homepage/opiniones/c1.png",
+      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "Esta es una imagen del cliente",
     },
     {
+      id: "c2",
+      src: "../../../public/assets/homepage/opiniones/c2.png",
+      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "Esta es una imagen del cliente",
       id: "c2",
       src: "../../../public/assets/homepage/opiniones/c2.png",
       opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -106,8 +111,16 @@ export const ItSocks = () => {
       src: "../../../public/assets/homepage/opiniones/c3.png",
       opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
       description: "Esta es una imagen del cliente",
+      id: "c3",
+      src: "../../../public/assets/homepage/opiniones/c3.png",
+      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "Esta es una imagen del cliente",
     },
     {
+      id: "c4",
+      src: "../../../public/assets/homepage/opiniones/c4.png",
+      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "Esta es una imagen del cliente",
       id: "c4",
       src: "../../../public/assets/homepage/opiniones/c4.png",
       opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -137,7 +150,7 @@ export const ItSocks = () => {
         </div>
 
         <div className={styles.estilos_vida}>
-          <h2>ESTILOS DE VIDAs</h2>
+          <h2>ESTILOS DE VIDA</h2>
           <div className={styles.image_container}>
             {estilosVida.map((image, index) => (
               <Link key={index} to={image.description.toLowerCase()}>
@@ -155,23 +168,18 @@ export const ItSocks = () => {
         </div>
 
         <div className={styles.beneficios_container}>
-          <h2>BENEFICIOS DE NUESTRAS MEDIAS</h2>
-          <div className={styles.beneficios_image_container}>
-            {beneficiosImage.map((image, index) => (
-              <video width={750} height={850} controls key={index}>
-                <source src={image.src} type="video/mp4" />
-              </video>
-            ))}
-          </div>
+        <VideoComponent></VideoComponent>
         </div>
 
         <div className={styles.opiniones_container}>
-          <h2>LO QUÉ PIENSASN NUESTROS CLIENTES</h2>
+          <div className={styles.opiniones_container}>
+            <h2>LO QUÉ PIENSAN NUESTROS CLIENTES</h2>
 
-          <div className={styles.opiniones_clientes}>
-            {opinionesClienes.map((cliente, index) => (
-              <OpinionCliente key={index} cliente={cliente} />
-            ))}
+            <div className={styles.opiniones_clientes}>
+              {opinionesClienes.map((cliente, index) => (
+                <OpinionCliente key={index} cliente={cliente} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
