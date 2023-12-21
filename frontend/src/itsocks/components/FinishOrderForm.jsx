@@ -91,16 +91,6 @@ export const FinishOrderForm = () => {
             
                 <div className={ styles.opciones_envio }>
                     <div className={ styles.opciones_envio_check}>
-
-                        {/* <label className={ styles.custom_checkbox }>
-                            <input 
-                                type="radio" 
-                                value='Envío gratis' 
-                                name='opciones_facturacion'
-                                onChange={ handleDireccion }                         
-                            /> 
-                            <span className={ styles.checkmark}></span>
-                        </label> */}
                         <p>Envío</p>
                     </div>
                     {

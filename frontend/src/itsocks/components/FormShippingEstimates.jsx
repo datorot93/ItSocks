@@ -34,10 +34,8 @@ export const FormShippingEstimates = () => {
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
     if (!objeto.name.toLowerCase().includes("pack")) {
-      console.log("Entré");
       return acumulador + objeto.cantidad * objeto.price;
     } else {
-      console.log("No entré");
       return acumulador + objeto.price;
     }
   }, 0);
@@ -63,7 +61,7 @@ export const FormShippingEstimates = () => {
   }, [selectedRegion])
 
   useEffect(() => {
-    if(selectedCountry === "Colombia") {
+    if(selectedCountry === "Colombia" && selectedRegion && selectedCity) {
       if (total < 250000) {
         getShippingCost( selectedRegion, selectedCity ).then(
           (res) => setShippingCost(Number(res.tarifa))
@@ -85,9 +83,6 @@ export const FormShippingEstimates = () => {
     setSelectedRegion(selectedRegionValue); // Actualizamos el estado con el valor seleccionado
   };
 
-  
-
-  console.log(total);
 
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
@@ -136,7 +131,7 @@ export const FormShippingEstimates = () => {
 
   return (
     <div className={styles.main_container}>
-      <h3>DATOS DE ENVÍO</h3>
+      <h3 className={ styles.title }>DATOS DE ENVÍO</h3>
       <div className={styles.form_shipping}>
         <div className={styles.form_field}>
           <p>País/Región</p>
@@ -281,7 +276,7 @@ export const FormShippingEstimates = () => {
 
             <div className={styles.finalizar_pedido}>
               {
-                isAcepted ?
+                isAcepted && selectedCountry && selectedCity && selectedRegion && direccion?
                 <Link to="billing">
                   <button
                     className={`${styles.finalizar_pedido_button} ${
@@ -313,6 +308,7 @@ export const FormShippingEstimates = () => {
               No tenemos convenios para enviar a otros paises desde la pagina
               web pero te tenemos una solocion dale clic al boton.
             </p>
+            <p className={ styles.hola }>At the moment, we don’t support international purchases made via our website. However, we offer other payment methods which might work better for you. If you want to learn more, click here:</p>
             <button className={styles.finalizar_pedido_button}>
               CONTÁCTANOS
             </button>

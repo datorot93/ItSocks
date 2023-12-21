@@ -4,14 +4,24 @@
     padding: 10px;
     width: 100%;
     height: auto;
-    background: #F2F2F2;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);    
+    border-radius: 14px;
+    background: rgba(35, 44, 199, 0.10);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25); 
     margin-left: 10px;
     border: 1px solid #F2F2F2;
+    font-family: Montserrat;
 }
 
 .main_container h3 {
     margin: 15px 25px 25px 25px;
+    color: #000;
+    /* Boton Corto */
+    font-family: Montserrat;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    align-self: center;
 }
 
 .form_field {
@@ -19,6 +29,7 @@
     flex-direction: column;
     margin: 25px;
     gap: 10px;
+    
 }
 
 .form_field p{
@@ -32,13 +43,14 @@
 
 .form_field select {
     height: 44px;
-    border: 0.4px solid #b7b7b7;
+    border-radius: 14px;
+    border: 0.4px solid #818181;
     display: flex;
     height: 54px;
     padding: 18px 24px 18px 18px;
     align-items: center;
     gap: 259px;
-    flex-shrink: 0;    
+    flex-shrink: 0;  
 }
 
 .form_field input {
@@ -170,19 +182,24 @@
     justify-content: center;
 }
 
+.finalizar_pedido a {
+    justify-content: center;
+}
+
 .finalizar_pedido_button {
     display: inline-flex;
-    padding: 10px 117px;
     width: 100%;
-    margin: 0px 25px 25px 25px;
-    justify-content: center;
+    padding: 10px 117px;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     background: #00B475;
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
     border: none;
     color: white;
     cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
 }
 
 .disabled_button {
@@ -196,12 +213,30 @@
     width: 100%;
     justify-content: center;
     flex-direction: column;
-    gap: 60px;
+    gap: 20px;
 }
 
 .envios_exterior p{
-    margin: 25px;
+    margin: 10px;
+    color: #000;
+
+    /* carrito de compra */
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
+
+.envios_exterior > p:nth-child(2) {
+    /* Estilos para el segundo <p> dentro del <div> */
+    color: var(--GRIS-ms-oscuro-para-letra, rgba(0, 0, 0, 0.50));
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+  }
 
 .envios_exterior button{
     margin: 0;
