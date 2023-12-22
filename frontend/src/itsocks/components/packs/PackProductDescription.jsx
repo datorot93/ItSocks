@@ -25,10 +25,13 @@ export const PackProductDescription = () => {
   const { addToCart, cart } = useCart();
 
   const total = cart.reduce((acumulador, objeto) => {
-    if (Object.keys(objeto).length == 12) {
+    // Agregar una condición para filtrar elementos
+    if (!objeto.name.toLowerCase().includes("pack")) {
+      console.log("Entré");
       return acumulador + objeto.cantidad * objeto.price;
     } else {
-      return acumulador + objeto.price;
+      console.log("No entré");
+      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
     }
   }, 0);
 

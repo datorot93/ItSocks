@@ -19,13 +19,28 @@ import { colores } from "../types/types";
 import { PopUpCarrito } from "./PopUpCarrito";
 import { useCart } from "../../hooks/useCart";
 import { getProductExtraInfo } from "../helpers/getProductsByCategory";
+import { useNavigate } from "react-router-dom";
 
 // React Reducx
 
 export const ProductDescription = () => {
   const { addToCart, removeFromCart, cart } = useCart();
 
+  const total = cart.reduce((acumulador, objeto) => {
+    // Agregar una condición para filtrar elementos
+    if (!objeto.name.toLowerCase().includes("pack")) {
+
+      return acumulador + objeto.cantidad * objeto.price;
+    } else {
+
+      return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
+    }
+  }, 0);
+
+  // console.log(total)
+
   const [selectedIndex, setSelectedIdenx] = useState(0);
+  const navigate = useNavigate();
 
   const product = localStorage.getItem("current_product");
   const producto = JSON.parse(product);
@@ -50,7 +65,7 @@ export const ProductDescription = () => {
     getColorsAndSizes();
   }, []);
 
-  console.log(tallas)
+  // console.log(tallas)
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
@@ -85,18 +100,94 @@ export const ProductDescription = () => {
 
   const handleShowPopUp = (title) => {
     if (cantProducts > 0) {
-      if (title === "carrito") {
-        setTitle("Producto agregado");
-        const product_to_add = { ...producto, cantidad: cantProducts };
-        addToCart(product_to_add);
-      } else {
-        setTitle("Lista de regalos");
+      if(tallas[0] && tallas[0] !== "unica"){
+        if(tallaSeleccionada){
+          if (title === "carrito") {
+            setTitle("CARRITO DE COMPRA");
+            const product_to_add = { ...producto, cantidad: cantProducts };
+            addToCart(product_to_add);
+          } else {
+            setTitle("Lista de regalos");
+          }
+          setShowPopUp(true);
+          setCantProducts(0);
+          setTallaSeleccionada(null);
+          setColorSeleccionado(null);
+        }
+      }else if(colors[0] !== "nan"){
+        if(colorSeleccionado){
+          if (title === "carrito") {
+            setTitle("CARRITO DE COMPRA");
+            const product_to_add = { ...producto, cantidad: cantProducts };
+            addToCart(product_to_add);
+          } else {
+            setTitle("Lista de regalos");
+          }
+          setShowPopUp(true);
+          setCantProducts(0);
+          setTallaSeleccionada(null);
+          setColorSeleccionado(null);
+        }
+
+      }else if(tallas[0] === 'unica' && colors[0] === 'nan'){
+        if (title === "carrito") {
+          setTitle("CARRITO DE COMPRA");
+          const product_to_add = { ...producto, cantidad: cantProducts };
+          addToCart(product_to_add);
+        } else {
+          setTitle("Lista de regalos");
+        }
+        setShowPopUp(true);
+        setCantProducts(0);
+        setTallaSeleccionada(null);
+        setColorSeleccionado(null);
       }
-      setShowPopUp(true);
+
+      
     }
   };
 
-  console.log(showPopUp);
+  const handleComprarAhora = () => {
+    if(cantProducts > 0 ){
+      if(tallas[0] && tallas[0] !== "unica"){
+        if(tallaSeleccionada){
+          const product_to_add = { ...producto, cantidad: cantProducts };
+          addToCart(product_to_add);
+          navigate("/carrito");
+        }else {
+          alert('Debes seleccionar una talla')
+        }
+      }else if(colors[0] !== "nan"){
+        if(colorSeleccionado){
+          const product_to_add = { ...producto, cantidad: cantProducts };
+          addToCart(product_to_add);
+          navigate("/carrito");
+        }else {
+          alert('Debes seleccionar un color')
+        }      
+      }else if(tallas[0] === 'unica' && colors[0] === 'nan'){
+        const product_to_add = { ...producto, cantidad: cantProducts };
+        addToCart(product_to_add);
+        navigate("/carrito");
+
+      }
+    }
+  }
+
+  // TALLAS
+  const [tallaSeleccionada, setTallaSeleccionada] = useState(null);
+  const [colorSeleccionado, setColorSeleccionado] = useState(null);
+
+  const handleTallaClick = (talla) => {
+    setTallaSeleccionada(talla);
+  };
+  const handleColorClick = (color) => {
+    setColorSeleccionado(color);
+    console.log(color, colorSeleccionado)
+    console.log(color === colorSeleccionado)
+  };
+
+  // console.log(showPopUp);
 
   return (
     <div className={styles.main}>
@@ -170,7 +261,11 @@ export const ProductDescription = () => {
             <div className={styles.tallas_label}>Tallas: </div>
             <div className={styles.numeros_tallas}>
               {tallas.map((talla) => (
-                <div className={styles.talla_button} key={talla}>
+                <div 
+                  className={`${styles.talla_button} ${tallaSeleccionada === talla ? styles.talla_selected : ''}`} 
+                  key={talla}
+                  onClick={() => handleTallaClick(talla)}
+                >
                   {talla}
                 </div>
               ))}
@@ -187,12 +282,12 @@ export const ProductDescription = () => {
               <div className={styles.numeros_colores}>
                 {colors.map((color) => (
                   <div
-                    className={`${styles.color_circle}`}
+                    className={`${styles.color_circle} ${colorSeleccionado === color ? styles.color_selected : ''}}`}
                     style={{
                       backgroundColor: colores[color.toUpperCase()],
                     }}
                     key={color}
-                    onClick={() => console.log(color)}
+                    onClick={() => handleColorClick(color)}
                   ></div>
                 ))}
               </div>
@@ -234,22 +329,39 @@ export const ProductDescription = () => {
                 +
               </button>
             </div>
-            <button className={styles.boton_comprar}>¡¡COMPRAR AHORA!!</button>
-          </div>
-
-          <div className={styles.informacion_adicional}>
-            <img src={camion} alt="Envíos" />
-            <p>
-              Lleva <span>$200.000</span> más y el envío te sale gratis
-            </p>
+            <button 
+              className={styles.boton_comprar}
+              onClick={ handleComprarAhora }
+            >¡¡COMPRAR AHORA!!
+            </button>
           </div>
 
           <div className={styles.tiempo_estimado}>
             <img src={reloj} alt="Reloj" />
             <p>
-              Tiempo estimado de envio entre lunes 24 abril and martes 25 abril.
+              Tiempos de envío: 3 a 4 días hábiles después del pago + 1 o 2 días
+              que demora la transportadora en entregar
             </p>
           </div>
+          
+          <div className={styles.informacion_adicional}>
+            <img src={camion} alt="Envíos" />
+            {total < 250000 ? (
+              <p>
+                Lleva{" "}
+                <span>{`${(250000 - total).toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                })}`}</span>{" "}
+                más y el envío te sale gratis
+              </p>
+            ) : (
+              <p>
+                Envío totalmente <strong>GRATIS</strong>.
+              </p>
+            )}
+          </div>
+
         </div>
       </div>
 
