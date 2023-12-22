@@ -33,6 +33,7 @@ export const ProductFilter = ({
 
   const [filters2, setFilters2] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
+  const [ disenio, setDisenio ] = useState(null)
 
   useEffect(() => {
     if(subcategoria && type) {
@@ -54,8 +55,6 @@ export const ProductFilter = ({
   const navigate = useNavigate();
 
   const location = useLocation().pathname;
-
-  // const lista_productos = useSelector((state) => state.product.products);
 
   const dispatch = useDispatch();
 
@@ -87,6 +86,9 @@ export const ProductFilter = ({
     })
   }
 
+  // console.log(location.split("/"))
+  console.log(location.split("/").length != 5 || (location.split("/").length != 3 && location.split("/")[2].toLowerCase() === 'accesorios'))
+
   useEffect(() => {
     if (!subcategoria && !type) {
       dispatch(getProductsListByFilterSubcategory(products, categoria, checkedItems));
@@ -109,10 +111,30 @@ export const ProductFilter = ({
     navigate(-1);
   };
 
+  // if(location.split("/")[4]){
+  //   setDisenio(location.split("/")[4].replaceAll('%20', ' ').toLowerCase())
+  // }else if(location.split("/")[1].toLowerCase() === 'accesorios' && location.split("/")[2]){
+  //   setDisenio(location.split("/")[2].replaceAll('%20', ' ').toLowerCase())
+  // }
+
+  useEffect(() => {
+    let newDisenio = null;
+  
+    if (location.split("/")[4]) {
+      newDisenio = location.split("/")[4].replaceAll('%20', ' ').toLowerCase();
+    } else if (location.split("/")[1].toLowerCase() === 'accesorios' && location.split("/")[2]) {
+      newDisenio = location.split("/")[2].replaceAll('%20', ' ').toLowerCase();
+    }
+  
+    if (newDisenio !== null) {
+      setDisenio(newDisenio);
+    }
+  }, [location]);
+
   return (
     <>
       {
-        location.split("/").length != 5 ?
+        (location.split("/").length != 5 && location.split("/")[1].toLowerCase() !== 'accesorios') || (location.split("/").length != 3 && location.split("/")[1].toLowerCase() === 'accesorios') ?
         <div className={styles.product_filter}>
         
           {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
@@ -138,7 +160,9 @@ export const ProductFilter = ({
             <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ retroceder }/>
             <p>Volver a filtro por diseño</p>
           </div>
-          {Object.getOwnPropertyNames(checkedItems).filter( item => item.toLowerCase() == location.split("/")[4].replaceAll('%20', ' ').toLowerCase()).map((disenio) => (
+          {Object.getOwnPropertyNames(checkedItems).filter( 
+            item => item.toLowerCase() == disenio
+          ).map((disenio) => (
           
               
               <div className={`${ styles.filter_selected}`} key={ disenio }>

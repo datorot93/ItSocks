@@ -12,7 +12,12 @@ import { ProductoCard } from './ProductoCard';
 import styles from '../../ui/styles/Accesorios.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { getProductsByCatSubcatType, getProductsByCategory } from '../helpers/getProductsByCategory';
+import { 
+  getProductsByCatSubcatType, 
+  getProductsByCategory, 
+  getProductsByCatSubcatTypeDesign,
+  getProductsByCategoryDesign
+} from '../helpers/getProductsByCategory';
 
 export const ProductoList = ({ categoria, subcategoria, type }) => {
 
@@ -21,34 +26,76 @@ export const ProductoList = ({ categoria, subcategoria, type }) => {
   const [products, setProducts] = useState([]);
 
   const location = useLocation().pathname;
-  
-  const dispatch = useDispatch();
+
+  const design = location.split('/')[4] ? location.split('/')[4] : null;
 
   const fetchItems = () => {
     setLoading(true);
 
     if(categoria && subcategoria && type){
-      getProductsByCatSubcatType( 
-        categoria, 
-        subcategoria, 
-        type, 
-        skip_page
-      ).then( res => setProducts( products => [...products, ...res] ));
-    } else {
-      getProductsByCategory( 
-        categoria,
-        skip_page
-      ).then( res => setProducts( products => [...products, ...res] ));
+      if(location.split("/").length != 5 && location.split("/")[1].toLowerCase() !== 'accesorios'){
+        getProductsByCatSubcatType( 
+          categoria, 
+          subcategoria, 
+          type, 
+          skip_page
+        ).then( 
+          res => {            
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+      } else {
+        getProductsByCatSubcatTypeDesign( 
+          categoria, 
+          subcategoria, 
+          type,
+          design.replace('%20', ' '),
+          skip_page
+        ).then( 
+          res => {            
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+      }
+    } else{
+      if(location.split("/").length == 2 && location.split("/")[1].toLowerCase() === 'accesorios'){
+        // console.log('Entré al if de accesorios')
+        getProductsByCategory( 
+          categoria,
+          skip_page
+        ).then( 
+          res => {            
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+      }else if (location.split("/").length === 3) {
+        // console.log('Entré al otro if de accesorios')
+        const disenio = location.split("/")[2].replace('%20', ' ').toLowerCase();
+        getProductsByCategoryDesign(
+          categoria,
+          disenio,
+          skip_page
+        ).then( 
+          res => {            
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+      }
     }
   }
+
+  useEffect(() => {
+    console.log('Me ejecuté')
+    setProducts([]);
+    setSkip(0);
+  }, [location]);
 
   useEffect(() => {
     fetchItems();
   }, [skip_page]);
 
-  // const products = useSelector((state) => state.product.products);
+  
 
-  console.log(loading)
   return (
     <>
       <InfiniteScroll
@@ -71,9 +118,10 @@ export const ProductoList = ({ categoria, subcategoria, type }) => {
                 ))
               }
             </div>
-        </div>
+          </div>
         </div>
       </InfiniteScroll>
     </>
   )
 }
+

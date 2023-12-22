@@ -92,6 +92,23 @@ async def get_accesorios(
     # response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
+@router.get("/accesorios/design", response_model_exclude_none=True)
+async def get_accesorios_design(
+    response: Response,
+    category: str,
+    design: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los accesorios por diseño
+    """
+    products = crud.product.get_products_by_category_design(db, category=category, design=design, skip=skip, limit=limit)
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
 @router.get("/q/products_categories", response_model_exclude_none=True)
 async def get_products_by_subcat_cat(
     response: Response,
@@ -132,6 +149,32 @@ async def get_products_by_cat_subcat_type(
         category=category,
         subcategory=subcategory,
         type=type,
+        skip=skip,
+        limit=limit
+    )
+
+    return products
+
+@router.get("/q/products_categories_types_designs", response_model_exclude_none=True)
+async def get_products_by_cat_subcat_type_design(
+    response: Response,
+    category: str,
+    subcategory: str,
+    type: str,
+    design: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Obtener todos los productos por subcategoria y categoria
+    """
+    products = crud.product.get_products_by_cat_subcat_type_design( 
+        db=db,
+        category=category,
+        subcategory=subcategory,
+        type=type,
+        design=design,
         skip=skip,
         limit=limit
     )
