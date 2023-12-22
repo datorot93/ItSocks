@@ -7,8 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 
 export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
+
+  const navigate = useNavigate();
+
   const handleClickCarrito = () => {
-    console.log("Este es un mensaje temporal");
+    navigate("/carrito");
   };
 
   const handleCloseClick = () => {

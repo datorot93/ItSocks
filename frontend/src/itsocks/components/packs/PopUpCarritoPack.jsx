@@ -20,7 +20,7 @@ export const PopUpCarritoPack = ({
   const { pack } = usePack();
   const { cart } = useCart();
 
-  console.log(cart);
+  // console.log(cart);
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
     if (!objeto.name.toLowerCase().includes("pack")) {
