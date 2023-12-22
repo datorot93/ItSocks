@@ -45,17 +45,12 @@ export const Productos = ({ categoria, subcategoria, type }) => {
                         categoria={categoria}
                         subcategoria={subcategoria}
                         type={type}
-                        // products={
-                        //   products.filter( 
-                        //     producto => producto.design.toLowerCase() === location.split('/')[4].toLowerCase() 
-                        //   )
-                        // } 
                       />
-                      {/* <ProductFilter
+                      <ProductFilter
                         subcategoria={subcategoria}
                         categoria={categoria}
                         type={type}
-                      /> */}
+                      />
                     </>
                   }
                   

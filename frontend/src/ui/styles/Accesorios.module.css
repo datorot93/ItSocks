@@ -35,6 +35,7 @@
   position: relative;
   display: flex;
   z-index: 1;
+  text-decoration: none;
 }
 
 .filter_selected {
@@ -174,6 +175,8 @@
   flex-shrink: 0;
   margin: 3px 0;
   cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
 }
 
 .filter_buttons:hover {
