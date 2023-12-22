@@ -5,11 +5,11 @@ import styles from "../../ui/styles/HomePage.module.css";
 
 import { Slider2 } from "../components/Slider2";
 import { CarruselProductos } from "../components/CarruselProductos";
-import { ScrollHorizontal } from "../components/ScrollHorizontal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { OpinionCliente } from "../components/OpinionCliente";
 import { Link } from "react-router-dom";
 import VideoComponent from "../components/VideoComponent";
+import ScrollHorizontal from "../components/ScrollHorizontal";
 
 export const ItSocks = () => {
   const images = [
@@ -146,7 +146,7 @@ export const ItSocks = () => {
         <CarruselProductos images={images} />
         <div className={styles.mas_vendidos}>
           <h2>LOS PRODUCTOS MÁS VENDIDOS</h2>
-          <ScrollHorizontal images={masVendidos} />
+          <ScrollHorizontal></ScrollHorizontal>
         </div>
 
         <div className={styles.estilos_vida}>

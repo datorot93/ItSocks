@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { ScrollHorizontal } from "../components/ScrollHorizontal";
+import ScrollHorizontal from "../components/ScrollHorizontal";
 
 import styles from "../../ui/styles/MediasSubcategory.module.css";
 

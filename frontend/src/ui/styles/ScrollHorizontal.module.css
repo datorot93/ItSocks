@@ -1,16 +1,18 @@
 
+.img_container {   
+    position: relative;
+    width: 1200px;
+    margin: 20px;
+}
 
-.image_scroll {
+.img_center {
     display: flex;
-    width: 100%;
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    margin: 20px;
+    height: 600px;
 }
-
-.image_scroll img{
-    width: 350px;
-    height: 450px;
-    object-fit: cover;
-}
-
