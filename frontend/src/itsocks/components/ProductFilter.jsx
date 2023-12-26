@@ -6,8 +6,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 // Images
 import back_circle_arrow from '../../../public/assets/producto/back_circle_arrow.svg'
 
-//UTILITIES
-import { filters } from "../data/filters";
 // Estilos
 import styles from "../../ui/styles/Accesorios.module.css";
 
@@ -86,9 +84,7 @@ export const ProductFilter = ({
     })
   }
 
-  // console.log(location.split("/"))
-  console.log(location.split("/").length != 5 || (location.split("/").length != 3 && location.split("/")[2].toLowerCase() === 'accesorios'))
-
+ 
   useEffect(() => {
     if (!subcategoria && !type) {
       dispatch(getProductsListByFilterSubcategory(products, categoria, checkedItems));
@@ -111,11 +107,6 @@ export const ProductFilter = ({
     navigate(-1);
   };
 
-  // if(location.split("/")[4]){
-  //   setDisenio(location.split("/")[4].replaceAll('%20', ' ').toLowerCase())
-  // }else if(location.split("/")[1].toLowerCase() === 'accesorios' && location.split("/")[2]){
-  //   setDisenio(location.split("/")[2].replaceAll('%20', ' ').toLowerCase())
-  // }
 
   useEffect(() => {
     let newDisenio = null;

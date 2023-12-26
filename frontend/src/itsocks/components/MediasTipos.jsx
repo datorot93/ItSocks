@@ -10,8 +10,7 @@ import { CategoriaCard } from './CategoriaCard';
 
 
 export const MediasTipos= ({ subcategory }) => {
-  console.log('ESTA ES LA SUBCATEGORY');
-  console.log(subcategory);
+
   const tipos_subcategory = tipos.filter( tipo => tipo.subcategoria == subcategory);
 
   return (

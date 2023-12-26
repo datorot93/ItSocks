@@ -1,7 +1,10 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 
 // React Reouter DOM
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+// Images
+import back_circle_arrow from '../../../../public/assets/producto/back_circle_arrow.svg'
 
 //UTILITIES
 import { filters } from "../../data/filters";
@@ -13,22 +16,32 @@ import {
   getProductsListByTypeAndDesign,
 } from "../../../actions/getProductsList";
 import { usePack } from "../../../hooks/usePack";
+import { getPackProductsFilters } from "../../helpers/getProductsByCategory";
 
 export const PackProductFilter = ({
-  subcategoria = null,
   categoria,
   type = null,
+  skip_page,
 }) => {
-  const initialState2 = filters[categoria];
 
   const { pack } = usePack();
 
-  const initialStatePack = pack.prductos.map((producto) => producto.name);
+  const initialStatePack = pack.prductos ? pack.prductos.map((producto) => producto.name) : null;
 
-  console.log("ESTOS SON LOS PRODUCTOS DE PACK");
-  console.log(pack.prductos);
 
-  const [checkedItems, setCheckedItems] = useState(initialState2);
+  const [checkedItems, setCheckedItems] = useState({});
+  const [ disenio, setDisenio ] = useState(null)
+
+
+  useEffect(() => {
+    
+    getPackProductsFilters( categoria, type).then(
+      (res) => setCheckedItems(res)
+    ).catch(
+      (err) => console.log(err)
+    )
+    
+  }, [categoria, type])
 
   const dispatch = useDispatch();
 
@@ -42,6 +55,8 @@ export const PackProductFilter = ({
   }
 
   const [productosPack, setProductosPack] = useState(initialStatePack);
+
+  const location = useLocation().pathname;
 
   const handleChecked = async (e, subcategory) => {
     setCheckedItems((prevState) => {
@@ -59,23 +74,28 @@ export const PackProductFilter = ({
     navigate(disenio);
   };
 
-  // CARGA INICIAL
-  useEffect(() => {
-    if (!subcategoria && !type) {
-      dispatch(getProductsListByFilterSubcategory(categoria, checkedItems));
-    } else if (!subcategoria && type) {
-      dispatch(getProductsListByTypeAndDesign(checkedItems, categoria, type));
-    } else {
-      dispatch(
-        getProductsListByFilterSubcategory(
-          categoria,
-          checkedItems,
-          subcategoria,
-          type
-        )
-      );
-    }
-  }, [checkedItems]);
+  const retroceder = () => {
+    navigate(-1);
+  };
+
+  // // CARGA INICIAL
+  // useEffect(() => {
+  //   if (!subcategoria && !type) {
+  //     dispatch(getProductsListByFilterSubcategory(categoria, checkedItems));
+  //   } else if (!subcategoria && type) {
+  //     dispatch(getProductsListByTypeAndDesign(checkedItems, categoria, type));
+  //   } else {
+  //     dispatch(
+  //       getProductsListByFilterSubcategory(
+  //         categoria,
+  //         checkedItems,
+  //         subcategoria,
+  //         type,
+  //         skip_page
+  //       )
+  //     );
+  //   }
+  // }, [checkedItems]);
 
   useEffect(() => {
     for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
@@ -84,16 +104,24 @@ export const PackProductFilter = ({
     }
   });
 
-  // for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
-  //   setProductosPack(productosPack.push(""));
-  //   console.log(index);
-  // }
-  // console.log("ESTE ES EL PRODUCTO PACK");
-  // console.log(productosPack);
+  useEffect(() => {
+    let newDisenio = null;
+  
+    if (location.split("/")[3]) {
+      newDisenio = location.split("/")[3].replaceAll('%20', ' ').toLowerCase();
+    }
+  
+    if (newDisenio !== null) {
+      setDisenio(newDisenio);
+    }
+  }, [location]);
+
 
   return (
     <>
-      <div className={styles.product_filter_pack}>
+      {
+        location.split("/").length != 4 ?
+        <div className={styles.product_filter_pack}>
         <button className={styles.selected_button} value={pack.name}>
           {pack.name.toUpperCase()}
         </button>
@@ -106,7 +134,7 @@ export const PackProductFilter = ({
           </Link>
         ))}
 
-        {productosPack.length !== 0 && typeof productosPack === "object" ? (
+        {initialStatePack && productosPack.length !== 0 && typeof productosPack === "object" ? (
           <div className={styles.pack_products}>
             <h5>Medias seleccionadas</h5>
             <div className={styles.pack_products_checks}>
@@ -126,6 +154,38 @@ export const PackProductFilter = ({
           <></>
         )}
       </div>
+      :
+      <div className={styles.product_filter}>
+          <div className={ styles.back_circle_arrow}>
+            <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ retroceder }/>
+            <p>Volver a filtro por diseño</p>
+          </div>
+          {Object.getOwnPropertyNames(checkedItems).filter( 
+            item => item.toLowerCase() == disenio
+          ).map((disenio) => (
+          
+              
+              <div className={`${ styles.filter_selected}`} key={ disenio }>
+                  <button 
+                    className={`${styles.selected_button}`} 
+                    value={disenio}              
+                  >
+                    {disenio}
+                    
+                  </button>  
+
+                <div 
+                    className={ styles.x_return_filter }
+                    onClick={ retroceder }
+                  >
+                  <span>X</span>
+                </div>
+              </div>
+            
+          ))}
+        </div>
+      }
+      
     </>
   );
 };

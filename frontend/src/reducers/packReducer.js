@@ -1,5 +1,5 @@
-export const packInitialState =
-  JSON.parse(window.localStorage.getItem("pack")) || {};
+export const packInitialState = 
+  JSON.parse(window.localStorage.getItem("pack")) ?  JSON.parse(window.localStorage.getItem("pack")) : {};
 
 // console.log(packInitialState)
 
@@ -9,6 +9,7 @@ export const PACK_ACTION_TYPES = {
   ADD_ONE_TO_PACK: "ADD_ONE_TO_PACK",
   SUBTRACT_ONE_TO_PACK: "SUBTRACT_ONE_TO_PACK",
   CLEAR_PACK: "CLEAR_PACK",
+  CREATE_PACK: "CREATE_PACK",
 };
 
 // update localStorage with state for pack
@@ -19,7 +20,6 @@ export const updateLocalStorage = (state) => {
 
 const UPDATE_STATE_BY_ACTION = {
   [PACK_ACTION_TYPES.ADD_TO_PACK]: (state, action) => {
-    
     if ( state.prductos.length < state.product_quantity) {
 
       const newState = 
@@ -32,16 +32,24 @@ const UPDATE_STATE_BY_ACTION = {
       return newState;
     }
 
-    // const newState = [
-    //   ...state,
-    //   {
-    //     ...action.payload, // product
-    //     quantity: 1,
-    //   },
-    // ];
-
-    // updateLocalStorage(newState);
     return state;
+  },
+
+  [PACK_ACTION_TYPES.CLEAR_PACK]: () => {
+
+    updateLocalStorage({});
+    return {};
+  },
+
+  [PACK_ACTION_TYPES.CREATE_PACK]: (state, action) => {
+
+    console.log('ENTRÉ al CREATE_PACK')
+    console.log(action.payload)
+
+    updateLocalStorage(action.payload);
+
+    return action.payload;
+    
   },
 
   // [PACK_ACTION_TYPES.ADD_ONE_TO_PACK]: (state, action) => {
@@ -101,10 +109,8 @@ const UPDATE_STATE_BY_ACTION = {
   //   updateLocalStorage(newState);
   //   return newState;
   // },
-  // [PACK_ACTION_TYPES.CLEAR_PACK]: () => {
-  //   updateLocalStorage([]);
-  //   return [];
-  // },
+  
+  
 };
 
 export const packReducer = (state, action) => {

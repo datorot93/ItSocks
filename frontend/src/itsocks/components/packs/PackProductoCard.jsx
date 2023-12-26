@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 // Utilidades
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -13,7 +13,13 @@ import { useDispatch } from 'react-redux'
 
 export const PackProductoCard = ( product ) => {
 
-    const ruta = `/${product.category}/${ product.subcategory == "estampadas" ? "estampadas/pantorrillera/" : ""}${product.name}`
+    const location = useLocation().pathname;
+
+    const ruta = location.split('/').length === 3 ? 
+        `${product.design.toLowerCase()}/${product.name.toLowerCase()}`
+        : product.name.toLowerCase();
+
+    
 
     const dispatch = useDispatch();
 
@@ -32,7 +38,7 @@ export const PackProductoCard = ( product ) => {
         
         <Link
             to={ 
-                product.name
+                ruta
             }
             onClick={ handleClick }
         >

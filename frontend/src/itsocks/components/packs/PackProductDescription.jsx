@@ -20,6 +20,7 @@ import reloj from "../../../../public/assets/producto/reloj.svg";
 import { usePack } from "../../../hooks/usePack";
 import { useCart } from "../../../hooks/useCart";
 import { PopUpCarritoPack } from "./PopUpCarritoPack";
+import { getProductExtraInfo } from "../../helpers/getProductsByCategory";
 
 export const PackProductDescription = () => {
   const { addToCart, cart } = useCart();
@@ -46,6 +47,23 @@ export const PackProductDescription = () => {
 
   const product = localStorage.getItem("current_product");
   const producto = JSON.parse(product);
+
+  const [tallas, setTallas] = useState([]);
+
+  // Petición de colores y tallas del producto
+  useEffect(() => {
+    const getColorsAndSizes = async () => {
+      const extra_info = await getProductExtraInfo(producto.name);
+      setTallas(extra_info[0].tallas);
+    };
+    getColorsAndSizes();
+  }, []);
+
+  const [tallaSeleccionada, setTallaSeleccionada] = useState(null);
+
+  const handleTallaClick = (talla) => {
+    setTallaSeleccionada(talla);
+  };
 
   const similares = getProductsByPartOfName(producto.name);
 
@@ -104,17 +122,20 @@ export const PackProductDescription = () => {
 
   const handleShowPopUp = (title) => {
     if (cantProducts > 0) {
-      if (title === "carrito") {
-        setTitle("Carrito de compras");
-        const product_to_add = { ...producto, cantidad: 1 };
-        addToCart({ ...pack, cantidad: 1 });
-      } else {
-        setTitle("Lista de regalos");
+      if(tallaSeleccionada){
+        if (title === "carrito") {
+          setTitle("Carrito de compras");
+          const product_to_add = { ...producto, cantidad: 1 };
+          addToCart({ ...pack, cantidad: 1 });
+        } else {
+          setTitle("Lista de regalos");
+        }
+        setShowPopUp(true);
       }
-      setShowPopUp(true);
     }
   };
 
+  console.log(Boolean(tallaSeleccionada));
   return (
     <div className={styles.main}>
       {showPopUp ? <div className={styles.block_page}></div> : <></>}
@@ -165,8 +186,12 @@ export const PackProductDescription = () => {
           <div className={styles.tallas}>
             <div className={styles.tallas_label}>Tallas: </div>
             <div className={styles.numeros_tallas}>
-              {["8-10", "9-11", "10-12"].map((talla) => (
-                <div className={styles.talla_button} key={talla}>
+              {tallas.map((talla) => (
+                <div 
+                  className={`${styles.talla_button} ${tallaSeleccionada === talla ? styles.talla_selected : ''}`} 
+                  key={talla}
+                  onClick={ () => handleTallaClick(talla)}
+                >
                   {talla}
                 </div>
               ))}
@@ -232,8 +257,9 @@ export const PackProductDescription = () => {
               </button>
             </div>
             <button
-              className={styles.boton_comprar}
+              className={`${styles.boton_comprar} ${tallaSeleccionada ? '' : styles.boton_comprar_disabled}`}
               onClick={handleAgregarSeleccionado}
+              disabled={tallaSeleccionada ? false : true}
             >
               {pack.product_quantity - pack.prductos.length === 0
                 ? "COMPRAR AHORA"

@@ -9,10 +9,13 @@ import IconoCarrito from "../../assets/navbar/Vector.svg";
 
 import styles from "./../styles/Navbar.module.css";
 import { useCart } from "../../hooks/useCart";
+import { usePack } from "../../hooks/usePack";
 
 export const Navbar = () => {
   const { cart } = useCart();
   const [cantidad, setCantidad] = useState(0);
+  const { clearPack } = usePack()
+
 
   useEffect(() => {
     setCantidad(
@@ -25,7 +28,7 @@ export const Navbar = () => {
   return (
     <header>
       <nav>
-        <Link to="/">
+        <Link to="/" onClick={clearPack}>
           <picture>
             <img src={itsocks_logo} alt="ItSocks Logo" />
           </picture>
@@ -37,16 +40,16 @@ export const Navbar = () => {
         </div>
 
         <div className={styles.link_container}>
-          <Link to="medias">Medias</Link>
-          <Link to="accesorios">Accesorios</Link>
-          <Link to="packs">Packs</Link>
-          <Link to="mas">Más</Link>
+          <Link to="medias" onClick={clearPack}>Medias</Link>
+          <Link to="accesorios"onClick={clearPack}>Accesorios</Link>
+          <Link to="packs"onClick={clearPack}>Packs</Link>
+          <Link to="mas"onClick={clearPack}>Más</Link>
 
           <Link>
             <img src={IconoCorazon} alt="Icono buscar" />
           </Link>
 
-          <Link to={"carrito"}>
+          <Link to={"carrito"} onClick={clearPack}>
             <div className={styles.contenedor_contador}>
               <div className={styles.contador_carrito}>{cantidad}</div>
               <img src={IconoCarrito} alt="Icono carrito" />
