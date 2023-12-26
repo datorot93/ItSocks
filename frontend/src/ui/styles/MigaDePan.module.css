@@ -26,6 +26,8 @@
     margin-bottom: 20px;
   }
 
-  a {
+  .miga a {
     font-weight: lighter;
+    text-decoration: none;
+    color: black;
   }

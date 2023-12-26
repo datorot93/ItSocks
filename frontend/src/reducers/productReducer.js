@@ -19,7 +19,6 @@ export const productReducer = ( state = initialState, action ) => {
             state.products = [ ...state['products'], ...action.payload]
             return {
                 ...state,
-                // products: [ ...state['products'], action.payload],
                 isLoading: false,
             }
         case types.unmountProducts:
@@ -37,7 +36,7 @@ export const productReducer = ( state = initialState, action ) => {
         case types.loadSpecificProduct:
             return {
                 ...state,
-                products: action.payload,
+                products: [action.payload],
                 isLoading: false
             }
         default:

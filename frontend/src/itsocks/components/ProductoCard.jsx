@@ -7,7 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import styles from "../../ui/styles/Accesorios.module.css";
 
-export const ProductoCard = (product) => {
+export const ProductoCard = (product, isPack) => {
 
   const { pathname } = useLocation();
 
@@ -50,12 +50,17 @@ export const ProductoCard = (product) => {
         <p>
           <strong>{product.name}</strong>
         </p>
-        <p>
-          {product.price.toLocaleString("es-CO", {
-            style: "currency",
-            currency: "COP",
-          })}
-        </p>
+        { 
+          isPack ?
+            <p>
+              {product.price.toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+              })}
+            </p>
+          : <></>
+        }
+        
       </div>
     </Link>
       }

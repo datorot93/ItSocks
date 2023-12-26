@@ -65,7 +65,7 @@ export const ProductDescription = () => {
     getColorsAndSizes();
   }, []);
 
-  // console.log(tallas)
+
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);

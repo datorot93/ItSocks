@@ -1,10 +1,7 @@
 
 import React, { createContext, useReducer } from 'react'
 import { packReducer, packInitialState } from '../reducers/packReducer'
-// console.log(packInitialState)
 
-// console.log('PACK REDUCER')
-// console.log(packInitialState)
 
 export const usePackReducer = () => {
 
@@ -13,6 +10,11 @@ export const usePackReducer = () => {
   const addToPack = product => dispatch({
     type: 'ADD_TO_PACK',
     payload: product
+  })
+
+  const createPack = pack => dispatch({
+    type: 'CREATE_PACK',
+    payload: pack
   })
 
   const addOneToPack = product => dispatch({
@@ -30,5 +32,9 @@ export const usePackReducer = () => {
     payload: product
   })
 
-  return { state, addToPack, removeFromPack, addOneToPack, subtractOneToPack}
+  const clearPack = () => dispatch({
+    type: 'CLEAR_PACK',
+  })
+
+  return { state, addToPack, removeFromPack, addOneToPack, subtractOneToPack, clearPack, createPack}
 }

@@ -38,7 +38,7 @@ export const ItSocksRoutes = () => {
             <Routes>
               <Route
                 path="accesorios"
-                element={<Productos categoria={"Accesorios"} />}
+                element={<Productos categoria={"Accesorios"} isPack={ false }/>}
               />
               <Route
                 path="accesorios/viseras"
@@ -87,12 +87,72 @@ export const ItSocksRoutes = () => {
               {/* PACKS */}
 
               <Route path="packs" element={<Packs />} />
+              {/* PACKS LARGAS */}
               <Route
                 path="packs/largas"
                 element={<PacksProducts categoria={"Medias"} type={"Largas"} />}
               />
 
               <Route
+                path="packs/largas/:disenio"
+                element={<PacksProducts categoria={"Medias"} type={"Largas"} />}
+              />
+
+              <Route
+                path="packs/largas/:disenio/:nombre"
+                element={<PackProductDescription />}
+              />
+
+              <Route
+                path="packs/largas/:nombre"
+                element={<PackProductDescription />}
+              />
+
+              {/* PACKS PANTORRILLERAS */}
+              <Route
+                path="packs/pantorrilleras"
+                element={<PacksProducts categoria={"Medias"} type={"Pantorrilleras"} />}
+              />
+
+              <Route
+                path="packs/pantorrilleras/:disenio"
+                element={<PacksProducts categoria={"Medias"} type={"Pantorrilleras"} />}
+              />
+
+              <Route
+                path="packs/pantorrilleras/:disenio/:nombre"
+                element={<PackProductDescription />}
+              />
+
+              <Route
+                path="packs/pantorrilleras/:nombre"
+                element={<PackProductDescription />}
+              />
+
+              {/* PACKS MEDIA CAÑA */}
+              <Route
+                path="packs/media_cania"
+                element={<PacksProducts categoria={"Medias"} type={"Media caña"} />}
+              />
+
+              <Route
+                path="packs/media_cania/:disenio"
+                element={<PacksProducts categoria={"Medias"} type={"Media caña"} />}
+              />
+
+              <Route
+                path="packs/media_cania/:disenio/:nombre"
+                element={<PackProductDescription />}
+              />
+
+              <Route
+                path="packs/media_cania/:nombre"
+                element={<PackProductDescription />}
+              />
+
+              {/* PACKS MEDIA CAÑA */}
+
+              {/* <Route
                 path="packs/largas/animales"
                 element={
                   <PacksProducts
@@ -163,7 +223,7 @@ export const ItSocksRoutes = () => {
               <Route
                 path="packs/media_cania/:nombre"
                 element={<PackProductDescription />}
-              />
+              /> */}
 
               {/* MAS */}
               <Route path="mas" element={<Mas />} />

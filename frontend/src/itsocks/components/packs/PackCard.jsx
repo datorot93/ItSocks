@@ -9,12 +9,20 @@ import styles from "../../../ui/styles/Accesorios.module.css";
 import { useDispatch } from "react-redux";
 import { types } from "../../types/types";
 
+import { PACK_ACTION_TYPES } from "../../../reducers/packReducer";
+import { usePack } from "../../../hooks/usePack";
+
 export const PackCard = (pack) => {
+
   const dispatch = useDispatch();
+
+  const { createPack } = usePack();
 
   const handleClick = () => {
     const current_product = JSON.stringify(pack);
     const packs = JSON.stringify({ ...pack, prductos: [] });
+
+    createPack({ ...pack, prductos: [] });
 
     localStorage.setItem("pack", packs);
   };
@@ -22,13 +30,11 @@ export const PackCard = (pack) => {
   const pack_routes = {
     "PARES DE MEDIAS LARGAS X4": "largas",
     "PARES DE MEDIAS LARGAS X3": "largas",
-    "PARES DE PANTORRILLERAS X4": "pantorrilleras",
-    "PARES DE PANTORRILLERAS X3": "pantorrilleras",
-    "PARES MEDIA CAÑA X4": "media_cania",
-    "PARES MEDIA CAÑA X3": "media_cania",
+    "PARES DE MEDIAS PANTORRILLERAS X4": "pantorrilleras",
+    "PARES DE MEDIAS PANTORRILLERAS X3": "pantorrilleras",
+    "PARES DE MEDIAS MEDIA CAÑA X4": "media_cania",
+    "PARES DE MEDIAS MEDIA CAÑA X3": "media_cania",
   };
-
-  console.log(pack_routes[pack.name]);
 
   return (
     <div className={styles.card}>

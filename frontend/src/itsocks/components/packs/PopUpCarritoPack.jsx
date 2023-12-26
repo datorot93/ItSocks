@@ -17,7 +17,7 @@ export const PopUpCarritoPack = ({
     console.log("Este es un mensaje temporal");
   };
 
-  const { pack } = usePack();
+  const { pack, clearPack } = usePack();
   const { cart } = useCart();
 
   // console.log(cart);
@@ -105,7 +105,7 @@ export const PopUpCarritoPack = ({
               COMPRAR AHORA
             </button>
 
-            <Link to={"../../carrito"} className={styles.link_boton_carrito}>
+            <Link to={"../../carrito"} className={styles.link_boton_carrito} onClick={ clearPack }>
               <button className={styles.boton_ver_carrito}>VER CARRITO</button>
             </Link>
           </div>
