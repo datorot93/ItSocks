@@ -23,6 +23,16 @@ export const ItSocks = () => {
       src: "../../../public/assets/homepage/slider/slider_2.jpg",
       description: "Esta es la segunda imágen del slider",
     },
+    {
+      id: "slider3",
+      src: "../../../public/assets/homepage/slider/slider_1.jpg",
+      description: "Esta es la primera imágen del slider",
+    },
+    {
+      id: "slider4",
+      src: "../../../public/assets/homepage/slider/slider_2.jpg",
+      description: "Esta es la segunda imágen del slider",
+    },
   ];
 
   const masVendidos = [
