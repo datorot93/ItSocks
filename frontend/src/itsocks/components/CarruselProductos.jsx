@@ -2,6 +2,10 @@ import styles from "../../ui/styles/CarruselProductos.module.css";
 
 import { useEffect, useState } from "react";
 
+// IMAGES
+import left_arrow from "../../../public/assets/homepage/slider/left_arrow.svg";
+import right_arrow from "../../../public/assets/homepage/slider/right_arrow.svg";
+
 // Utilidades
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'animate.css';
@@ -14,27 +18,66 @@ export const CarruselProductos = ({images}) => {
   const [loaded, setLoaded] = useState(false);
   const [ isSelected, setIsSelected ] = useState(false)
 
-  const showImage = (  ) => {
-    // setTimeout(() => {
-      const newIndex = (selectedIndex + 1) % images.length;
-      setSelectedImage(images[newIndex]);
-      setSelectedIndex(newIndex);
-    // }, 2000);
+  const showImage = ( index ) => {
+      if (index === 'avanzar') {
+        const newIndex = (selectedIndex + 1) % images.length;
+        setSelectedImage(images[newIndex]);
+        setSelectedIndex(newIndex);
+      } else if (index === 'retroceder' && selectedIndex > 0) {
+        const newIndex = (selectedIndex - 1);
+        setSelectedImage(images[newIndex]);
+        setSelectedIndex(newIndex);
+      } else if (typeof index === 'number') {
+        const newIndex = index;
+        setSelectedImage(images[newIndex]);
+        setSelectedIndex(newIndex);
+      }else if (index === 'retroceder' && selectedIndex === 0){
+        setSelectedImage(images[images.length - 1]);
+        setSelectedIndex(images.length - 1);
+      }
   }
 
   useEffect(() => {
-    // Configurar un intervalo para cambiar de imagen cada 2 segundos
-    const interval = setInterval(showImage, 3000);
+    const interval = setInterval(() => showImage('avanzar'), 8000);
+    setIsSelected(true)
 
-    // Limpieza del intervalo cuando el componente se desmonta
     return () => {
       clearInterval(interval);
+      setIsSelected(false)
     };
   }, [selectedIndex]);
 
+  const [arrowsVisible, setArrowsVisible] = useState(false);
+
+  const mouseOver = () => {
+    setArrowsVisible(true)
+  }
+
+  const mouseLeave = () => {
+    setArrowsVisible(false)
+  }
+
+  console.log(arrowsVisible)
+
   return (
-    <div className={styles.container}>
+    <section className={styles.container} onMouseOver={ mouseOver } onMouseLeave={ mouseLeave }>
       <div className={`${ styles.slider_wrapper } animate__fadeInLeft`}>
+        <div className={ `${styles.arrow_buttons} ${ styles.left_arrow} ${ arrowsVisible ? styles.arrow_visible : ''}`} >
+          <img 
+            src={ left_arrow } 
+            alt="left arrow" 
+            className={styles.left_arrow} 
+            onClick={ () => showImage( 'retroceder' ) }
+          />
+        </div>
+        <div className={ `${styles.arrow_buttons} ${ styles.right_arrow } ${ arrowsVisible ? styles.arrow_visible : ''}`} >
+          <img 
+            src={ right_arrow } 
+            alt="left arrow" 
+            className={styles.left_arrow} 
+            onClick={ () => showImage('avanzar') }
+          />
+        </div>
         <LazyLoadImage
           src={selectedImage.src}
           alt="Image of slider"
@@ -45,10 +88,19 @@ export const CarruselProductos = ({images}) => {
         />
         <div className={styles.slider_nav}>
           {images.map((image, index) => (
-            <button onClick={ () => showImage( index )} key={image.id}></button>
+            <button 
+              onClick={ () => showImage( index ) } 
+              key={image.id}
+              className={
+                `${styles.slider_nav_button} 
+                ${ selectedIndex === index ? styles.selected_nav_button : ""}`
+              }
+            >
+            </button>
           ))}
+          
         </div>
       </div>
-    </div>
+    </section>
   );
 };
