@@ -15,9 +15,17 @@ from app.core.celery_app import celery_app
 
 app = FastAPI(title=config.PROJECT_NAME, docs_url='/api/docs', openapi_url='/api')
 
+origins = [
+    "http://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
+    "https://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:5173"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

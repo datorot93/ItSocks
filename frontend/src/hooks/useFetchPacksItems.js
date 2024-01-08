@@ -28,22 +28,22 @@ export const useFetchPackItems = ( skip_page, setSkip, location, categoria, type
             categoria,
             type, 
             skip_page
-        ).then(
-            res => {          
-            return setProducts( products => [...products, ...res] )
-            }
-        ).finally(() => setLoading(false));
+            ).then(
+                res => {          
+                    return setProducts( products => [...products, ...res] )
+                }
+            ).finally(() => setLoading(false));
         } else {
-        getProductsByCatTypeDesign( 
-            categoria,
-            type,
-            design,
-            skip_page
-        ).then( 
-            res => {            
-            return setProducts( products => [...products, ...res] )
-            }
-        ).finally(() => setLoading(false));
+            getProductsByCatTypeDesign( 
+                categoria,
+                type,
+                design,
+                skip_page
+            ).then( 
+                res => {            
+                return setProducts( products => [...products, ...res] )
+                }
+            ).finally(() => setLoading(false));
         }
         
     }, [skip_page])

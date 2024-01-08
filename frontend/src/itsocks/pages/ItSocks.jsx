@@ -1,9 +1,8 @@
-import React, { useId } from "react";
+import React from "react";
 
 // Styles
 import styles from "../../ui/styles/HomePage.module.css";
 
-import { Slider2 } from "../components/Slider2";
 import { CarruselProductos } from "../components/CarruselProductos";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { OpinionCliente } from "../components/OpinionCliente";
@@ -11,29 +10,8 @@ import { Link } from "react-router-dom";
 import VideoComponent from "../components/VideoComponent";
 import ScrollHorizontal from "../components/ScrollHorizontal";
 
+
 export const ItSocks = () => {
-  const images = [
-    {
-      id: "slider1",
-      src: "../../../public/assets/homepage/slider/slider_1.jpg",
-      description: "Esta es la primera imágen del slider",
-    },
-    {
-      id: "slider2",
-      src: "../../../public/assets/homepage/slider/slider_2.jpg",
-      description: "Esta es la segunda imágen del slider",
-    },
-    {
-      id: "slider3",
-      src: "../../../public/assets/homepage/slider/slider_1.jpg",
-      description: "Esta es la primera imágen del slider",
-    },
-    {
-      id: "slider4",
-      src: "../../../public/assets/homepage/slider/slider_2.jpg",
-      description: "Esta es la segunda imágen del slider",
-    },
-  ];
 
   const masVendidos = [
     {
@@ -150,10 +128,11 @@ export const ItSocks = () => {
     },
   ];
 
+
   return (
     <section className={styles.main}>
       <div className={styles.container}>
-        <CarruselProductos images={images} />
+        <CarruselProductos />
         <div className={styles.mas_vendidos}>
           <h2>LOS PRODUCTOS MÁS VENDIDOS</h2>
           <ScrollHorizontal></ScrollHorizontal>

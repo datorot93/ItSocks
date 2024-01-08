@@ -1,6 +1,6 @@
 import { fetchWithoutToken } from "../../utils/api";
 
-export const getPacks = async( category ) => {
+export const getPacks = async( ) => {
     
     const resp = await fetchWithoutToken(`packspacks?skip=0&limit=100`)
     const data = await resp.json();
