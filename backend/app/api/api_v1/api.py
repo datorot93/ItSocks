@@ -1,14 +1,8 @@
 from fastapi import APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 # from app.api.api_v1.routers import login, users
-from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments
+from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders
 
-origins = [
-    "http://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
-    "https://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
 
 api_router = APIRouter()
 
@@ -23,3 +17,4 @@ api_router.include_router(shippings.router, prefix="/shippings", tags=["shipping
 api_router.include_router(discount_codes.router, prefix="/discounts", tags=["discounts_codes"])
 api_router.include_router(files.router, prefix="/files", tags=["files"])
 api_router.include_router(payments.router, prefix="/payments_preference", tags=["payments"])
+api_router.include_router(sliders.router, prefix="/sliders", tags=["sliders"])

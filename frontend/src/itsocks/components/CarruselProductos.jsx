@@ -9,18 +9,32 @@ import right_arrow from "../../../public/assets/homepage/slider/right_arrow.svg"
 // Utilidades
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'animate.css';
+import { getSliders } from "../helpers/getSliders";
 
-export const CarruselProductos = ({images}) => {
-  
+export const CarruselProductos = () => {
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+
+  const [images, setImages] = useState([]);
+
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [ isSelected, setIsSelected ] = useState(false)
 
+  useEffect(() => {
+    getSliders().then((res) => {
+      setImages(res);
+      setSelectedImage(res[0]);
+      setSelectedIndex(0);
+      
+    }).catch((error) => {
+      console.error('Error fetching sliders:', error);
+    });
+  }, []);
+
   const showImage = ( index ) => {
-      if (index === 'avanzar') {
-        const newIndex = (selectedIndex + 1) % images.length;
+      if (index === 'avanzar') {        
+        const newIndex = (selectedIndex + 1) % images.length;        
         setSelectedImage(images[newIndex]);
         setSelectedIndex(newIndex);
       } else if (index === 'retroceder' && selectedIndex > 0) {
@@ -57,8 +71,6 @@ export const CarruselProductos = ({images}) => {
     setArrowsVisible(false)
   }
 
-  console.log(arrowsVisible)
-
   return (
     <section className={styles.container} onMouseOver={ mouseOver } onMouseLeave={ mouseLeave }>
       <div className={`${ styles.slider_wrapper } animate__fadeInLeft`}>
@@ -78,14 +90,18 @@ export const CarruselProductos = ({images}) => {
             onClick={ () => showImage('avanzar') }
           />
         </div>
-        <LazyLoadImage
-          src={selectedImage.src}
-          alt="Image of slider"
-          className={`${styles.img_carrusel} ${
-            loaded ? "loaded" : "not_loaded"
-          }`}
-          onLoad={() => setLoaded(true)}
-        />
+        {
+          selectedImage ?
+            <LazyLoadImage
+              src={selectedImage.url || ''}
+              alt={selectedImage.alt || ''}
+              className={`${styles.img_carrusel} ${
+                loaded ? "loaded" : "not_loaded"
+              }`}
+              onLoad={() => setLoaded(true)}
+            />: <></>
+        }
+        
         <div className={styles.slider_nav}>
           {images.map((image, index) => (
             <button 

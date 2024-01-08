@@ -8,5 +8,7 @@ from .image import Image, ImageCreate, ImageUpdate
 from .pack import Pack, PackCreate, PackUpdate
 from .shipping import Shipping, ShippingCreate, ShippingUpdate
 from .discount_code import DiscountCode, DiscountCodeCreate, DiscountCodeUpdate
+from .slider import Slider, SliderCreate, SliderUpdate, SliderIn
+
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 

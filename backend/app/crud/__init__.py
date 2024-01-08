@@ -8,4 +8,5 @@ from .crud_image import image
 from .crud_pack import pack
 from .crud_shipping import shipping
 from .crud_discount_code import discount_code
+from .crud_slider import slider
 # from .crud_type_design import type_design

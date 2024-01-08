@@ -173,12 +173,10 @@ async def create_upload_file(
             aws_secret_access_key=aws_secret_key,
             region_name=aws_region_name
         )
-        print('ESTA ES LA ROW 12')
-        print(row[12])
+
         if row[12] == '':
             continue
         else:
-            print('VOY A SUBIR LA IMAGEN A S3')
             image_folder = IMAGES_FOLDER + '/Datos_ItSocks/IMAGENES/' + row[12]
 
             images = get_images_from_folder(image_folder)
