@@ -15,7 +15,10 @@
 }
 
 .mas_vendidos h2 {
-    margin-bottom: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
     font-size: 40px;
     font-weight: 800;
 }
@@ -25,6 +28,16 @@
     flex-direction: column;
     margin-top: 30px;
     align-items: center;
+}
+
+.clientes_titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 800;
+    padding: 40px;
 }
 
 .estilos_card {
@@ -122,10 +135,10 @@
     font-size: 40px;
 }
 
-.opiniones_clientes {
+/*.opiniones_clientes {
     display: flex;
     flex-direction: row;
     width: 100%;
     overflow-x: scroll;
     margin-top: 50px;
-}
+}*/
