@@ -5,36 +5,13 @@ import styles from "../../ui/styles/HomePage.module.css";
 
 import { CarruselProductos } from "../components/CarruselProductos";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { OpinionCliente } from "../components/OpinionCliente";
+import OpinionCliente from "../components/OpinionCliente";
 import { Link } from "react-router-dom";
 import VideoComponent from "../components/VideoComponent";
 import ScrollHorizontal from "../components/ScrollHorizontal";
 
 
 export const ItSocks = () => {
-
-  const masVendidos = [
-    {
-      id: "p1",
-      src: "../../../public/assets/medias/productos/p1.png",
-      description: "Esta es una media",
-    },
-    {
-      id: "p2",
-      src: "../../../public/assets/medias/productos/p2.png",
-      description: "Esta es una media",
-    },
-    {
-      id: "p3",
-      src: "../../../public/assets/medias/productos/p3.png",
-      description: "Esta es una media",
-    },
-    {
-      id: "p4",
-      src: "../../../public/assets/medias/productos/p5.png",
-      description: "Esta es una media",
-    },
-  ];
 
   const estilosVida = [
     {
@@ -73,61 +50,6 @@ export const ItSocks = () => {
     },
   ];
 
-  const opinionesClienes = [
-    {
-      id: "c1",
-      src: "../../../public/assets/homepage/opiniones/c1.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-      id: "c1",
-      src: "../../../public/assets/homepage/opiniones/c1.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-    },
-    {
-      id: "c2",
-      src: "../../../public/assets/homepage/opiniones/c2.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-      id: "c2",
-      src: "../../../public/assets/homepage/opiniones/c2.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-    },
-    {
-      id: "c3",
-      src: "../../../public/assets/homepage/opiniones/c3.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-      id: "c3",
-      src: "../../../public/assets/homepage/opiniones/c3.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-    },
-    {
-      id: "c4",
-      src: "../../../public/assets/homepage/opiniones/c4.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-      id: "c4",
-      src: "../../../public/assets/homepage/opiniones/c4.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-    },
-    {
-      id: "c5",
-      src: "../../../public/assets/homepage/opiniones/c4.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-    },
-    {
-      id: "c6",
-      src: "../../../public/assets/homepage/opiniones/c4.png",
-      opinion: "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      description: "Esta es una imagen del cliente",
-    },
-  ];
-
 
   return (
     <section className={styles.main}>
@@ -160,14 +82,11 @@ export const ItSocks = () => {
         <VideoComponent></VideoComponent>
         </div>
 
-        <div className={styles.opiniones_container}>
-          <div className={styles.opiniones_container}>
-            <h2>LO QUÉ PIENSAN NUESTROS CLIENTES</h2>
-
-            <div className={styles.opiniones_clientes}>
-              {opinionesClienes.map((cliente, index) => (
-                <OpinionCliente key={index} cliente={cliente} />
-              ))}
+        <div>
+          <div>
+            <h2 className={styles.clientes_titulo}>LO QUÉ PIENSAN NUESTROS CLIENTES</h2>
+            <div>   
+                <OpinionCliente/>  
             </div>
           </div>
         </div>

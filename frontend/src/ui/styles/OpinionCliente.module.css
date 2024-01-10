@@ -1,5 +1,5 @@
 
-.main{
+/*.main{
     display: flex;
     flex-direction: column;
     min-width: 340px;
@@ -28,4 +28,48 @@
     font-size: 27px;
     line-height: 40px;
     font-weight: 400;
+}
+*/
+
+
+.img_container {   
+    margin: 20px;
+    position: relative;
+    height: 600px;
+}
+
+.img_container p {
+    padding: 20px;
+    font-style: italic;
+}
+
+.img_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    transition: height 0.5s ease;
+}
+
+.img_center img {
+    width: 80%;
+}
+
+.info_opiniones {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #3f46ce;
+    font-weight: bold;
+}
+
+.info_opiniones p {
+    font-style: normal;
+}
+
+.calificacion {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
 }
