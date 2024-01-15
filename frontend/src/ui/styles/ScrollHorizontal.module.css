@@ -1,7 +1,8 @@
+.slick-slider {
+    height: 520px;
+}
 
 .img_container {   
-    position: relative;
-    width: 1200px;
     margin: 20px;
 }
 
@@ -10,26 +11,49 @@
     align-items: center;
     justify-content: center;
     margin: 20px;
-    height: 480px;
+    height: 350px;
 }
 
 .img_center img {
-    width: 80%;
+    width: 100%;
+    display: block;
+    height: auto;
+    position: static;
 }
 
-.escalable {
-    border-color: gray;
-    border-style: solid;
-    border-width: 1px;
+.product {
+    position: relative;
+    display: inline-block;
+    border: 1px solid gray;
     border-radius: 20px;
-    height: 100%;
-    margin: 20px;
-    transition: transform 0.3s ease; /* Agregar transición para suavizar el cambio */
+    margin: 20px 20px 50px 20px;
+    transition: padding-bottom 0.3s ease, box-shadow 0.3s ease;
+     /* Agregar transición para suavizar el cambio en el borde */
+}
+
+.container_price {
+    position: absolute;
+    bottom: -80px; /* Posición inicial para que esté por fuera del borde */
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 10px;
+    text-align: center;
+    transition: bottom 0.3s ease;;
+}
+
+.product:hover {
+    padding-bottom: 80px;
+    box-shadow: 0px 0px 20px 0px #cccccc;
+     /* Cambiar el tamaño vertical al hacer hover */
+}
+
+.product:hover .container_price {
+    bottom: 0px; /* Cambiar el fondo cuando se hace hover */
   }
 
-.img_center:hover .escalable {
-    transform-origin: top;
-    transform: scaleY(1.5) ;
+.container_price:before {
+    background-color: red;
 }
 
 .custom_prev_arrow {

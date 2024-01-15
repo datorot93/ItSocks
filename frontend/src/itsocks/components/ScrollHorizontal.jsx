@@ -93,15 +93,16 @@ function ScrollHorizontal() {
     <Slider {...settings}>
       {masVendidos.map((image, index) => (
         <div className={styles.img_container} key={index}>
-          <div className={styles.escalable}>
+          <div className={styles.product}>
             <div className={styles.img_center}>
               <img src={image.src} alt="" key={image.id} />
             </div>
+            <div className={styles.container_price}>
+              <p className={styles.description_image}>{image.description}</p>
+              <p className={styles.price_image}>{image.price}</p>
           </div>
-          <div>
-            <p className={styles.description_image}>{image.description}</p>
-            <p className={styles.price_image}>{image.price}</p>
           </div>
+          
         </div>
       ))}
     </Slider>
