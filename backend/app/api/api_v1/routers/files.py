@@ -204,3 +204,27 @@ async def create_upload_file(
 
 
     return "Archivo cargado con éxito"
+
+@router.post("/upload_tags")
+async def upload_tags(
+    request: Request,
+    file: UploadFile = File(default=None,),
+    db: Session = Depends(deps.get_db),
+):
+    content = await file.read()
+    xlsxfile = pd.ExcelFile(content)
+    df = xlsxfile.parse("Productos")
+
+    df['CANTIDAD'] = df['CANTIDAD'].fillna(1000000)
+    df['IMAGENES'] = df['IMAGENES'].fillna('')
+    df['TAGS'] = df['TAGS'].fillna('')
+    df['DESCUENTO'] = df['DESCUENTO'].fillna(0)
+    # df['CANTIDAD'] = df['CANTIDAD'].fillna(0)
+    # df['CANTIDAD'] = df['CANTIDAD'].astype(int)
+
+    df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
+
+    df = df[df['TAGS'] != '']
+         
+
+    return df.shape
