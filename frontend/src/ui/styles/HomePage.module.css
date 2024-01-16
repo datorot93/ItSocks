@@ -12,6 +12,7 @@
 
 .mas_vendidos {
     margin-top: 60px;
+    height: 600px;
 }
 
 .mas_vendidos h2 {
@@ -26,7 +27,7 @@
 .estilos_vida {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 40px;
     align-items: center;
 }
 
