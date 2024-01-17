@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ScrollHorizontal from "../components/ScrollHorizontal";
 
 import styles from "../../ui/styles/MediasSubcategory.module.css";
+import { ScrollPersonalizadas } from "../components/ScrollPersonalizadas";
 
 export const PersonalizadaPantorrillera = ({ subcategory }) => {
 
@@ -94,7 +95,7 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
       <h1>{ `${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')} PERSONALIZADAS` }</h1>
       <div className={styles.medias_container}>
         
-        <ScrollHorizontal images={ filteredImages }/>
+        <ScrollPersonalizadas images={ filteredImages }/>
         <p><strong>¿Te imaginas llevar medias únicas de tu equipo, con la carita de tu mascota o la imagen que más te gusta? </strong></p>
         <p>
         Ahora es posible hacerlo realidad. Nuestro servicio te ofrece la oportunidad de personalizar tus medias completamente a tu gusto.

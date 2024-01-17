@@ -9,7 +9,7 @@ export const productos = [
     'precio': 15000,
     'categoria': 'accesorios',
     'subcategoria': 'pines',
-    'tags': ['ciclismo', 'casual', 'running'],
+    'tags': ['ciclismo', 'día a día', 'running'],
     'tipo': 'accesorios',
     'id_referencia_fabrica': "",
     'id_diseño': 1,

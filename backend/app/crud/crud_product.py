@@ -16,6 +16,8 @@ from app.models.category import Category
 from app.models.type import Type
 from app.models.design import Design
 from app.models.image import Image
+from app.models.tag import Tag
+from app.models.tag_product import TagProduct
 from app.schemas.product import ProductCreate, ProductUpdate
 
 from unidecode import unidecode
@@ -38,7 +40,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
     
     def object_as_dict(self, obj):
         return {c.key: getattr(obj, c.key)
-                for c in inspect(obj).mapper.column_attrs}
+            for c in inspect(obj).mapper.column_attrs}
     
 
     def get_products_by_category(
@@ -589,6 +591,94 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             filter(unaccent(func.lower(Product.name)) == unidecode(name.strip().lower())).all()
 
         return products
+    
+    def get_product_by_name_talla(
+        self,
+        db: Session,
+        *,
+        name: str,
+        talla: str,
+    ):
+        """
+        Get all products by name
+        """
+        product = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.color,
+                Product.talla,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount
+            ).\
+            filter(
+                unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
+                Product.talla == talla
+            ).first()
+
+        return product
+    
+    def get_product_by_tag(
+        self,
+        db: Session,
+        *,
+        skip: int,
+        limit: int,
+        tag: str,
+    ):
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+        product_images = db.query(
+                Image.url,
+                Image.id_product
+            ).\
+            join(Product, Product.id == Image.id_product).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+
+        lista_productos = self._get_product_list(
+                products=products,
+                product_images=product_images
+            )
+            
+        return lista_productos
     
     
     def get_colors_tallas_by_product(

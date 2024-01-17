@@ -95,3 +95,31 @@
     font-weight: bold;
     color: #00a968;
 }
+
+/* SCROLL PERSONALIZADAS */
+
+.main {
+    display: flex;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.image_scroll {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+}
+
+/* .arrow_container {
+    position: absolute;
+
+} */
