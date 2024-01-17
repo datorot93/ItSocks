@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Utilidades
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -11,8 +11,10 @@ import { useDispatch } from 'react-redux';
 
 
 
-export const ProductoCard2 = ( product ) => {
 
+export const ProductoCard2 = ( product ) => {
+  
+  const { pathname } = useLocation();
   const ruta = `/${product.categoria}/${ product.subcategoria == "estampadas" ? "estampadas/pantorrillera/" : ""}${product.nombre}`
 
   const dispatch = useDispatch();
@@ -29,16 +31,22 @@ export const ProductoCard2 = ( product ) => {
     <div className={ styles.card }>
       
       {/* <img src={ 	`${ ruta_imagenes }/${ nombre }.jpg` } alt= { nomSbre } /> */}
-      <Link
-        to={ 
-          ruta
-        }
-        onClick={ handleClick }
-      >
-        <LazyLoadImage src={ product.images[0] } alt= { product.nombre } />
-        <div className={ styles.product_info }>
-          <p>{ product.nombre }</p>
-          <p>{ product.precio }</p>
+      <Link 
+          to={`${pathname.split("/").length === 2 ? product.design.toLowerCase() + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`}
+          onClick={handleClick}
+        >
+        
+        <LazyLoadImage src={product.images.image1} alt={product.name} />
+        <div className={styles.product_info}>
+          <p>
+            <strong>{product.name}</strong>
+          </p>
+          <p>
+            {product.price.toLocaleString("es-CO", {
+              style: "currency",
+              currency: "COP",
+            })}
+          </p>
         </div>
       </Link>
       

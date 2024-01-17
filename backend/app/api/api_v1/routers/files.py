@@ -225,6 +225,60 @@ async def upload_tags(
     df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
 
     df = df[df['TAGS'] != '']
-         
+    
+    
+    for row in df.itertuples():
+        # print('ESTE ES EL ROW')
+        # print(row[11], row[2], row[14])
+        list_tags = row[11].split(',')
+        id_tags = []
+
+        for tag in list_tags:
+            tag = tag.strip().upper()
+
+            tag_in = schemas.TagCreate(
+                name = tag,
+                image_url = '',
+                discount = 0
+            )
+
+            tag_db = crud.tag.get_tag_by_name(
+                db,
+                name = tag
+            )
+
+            if tag_db is None:
+                tag_db = crud.tag.create(
+                    db,
+                    obj_in = tag_in
+                )
+
+            id_tags.append(tag_db.id)
+
+        for id_tag in id_tags:
+
+            product = crud.product.get_product_by_name_talla(
+                db,
+                name=row[2],
+                talla=row[14]
+            )
+            print(product)
+
+            if not product:
+                # raise HTTPException(
+                #     status_code=404,
+                #     detail=f"No existe el producto {row[2]} con talla {row[14]}",
+                # )
+                print(f"No existe el producto {row[2]} con talla {row[14]}")
+                continue
+            
+
+            crud.tag_product.create(
+                db,
+                obj_in=schemas.TagProductCreate(
+                    product_id = product.id,
+                    tag_id = id_tag
+                )        
+            )
 
     return df.shape

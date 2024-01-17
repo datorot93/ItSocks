@@ -11,6 +11,11 @@ import VideoComponent from "../components/VideoComponent";
 import ScrollHorizontal from "../components/ScrollHorizontal";
 
 
+const quitarAcentos = (cadena) => {
+  return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "_").toLowerCase();
+}
+
+
 export const ItSocks = () => {
 
   const estilosVida = [
@@ -32,7 +37,7 @@ export const ItSocks = () => {
     {
       id: "p4",
       src: "../../../public/assets/homepage/estilos_vida/p4.png",
-      description: "CASUAL",
+      description: "DÍA A DÍA",
     },
     {
       id: "p5",
@@ -40,7 +45,6 @@ export const ItSocks = () => {
       description: "FITNESS",
     },
   ];
-
 
   const beneficiosImage = [
     {
@@ -64,7 +68,7 @@ export const ItSocks = () => {
           <h2>ESTILOS DE VIDA</h2>
           <div className={styles.image_container}>
             {estilosVida.map((image, index) => (
-              <Link key={index} to={image.description.toLowerCase()}>
+              <Link key={index} to={quitarAcentos(image.description)}>
                 <div className={styles.estilos_card} key={index}>
                   <LazyLoadImage
                     src={image.src}
