@@ -471,8 +471,10 @@ export const ItSocksRoutes = () => {
                 element={<Estilos estilo={"ciclismo"} />}
               />
               <Route path="trabajo" element={<Estilos estilo={"trabajo"} />} />
-              <Route path="casual" element={<Estilos estilo={"casual"} />} />
+              <Route path="dia_a_dia" element={<Estilos estilo={"día a día"} />} />
               <Route path="fitness" element={<Estilos estilo={"fitness"} />} />
+              <Route path="running" element={<Estilos estilo={"running"} />} />
+              <Route path="ciclismo" element={<Estilos estilo={"ciclismo"} />} />
 
               {/* COMPRAS */}
               <Route path="carrito" element={<CarritoCompras />} />

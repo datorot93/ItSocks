@@ -34,8 +34,52 @@ async def product_create(
     
     product = crud.product.create(db, obj_in=product_in)
     
-
     return product
+
+@router.post(
+    "/tag_create", 
+    response_model=schemas.Tag, 
+    response_model_exclude_none=True
+)
+async def tag_create(
+    request: Request,
+    tag_in: schemas.TagCreate,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Create a new Tag
+    """
+
+    tag = crud.tag.get_tag(
+        db, 
+        name=tag_in.name
+    )
+
+    if tag:
+        raise HTTPException(
+            status_code=400, detail="Ya existe el tag que está tratando de crear",
+        )
+    
+    tag = crud.tag.create(db, obj_in=tag_in)
+
+    return tag
+
+@router.get("/tag_products", response_model_exclude_none=True)
+async def get_product_by_tag(
+    response: Response,
+    tag: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por tag
+    """
+    products = crud.product.get_product_by_tag(db, tag=tag, skip=skip, limit=limit)
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
 
 
 @router.put(

@@ -9,6 +9,8 @@ from .pack import Pack, PackCreate, PackUpdate
 from .shipping import Shipping, ShippingCreate, ShippingUpdate
 from .discount_code import DiscountCode, DiscountCodeCreate, DiscountCodeUpdate
 from .slider import Slider, SliderCreate, SliderUpdate, SliderIn
+from .tag import Tag, TagCreate, TagUpdate
+from .tag_product import TagProduct, TagProductCreate, TagProductUpdate
 
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 

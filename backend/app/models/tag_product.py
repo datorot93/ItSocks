@@ -15,9 +15,9 @@ if TYPE_CHECKING:
 class TagProduct(Base):
     __tablename__ = 'tag_product'
 
-    id = Column(BigInteger, primary_key=True, index=True)
-    product_id = Column(Integer, ForeignKey('product.id'), primary_key=True)
-    tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, ForeignKey('product.id'), index=True)
+    tag_id = Column(Integer, ForeignKey('tag.id'), index=True)
     
     product = relationship('Product', back_populates=('tag_product'))
     tag = relationship('Tag', back_populates=('tag_product'))

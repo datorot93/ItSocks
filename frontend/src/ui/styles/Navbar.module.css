@@ -70,11 +70,26 @@ nav {
   height: 26px;
 }
 
-a {
+.link_container a {
   text-decoration: none;
+  color: #000;
+
+  font-family: Montserrat;
+  font-size: 27px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0px;
+}
+
+.link_container a:hover {
+  color: #00b475;
+}
+
+a {
   color: black;
   font-size: 20px;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .contenedor_contador{
@@ -96,4 +111,8 @@ a {
 
   align-items: center;
   justify-content: center;
+}
+
+.selected {
+  color: #00b475 !important;
 }

@@ -24,7 +24,19 @@ export const CategoriaCard = ({
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-  };  
+  };
+
+  const labels = {
+    'MEDIA CANIA': 'MEDIA CAÑA',
+    'ESTAMPADAS': 'ESTAMPADAS',
+    'TEJIDAS': 'TEJIDAS',
+    'LARGAS': 'LARGAS',
+    'LARGA': 'LARGAS',
+    'PANTORRILLERA': 'PANTORRILLERAS',
+    'PERSONALIZADAS': 'PERSONALIZADAS',
+  }
+
+  console.log()
   return (
     
     <div className={ `${styles.imageContainer}` }
@@ -36,10 +48,13 @@ export const CategoriaCard = ({
         <img src={ image } alt= { nombre } />        
         <div className={`${ styles.blur_div} ${isHovered ? styles.hovered : ""}`}>
           <div className={styles.hoverText}>
-              <p>{ nombre }</p>
+              <p>{ labels[nombre.toUpperCase().replace('_', ' ')] }</p>
+              {/* <p>{ nombre.toUpperCase().replace('_', ' ') }</p> */}
           </div>
         </div>
       </Link>
+
+      
 
       {/* <div className={`${styles.blur_div} ${isHovered ? styles.hovered : ""}`} `}>
           <div className={styles.hoverText}>
