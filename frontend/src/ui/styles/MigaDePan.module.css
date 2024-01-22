@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .miga_container {
+    display: flex;
+    font-weight: lighter;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .miga {
+    position: absolute;
+    font-weight: 100;
+    align-items: center;
+    padding: 0px 35px;
+    align-self: center;
+
+    width: 100%;
+    height: auto;
+    max-width: 1280px;
+    margin-bottom: 20px;
+  }
+
+  .miga a {
+    font-weight: lighter;
+    text-decoration: none;
+    color: black;
+  }
