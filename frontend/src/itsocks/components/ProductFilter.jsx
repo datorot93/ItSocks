@@ -29,7 +29,6 @@ export const ProductFilter = ({
 
   const products = useSelector((state) => state.product.products);
 
-  const [filters2, setFilters2] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
   const [ disenio, setDisenio ] = useState(null)
 

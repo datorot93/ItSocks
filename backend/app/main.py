@@ -18,6 +18,7 @@ app = FastAPI(title=config.PROJECT_NAME, docs_url='/api/docs', openapi_url='/api
 origins = [
     "http://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
     "https://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
+    "https://ec2-18-119-112-61.us-east-2.compute.amazonaws.com",
     "http://localhost",
     "http://localhost:8080",
     "http://localhost:5173"

@@ -9,11 +9,13 @@ import {
     getProductsByCatSubcatTypeDesign,
     getProductsByCategoryDesign
   } from '../itsocks/helpers/getProductsByCategory';
+import { useDispatch } from "react-redux";
 
 
 export const useFetchItems = ( skip_page, setSkip, location, design, categoria, subcategoria, type ) => {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
+    const dispatch = useDispatch();
     
 
     useEffect(() => {
@@ -27,10 +29,13 @@ export const useFetchItems = ( skip_page, setSkip, location, design, categoria, 
               type, 
               skip_page
             ).then( 
-              res => {          
+              res => {
                 return setProducts( products => [...products, ...res] )
               }
-            ).finally(() => setLoading(false));
+            ).finally(
+              () => setLoading(false),
+              // dispatch({type: 'SET_LOADING', payload: false}),
+            );
           } else {
             getProductsByCatSubcatTypeDesign( 
               categoria, 

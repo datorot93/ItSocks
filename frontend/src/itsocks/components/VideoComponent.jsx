@@ -86,7 +86,7 @@ function VideoComponent() {
                                 </div>
                             </Col>
                             <Col sm={9}>
-                                <h5>Mejora la circulación sanguínea</h5>
+                                <h5>Combinan con tu estilo</h5>
                                 <p>Tenemos una amplia variedad de diseños  para toda ocasión. </p>
                             </Col>
                         </Row>

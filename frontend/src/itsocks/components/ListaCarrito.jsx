@@ -14,14 +14,14 @@ export const ListaCarrito = () => {
   const { cart, addOneToCart, subtractOneToCart, removeFromCart } = useCart();
 
   return (
-    <div className={styles.lista_carrito}>
+    <section className={styles.lista_carrito}>
       <table className={styles.tabla_productos}>
         <thead>
           <tr>
-            <th>PRODUCTO</th>
-            <th>PRECIO</th>
-            <th>CANTIDAD</th>
-            <th>TOTAL</th>
+            <th className={ `${styles.table_header} ${styles.header_left}`}>PRODUCTO</th>
+            <th className={ `${styles.table_header} ${styles.header_center}`}>PRECIO</th>
+            <th className={ `${styles.table_header} ${styles.header_center}`}>CANTIDAD</th>
+            <th className={ `${styles.table_header} ${styles.header_right}`}>TOTAL</th>
           </tr>
         </thead>
         <tbody>
@@ -54,15 +54,25 @@ export const ListaCarrito = () => {
                   </div>
                 </td>
                 <td>
+                  
                   <div className={styles.comprar}>
                     <div className={styles.conteo}>
-                      <button onClick={() => addOneToCart(producto)}>+</button>
-                      <span>{producto.cantidad}</span>
-                      <button onClick={() => subtractOneToCart(producto)}>
+                      <button 
+                        onClick={() => subtractOneToCart(producto)}
+                        className={styles.button_left}
+                      >
                         -
+                      </button>
+                      <span>{producto.cantidad}</span>
+                      <button 
+                        onClick={() => addOneToCart(producto)}
+                        className={styles.button_right}
+                      >
+                        +
                       </button>
                     </div>
                   </div>
+
                 </td>
                 <td>
                   <div className={styles.centrar}>
@@ -131,6 +141,6 @@ export const ListaCarrito = () => {
           )}
         </tbody>
       </table>
-    </div>
+    </section>
   );
 };

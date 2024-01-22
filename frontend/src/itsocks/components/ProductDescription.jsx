@@ -58,7 +58,7 @@ export const ProductDescription = () => {
   // Petición de colores y tallas del producto
   useEffect(() => {
     const getColorsAndSizes = async () => {
-      const extra_info = await getProductExtraInfo(producto.name);
+      const extra_info = await getProductExtraInfo(producto.name, producto.type);
       setColors(extra_info[0].colores);
       setTallas(extra_info[0].tallas);
     };
@@ -69,7 +69,7 @@ export const ProductDescription = () => {
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
-  const [cantProducts, setCantProducts] = useState(0);
+  const [cantProducts, setCantProducts] = useState(1);
 
   const next = () => {
     const condition = selectedIndex < Object.keys(producto.images).length - 1;
@@ -96,6 +96,8 @@ export const ProductDescription = () => {
   };
 
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showTallas, setShowTallas] = useState(false);
+
   const [title, setTitle] = useState("");
 
   const handleShowPopUp = (title) => {
@@ -224,7 +226,9 @@ export const ProductDescription = () => {
         </div>
 
         <div className={styles.description}>
-          <h2>{producto.name}</h2>
+          <div className={ styles.title }>
+            <h2>{producto.name}</h2>
+          </div>
           <div className={styles.precio}>
             {producto.discount === 0 ? (
               <p>{`${producto.price.toLocaleString("es-CO", {
@@ -256,21 +260,27 @@ export const ProductDescription = () => {
             <p>{producto.description}</p>
           </div>
 
+
           {tallas[0] && tallas[0] !== "unica" ? (
-            <div className={styles.tallas}>
-            <div className={styles.tallas_label}>Tallas: </div>
-            <div className={styles.numeros_tallas}>
-              {tallas.map((talla) => (
-                <div 
-                  className={`${styles.talla_button} ${tallaSeleccionada === talla ? styles.talla_selected : ''}`} 
-                  key={talla}
-                  onClick={() => handleTallaClick(talla)}
-                >
-                  {talla}
-                </div>
-              ))}
+            <>
+              <div className={styles.guia_tallas}>
+                  <span>¡Consulta la guia de talla!</span>
+              </div>
+              <div className={styles.tallas}>
+              <div className={styles.tallas_label}>Tallas: </div>
+              <div className={styles.numeros_tallas}>
+                {tallas.map((talla) => (
+                  <div 
+                    className={`${styles.talla_button} ${tallaSeleccionada === talla ? styles.talla_selected : ''}`} 
+                    key={talla}
+                    onClick={() => handleTallaClick(talla)}
+                  >
+                    {talla}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+            </>
 
           ) : (
             <></>
@@ -318,14 +328,18 @@ export const ProductDescription = () => {
               <button
                 onClick={() =>
                   setCantProducts(
-                    cantProducts > 0 ? cantProducts - 1 : cantProducts
+                    cantProducts > 1 ? cantProducts - 1 : cantProducts
                   )
                 }
+                className={styles.button_left}
               >
                 -
               </button>
               <span>{cantProducts}</span>
-              <button onClick={() => setCantProducts(cantProducts + 1)}>
+              <button 
+                onClick={() => setCantProducts(cantProducts + 1)}
+                className={styles.button_right}
+              >
                 +
               </button>
             </div>

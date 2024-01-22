@@ -9,21 +9,51 @@ import styles from "../../ui/styles/Accesorios.module.css";
 
 // UTILITIES
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { getProductsByTags } from "../helpers/getProductByTags";
+import { getProductsByTags, getProductsByTagsSubcategory, getProductsByTagsType } from "../helpers/getProductByTags";
+import { useLocation } from "react-router-dom";
 
-export const ProductoList2 = ({estilo}) => {
+export const ProductoList2 = ({estilo, filtro}) => {
 
   const [products, setProducts] = useState([]);
   const [skip_page, setSkip] = useState(0);
 
+  const location = useLocation().pathname;
+  const tag_filter = location.split('/')[3] ? 
+          location.split('/')[3].replace('media_cania', 'Media caña').toLowerCase()
+          : '';
+
   useEffect(() => {
-    getProductsByTags( estilo, skip_page )
-      .then( 
-        res => {          
-          return setProducts( products => [...products, ...res] )
-        }
-      );
+    if( location.split('/').length === 2 ) {
+      getProductsByTags( estilo, skip_page )
+        .then( 
+          res => {          
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+    }else if ( location.split('/').length > 2 && filtro === 'estilo') {
+      getProductsByTagsType( estilo, tag_filter, skip_page )
+        .then( 
+          res => {        
+            console.log(res)
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+    }else if ( location.split('/').length > 2 && filtro === 'tipo') {
+      getProductsByTagsSubcategory( estilo, tag_filter, skip_page )
+        .then( 
+          res => {        
+            console.log(res)
+            return setProducts( products => [...products, ...res] )
+          }
+        );
+    }
   }, [skip_page]);
+  
+  useEffect(() => {
+    setProducts([]);
+    setSkip(0);
+  }, [location]);
+
 
   return (
     <InfiniteScroll

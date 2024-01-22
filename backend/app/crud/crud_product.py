@@ -530,6 +530,52 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         
         return {item['design']: False for item in products_design}
     
+    def get_subcategory_by_tag(
+            self,
+            db: Session,
+            *,
+            tag: str,
+    ):
+        products_design = db.query(
+                Product.id,
+                Subcategory.name.label('subcategory')
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                Product.state == True,
+            ).all()
+        
+        return {item['subcategory']: False for item in products_design}
+    
+    def get_type_by_tag(
+            self,
+            db: Session,
+            *,
+            tag: str,
+    ):
+        products_design = db.query(
+                Product.id,
+                Type.name.label('type')
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                Product.state == True,
+            ).all()
+        
+        return {item['type']: False for item in products_design}
+    
 
     def get_accesorios_designs(
             self,
@@ -589,6 +635,37 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 Product.discount
             ).\
             filter(unaccent(func.lower(Product.name)) == unidecode(name.strip().lower())).all()
+
+        return products
+    
+    def get_products_by_name_type(
+        self,
+        db: Session,
+        *,
+        name: str,
+        type: str,
+        
+    ):
+        """
+        Get all products by name
+        """
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.color,
+                Product.talla,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount
+            ).\
+            join(Type, Type.id == Product.id_type).\
+            filter(
+                unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower())
+            ).all()
 
         return products
     
@@ -680,12 +757,139 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             
         return lista_productos
     
+
+    def get_products_by_tag_type(
+            self,
+            db: Session,
+            *,
+            tag: str,
+            type: str,
+            skip: int,
+            limit: int,
+    ):
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+        product_images = db.query(
+                Image.url,
+                Image.id_product
+            ).\
+            join(Product, Product.id == Image.id_product).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+
+        lista_productos = self._get_product_list(
+                products=products,
+                product_images=product_images
+            )
+            
+        return lista_productos
+    
+    
+    def get_products_by_tag_subcategory(
+            self,
+            db: Session,
+            *,
+            tag: str,
+            subcategory: str,
+            skip: int,
+            limit: int,
+    ):
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+        product_images = db.query(
+                Image.url,
+                Image.id_product
+            ).\
+            join(Product, Product.id == Image.id_product).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+
+        lista_productos = self._get_product_list(
+                products=products,
+                product_images=product_images
+            )
+            
+        return lista_productos
+    
     
     def get_colors_tallas_by_product(
         self, 
         db: Session, 
         *, 
-        name: str
+        name: str,
+        type: str,
     ):
         """
         Get all colors by product name
@@ -693,13 +897,23 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         colors = db.query(
                 Product.color,
             ).\
-            filter(unaccent(func.lower(Product.name)) == unidecode(name.strip().lower())).distinct().all()
+            join(Type, Type.id == Product.id_type).\
+            filter(
+                unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+
+            ).distinct().all()
         
         products = [{"colores": [item["color"] for item in colors]}]
 
         tallas = db.query(
             Product.talla
-        ).filter(unaccent(func.lower(Product.name)) == unidecode(name.strip().lower())).distinct().all()
+        ).\
+        join(Type, Type.id == Product.id_type).\
+        filter(
+            unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
+            unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+        ).distinct().all()
         
         products[0]["tallas"] = [ item[0] for item in tallas ]
 

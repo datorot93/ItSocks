@@ -42,6 +42,27 @@ export const getProductsFilters = async( category, subcategory, type ) => {
     return data
 }
 
+export const getTagSubcategoryFilters = async( tag ) => {
+    const resp = await fetchWithoutToken(
+        `products/q/subcategories_by_tag?tag=${tag}`
+    )
+
+    const data = await resp.json();
+
+    return data
+}
+
+export const getTagTypeFilters = async( tag ) => {
+    const resp = await fetchWithoutToken(
+        `products/q/types_by_tag?tag=${tag}`
+    )
+
+    const data = await resp.json();
+
+    return data
+
+}
+
 export const getPackProductsFilters = async( category, type ) => {
     const resp = await fetchWithoutToken(
         `products/q/packs_designs?category=${category}&type=${type}`
@@ -100,8 +121,8 @@ export const getProductsByCatTypeDesign = async( category, type, design, skip ) 
     return data
 }
 
-export const getProductExtraInfo = async( name ) => {
-    const resp = await fetchWithoutToken(`products/q/colors_tallas/${name}`)
+export const getProductExtraInfo = async( name, type ) => {
+    const resp = await fetchWithoutToken(`products/q/colors_tallas/${name}/${type}`)
     const data = await resp.json();
  
     return data

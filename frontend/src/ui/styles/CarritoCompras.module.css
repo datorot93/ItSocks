@@ -30,14 +30,7 @@
 
 .lista_carrito table thead {
     background: #F2F2F2;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-    height: 52px;
-    
-    
-}
-
-.lista_carrito table thead th {
-    border: none;
+    height: 52px;   
 }
 
 .lista_carrito table tbody tr {
@@ -86,8 +79,8 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-
     margin-top: 50px;
+    cursor: pointer;
 }
 
 .item p {
@@ -102,26 +95,60 @@
 
 .comprar {
     display: flex;
-    width: 100%;
-    height: auto;
+    width: 121px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 1px solid #C9C9C9;
+    background: #FFF;
+
+    /* Sombra lvl 1 */
+    box-shadow: 0px 4px 4px -2px rgba(24, 39, 75, 0.08), 0px 2px 4px -2px rgba(24, 39, 75, 0.12);
     justify-content: center;
+
 }
 
 .conteo {
     display: flex;
+    justify-content: space-between;
     border: 1px solid black;
-    height: auto;
     align-items: center;
+    width: 121px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 1px solid #C9C9C9;
+    background: #FFF;
+
+    /* Sombra lvl 1 */
+    box-shadow: 0px 4px 4px -2px rgba(24, 39, 75, 0.08), 0px 2px 4px -2px rgba(24, 39, 75, 0.12);
 }
 
 .conteo button {
-    height: 30px;
-    border: none;
+    height: 100%;
+    width: 30px;    
     background-color: white;
     font-size: 18px;
     font-weight: 700;
     margin: 0 5px;
     cursor: pointer;
+    border-bottom: none;
+    border-top: none;
+    font-size: 24px;
+}
+
+.button_right {
+    border-left: 1px solid #C9C9C9;
+    border-right: none;
+    border-radius: 0 15px 15px 0;
+    /* box-shadow: 0px 4px 4px -2px rgba(24, 39, 75, 0.08), 0px 2px 4px -2px rgba(24, 39, 75, 0.12); */
+}
+
+.button_left {
+    border-right: 1px solid #C9C9C9;
+    border-left: none;
+    border-radius: 15px 0 0 15px;
+    /* box-shadow: 0px 4px 4px -2px rgba(24, 39, 75, 0.08), 0px 2px 4px -2px rgba(24, 39, 75, 0.12); */
 }
 
 .conteo span {
@@ -134,6 +161,31 @@
     justify-content: center;
 }
 
+.tabla_productos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table_header {
+    background-color: #00B475; /* Fondo verde */
+    color: #ffffff; /* Texto blanco */
+    text-align: center; /* Centrar el texto */
+    padding: 10px; /* Espaciado interno */
+}
+
+.header_left {
+    border-radius: 14px 0 0 14px; /* Bordes redondeados */
+    border-right: 2px solid white; /* Borde derecho blanco */
+}
+
+.header_center {
+    border-right: 2px solid white; /* Borde derecho blanco */
+}
+
+.header_right {
+    border-radius: 0 14px 14px 0; /* Bordes redondeados */
+}
 /* .pack_description {
     display: fle;
 } */

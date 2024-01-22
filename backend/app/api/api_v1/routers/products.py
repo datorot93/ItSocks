@@ -82,6 +82,41 @@ async def get_product_by_tag(
     return products
 
 
+@router.get("/tag_products_types", response_model_exclude_none=True)
+async def get_products_by_tag_type(
+    response: Response,
+    tag: str,
+    type: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por tag
+    """
+    products = crud.product.get_products_by_tag_type(db, tag=tag, type=type, skip=skip, limit=limit)
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
+@router.get("/tag_products_subcategories", response_model_exclude_none=True)
+async def get_products_by_tag_subcategories(
+    response: Response,
+    tag: str,
+    subcategory: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por tag
+    """
+    products = crud.product.get_products_by_tag_subcategory(db, tag=tag, subcategory=subcategory, skip=skip, limit=limit)
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
+
 @router.put(
     "/{product_id}", 
     response_model=schemas.Product, 
@@ -271,17 +306,18 @@ async def get_products_by_cat_type_design(
 
     return products
 
-@router.get("/q/colors_tallas/{name}", response_model_exclude_none=True)
+@router.get("/q/colors_tallas/{name}/{type}", response_model_exclude_none=True)
 async def get_colors_tallas_by_product(
     response: Response,
     name: str,
+    type: str,
     db: Session = Depends(deps.get_db),
 ):
     """
     Obtener todos los colores de un producto
     """
 
-    product = crud.product.get_products_by_name(db=db, name=name)
+    product = crud.product.get_products_by_name_type(db=db, name=name, type=type)
     # print(product)
 
     if not product:
@@ -289,7 +325,7 @@ async def get_colors_tallas_by_product(
             status_code=404, detail="No existe el producto con el nombre especificado",
         )
     
-    colors = crud.product.get_colors_tallas_by_product(db=db, name=name)
+    colors = crud.product.get_colors_tallas_by_product(db=db, name=name, type=type)
     return colors
 
 
@@ -312,6 +348,38 @@ async def get_designs_by_cat_subcat(
     )
 
     return products_design
+
+@router.get("/q/subcategories_by_tag", response_model_exclude_none=True)
+async def get_subcategory_by_tag(
+    response: Response,
+    tag: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener las subcategorias por tag
+    """
+    subcategories = crud.product.get_subcategory_by_tag( 
+        db=db,
+        tag=tag
+    )
+
+    return subcategories
+
+@router.get("/q/types_by_tag", response_model_exclude_none=True)
+async def get_types_by_tag(
+    response: Response,
+    tag: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener los tipos de productos por tag
+    """
+    subcategories = crud.product.get_type_by_tag( 
+        db=db,
+        tag=tag
+    )
+
+    return subcategories
 
 
 @router.get("/q/packs_designs", response_model_exclude_none=True)

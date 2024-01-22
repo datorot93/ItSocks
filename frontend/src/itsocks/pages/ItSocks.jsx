@@ -86,14 +86,14 @@ export const ItSocks = () => {
         <VideoComponent></VideoComponent>
         </div>
 
-        <div>
-          <div>
-            <h2 className={styles.clientes_titulo}>LO QUÉ PIENSAN NUESTROS CLIENTES</h2>
-            <div>   
+        {/* <div>
+          <div> */}
+            <h2 className={styles.clientes_titulo}>QUÉ PIENSAN NUESTROS CLIENTES</h2>
+            {/* <div>    */}
                 <OpinionCliente/>  
-            </div>
-          </div>
-        </div>
+            {/* </div> */}
+          {/* </div>
+        </div> */}
       </div>
     </section>
   );

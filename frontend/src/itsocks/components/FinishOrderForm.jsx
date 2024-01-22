@@ -7,7 +7,7 @@ import styles from '../../ui/styles/Billing.module.css'
 import metodo_pago from '../../../public/assets/pago/metodo_pago.jpg'
 
 // REACT ROUTER DOM
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 // MERCADOPAGO
@@ -63,6 +63,8 @@ export const FinishOrderForm = () => {
             err => console.log(err)
         )
     }, [])
+
+    const navigate = useNavigate();
     
     console.log(preference)
 
@@ -112,15 +114,18 @@ export const FinishOrderForm = () => {
             </div>
 
             <div className={ styles.buttons }>                
-                <div className={ styles.seguir_comprando}>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate("")}>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Seguir comprando</span>
                 </div>
 
-
-                <div id="wallet_container">
-                    <Wallet initialization={{ preferenceId: preference.id }} />
-                </div>
+                {
+                    Object.keys(preference).length > 0 ?
+                    <div id="wallet_container">
+                        <Wallet initialization={{ preferenceId: preference.id }} />
+                    </div>
+                    :<></>
+                }
             </div>
         </form>
 

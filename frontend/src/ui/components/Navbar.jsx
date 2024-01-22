@@ -38,8 +38,6 @@ export const Navbar = () => {
 
   const condition = location[1] && location[1] === selectedLink
 
-  console.log(condition)
-
   return (
     <header>
       <nav>

@@ -69,9 +69,12 @@ const UPDATE_STATE_BY_ACTION = {
   
   [CART_ACTION_TYPES.SUBTRACT_ONE_TO_CART]: (state, action) => {
     const { id, name } = action.payload
+    console.log(name)
     const productInCartIndex = state.findIndex(item => item.id === id && item.name === name)
+    console.log(productInCartIndex)
 
-    if (productInCartIndex > 0) {
+    if (productInCartIndex !== -1) {
+      console.log('ENTRE AL IF')
       if ( state[productInCartIndex].cantidad > 0){
         const newState = [
           ...state.slice(0, productInCartIndex),

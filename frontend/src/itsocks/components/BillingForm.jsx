@@ -5,7 +5,7 @@ import styles from '../../ui/styles/Billing.module.css'
 
 // Icons
 import arrow_left_circle from '../../../public/assets/carrito/ArrowCircleLeft.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export const BillingForm = () => {
 
@@ -14,6 +14,8 @@ export const BillingForm = () => {
     const handleDireccion = (e) => {        
         setDireccion(e.target.value)
     }
+
+    const navigate = useNavigate();
 
   return (
     <section className={ styles.billing_form }>
@@ -91,7 +93,7 @@ export const BillingForm = () => {
             </div>
 
             <div className={ styles.buttons }>
-                <div className={ styles.seguir_comprando}>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate(-1) }>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Seguir comprando</span>
                 </div>

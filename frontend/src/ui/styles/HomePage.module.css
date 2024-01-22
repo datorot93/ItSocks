@@ -136,6 +136,10 @@
     font-size: 40px;
 }
 
+.opiniones {
+    position: relative
+}
+
 /*.opiniones_clientes {
     display: flex;
     flex-direction: row;

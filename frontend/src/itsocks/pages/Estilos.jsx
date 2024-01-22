@@ -4,10 +4,10 @@ import { ProductoList2 } from '../components/ProductoList2';
 import { ProductFilter } from '../components/ProductFilter';
 
 import styles from '../../ui/styles/Accesorios.module.css';
+import { TagFilter } from '../components/TagFilter';
 
 
-export const Estilos = ({ estilo }) => {
-  
+export const Estilos = ({ estilo, filtro }) => {
   // const productos = getProductsByTags( estilo );
 
   
@@ -19,8 +19,8 @@ export const Estilos = ({ estilo }) => {
           <div className={ styles.trancking_container }>
             <h1>{estilo.toUpperCase()}</h1>
           </div>
-          <ProductoList2 estilo={estilo}/>
-          
+          <TagFilter estilo={estilo} filtro={filtro}/>
+          <ProductoList2 estilo={estilo} filtro={filtro}/>
         </div>
       </div>
     </>

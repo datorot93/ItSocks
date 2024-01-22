@@ -17,11 +17,12 @@ export const Mas = () => {
         <div className={ styles.container }>
             <div className={ styles.link_container}>
                 <img src={ icono_ventas_por_mayor } alt="Ventas al por mayor" />
-                <Link
-                    to=""
-                    >
+                <a
+                    href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20al%20por%20mayor,%20me%20podrías%20dar%20más%20información%2E%20Gracias`}
+                    target='_blank'
+                >
                     <p>Ventas al por mayor</p>        
-                </Link>
+                </a>
             </div>
             <div className={ styles.link_container}>
                 <img src={ icono_envios } alt="Ventas al por mayor" />
@@ -34,7 +35,7 @@ export const Mas = () => {
             <div className={ styles.link_container}>
                 <img src={ icono_tallas } alt="Ventas al por mayor" />
                 <Link
-                    to=""
+                    to="guia_tallas"
                 >
                     <p>Tabla de tallas</p>
                 </Link>

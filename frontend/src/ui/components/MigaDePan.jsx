@@ -8,9 +8,9 @@ import { usePack } from "../../hooks/usePack";
 export const MigaDePan = () => {
   const location = useLocation();
   const pathnames = location.pathname
-    .replace("_", " ")
-    .replace("%20", " ")
-    .replace("%201", "")
+    .replaceAll("_", " ")
+    .replaceAll("%20", " ")
+    .replaceAll("%201", "")
     .split("/")
     .filter((x) => x.charAt(0));
     
