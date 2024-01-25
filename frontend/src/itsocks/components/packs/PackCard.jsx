@@ -14,11 +14,16 @@ import { usePack } from "../../../hooks/usePack";
 
 export const PackCard = (pack) => {
 
+
+  console.log('ESTE ES EL PACK CARD')
+  console.log(pack)
+
   const dispatch = useDispatch();
 
   const { createPack } = usePack();
 
   const handleClick = () => {
+
     const current_product = JSON.stringify(pack);
     const packs = JSON.stringify({ ...pack, prductos: [] });
 

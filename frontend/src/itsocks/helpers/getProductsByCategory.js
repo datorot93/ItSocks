@@ -22,6 +22,17 @@ export const getProductsByCategoryDesign = async( category, design, skip ) => {
     return data
 }
 
+export const getProductsByDesign = async( design ) => {
+
+    const resp = await fetchWithoutToken(
+        `products/product_by_design?design=${design}&skip=0&limit=60`
+    )
+    const data = await resp.json();
+
+    return data
+
+}
+
 export const getProductcsByCatSubcat = async( category, subcategory, skip) => {
     const resp = await fetchWithoutToken(
         `products/q/products_categories?category=${category}&subcategory=${subcategory}&skip=${skip}&limit=${LIMIT_QUERY}`

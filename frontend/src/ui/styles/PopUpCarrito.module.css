@@ -3,7 +3,7 @@
     right: 10px;
     top: 100px;
     width: 359px;
-    height: 630px;
+    height: 519px;
     background: #FFF;
     box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.25);
     z-index: 3;
@@ -14,16 +14,16 @@
     position: relative;
     display: flex;
     width: auto;
-    height: 54px;
+    height: 66px;
     align-items: center;
-    margin: 18px 24px;
+    margin: 0px 12px;
     border-bottom: 1px solid #C9C9C9 ;
 }
 
 .title span {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 15px;
+    right: 15px;
     cursor: pointer;
     font-size: 24px;
     font-weight: 500;
@@ -36,31 +36,48 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin: 0 0 0 12px;
 }
 
 .product_container {
     display: flex;
-    margin: 24px 24px;
+    margin: 17px 24px 12px 24px;
+    justify-content: space-between;
     
 }
 
 .product_image {
-    width: 99px;
-    height: 102px;
+    width: 102px;
+    height: 133px;
 }
 
 .product_image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .product_description {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    color: #2D2D2D;
+    font-family: Montserrat;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.delete_product {
     width: auto;
-    margin-left: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete_product img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    cursor: pointer;
 }
 
 .costo_envio {
@@ -74,8 +91,12 @@
 }
 
 .costo_envio p {
-    align-self: center;
-    justify-self: center;
+    color: #2D2D2D;
+    font-family: Montserrat;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
     margin: 0;
 }
 
@@ -84,13 +105,13 @@
     height: 26px;
     width: 26px;
     object-fit: cover;
-    margin-right: 12px;
+    margin-right: 8px;
 }
 
 .subtotal {
     display: flex;
     justify-content: space-between;
-    margin: 38px 24px;
+    margin: 18px 21px 19px 17px;
     color: #000;
 
 }
@@ -123,7 +144,7 @@
     font-size: 14px;
     justify-content: center;
     align-items: center;
-    margin: 20px 21px 49px 24px;
+    margin: 0 21px 15px 17px;
 }
 
 .buttons {
@@ -131,7 +152,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 16px;
 }
 
 .boton_comprar {
@@ -153,7 +174,7 @@
     height: 40px;
     align-self: center;
     color: #232CC7;
-    border: none;
+    border: 1px solid #232CC7;
     cursor: pointer;
     border-radius: 16px;
 }

@@ -90,7 +90,7 @@ export const ItSocks = () => {
           <div> */}
             <h2 className={styles.clientes_titulo}>QUÉ PIENSAN NUESTROS CLIENTES</h2>
             {/* <div>    */}
-                <OpinionCliente/>  
+            <OpinionCliente/>  
             {/* </div> */}
           {/* </div>
         </div> */}

@@ -27,7 +27,7 @@ export const useFetchItems = ( skip_page, setSkip, location, design, categoria, 
               categoria, 
               subcategoria, 
               type, 
-              skip_page
+              skip_page + 2
             ).then( 
               res => {
                 return setProducts( products => [...products, ...res] )
@@ -42,7 +42,7 @@ export const useFetchItems = ( skip_page, setSkip, location, design, categoria, 
               subcategoria, 
               type,
               design.replace('%20', ' '),
-              skip_page
+              skip_page + 2
             ).then( 
               res => {            
                 return setProducts( products => [...products, ...res] )
@@ -54,7 +54,7 @@ export const useFetchItems = ( skip_page, setSkip, location, design, categoria, 
             // console.log('Entré al if de accesorios')
             getProductsByCategory( 
               categoria,
-              skip_page
+              skip_page + 2
             ).then( 
               res => (          
                 setProducts( products => [...products, ...res] )
@@ -66,7 +66,7 @@ export const useFetchItems = ( skip_page, setSkip, location, design, categoria, 
             getProductsByCategoryDesign(
               categoria,
               disenio,
-              skip_page
+              skip_page + 2
             ).then( 
               res => {            
                 return setProducts( products => [...products, ...res] )

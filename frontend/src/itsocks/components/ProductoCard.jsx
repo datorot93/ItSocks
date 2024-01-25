@@ -9,6 +9,9 @@ import styles from "../../ui/styles/Accesorios.module.css";
 
 export const ProductoCard = (product, isPack) => {
 
+  // console.log('ESTE ES EL PRODUCTO')
+  // console.log(product)
+
   const { pathname } = useLocation();
 
   const handleClick = () => {

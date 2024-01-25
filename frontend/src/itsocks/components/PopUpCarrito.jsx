@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // Estilos
 import styles from "../../ui/styles/PopUpCarrito.module.css";
 import camion from "../../../public/assets/producto/camion.svg";
+import x_popup_green from "../../../public/assets/producto/x_popup_green.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 
@@ -22,8 +23,8 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
     useNavigate("");
   };
 
-  const { cart } = useCart();
-
+  const { subtractOneToCart, cart } = useCart();
+  
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
     if (!objeto.name.toLowerCase().includes("pack")) {
@@ -32,6 +33,11 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
       return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
     }
   }, 0);
+
+  const delete_product = () => {
+    subtractOneToCart(product);
+    setShowPopUp(false);
+  }
 
   return (
     <>
@@ -60,6 +66,12 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
                 </p>
               </div>
             </div>
+            <div 
+              className={ styles.delete_product}
+              onClick={ delete_product }
+            >
+              <img src={ x_popup_green } alt="Eliminar producto"/>
+            </div>
           </div>
 
           <div className={styles.costo_envio}>
@@ -67,14 +79,14 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
 
             <p>
               {total < 250000 ? (
-                <span>
+                <>
                   Lleva{" "}
                   <strong>{`${(250000 - total).toLocaleString("es-CO", {
                     style: "currency",
                     currency: "COP",
                   })} `}</strong>{" "}
-                  {" más y el envio te sale gratis."}
-                </span>
+                  {" más y el envío te sale gratis."}
+                </>
               ) : (
                 <span>
                   Envío totalmente <strong>GRATIS</strong>.

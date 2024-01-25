@@ -82,6 +82,23 @@ async def get_product_by_tag(
     return products
 
 
+@router.get("/product_by_design", response_model_exclude_none=True)
+async def get_product_by_design(
+    response: Response,
+    design: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por diseño
+    """
+    products = crud.product.get_product_by_design(db, design=design, skip=skip, limit=limit)
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
+
 @router.get("/tag_products_types", response_model_exclude_none=True)
 async def get_products_by_tag_type(
     response: Response,
