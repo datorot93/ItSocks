@@ -4,15 +4,22 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // React Reouter DOM
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //UTILITIES
 import { types } from "../../types/types";
 
 import styles from "../../../ui/styles/Accesorios.module.css";
+import { usePack } from "../../../hooks/usePack";
 
 export const FilterPacks = ({ lista_packs }) => {
   const initialState = {};
+
+  console.log('ESTA ES LA LISTA PACKS')
+  console.log(lista_packs)
+
+  const { createPack } = usePack();
+  
 
   lista_packs.map((item) => {
     const key = item.name.toUpperCase();
@@ -30,37 +37,48 @@ export const FilterPacks = ({ lista_packs }) => {
     }
   }
 
-  const handleChecked = async (e, subcategory) => {
-    setCheckedItems((prevState) => {
-      const updatedItems = {};
-      Object.keys(prevState).forEach((key) => {
-        updatedItems[key] = key === subcategory ? !prevState[key] : false;
-      });
-      return updatedItems;
-    });
+  const pack_routes = {
+    "PARES DE MEDIAS LARGAS X4": "largas",
+    "PARES DE MEDIAS LARGAS X3": "largas",
+    "PARES DE MEDIAS PANTORRILLERAS X4": "pantorrilleras",
+    "PARES DE MEDIAS PANTORRILLERAS X3": "pantorrilleras",
+    "PARES DE MEDIAS MEDIA CAÑA X4": "media_cania",
+    "PARES DE MEDIAS MEDIA CAÑA X3": "media_cania",
   };
+
+  const handleClick = (pack) => {
+    console.log('ESTE ES EL PACK FILTRO')
+    console.log(pack)
+    const current_product = JSON.stringify(pack);
+    const packs = JSON.stringify({ ...pack, prductos: [] });
+
+    createPack({ ...pack, prductos: [] });
+
+    localStorage.setItem("pack", packs);
+  };
+
 
   return (
     <>
-      {lista_packs ? (
+
         <div className={styles.product_filter}>
-          {Object.getOwnPropertyNames(checkedItems).map((subcategory) => (
-            <label key={subcategory}>
-              <input
-                key={subcategory}
-                type="checkbox"
-                id={subcategory}
-                checked={checkedItems[subcategory]}
-                value={subcategory}
-                onChange={(event) => handleChecked(event, subcategory)}
-              />
-              {subcategory}
-            </label>
+          {
+          lista_packs.map((pack) => (
+            
+            <Link 
+              to={pack_routes[pack.name.toUpperCase()]} 
+              key={pack.name}
+              onClick={ () => handleClick(pack) }
+            >
+              <button 
+                className={styles.filter_buttons}             
+              >
+                {pack.name.toUpperCase()}
+              </button>
+            </Link>
           ))}
         </div>
-      ) : (
-        <></>
-      )}
+      
     </>
   );
 };

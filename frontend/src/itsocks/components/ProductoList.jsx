@@ -25,7 +25,8 @@ export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
     useFetchItems(skip_page, setSkip, location, design, categoria, subcategoria, type)
     : [];
 
-
+  console.log('ESTOS SON LOS PRODUCTOS')
+  console.log(products)
   return (
     <>
       {

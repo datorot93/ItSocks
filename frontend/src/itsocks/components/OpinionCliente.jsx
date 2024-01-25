@@ -104,7 +104,7 @@ function OpinionCliente() {
     );
   }
 
-  var settings = {
+  const settings = {
     className: "center",
     infinite: true,
     arrows: true,
@@ -142,7 +142,7 @@ function OpinionCliente() {
       {opinionesClientes.map((cliente, index) => (
         <div className={styles.img_container} key={index} onMouseOver={ mouseOver } onMouseLeave={ mouseLeave }>
           <div className={styles.img_center}>
-            <LazyLoadImage src={cliente.src} alt={cliente.descripcion} />
+            <LazyLoadImage src={cliente.src} alt={cliente.description} />
           </div>
           <p>"{cliente.opinion}"</p>
           <div className={styles.info_opiniones}>

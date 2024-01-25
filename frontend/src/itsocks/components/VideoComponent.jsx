@@ -16,16 +16,16 @@ function VideoComponent() {
     return (
         <Container>
             <Row>
-                <Col sm={4}>
+                <Col sm={4} className="justify-content-md-center align-self-md-center">
                     <div className={styles.beneficios_image_container}>
                         {beneficiosImage.map((image, index) => (
-                            <video width={750} height={700} controls key={index}>
+                            <video controls key={index}>
                                 <source src={image.src} type="video/mp4" />
                             </video>
                         ))}
                     </div>
                 </Col>
-                <Col sm={8} className="justify-content-md-center">
+                <Col sm={8} className="justify-content-md-center align-items-md-center">
                     <div className="justify-content-center">
                         <h2 className="d-flex justify-content-center" style={{ fontWeight: 800 }}>BENEFICIOS DE NUESTRAS</h2>
                         <h2 className="d-flex justify-content-center" style={{ fontWeight: 800 }}>MEDIAS DE COMPRESIÓN</h2>

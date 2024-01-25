@@ -883,6 +883,64 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             
         return lista_productos
     
+
+    def get_product_by_design(
+        self,
+        db: Session,
+        *,
+        skip: int,
+        limit: int,
+        design: str,
+    ):
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            filter(
+                unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+        product_images = db.query(
+                Image.url,
+                Image.id_product
+            ).\
+            join(Product, Product.id == Image.id_product).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+
+        lista_productos = self._get_product_list(
+                products=products,
+                product_images=product_images
+            )
+            
+        return lista_productos
+    
     
     def get_colors_tallas_by_product(
         self, 

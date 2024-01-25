@@ -18,12 +18,17 @@ import { colores } from "../types/types";
 
 import { PopUpCarrito } from "./PopUpCarrito";
 import { useCart } from "../../hooks/useCart";
-import { getProductExtraInfo } from "../helpers/getProductsByCategory";
+import { getProductExtraInfo, getProductsByDesign } from "../helpers/getProductsByCategory";
 import { useNavigate } from "react-router-dom";
+import { PopUpTallas } from "./PopUpTallas";
+import { ProductosSimilares } from "./products/ProductosSimilares";
+import ScrollHorizontal from "./ScrollHorizontal";
 
 // React Reducx
 
 export const ProductDescription = () => {
+
+  
   const { addToCart, removeFromCart, cart } = useCart();
 
   const total = cart.reduce((acumulador, objeto) => {
@@ -55,6 +60,8 @@ export const ProductDescription = () => {
     Object.keys(producto.images).length
   );
 
+  const [ simirlarProducts, setSimirlarProducts] = useState([])
+
   // Petición de colores y tallas del producto
   useEffect(() => {
     const getColorsAndSizes = async () => {
@@ -63,9 +70,10 @@ export const ProductDescription = () => {
       setTallas(extra_info[0].tallas);
     };
     getColorsAndSizes();
+    getProductsByDesign(producto.design).then(
+      res => setSimirlarProducts([...res])
+    ).catch( err => console.log(err))
   }, []);
-
-
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
@@ -96,7 +104,7 @@ export const ProductDescription = () => {
   };
 
   const [showPopUp, setShowPopUp] = useState(false);
-  const [showTallas, setShowTallas] = useState(false);
+  const [showPopTallas, setShowPopUpTallas] = useState(false);
 
   const [title, setTitle] = useState("");
 
@@ -192,213 +200,226 @@ export const ProductDescription = () => {
   // console.log(showPopUp);
 
   return (
-    <div className={styles.main}>
-      {showPopUp ? <div className={styles.block_page}></div> : <></>}
-      <div className={styles.description_container}>
-        <div className={styles.image_container}>
-          <div className={styles.principal_image}>
-            <button
-              className={`${styles.arrow_button} ${styles.left}`}
-              onClick={previus}
-            >
-              {"<"}
-            </button>
-            <LazyLoadImage
-              src={producto.images[Object.keys(producto.images)[selectedIndex]]}
-              alt={producto.name}
-            />
-            <button
-              className={`${styles.arrow_button} ${styles.right}`}
-              onClick={next}
-            >
-              {">"}
-            </button>
-          </div>
-          <div className={styles.similares}>
-            {otherPhotos.map((image, index) => (
-              <LazyLoadImage
-                src={producto.images[image]}
-                alt={producto.name}
-                key={index}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.description}>
-          <div className={ styles.title }>
-            <h2>{producto.name}</h2>
-          </div>
-          <div className={styles.precio}>
-            {producto.discount === 0 ? (
-              <p>{`${producto.price.toLocaleString("es-CO", {
-                style: "currency",
-                currency: "COP",
-              })}`}</p>
-            ) : (
-              <>
-                <p
-                  className={styles.porcentaje_descuento}
-                >{`${producto.discount}% OFF`}</p>
-                <p
-                  className={styles.precio_sin_descuento}
-                >{`${producto.price.toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                })}`}</p>
-                <p>{`${(
-                  producto.price -
-                  producto.price * (producto.discount / 100)
-                ).toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                })}`}</p>
-              </>
-            )}
-          </div>
-          <div className={styles.description_p}>
-            <p>{producto.description}</p>
-          </div>
-
-
-          {tallas[0] && tallas[0] !== "unica" ? (
-            <>
-              <div className={styles.guia_tallas}>
-                  <span>¡Consulta la guia de talla!</span>
-              </div>
-              <div className={styles.tallas}>
-              <div className={styles.tallas_label}>Tallas: </div>
-              <div className={styles.numeros_tallas}>
-                {tallas.map((talla) => (
-                  <div 
-                    className={`${styles.talla_button} ${tallaSeleccionada === talla ? styles.talla_selected : ''}`} 
-                    key={talla}
-                    onClick={() => handleTallaClick(talla)}
-                  >
-                    {talla}
-                  </div>
-                ))}
-              </div>
-            </div>
-            </>
-
-          ) : (
-            <></>
-          )}
-
-          {colors[0] !== "nan" ? (
-            <div className={styles.colores}>
-              <div className={styles.colores_label}>Colores: </div>
-              <div className={styles.numeros_colores}>
-                {colors.map((color) => (
-                  <div
-                    className={`${styles.color_circle} ${colorSeleccionado === color ? styles.color_selected : ''}}`}
-                    style={{
-                      backgroundColor: colores[color.toUpperCase()],
-                    }}
-                    key={color}
-                    onClick={() => handleColorClick(color)}
-                  ></div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <></>
-          )}
-
-          <div className={styles.acciones}>
-            <div
-              className={styles.carrito}
-              onClick={() => handleShowPopUp("carrito")}
-            >
-              <img src={carrito} alt="Carrito de compras" />
-              <span>Agregar a carrito</span>
-            </div>
-            <div
-              className={styles.corazon}
-              onClick={() => handleShowPopUp("deseos")}
-            >
-              <img src={corazon} alt="Corazon" />
-              <span>Añadir a mi lista</span>
-            </div>
-          </div>
-
-          <div className={styles.comprar}>
-            <div className={styles.conteo}>
+    <>
+      <div className={styles.main}>
+        {showPopUp ? <div className={styles.block_page}></div> : <></>}
+        <div className={styles.description_container}>
+          <div className={styles.image_container}>
+            <div className={styles.principal_image}>
               <button
-                onClick={() =>
-                  setCantProducts(
-                    cantProducts > 1 ? cantProducts - 1 : cantProducts
-                  )
-                }
-                className={styles.button_left}
+                className={`${styles.arrow_button} ${styles.left}`}
+                onClick={previus}
               >
-                -
+                {"<"}
               </button>
-              <span>{cantProducts}</span>
-              <button 
-                onClick={() => setCantProducts(cantProducts + 1)}
-                className={styles.button_right}
+              <LazyLoadImage
+                src={producto.images[Object.keys(producto.images)[selectedIndex]]}
+                alt={producto.name}
+              />
+              <button
+                className={`${styles.arrow_button} ${styles.right}`}
+                onClick={next}
               >
-                +
+                {">"}
               </button>
             </div>
-            <button 
-              className={styles.boton_comprar}
-              onClick={ handleComprarAhora }
-            >¡¡COMPRAR AHORA!!
-            </button>
+            <div className={styles.similares}>
+              {otherPhotos.map((image, index) => (
+                <LazyLoadImage
+                  src={producto.images[image]}
+                  alt={producto.name}
+                  key={index}
+                />
+              ))}
+            </div>
           </div>
 
-          <div className={styles.tiempo_estimado}>
-            <img src={reloj} alt="Reloj" />
-            <p>
-              Tiempos de envío: 3 a 4 días hábiles después del pago + 1 o 2 días
-              que demora la transportadora en entregar
-            </p>
-          </div>
-          
-          <div className={styles.informacion_adicional}>
-            <img src={camion} alt="Envíos" />
-            {total < 250000 ? (
-              <p>
-                Lleva{" "}
-                <span>{`${(250000 - total).toLocaleString("es-CO", {
+          <div className={styles.description}>
+            <div className={ styles.title }>
+              <h2>{producto.name}</h2>
+            </div>
+            <div className={styles.precio}>
+              {producto.discount === 0 ? (
+                <p>{`${producto.price.toLocaleString("es-CO", {
                   style: "currency",
                   currency: "COP",
-                })}`}</span>{" "}
-                más y el envío te sale gratis
-              </p>
+                })}`}</p>
+              ) : (
+                <>
+                  <p
+                    className={styles.porcentaje_descuento}
+                  >{`${producto.discount}% OFF`}</p>
+                  <p
+                    className={styles.precio_sin_descuento}
+                  >{`${producto.price.toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  })}`}</p>
+                  <p>{`${(
+                    producto.price -
+                    producto.price * (producto.discount / 100)
+                  ).toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  })}`}</p>
+                </>
+              )}
+            </div>
+            <div className={styles.description_p}>
+              <p>{producto.description}</p>
+            </div>
+
+
+            {tallas[0] && tallas[0] !== "unica" ? (
+              <>
+                <div 
+                  className={styles.guia_tallas}
+                  onClick={() => setShowPopUpTallas(true)}
+                >
+                    <span>¡Consulta la guia de talla!</span>
+                </div>
+                <div className={styles.tallas}>
+                <div className={styles.tallas_label}>Tallas: </div>
+                <div className={styles.numeros_tallas}>
+                  {tallas.map((talla) => (
+                    <div 
+                      className={`${styles.talla_button} ${tallaSeleccionada === talla ? styles.talla_selected : ''}`} 
+                      key={talla}
+                      onClick={() => handleTallaClick(talla)}
+                    >
+                      {talla}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              </>
+
             ) : (
-              <p>
-                Envío totalmente <strong>GRATIS</strong>.
-              </p>
+              <></>
             )}
+
+            {colors[0] !== "nan" ? (
+              <div className={styles.colores}>
+                <div className={styles.colores_label}>Colores: </div>
+                <div className={styles.numeros_colores}>
+                  {colors.map((color) => (
+                    <div
+                      className={`${styles.color_circle} ${colorSeleccionado === color ? styles.color_selected : ''}}`}
+                      style={{
+                        backgroundColor: colores[color.toUpperCase()],
+                      }}
+                      key={color}
+                      onClick={() => handleColorClick(color)}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+
+            <div className={styles.acciones}>
+              <div
+                className={styles.carrito}
+                onClick={() => handleShowPopUp("carrito")}
+              >
+                <img src={carrito} alt="Carrito de compras" />
+                <span>Agregar a carrito</span>
+              </div>
+              <div
+                className={styles.corazon}
+                onClick={() => handleShowPopUp("deseos")}
+              >
+                <img src={corazon} alt="Corazon" />
+                <span>Añadir a mi lista</span>
+              </div>
+            </div>
+
+            <div className={styles.comprar}>
+              <div className={styles.conteo}>
+                <button
+                  onClick={() =>
+                    setCantProducts(
+                      cantProducts > 1 ? cantProducts - 1 : cantProducts
+                    )
+                  }
+                  className={styles.button_left}
+                >
+                  -
+                </button>
+                <span>{cantProducts}</span>
+                <button 
+                  onClick={() => setCantProducts(cantProducts + 1)}
+                  className={styles.button_right}
+                >
+                  +
+                </button>
+              </div>
+              <button 
+                className={styles.boton_comprar}
+                onClick={ handleComprarAhora }
+              >¡¡COMPRAR AHORA!!
+              </button>
+            </div>
+
+            <div className={styles.tiempo_estimado}>
+              <img src={reloj} alt="Reloj" />
+              <p>
+                Tiempos de envío: 3 a 4 días hábiles después del pago + 1 o 2 días
+                que demora la transportadora en entregar
+              </p>
+            </div>
+            
+            <div className={styles.informacion_adicional}>
+              <img src={camion} alt="Envíos" />
+              {total < 250000 ? (
+                <p>
+                  Lleva{" "}
+                  <span>{`${(250000 - total).toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  })}`}</span>{" "}
+                  más y el envío te sale gratis
+                </p>
+              ) : (
+                <p>
+                  Envío totalmente <strong>GRATIS</strong>.
+                </p>
+              )}
+            </div>
+
           </div>
-
         </div>
-      </div>
 
-      <div className={styles.productos_recomendados}>
-        <h2>Productos recomendados 🔥</h2>
-        <div className={styles.recommended_images}>
-          {similares.map((producto) => (
-            <LazyLoadImage
-              key={producto.id}
-              src={producto.images}
-              alt={producto.nombre}
+        {showPopUp && (
+          <PopUpCarrito
+            title={title}
+            product={producto}
+            showPopUp={showPopUp}
+            setShowPopUp={setShowPopUp}
+          />
+        )}
+
+        {
+          showPopTallas && (
+            <PopUpTallas
+              tipo_media={producto.type}
+              showPopUpTallas={showPopTallas}
+              setShowPopUpTallas={setShowPopUpTallas}
             />
-          ))}
-        </div>
+          )
+        }
+        
       </div>
-      {showPopUp && (
-        <PopUpCarrito
-          title={title}
+      <div className={ styles.title_recomendados}>
+        <h2>Productos recomendados 🔥</h2>
+            {/* <div className={styles.recommended_images}> */}
+      </div>
+      <ScrollHorizontal masVendidos={simirlarProducts}/>
+        {/* <ProductosSimilares 
+          design={producto.design}
           product={producto}
-          showPopUp={showPopUp}
-          setShowPopUp={setShowPopUp}
-        />
-      )}
-    </div>
+        /> */}
+    </>
   );
 };
