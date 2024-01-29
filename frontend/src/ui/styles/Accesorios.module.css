@@ -251,7 +251,7 @@
   height: 57px;
   flex-shrink: 0;
   margin: 3px 0;
-  cursor: pointer;
+  cursor: none;
   color: var(--negro, #fff);
   text-align: center;
   font-family: Montserrat;
@@ -304,5 +304,33 @@
   color: #000;
   font-family: Montserrat;
   font-style: normal;
+}
 
+.filtros_compresion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.filtros_compresion h3 {
+  color: #000;
+
+  /* Subtitulo */
+  font-family: Montserrat;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0px; /* 0% */
+  margin: 0;
+}
+
+.compresion_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }

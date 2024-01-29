@@ -91,8 +91,8 @@ export const getProductsListByFilterSubcategory = ( products, category, subcateg
         }
         // const lista_productos = products.filter( product => product.subcategory.includes(subcategory))
         
-        console.log('Esta es la lista de productos')
-        console.log(lista_productos)
+        // console.log('Esta es la lista de productos')
+        // console.log(lista_productos)
     
         dispatch({
             type: types.loadProducts,

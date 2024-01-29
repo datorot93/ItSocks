@@ -16,7 +16,7 @@ import {
   getProductsListByTypeAndDesign,
 } from "../../../actions/getProductsList";
 import { usePack } from "../../../hooks/usePack";
-import { getPackProductsFilters } from "../../helpers/getProductsByCategory";
+import { getCompresionFilters, getPackCompresionFilters, getPackProductsFilters } from "../../helpers/getProductsByCategory";
 
 export const PackProductFilter = ({
   categoria,
@@ -31,6 +31,10 @@ export const PackProductFilter = ({
 
   const [checkedItems, setCheckedItems] = useState({});
   const [ disenio, setDisenio ] = useState(null)
+  const location = useLocation().pathname;
+  const [productosPack, setProductosPack] = useState(initialStatePack);
+  const [ compresion, setCompresion ] = useState();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -43,8 +47,6 @@ export const PackProductFilter = ({
     
   }, [categoria, type])
 
-  const dispatch = useDispatch();
-
   let subcategory = null;
 
   for (let clave in checkedItems) {
@@ -54,48 +56,9 @@ export const PackProductFilter = ({
     }
   }
 
-  const [productosPack, setProductosPack] = useState(initialStatePack);
-
-  const location = useLocation().pathname;
-
-  const handleChecked = async (e, subcategory) => {
-    setCheckedItems((prevState) => {
-      const updatedItems = {};
-      Object.keys(prevState).forEach((key) => {
-        updatedItems[key] = key === subcategory ? !prevState[key] : false;
-      });
-      return updatedItems;
-    });
-  };
-  // FILTRAR POR DISENIO
-  const navigate = useNavigate();
-
-  const handleDisenio = (event, disenio) => {
-    navigate(disenio);
-  };
-
   const retroceder = () => {
     navigate(-1);
   };
-
-  // // CARGA INICIAL
-  // useEffect(() => {
-  //   if (!subcategoria && !type) {
-  //     dispatch(getProductsListByFilterSubcategory(categoria, checkedItems));
-  //   } else if (!subcategoria && type) {
-  //     dispatch(getProductsListByTypeAndDesign(checkedItems, categoria, type));
-  //   } else {
-  //     dispatch(
-  //       getProductsListByFilterSubcategory(
-  //         categoria,
-  //         checkedItems,
-  //         subcategoria,
-  //         type,
-  //         skip_page
-  //       )
-  //     );
-  //   }
-  // }, [checkedItems]);
 
   useEffect(() => {
     for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
@@ -114,46 +77,59 @@ export const PackProductFilter = ({
     if (newDisenio !== null) {
       setDisenio(newDisenio);
     }
+
+    if (location.split('/').length === 4) {
+      getPackCompresionFilters(
+        location.split('/')[2].toLocaleLowerCase().replaceAll('_', ' ').replaceAll('cania', 'caña'),
+        location.split('/')[3].toLocaleLowerCase().replaceAll('%20', ' ')
+      ).then(
+        (res) => setCompresion(res)
+      ).catch(
+        (err) => console.log(err)
+      )
+    }
+
   }, [location]);
 
+  console.log(compresion)
 
   return (
     <>
       {
-        location.split("/").length != 4 ?
+        location.split("/").length == 3 ?
         <div className={styles.product_filter_pack}>
-        <button className={styles.selected_button} value={pack.name}>
-          {pack.name.toUpperCase()}
-        </button>
+          <button className={styles.selected_button} value={pack.name}>
+            {pack.name.toUpperCase()}
+          </button>
 
-        {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
-          <Link to={disenio} key={disenio}>
-            <button className={styles.filter_buttons} value={disenio}>
-              {disenio}
-            </button>
-          </Link>
-        ))}
+          {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
+            <Link to={disenio} key={disenio}>
+              <button className={styles.filter_buttons} value={disenio}>
+                {disenio}
+              </button>
+            </Link>
+          ))}
 
-        {initialStatePack && productosPack.length !== 0 && typeof productosPack === "object" ? (
-          <div className={styles.pack_products}>
-            <h5>Medias seleccionadas</h5>
-            <div className={styles.pack_products_checks}>
-              {productosPack?.map((producto, index) => (
-                <label key={index}>
-                  <input
-                    type="checkbox"
-                    value={producto}
-                    defaultChecked={producto !== "" ? true : false}
-                  />
-                  {producto !== "" ? producto : "Pendiente"}
-                </label>
-              ))}
+          {initialStatePack && productosPack.length !== 0 && typeof productosPack === "object" ? (
+            <div className={styles.pack_products}>
+              <h5>Medias seleccionadas</h5>
+              <div className={styles.pack_products_checks}>
+                {productosPack?.map((producto, index) => (
+                  <label key={index}>
+                    <input
+                      type="checkbox"
+                      value={producto}
+                      defaultChecked={producto !== "" ? true : false}
+                    />
+                    {producto !== "" ? producto : "Pendiente"}
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </div>
+          ) : (
+            <></>
+          )}
+        </div>
       :
       <div className={styles.product_filter}>
           <div className={ styles.back_circle_arrow}>
@@ -181,10 +157,67 @@ export const PackProductFilter = ({
                   <span>X</span>
                 </div>
               </div>
-            
+          
           ))}
+
+{
+            location.split("/").length == 4 ?
+            <div className={ styles.filtros_compresion }>
+              <h3>Filtra por compresión</h3>
+              <div className={ styles.compresion_buttons }>
+
+                {
+                  compresion && compresion['compresion_filters'].length == 2 ?
+                  compresion['compresion_filters'].map( filter => (   
+                      <Link
+                        to={filter.replaceAll(' ', '_').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}
+                        key={filter}
+                      >
+                        <button 
+                            className={`${styles.filter_buttons}`} 
+                            value={filter}  
+                            key={filter}            
+                          >
+                            {filter}
+                        </button>
+                      </Link>   
+                  ))
+                  :<></>
+                }
+
+                {
+                  compresion && compresion['compresion_filters'].length == 1 ?
+                  compresion['compresion_filters'].map( filter => (
+                      <button 
+                        className={`${styles.selected_button}`} 
+                        value={filter}
+                        key={filter}              
+                      >
+                        {filter}
+                        
+                      </button> 
+                  ))
+                  : <></>
+                }
+              </div>
+            </div>
+            : 
+            <div className={ styles.filtros_compresion }>
+              <h3>Filtra por compresión</h3>
+              <div className={ styles.compresion_buttons }>
+              <button 
+                className={`${styles.selected_button}`}              
+              >
+                {location.split("/")[4].replaceAll('_', ' ').replaceAll('compresion', 'compresión').replaceAll('medias', 'Medias')}
+                
+              </button> 
+              </div>
+            </div>
+          }
         </div>
       }
+
+
       
     </>
   );

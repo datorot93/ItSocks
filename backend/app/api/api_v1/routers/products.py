@@ -277,6 +277,63 @@ async def get_products_by_cat_subcat_type_design(
 
     return products
 
+
+@router.get("/q/products_categories_subcat_types_designs_compresion", response_model_exclude_none=True)
+async def get_products_by_cat_subcat_type_design_compresion(
+    response: Response,
+    category: str,
+    subcategory: str,
+    type: str,
+    design: str,
+    compresion: bool,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Obtener todos los productos por categoria, subcategoria, tipo, diseño y compresion
+    """
+    products = crud.product.get_products_by_cat_subcat_type_design_compresion( 
+        db=db,
+        category=category,
+        subcategory=subcategory,
+        type=type,
+        design=design,
+        compresion=compresion,
+        skip=skip,
+        limit=limit
+    )
+
+    return products
+
+
+@router.get("/q/products_categories_types_designs_compresion", response_model_exclude_none=True)
+async def get_products_by_cat_type_design_compresion(
+    response: Response,
+    category: str,
+    type: str,
+    design: str,
+    compresion: bool,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Obtener todos los productos por categoria, subcategoria, tipo, diseño y compresion
+    """
+    products = crud.product.get_products_by_cat_type_design_compresion( 
+        db=db,
+        category=category,
+        type=type,
+        design=design,
+        compresion=compresion,
+        skip=skip,
+        limit=limit
+    )
+
+    return products
+
+
 @router.get("/q/products_categories_types", response_model_exclude_none=True)
 async def get_products_by_cat_type(
     response: Response,
@@ -344,6 +401,56 @@ async def get_colors_tallas_by_product(
     
     colors = crud.product.get_colors_tallas_by_product(db=db, name=name, type=type)
     return colors
+
+
+@router.get(
+    "/q/compresion_filters/{category}/{subcategory}/{type}/{design}", response_model_exclude_none=True
+)
+async def get_compresion_filters(
+    response: Response,
+    category: str,
+    subcategory: str,
+    type: str,
+    design: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener los filtros por compresión
+    """
+
+    compresion_filters = crud.product.get_compresion_filters(
+        db=db, 
+        category=category, 
+        subcategory=subcategory, 
+        type=type,
+        design=design
+    )
+    
+    return compresion_filters
+
+
+@router.get(
+    "/q/pack_compresion_filters/{category}/{type}/{design}", response_model_exclude_none=True
+)
+async def get_pack_compresion_filters(
+    response: Response,
+    category: str,
+    type: str,
+    design: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener los filtros por compresión (packs)
+    """
+
+    compresion_filters = crud.product.get_pack_compresion_filters(
+        db=db, 
+        category=category, 
+        type=type,
+        design=design
+    )
+    
+    return compresion_filters
 
 
 @router.get("/q/products_designs", response_model_exclude_none=True)

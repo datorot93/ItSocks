@@ -68,14 +68,12 @@ const UPDATE_STATE_BY_ACTION = {
   },
   
   [CART_ACTION_TYPES.SUBTRACT_ONE_TO_CART]: (state, action) => {
+    console.log(action.payload)
     const { id, name } = action.payload
-    console.log(name)
     const productInCartIndex = state.findIndex(item => item.id === id && item.name === name)
-    console.log(productInCartIndex)
 
     if (productInCartIndex !== -1) {
-      console.log('ENTRE AL IF')
-      if ( state[productInCartIndex].cantidad > 0){
+      if ( state[productInCartIndex].cantidad > 1){
         const newState = [
           ...state.slice(0, productInCartIndex),
           { ...state[productInCartIndex], cantidad: state[productInCartIndex].cantidad - 1 },
@@ -89,10 +87,11 @@ const UPDATE_STATE_BY_ACTION = {
   },
 
   [CART_ACTION_TYPES.REMOVE_FROM_CART]: (state, action) => {
-    const { id, name } = action.payload
-    console.log("ESTE ES EL ACTION")
-    console.log(action)
-    const newState = state.filter(item => item.id !== id && item.name !== name)
+
+    const { id, name, subcategory, price } = action.payload
+    const newState = state.filter(
+      item => item.id !== id && item.name !== name && item.subcategory !== subcategory && item.price !== price
+    )
     updateLocalStorage(newState)
     return newState
   },

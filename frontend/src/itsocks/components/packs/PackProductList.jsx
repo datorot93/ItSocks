@@ -22,14 +22,15 @@ export const PackProductoList = ({ categoria, type }) => {
   
   const { products } = useFetchPackItems(skip_page, setSkip, location, categoria, type)
 
+  console.log(products)
 
   return (
     <InfiniteScroll
-          dataLength={ products.length }
-          next={ () => setSkip(skip_page => skip_page + 30) }
-          hasMore={ true }
-          loader={ <h4></h4> }
-        >
+      dataLength={ products ? products.length : 0}
+      next={ () => setSkip(skip_page => skip_page + 30) }
+      hasMore={ true }
+      loader={ <h4></h4> }
+    >
 
       <div className={styles.container}>
             <div className={styles.trancking_container}>

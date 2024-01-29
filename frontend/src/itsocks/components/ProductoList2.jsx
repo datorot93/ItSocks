@@ -47,12 +47,17 @@ export const ProductoList2 = ({estilo, filtro}) => {
           }
         );
     }
-  }, [skip_page]);
+  }, [skip_page, location]);
   
   useEffect(() => {
     setProducts([]);
     setSkip(0);
   }, [location]);
+
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
 
 
   return (
