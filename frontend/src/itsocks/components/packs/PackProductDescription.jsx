@@ -21,6 +21,7 @@ import { usePack } from "../../../hooks/usePack";
 import { useCart } from "../../../hooks/useCart";
 import { PopUpCarritoPack } from "./PopUpCarritoPack";
 import { getProductExtraInfo } from "../../helpers/getProductsByCategory";
+import { PopUpTallas } from "../PopUpTallas";
 
 export const PackProductDescription = () => {
   const { addToCart, cart } = useCart();
@@ -53,7 +54,7 @@ export const PackProductDescription = () => {
   // Petición de colores y tallas del producto
   useEffect(() => {
     const getColorsAndSizes = async () => {
-      const extra_info = await getProductExtraInfo(producto.name);
+      const extra_info = await getProductExtraInfo(producto.name, producto.type);
       setTallas(extra_info[0].tallas);
     };
     getColorsAndSizes();
@@ -74,7 +75,8 @@ export const PackProductDescription = () => {
 
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
-  const [cantProducts, setCantProducts] = useState(0);
+  const [cantProducts, setCantProducts] = useState(1);
+  const [showPopTallas, setShowPopUpTallas] = useState(false);
 
   const next = () => {
     const condition = selectedIndex < Object.keys(producto.images).length - 1;
@@ -198,10 +200,11 @@ export const PackProductDescription = () => {
             </div>
           </div>
 
-          <div className={styles.guia_tallas}>
-            <Link to={"/guia_tallas"}>
-              <span>¡Consulta tu guia de talla!</span>
-            </Link>
+          <div 
+            className={styles.guia_tallas}
+            onClick={() => setShowPopUpTallas(true)}
+          >
+              <span>¡Consulta la guia de talla!</span>
           </div>
 
           <div className={styles.cantidad_packs}>
@@ -233,18 +236,19 @@ export const PackProductDescription = () => {
           <div className={styles.comprar}>
             <div className={styles.conteo}>
               <button
-                className={styles.minus_button}
+                
                 onClick={() =>
                   setCantProducts(
-                    cantProducts > 0 ? cantProducts - 1 : cantProducts
+                    cantProducts > 1 ? cantProducts - 1 : cantProducts
                   )
                 }
+                className={styles.button_left}
               >
                 -
               </button>
               <span>{cantProducts}</span>
               <button
-                className={styles.plus_button}
+                className={styles.button_right}
                 onClick={() =>
                   setCantProducts(
                     cantProducts < pack.product_quantity - pack.prductos.length
@@ -302,6 +306,16 @@ export const PackProductDescription = () => {
           setShowPopUp={setShowPopUp}
         />
       )}
+
+      {
+        showPopTallas && (
+          <PopUpTallas
+            tipo_media={producto.type}
+            showPopUpTallas={showPopTallas}
+            setShowPopUpTallas={setShowPopUpTallas}
+          />
+        )
+      }
     </div>
   );
 };

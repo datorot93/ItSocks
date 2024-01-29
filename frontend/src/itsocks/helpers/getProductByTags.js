@@ -1,8 +1,10 @@
 import { fetchWithoutToken } from '../../utils/api';
 import { productos } from '../data/productos';
 
+
+const LIMIT_QUERY = 30;
 export const getProductsByTags = async( tag, skip ) => {
-    const LIMIT_QUERY = 30;
+
     // console.log('ESTA ES LA URL')
     // console.log(`products/tag_products?tag=${tag}&skip=${skip}&limit=${LIMIT_QUERY}`)
     const resp = await fetchWithoutToken(
@@ -17,7 +19,7 @@ export const getProductsByTags = async( tag, skip ) => {
 }
 
 export const getProductsByTagsType = async( tag, type, skip ) => {
-    const LIMIT_QUERY = 30;
+    
     // console.log('ESTA ES LA URL')
     // console.log(`products/tag_products?tag=${tag}&skip=${skip}&limit=${LIMIT_QUERY}`)
     const resp = await fetchWithoutToken(
@@ -30,7 +32,7 @@ export const getProductsByTagsType = async( tag, type, skip ) => {
 }
 
 export const getProductsByTagsSubcategory = async( tag, subcategory, skip ) => {
-    const LIMIT_QUERY = 30;
+
     // console.log('ESTA ES LA URL')
     // console.log(`products/tag_products?tag=${tag}&skip=${skip}&limit=${LIMIT_QUERY}`)
     const resp = await fetchWithoutToken(

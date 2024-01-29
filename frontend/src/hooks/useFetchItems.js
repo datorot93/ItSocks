@@ -1,86 +1,58 @@
 import { useEffect, useState } from "react";
-
-import React from 'react'
-
-
-import { 
-    getProductsByCatSubcatType, 
-    getProductsByCategory, 
-    getProductsByCatSubcatTypeDesign,
-    getProductsByCategoryDesign
-  } from '../itsocks/helpers/getProductsByCategory';
 import { useDispatch } from "react-redux";
+import { 
+  getProductsByCatSubcatType, 
+  getProductsByCategory, 
+  getProductsByCatSubcatTypeDesign,
+  getProductsByCategoryDesign,
+  getProductsByCatSubcatTypeDesignCompresion
+} from '../itsocks/helpers/getProductsByCategory';
 
+export const useFetchItems = (skip_page, setSkip, location, design, categoria, subcategoria, type) => {
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const locationParts = location.split("/");
 
-export const useFetchItems = ( skip_page, setSkip, location, design, categoria, subcategoria, type ) => {
-    const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState([]);
-    const dispatch = useDispatch();
-    
+  const setProductData = async (productPromise) => {
+    setLoading(true);
+    const res = await productPromise;
+    setProducts(products => [...products, ...res]);
+    setLoading(false);
+  };
 
-    useEffect(() => {
-        setLoading(true);
-    
-        if(categoria && subcategoria && type){
-          if(location.split("/").length != 5 && location.split("/")[1].toLowerCase() !== 'accesorios'){
-            getProductsByCatSubcatType( 
-              categoria, 
-              subcategoria, 
-              type, 
-              skip_page + 2
-            ).then( 
-              res => {
-                return setProducts( products => [...products, ...res] )
-              }
-            ).finally(
-              () => setLoading(false),
-              // dispatch({type: 'SET_LOADING', payload: false}),
-            );
-          } else {
-            getProductsByCatSubcatTypeDesign( 
-              categoria, 
-              subcategoria, 
-              type,
-              design.replace('%20', ' '),
-              skip_page + 2
-            ).then( 
-              res => {            
-                return setProducts( products => [...products, ...res] )
-              }
-            ).finally(() => setLoading(false));
-          }
-        } else{
-          if(location.split("/").length == 2 && location.split("/")[1].toLowerCase() === 'accesorios'){
-            // console.log('Entré al if de accesorios')
-            getProductsByCategory( 
-              categoria,
-              skip_page + 2
-            ).then( 
-              res => (          
-                setProducts( products => [...products, ...res] )
-              )
-            ).finally(() => setLoading(false));
-          }else if (location.split("/").length === 3) {
-            // console.log('Entré al otro if de accesorios')
-            const disenio = location.split("/")[2].replace('%20', ' ').toLowerCase();
-            getProductsByCategoryDesign(
-              categoria,
-              disenio,
-              skip_page + 2
-            ).then( 
-              res => {            
-                return setProducts( products => [...products, ...res] )
-              }
-            ).finally(() => setLoading(false));
-          }
-        }
-    }, [skip_page])
+  useEffect(() => {
+    if(categoria && subcategoria && type){
+      if(locationParts.length == 4){
+        setProductData(getProductsByCatSubcatType(categoria, subcategoria, type, skip_page + 3));
+      } else if (locationParts.length === 5) {
+        setProductData(getProductsByCatSubcatTypeDesign(categoria, subcategoria, type, design.replace('%20', ' '), skip_page + 3));
+      } else if (locationParts.length === 6) {
+        setProductData(
+          getProductsByCatSubcatTypeDesignCompresion(
+            categoria, 
+            subcategoria,
+            type,
+            design.replace('%20', ' '),
+            locationParts[5],
+            skip_page + 3
+          )
+        );
+        
+      }
+    } else {
+      if(locationParts.length == 2 && locationParts[1].toLowerCase() === 'accesorios'){
+        setProductData(getProductsByCategory(categoria, skip_page + 3));
+      } else if (locationParts.length === 3) {
+        const disenio = locationParts[2].replace('%20', ' ').toLowerCase();
+        setProductData(getProductsByCategoryDesign(categoria, disenio, skip_page + 3));
+      }
+    }
+  }, [skip_page, location]);
 
-    useEffect(() => {
-        setProducts([]);
-        setSkip(0);
-      }, [location]);
+  useEffect(() => {
+    setProducts([]);
+    setSkip(0);
+  }, [location]);
 
-      
-      return {products, loading}
-}   
+  return {products, loading};
+};

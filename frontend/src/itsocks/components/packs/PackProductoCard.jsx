@@ -34,7 +34,7 @@ export const PackProductoCard = ( product ) => {
 
     return (
 
-    <div className={ styles.card }>
+    <div className={ `${styles.card} animate__animated animate__fadeIn` }>
         
         <Link
             to={ 

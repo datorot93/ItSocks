@@ -39,10 +39,6 @@ export const TagFilter = ( {estilo} ) => {
     navigate(-1);
   };
 
-  // console.log(Object.getOwnPropertyNames(subcategories))
-  // console.log(types)
-
-  // console.log(location.split('/').length === 2)
 
   return (
     <>

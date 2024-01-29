@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import styles from "../../ui/styles/Accesorios.module.css";
+import 'animate.css';
 
 export const ProductoCard = (product, isPack) => {
 
@@ -22,7 +23,7 @@ export const ProductoCard = (product, isPack) => {
   };
 
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} animate__animated animate__fadeIn`}>
       {
         pathname.toLowerCase().split("/")[1] == "accesorios" ?
           

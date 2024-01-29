@@ -12,7 +12,7 @@ import styles from "../../ui/styles/Accesorios.module.css";
 import { ProductFilter } from "../components/ProductFilter";
 import { useLocation } from "react-router-dom";
 
-export const Productos = ({ categoria, subcategoria, type }) => {
+export const Productos = ({ categoria, subcategoria, type, match }) => {
 
   return (
     <>
