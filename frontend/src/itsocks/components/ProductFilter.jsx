@@ -88,7 +88,6 @@ export const ProductFilter = ({
     navigate(-1);
   };
 
-  console.log(compresion)
   useEffect(() => {
     let newDisenio = null;
   
@@ -210,18 +209,24 @@ export const ProductFilter = ({
                 }
               </div>
             </div>
-            : 
-            <div className={ styles.filtros_compresion }>
-              <h3>Filtra por compresión</h3>
-              <div className={ styles.compresion_buttons }>
-              <button 
-                className={`${styles.selected_button}`}              
-              >
-                {location.split("/")[5].replaceAll('_', ' ').replaceAll('compresion', 'compresión').replaceAll('medias', 'Medias')}
+            :
+            <>
+              {
+                location.split("/")[1].toLowerCase() !== 'accesorios' &&
+                <div className={ styles.filtros_compresion }>
+                  <h3>Filtra por compresión</h3>
+                  <div className={ styles.compresion_buttons }>
+                  <button 
+                    className={`${styles.selected_button}`}              
+                  >
+                    {location.split("/")[5].replaceAll('_', ' ').replaceAll('compresion', 'compresión').replaceAll('medias', 'Medias')}
+                    
+                  </button> 
+                  </div>
+                </div>
                 
-              </button> 
-              </div>
-            </div>
+              }
+            </>
           }
 
         </div>

@@ -22,6 +22,19 @@ export const ProductoCard = (product, isPack) => {
     localStorage.setItem("current_product", current_product);
   };
 
+  let toPath = "";
+  const compresion = product.compresion ? 'medias_de_compresion' : 'medias_sin_compresion';
+  if (pathname.split("/").length === 6){
+    toPath =product.name.toLowerCase()
+  } else if (pathname.split("/").length === 5){
+    
+    toPath = `${compresion}/${product.name.toLowerCase()}`
+  } else if (pathname.split("/").length === 4){
+    toPath = `${product.design.toLowerCase()}/${compresion}/${product.name.toLowerCase()}`
+  }
+
+  console.log(toPath)
+
   return (
     <div className={`${styles.card} animate__animated animate__fadeIn`}>
       {
@@ -47,7 +60,10 @@ export const ProductoCard = (product, isPack) => {
       </Link>
       : 
       <Link 
-      to={`${pathname.split("/").length === 4 ? product.design.toLowerCase() + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`}
+        // to={
+        //   `${pathname.split("/").length === 4 ? product.design.toLowerCase() + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`
+        // }
+        to={toPath}
         onClick={handleClick}>
       <LazyLoadImage src={product.images.image1} alt={product.name} />
       <div className={styles.product_info}>

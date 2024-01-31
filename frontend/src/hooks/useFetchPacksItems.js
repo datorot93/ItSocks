@@ -24,13 +24,14 @@ export const useFetchPackItems = (skip_page, setSkip, location, categoria, type)
         } else if (locationParts.length === 4){
             setProductData(getProductsByCatTypeDesign(categoria, type, design, skip_page));
         } else if (locationParts.length === 5){
+            console.log('ENTRÉ AL USEEFFECT DE COMPRESION')
+            console.log(locationParts[4])
             setProductData(
-                // []
                 getProductsByCatTypeDesignCompresion(
                     categoria, 
                     type, 
-                    design, 
-                    locationParts[4], 
+                    design,
+                    locationParts[4],
                     skip_page
                 )
             );

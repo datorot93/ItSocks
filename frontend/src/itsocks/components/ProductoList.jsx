@@ -12,7 +12,7 @@ import styles from '../../ui/styles/Accesorios.module.css';
 import 'animate.css';
 
 // REACT-ROUTER-DOM
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 
 export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
@@ -23,7 +23,9 @@ export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
 
   const design = location.split('/')[4] ? location.split('/')[4] : null;
 
-
+  const params = useParams();
+  // console.log('ESTOS SON LOS PARAMS')
+  // console.log(params)
   const { products } = useFetchItems(skip_page, setSkip, location, design, categoria, subcategoria, type);
 
   return (
@@ -42,7 +44,7 @@ export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
               <div className={ `${styles.products_container}` }>            
                 {
                   Object.keys(products).map( producto => (
-                      <ProductoCard 
+                      <ProductoCard
                         key={ producto }
                         { ...products[producto] }
                         isPack={ isPack }

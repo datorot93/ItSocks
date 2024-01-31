@@ -30,7 +30,6 @@ export const ProductoCard2 = ( product ) => {
     
     <div className={ styles.card }>
       
-      {/* <img src={ 	`${ ruta_imagenes }/${ nombre }.jpg` } alt= { nomSbre } /> */}
       <Link 
           to={`${pathname.split("/").length === 2 ? product.design.toLowerCase() + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`}
           onClick={handleClick}

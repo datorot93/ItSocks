@@ -87,6 +87,7 @@ export const ItSocksRoutes = () => {
               {/* PACKS */}
 
               <Route path="packs" element={<Packs />} />
+
               {/* PACKS LARGAS */}
               <Route
                 path="packs/largas"
@@ -104,7 +105,7 @@ export const ItSocksRoutes = () => {
               />
 
               <Route
-                path="packs/largas/:disenio/:nombre"
+                path="packs/largas/:disenio/:compresion/:nombre"
                 element={<PackProductDescription />}
               />
 
@@ -270,7 +271,7 @@ export const ItSocksRoutes = () => {
                     type={"Largas"}
                   />
                 }
-              />
+              />              
               <Route 
                 path="medias/estampadas/larga/:disenio"
                 element={
@@ -292,6 +293,10 @@ export const ItSocksRoutes = () => {
                 }
               />
               <Route
+                path="medias/estampadas/larga/:nombre"
+                element={<ProductDescription />}
+              />
+              <Route
                 path="medias/estampadas/larga/:disenio/:nombre"
                 element={<ProductDescription />}
               />
@@ -299,10 +304,7 @@ export const ItSocksRoutes = () => {
                 path="medias/estampadas/larga/:disenio/:compresion/:nombre"
                 element={<ProductDescription />}
               />
-              <Route
-                path="medias/estampadas/larga/:nombre"
-                element={<ProductDescription />}
-              />
+              
 
               {/* ESTAMPADAS MEDIA CANIA  */}
               <Route
@@ -321,7 +323,7 @@ export const ItSocksRoutes = () => {
                   <Productos
                     categoria={"Medias"}
                     subcategoria={"Estampadas"}
-                    type={"Largas"}
+                    type={"Media caña"}
                   />
                 }
               />
@@ -331,7 +333,7 @@ export const ItSocksRoutes = () => {
                   <Productos
                     categoria={"Medias"}
                     subcategoria={"Estampadas"}
-                    type={"Largas"}
+                    type={"Media caña"}
                   />
                 }
               />
