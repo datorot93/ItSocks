@@ -13,13 +13,18 @@ import { useDispatch } from 'react-redux'
 
 export const PackProductoCard = ( product ) => {
 
-    const location = useLocation().pathname;
+    const {pathname} = useLocation();
+    const compresion = product.compresion ? 'medias_de_compresion' : 'medias_sin_compresion';
 
-    const ruta = location.split('/').length === 3 ? 
-        `${product.design.toLowerCase()}/${product.name.toLowerCase()}`
-        : product.name.toLowerCase();
+    let ruta = "";
 
-    
+    if (pathname.split("/").length === 3){
+        ruta = `${product.design.toLowerCase()}/${compresion}/${product.name.toLowerCase()}`
+    } else if (pathname.split("/").length === 4){
+        ruta = `${compresion}/${product.name.toLowerCase()}`
+    } else if (pathname.split("/").length === 5){
+        ruta = product.name.toLowerCase();
+    }
 
     const dispatch = useDispatch();
 

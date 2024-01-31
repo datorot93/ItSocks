@@ -13,6 +13,9 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
   const [products, setProducts] = useState([]);
   const locationParts = location.split("/");
 
+  // console.log('ENTRÉ AL USEFETCHITEMS')
+  // console.log(categoria, subcategoria, type)
+
   const setProductData = async (productPromise) => {
     setLoading(true);
     const res = await productPromise;
@@ -21,12 +24,13 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
   };
 
   useEffect(() => {
+    // console.log('ENTRÉ AL USEEFFECT')
     if(categoria && subcategoria && type){
-      if(locationParts.length == 4){
+      if(locationParts.length == 4 && locationParts[1].toLowerCase() !== 'accesorios'){
         setProductData(getProductsByCatSubcatType(categoria, subcategoria, type, skip_page + 3));
-      } else if (locationParts.length === 5) {
+      } else if (locationParts.length === 5 && locationParts[1].toLowerCase() !== 'accesorios') {
         setProductData(getProductsByCatSubcatTypeDesign(categoria, subcategoria, type, design.replace('%20', ' '), skip_page + 3));
-      } else if (locationParts.length === 6) {
+      } else if (locationParts.length === 6 && ['medias_sin_compresion', 'medias_de_compresion'].includes(locationParts[5])) {
         setProductData(
           getProductsByCatSubcatTypeDesignCompresion(
             categoria, 
@@ -37,12 +41,11 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
             skip_page + 3
           )
         );
-        
       }
     } else {
       if(locationParts.length == 2 && locationParts[1].toLowerCase() === 'accesorios'){
         setProductData(getProductsByCategory(categoria, skip_page + 3));
-      } else if (locationParts.length === 3) {
+      } else if (locationParts.length === 3 && locationParts[1].toLowerCase() === 'accesorios') {
         const disenio = locationParts[2].replace('%20', ' ').toLowerCase();
         setProductData(getProductsByCategoryDesign(categoria, disenio, skip_page + 3));
       }

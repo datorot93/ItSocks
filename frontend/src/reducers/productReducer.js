@@ -15,7 +15,7 @@ export const productReducer = ( state = initialState, action ) => {
                 isLoading: true
             }
         case types.loadProducts:
-
+            console.log(action.payload)
             state.products = [ ...state['products'], ...action.payload]
             return {
                 ...state,

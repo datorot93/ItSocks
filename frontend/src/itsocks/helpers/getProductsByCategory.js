@@ -49,7 +49,7 @@ export const getProductsFilters = async( category, subcategory, type ) => {
     )
 
     const data = await resp.json();
-    console.log(data)
+    // console.log(data)
     return data
 }
 
@@ -80,7 +80,7 @@ export const getCompresionFilters = async(
     type,
     design
 ) => {
-    console.log(`products/q/compresion_filters/${category}/${subcategory}/${type}/${design}`)
+    // console.log(`products/q/compresion_filters/${category}/${subcategory}/${type}/${design}`)
     const resp = await fetchWithoutToken(
         `products/q/compresion_filters/${category}/${subcategory}/${type}/${design}`
     )
@@ -168,7 +168,7 @@ export const getProductsByCatSubcatTypeDesignCompresion = async( category, subca
         'medias_de_compresion': true
     }
 
-    console.log(`products/q/products_categories_subcat_types_designs_compresion?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&compresion=${compresion}&skip=${skip}&limit=${LIMIT_QUERY}`)
+    console.log(`products/q/products_categories_subcat_types_designs_compresion?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`)
     const resp = await fetchWithoutToken(
         `products/q/products_categories_subcat_types_designs_compresion?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`
     )

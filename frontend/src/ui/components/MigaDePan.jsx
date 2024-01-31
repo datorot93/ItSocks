@@ -15,10 +15,6 @@ export const MigaDePan = () => {
     .replaceAll("%C3%B3", "ó")
     .split("/")
     .filter((x) => x.charAt(0));
-    
-    const { clearPack } = usePack()
-
-    // const { clearPack } = useSelector(state => state.packs);
 
   return (
     <>
@@ -28,7 +24,7 @@ export const MigaDePan = () => {
           <div className={styles.miga}>
             <Link to="/">{"Inicio"}</Link>
             {pathnames.map((path, index) => {
-              const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+              const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`.toLowerCase().replaceAll(' ', '_');
               let capitalizedPath = path.toLowerCase().charAt(0).toUpperCase() + path.slice(1);
               return (
                 <Link key={index} to={routeTo}>
