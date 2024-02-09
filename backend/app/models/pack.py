@@ -20,6 +20,3 @@ class Pack(Base):
     
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-
-    
-    

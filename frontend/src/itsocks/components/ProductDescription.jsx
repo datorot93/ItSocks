@@ -67,7 +67,7 @@ export const ProductDescription = () => {
     const getColorsAndSizes = async () => {
       const extra_info = await getProductExtraInfo(producto.name, producto.type);
       setColors(extra_info[0].colores);
-      setTallas(extra_info[0].tallas);
+      setTallas(extra_info[0].size);
     };
     getColorsAndSizes();
     getProductsByDesign(producto.design).then(

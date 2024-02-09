@@ -11,6 +11,10 @@ from .discount_code import DiscountCode, DiscountCodeCreate, DiscountCodeUpdate
 from .slider import Slider, SliderCreate, SliderUpdate, SliderIn
 from .tag import Tag, TagCreate, TagUpdate
 from .tag_product import TagProduct, TagProductCreate, TagProductUpdate
+from .color import Color, ColorCreate, ColorUpdate
+from .product_color import ProductColor, ProductColorCreate, ProductColorUpdate
+from .size import Size, SizeCreate, SizeUpdate
+from .product_size import ProductSize, ProductSizeCreate, ProductSizeUpdate
 
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 

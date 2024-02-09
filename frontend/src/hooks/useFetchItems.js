@@ -27,9 +27,9 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
     // console.log('ENTRÉ AL USEEFFECT')
     if(categoria && subcategoria && type){
       if(locationParts.length == 4 && locationParts[1].toLowerCase() !== 'accesorios'){
-        setProductData(getProductsByCatSubcatType(categoria, subcategoria, type, skip_page + 3));
+        setProductData(getProductsByCatSubcatType(categoria, subcategoria, type, skip_page));
       } else if (locationParts.length === 5 && locationParts[1].toLowerCase() !== 'accesorios') {
-        setProductData(getProductsByCatSubcatTypeDesign(categoria, subcategoria, type, design.replace('%20', ' '), skip_page + 3));
+        setProductData(getProductsByCatSubcatTypeDesign(categoria, subcategoria, type, design.replace('%20', ' '), skip_page + 1));
       } else if (locationParts.length === 6 && ['medias_sin_compresion', 'medias_de_compresion'].includes(locationParts[5])) {
         setProductData(
           getProductsByCatSubcatTypeDesignCompresion(
@@ -38,16 +38,16 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
             type,
             design.replace('%20', ' '),
             locationParts[5],
-            skip_page + 3
+            skip_page + 1
           )
         );
       }
     } else {
       if(locationParts.length == 2 && locationParts[1].toLowerCase() === 'accesorios'){
-        setProductData(getProductsByCategory(categoria, skip_page + 3));
+        setProductData(getProductsByCategory(categoria, skip_page));
       } else if (locationParts.length === 3 && locationParts[1].toLowerCase() === 'accesorios') {
         const disenio = locationParts[2].replace('%20', ' ').toLowerCase();
-        setProductData(getProductsByCategoryDesign(categoria, disenio, skip_page + 3));
+        setProductData(getProductsByCategoryDesign(categoria, disenio, skip_page));
       }
     }
   }, [skip_page, location]);

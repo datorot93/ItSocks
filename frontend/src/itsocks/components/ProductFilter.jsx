@@ -115,6 +115,10 @@ export const ProductFilter = ({
     }
   }, [location]);
 
+  const capitalizeText = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
   return (
     <>
       {
@@ -132,7 +136,7 @@ export const ProductFilter = ({
                   className={styles.filter_buttons} 
                   value={disenio}              
                 >
-                  {disenio}
+                  {capitalizeText(disenio)}
                 </button>
               </Link>
             
@@ -154,7 +158,7 @@ export const ProductFilter = ({
                     className={`${styles.selected_button}`} 
                     value={disenio}              
                   >
-                    {disenio}
+                    {capitalizeText(disenio)}
                     
                   </button>  
 

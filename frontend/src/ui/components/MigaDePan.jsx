@@ -28,7 +28,7 @@ export const MigaDePan = () => {
               let capitalizedPath = path.toLowerCase().charAt(0).toUpperCase() + path.slice(1);
               return (
                 <Link key={index} to={routeTo}>
-                  {" | " + capitalizedPath.replaceAll('_', '').replaceAll('%20', ' ') + " "}
+                  {" | " + capitalizedPath.replaceAll('_', '').replaceAll('%20', ' ').replaceAll('cania', 'caña') + " "}
                 </Link>
               );
             })}

@@ -29,7 +29,7 @@ export const useFetchPackItems = (skip_page, setSkip, location, categoria, type)
             setProductData(
                 getProductsByCatTypeDesignCompresion(
                     categoria, 
-                    type, 
+                    type,
                     design,
                     locationParts[4],
                     skip_page

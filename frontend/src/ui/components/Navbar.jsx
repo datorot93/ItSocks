@@ -32,7 +32,7 @@ export const Navbar = () => {
   // console.log(location)
 
   const handleLinkClick = (path) => {
-    clearPack();
+    // clearPack();
     setSelectedLink(path);
   };
 
@@ -41,7 +41,7 @@ export const Navbar = () => {
   return (
     <header>
       <nav>
-        <Link to="/" onClick={clearPack}>
+        <Link to="/">
           <picture>
             <img src={itsocks_logo} alt="ItSocks Logo" />
           </picture>
