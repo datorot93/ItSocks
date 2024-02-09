@@ -9,6 +9,8 @@ from .crud_shipping import unaccent
 
 from fastapi.encoders import jsonable_encoder
 
+
+# MODELS
 from app.crud.base import CRUDBase
 from app.models.product import Product
 from app.models.subcategory import Subcategory
@@ -18,7 +20,17 @@ from app.models.design import Design
 from app.models.image import Image
 from app.models.tag import Tag
 from app.models.tag_product import TagProduct
+from app.models.product_color import ProductColor
+from app.models.product_size import ProductSize
+from app.models.color import Color
+from app.models.size import Size
+
+# SCHEMAS
 from app.schemas.product import ProductCreate, ProductUpdate
+from app.schemas.color import ColorCreate, ColorUpdate
+from app.schemas.size import SizeCreate, SizeUpdate
+from app.schemas.product_color import ProductColorCreate, ProductColorUpdate
+from app.schemas.product_size import ProductSizeCreate, ProductSizeUpdate
 
 from unidecode import unidecode
 
@@ -37,6 +49,22 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         return db.query(Product).filter(
             Product.color == color, Product.name == name, Product.talla == talla, Product.compresion == compresion
         ).first()
+    
+
+    def get_product_by_id(
+        self, 
+        db: Session, 
+        *, 
+        id: int
+    ):  
+        print('ESTE ES EL PRODUCTO')
+        print(db.query(Product).filter(
+            Product.id == id
+        ))
+        return db.query(Product).filter(
+            Product.id == id
+        ).first()
+
     
     def object_as_dict(self, obj):
         return {c.key: getattr(obj, c.key)
@@ -802,15 +830,16 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
 
         return products
     
-    def get_product_by_name_talla(
+    def get_product_by_name_subcat_type(
         self,
         db: Session,
         *,
         name: str,
-        talla: str,
+        subcategory: str,
+        type: str,
     ):
         """
-        Get all products by name
+        Get all products by name_subcategory_type
         """
         product = db.query(
                 Product.id,
@@ -824,9 +853,12 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 Product.description,
                 Product.discount
             ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Type, Type.id == Product.id_type).\
             filter(
                 unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
-                Product.talla == talla
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower())
             ).first()
 
         return product
@@ -839,6 +871,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         limit: int,
         tag: str,
     ):
+        
         products = db.query(
                 Product.id,
                 Product.name,
@@ -1074,6 +1107,8 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             
         return lista_productos
     
+    def clave_personalizada(self, elemento):
+        return int(elemento.split("-")[0])
     
     def get_colors_tallas_by_product(
         self, 
@@ -1086,8 +1121,10 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         Get all colors by product name
         """
         colors = db.query(
-                Product.color,
+                Color.name,
             ).\
+            join(ProductColor, ProductColor.color_id == Color.id).\
+            join(Product, Product.id == ProductColor.product_id).\
             join(Type, Type.id == Product.id_type).\
             filter(
                 unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
@@ -1095,18 +1132,22 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
 
             ).distinct().all()
         
-        products = [{"colores": [item["color"] for item in colors]}]
+        products = [{"colores": [item["name"] for item in colors]}]
 
         tallas = db.query(
-            Product.talla
+            Size.size
         ).\
+        join(ProductSize, ProductSize.size_id == Size.id).\
+        join(Product, Product.id == ProductSize.product_id).\
         join(Type, Type.id == Product.id_type).\
         filter(
             unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
             unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
-        ).distinct().all()
+        ).distinct().order_by(Size.size).all()
         
-        products[0]["tallas"] = [ item[0] for item in tallas ]
+        products[0]["size"] = [ item[0] for item in tallas ]
+
+        products[0]["size"] = sorted(products[0]["size"], key=self.clave_personalizada)
 
         return products
     

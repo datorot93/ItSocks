@@ -11,4 +11,8 @@ from .crud_discount_code import discount_code
 from .crud_slider import slider
 from .crud_tag import tag
 from .crud_tag_product import tag_product
+from .crud_size import size
+from .crud_color import color
+from .crud_product_size import product_size
+from .crud_product_color import product_color
 # from .crud_type_design import type_design

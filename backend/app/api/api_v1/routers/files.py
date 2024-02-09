@@ -71,6 +71,31 @@ dict_estado = {
     'INACTIVO': False
 }
 
+dict_tallas = {
+    '8-10': 1,
+    '9-11': 2,
+    '10-12': 3,
+    'S': 4,
+    'M': 5,
+    'L': 6,
+    'unica': 7,
+    '12-14': 8
+}
+
+
+dict_colores = {
+    'VERDE': 1,
+    'MORADO': 2,
+    'NEGRO': 3,
+    'AZUL OSCURO': 4,
+    'AZUL CLARO': 5,
+    'AMARILLO': 6,
+    'NARANJA': 7,
+    'FUCSIA': 8,
+    'ROSADO': 9
+}
+
+
 # IMAGES_FOLDER = './Datos_ItSocks/IMAGENES'
 
 ruta_script = os.path.abspath(__file__)
@@ -83,10 +108,15 @@ def get_images_from_folder(folder):
     images = []
     if os.path.exists(folder):
         for filename in os.listdir(folder):
-            images.append(filename)
+            if filename != '.DS_Store':
+                images.append(filename)
     else:
         # raise FileNotFoundError(f'No se encontró la carpeta {folder}')
+        print('*'*15)
+        print('*'*15)
         print(f'La carpeta {folder} no existe')
+        print('*'*15)
+        print('*'*15)
 
     return images
 
@@ -136,27 +166,53 @@ async def create_upload_file(
     xlsxfile = pd.ExcelFile(content)
     df = xlsxfile.parse("Productos")
 
-    df['CANTIDAD'] = df['CANTIDAD'].fillna(1000000)
+    df['CANTIDAD'] = df['CANTIDAD'].fillna(100000000)
     df['IMAGENES'] = df['IMAGENES'].fillna('')
     df['TAGS'] = df['TAGS'].fillna('')
     df['DESCUENTO'] = df['DESCUENTO'].fillna(0)
-    # df['CANTIDAD'] = df['CANTIDAD'].fillna(0)
-    # df['CANTIDAD'] = df['CANTIDAD'].astype(int)
 
-    df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
 
-    for row in df.itertuples():
 
+    df.rename(
+        columns={
+            'DE COMPRESIÓN?': 'COMPRESION'
+        }, inplace=True
+    )
+
+    print('ESTAS SON LAS DIMENSIONES DEL DATAFRAME ORIGINAL')
+    print(df.shape)
+
+    df_productos = df[[
+        'CODIGO_PRODUCTO',
+        'NOMBRE_PRODUCTO',
+        'CATEGORIA',
+        'SUBCATEGORÍA',
+        'TIPO',
+        'COLOR',
+        'COMPRESION',
+        'DISENIO',
+        'ESTADO',
+        'DESCUENTO',
+        'DESCRIPTION',
+        'PRECIO',
+        'CANTIDAD',
+        'IMAGENES'
+    ]].drop_duplicates()
+
+    print('ESTAS SON LAS DIMENSIONES DEL DATAFRAME')
+    print(df_productos.columns)
+
+    for row in df_productos.itertuples():
         product_in = schemas.ProductCreate(
             name= row[2],
-            talla = row[14],
-            price = float(row[13]),
+            talla = '',
+            price = float(row[12]),
             state = dict_estado[row[9]],
-            color = row[6],
-            description = "ESTA ES UNA DESCRIPCIÓN DE PRUEBA",
+            color = '',
+            description = row[11],
             compresion = dict_compresion[row[7]],
             code = row[1],
-            quantity = row[15],
+            quantity = row[13],
             id_design = dict_disenio[row[8]],
             id_type = dict_type[row[5]],
             id_subcategory = dict_subcategory[row[4]],
@@ -174,10 +230,10 @@ async def create_upload_file(
             region_name=aws_region_name
         )
 
-        if row[12] == '':
+        if row[14] == '':
             continue
         else:
-            image_folder = IMAGES_FOLDER + '/Datos_ItSocks/IMAGENES/' + row[12]
+            image_folder = IMAGES_FOLDER + '/Datos_ItSocks/IMAGENES/' + row[14]
 
             images = get_images_from_folder(image_folder)
             for image_name in images:
@@ -224,13 +280,31 @@ async def upload_tags(
 
     df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
 
-    df = df[df['TAGS'] != '']
+    df_productos = df[[
+        'CODIGO_PRODUCTO',
+        'NOMBRE_PRODUCTO',
+        'CATEGORIA',
+        'SUBCATEGORÍA',
+        'TIPO',
+        'COLOR',
+        'COMPRESION',
+        'DISENIO',
+        'ESTADO',
+        'DESCUENTO',
+        'DESCRIPTION',
+        'PRECIO',
+        'CANTIDAD',
+        'IMAGENES',
+        'TAGS'
+    ]].drop_duplicates()
+
+    df_productos = df_productos[df['TAGS'] != '']
     
     
-    for row in df.itertuples():
+    for row in df_productos.itertuples():
         # print('ESTE ES EL ROW')
         # print(row[11], row[2], row[14])
-        list_tags = row[11].split(',')
+        list_tags = row[15].split(',')
         id_tags = []
 
         for tag in list_tags:
@@ -257,10 +331,11 @@ async def upload_tags(
 
         for id_tag in id_tags:
 
-            product = crud.product.get_product_by_name_talla(
+            product = crud.product.get_product_by_name_subcat_type(
                 db,
                 name=row[2],
-                talla=row[14]
+                subcategory=row[4],
+                type=row[5]
             )
             print(product)
 
@@ -279,6 +354,50 @@ async def upload_tags(
                     product_id = product.id,
                     tag_id = id_tag
                 )        
+            )
+
+    return df.shape
+
+
+@router.post("/upload_colors")
+async def upload_colors(
+    request: Request,
+    file: UploadFile = File(default=None,),
+    db: Session = Depends(deps.get_db),
+):
+    content = await file.read()
+    xlsxfile = pd.ExcelFile(content)
+    df = xlsxfile.parse("Productos")
+
+    df['CANTIDAD'] = df['CANTIDAD'].fillna(1000000)
+    df['IMAGENES'] = df['IMAGENES'].fillna('')
+    df['TAGS'] = df['TAGS'].fillna('')
+    df['DESCUENTO'] = df['DESCUENTO'].fillna(0)
+    df['COLOR'] = df['COLOR'].fillna('')
+    # df['CANTIDAD'] = df['CANTIDAD'].fillna(0)
+    # df['CANTIDAD'] = df['CANTIDAD'].astype(int)
+
+    df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
+    
+    df = df[df['COLOR'] != '']
+
+
+    for row in df.itertuples():
+
+        product = crud.product.get_product_by_name_subcat_type(
+                db,
+                name=row[2],
+                subcategory=row[4],
+                type=row[5]
+            )
+        
+        if product:
+            crud.product_color.create(
+                db,
+                obj_in=schemas.ProductColorCreate(
+                    product_id = product.id,
+                    color_id = dict_tallas[row[15]]
+                )
             )
 
     return df.shape

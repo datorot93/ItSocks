@@ -36,6 +36,32 @@ async def product_create(
     
     return product
 
+
+
+@router.get("/q/colors_tallas/{name}/{type}", response_model_exclude_none=True)
+async def get_colors_tallas_by_product(
+    response: Response,
+    name: str,
+    type: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener todos los colores de un producto
+    """
+
+    product = crud.product.get_products_by_name_type(db=db, name=name, type=type)
+    # print(product)
+    
+    if not product:
+        raise HTTPException(
+            status_code=404, detail="No existe el producto con el nombre especificado",
+        )
+    
+    colors = crud.product.get_colors_tallas_by_product(db=db, name=name, type=type)
+    return colors
+
+
+
 @router.post(
     "/tag_create", 
     response_model=schemas.Tag, 
@@ -78,6 +104,7 @@ async def get_product_by_tag(
     Obtener todos los productos por tag
     """
     products = crud.product.get_product_by_tag(db, tag=tag, skip=skip, limit=limit)
+    
     # response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
@@ -380,27 +407,6 @@ async def get_products_by_cat_type_design(
 
     return products
 
-@router.get("/q/colors_tallas/{name}/{type}", response_model_exclude_none=True)
-async def get_colors_tallas_by_product(
-    response: Response,
-    name: str,
-    type: str,
-    db: Session = Depends(deps.get_db),
-):
-    """
-    Obtener todos los colores de un producto
-    """
-
-    product = crud.product.get_products_by_name_type(db=db, name=name, type=type)
-    # print(product)
-
-    if not product:
-        raise HTTPException(
-            status_code=404, detail="No existe el producto con el nombre especificado",
-        )
-    
-    colors = crud.product.get_colors_tallas_by_product(db=db, name=name, type=type)
-    return colors
 
 
 @router.get(

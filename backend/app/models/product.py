@@ -14,6 +14,8 @@ if TYPE_CHECKING:
     from .type import Type
     from .subcategory import Subcategory
     from .tag_product import TagProduct
+    from .product_color import ProductColor
+    from .product_size import ProductSize
 
 class Product(Base):
 
@@ -52,4 +54,6 @@ class Product(Base):
     subcategory = relationship('Subcategory', back_populates='product')
     image = relationship('Image', back_populates='product')
     tag_product = relationship('TagProduct', back_populates='product')
+    product_size = relationship('ProductSize', back_populates='product')
+    product_color = relationship('ProductColor', back_populates='product')
     
