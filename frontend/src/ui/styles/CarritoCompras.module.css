@@ -15,6 +15,12 @@
     width: 1388px;
     margin-top: 40px;
 }
+.main_container_wish {
+    display: flex;
+    grid-gap: 10px;
+    width: 1388px;
+    margin-top: 40px;
+}
 
 .lista_carrito {
     width: 100%;
@@ -81,6 +87,10 @@
     line-height: normal;
     margin-top: 50px;
     cursor: pointer;
+}
+
+.item {
+    width: 100%;
 }
 
 .item p {
@@ -185,6 +195,54 @@
 
 .header_right {
     border-radius: 0 14px 14px 0; /* Bordes redondeados */
+}
+
+
+/* WISH LIST */
+
+.wish_buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 373px;
+    margin-top: 56px;
+}
+
+.boton_comprar_lista{
+    background: #00B475;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    width: 349px;
+    height: 40px;
+    align-self: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 16px;
+}
+
+.boton_compartir_lista {
+    background: white;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    width: 349px;
+    height: 40px;
+    align-self: center;
+    color: #232CC7;
+    border: 1px solid #232CC7;
+    cursor: pointer;
+    border-radius: 16px;
+}
+
+.boton_compartir_lista:hover {
+    border: solid 1px #232CC7;
+}
+
+.link_boton_carrito {
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    text-decoration: none;
 }
 /* .pack_description {
     display: fle;

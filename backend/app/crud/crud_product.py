@@ -1108,7 +1108,10 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         return lista_productos
     
     def clave_personalizada(self, elemento):
-        return int(elemento.split("-")[0])
+        if elemento.split("-")[0].isdigit():
+            return int(elemento.split("-")[0])
+        else:
+            return elemento
     
     def get_colors_tallas_by_product(
         self, 

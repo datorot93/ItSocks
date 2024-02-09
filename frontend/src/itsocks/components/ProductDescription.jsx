@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { PopUpTallas } from "./PopUpTallas";
 import { ProductosSimilares } from "./products/ProductosSimilares";
 import ScrollHorizontal from "./ScrollHorizontal";
+import { useWish } from "../../hooks/useWish";
 
 // React Reducx
 
@@ -30,6 +31,7 @@ export const ProductDescription = () => {
 
   
   const { addToCart, removeFromCart, cart } = useCart();
+  const { addToWish, removeFromWish, wish } = useWish();
 
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
@@ -118,6 +120,9 @@ export const ProductDescription = () => {
             addToCart(product_to_add);
           } else {
             setTitle("Lista de regalos");
+            const product_to_add = { ...producto, cantidad: cantProducts };
+            addToWish(product_to_add);
+            
           }
           setShowPopUp(true);
           setCantProducts(0);

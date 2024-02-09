@@ -115,8 +115,8 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
               COMPRAR AHORA
             </button>
 
-            <Link to={"../../carrito"} className={styles.link_boton_carrito}>
-              <button className={styles.boton_ver_carrito}>VER CARRITO</button>
+            <Link to={title == "CARRITO DE COMPRA" ?  "../../carrito" : "../../lista_de_favoritos"} className={styles.link_boton_carrito}>
+              <button className={styles.boton_ver_carrito}>{ title == "CARRITO DE COMPRA" ? "VER CARRITO": "VER LISTA DE DESEOS"}</button>
             </Link>
           </div>
         </div>
