@@ -8,6 +8,7 @@ export const PACK_ACTION_TYPES = {
   REMOVE_FROM_PACK: "REMOVE_FROM_PACK",
   ADD_ONE_TO_PACK: "ADD_ONE_TO_PACK",
   SUBTRACT_ONE_TO_PACK: "SUBTRACT_ONE_TO_PACK",
+  SUBSTRACT_PRODUCT_FROM_PACK: "SUBSTRACT_PRODUCT_FROM_PACK",
   CLEAR_PACK: "CLEAR_PACK",
   CREATE_PACK: "CREATE_PACK",
 };
@@ -19,15 +20,16 @@ export const updateLocalStorage = (state) => {
 
 
 const UPDATE_STATE_BY_ACTION = {
-  [PACK_ACTION_TYPES.ADD_TO_PACK]: (state, action) => {
-    if ( state.prductos.length < state.product_quantity) {
 
+
+  [PACK_ACTION_TYPES.ADD_TO_PACK]: (state, action) => {
+
+    if ( state.prductos.length < state.product_quantity) {
       const newState = 
         {
           ...state,
           prductos: [...state.prductos, action.payload]
         }
-
       updateLocalStorage(newState);
       return newState;
     }
@@ -35,22 +37,33 @@ const UPDATE_STATE_BY_ACTION = {
     return state;
   },
 
-  [PACK_ACTION_TYPES.CLEAR_PACK]: () => {
 
+  [PACK_ACTION_TYPES.CLEAR_PACK]: () => {
     updateLocalStorage({});
     return {};
   },
 
-  [PACK_ACTION_TYPES.CREATE_PACK]: (state, action) => {
 
-    console.log('ENTRÉ al CREATE_PACK')
-    console.log(action.payload)
+  [PACK_ACTION_TYPES.CREATE_PACK]: (state, action) => {
 
     updateLocalStorage(action.payload);
 
     return action.payload;
     
   },
+
+
+  [PACK_ACTION_TYPES.SUBSTRACT_PRODUCT_FROM_PACK]: (state, action) => {
+    
+    if ( state.prductos.length > 0) {
+      const newState = {
+        ...state,
+        prductos: state.prductos.filter((item) => item.id !== action.payload.id)
+      }
+      updateLocalStorage(newState);
+      return newState;
+    }
+  }
 
   // [PACK_ACTION_TYPES.ADD_ONE_TO_PACK]: (state, action) => {
   //   const { id } = action.payload;

@@ -120,10 +120,16 @@ export const ListaCarrito = () => {
                 <td>
                   <div className={styles.comprar}>
                     <div className={styles.conteo}>
-                      <button onClick={() => addOneToCart(producto)}>+</button>
+                      <button 
+                        onClick={() => subtractOneToCart(producto)}
+                        className={styles.button_left}
+                      >-</button>
                       <span>{producto.cantidad}</span>
-                      <button onClick={() => subtractOneToCart(producto)}>
-                        -
+                      <button 
+                        onClick={() => addOneToCart(producto)(producto)}
+                        className={styles.button_right}
+                      >
+                        +
                       </button>
                     </div>
                   </div>

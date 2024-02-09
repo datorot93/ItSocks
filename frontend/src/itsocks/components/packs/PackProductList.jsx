@@ -22,7 +22,7 @@ export const PackProductoList = ({ categoria, type }) => {
   
   const { products } = useFetchPackItems(skip_page, setSkip, location, categoria, type)
 
-  console.log(products)
+  // console.log(products)
 
   return (
     <InfiniteScroll

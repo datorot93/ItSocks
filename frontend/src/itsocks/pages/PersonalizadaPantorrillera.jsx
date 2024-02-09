@@ -105,6 +105,7 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
       <a 
         href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20personalizados%20en%20la%20categoría%20${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')},%20me%20podrías%20dar%20más%20información%2E%20Gracias`} 
         target="_blank"
+        className={styles.contact_us}
       >
         <button>¡Contáctanos!</button>
       </a>

@@ -22,6 +22,11 @@ export const usePackReducer = () => {
     payload: product
   })
 
+  const substrackProductFromPack = product => dispatch({
+    type: 'SUBSTRACT_PRODUCT_FROM_PACK',
+    payload: product
+  })
+
   const subtractOneToPack = product => dispatch({
     type: 'SUBTRACT_ONE_TO_PACk',
     payload: product
@@ -36,5 +41,5 @@ export const usePackReducer = () => {
     type: 'CLEAR_PACK',
   })
 
-  return { state, addToPack, removeFromPack, addOneToPack, subtractOneToPack, clearPack, createPack}
+  return { state, addToPack, removeFromPack, addOneToPack, subtractOneToPack, substrackProductFromPack, clearPack, createPack}
 }

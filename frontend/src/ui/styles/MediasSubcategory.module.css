@@ -29,6 +29,17 @@
     font-size:larger;
     border: none;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.main button:hover {
+
+    background: linear-gradient(to bottom right, #00B475, #232CC7); /* Degradado */
+
+}
+
+main a {
+    text-decoration: none;
 }
 
 .medias_container {
@@ -47,3 +58,8 @@
     margin: 25px 100px;    
     font-size: 20px;
 }
+
+.contact_us {
+    text-decoration: none;
+}
+

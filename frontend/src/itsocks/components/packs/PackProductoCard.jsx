@@ -33,14 +33,12 @@ export const PackProductoCard = ( product ) => {
 
         const current_product = JSON.stringify(product);
         const packs =JSON.stringify({ ...product, 'prductos': []})
-
         localStorage.setItem('current_product', current_product)        
     };
 
     return (
 
     <div className={ `${styles.card} animate__animated animate__fadeIn` }>
-        
         <Link
             to={ 
                 ruta
@@ -49,8 +47,7 @@ export const PackProductoCard = ( product ) => {
         >
             <LazyLoadImage src={ product.images.image1 } alt= { product.name } />
             <div className={ styles.product_info }>
-                <p>{ product.name } { product.color != 'N/A' ? product.color : ''}</p>
-                
+                <p><strong>{ product.name } { product.color != 'N/A' ? product.color : ''}</strong></p>
             </div>
         </Link>
         

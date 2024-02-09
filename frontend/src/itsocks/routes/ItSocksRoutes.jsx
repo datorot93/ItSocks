@@ -131,7 +131,7 @@ export const ItSocksRoutes = () => {
               />
 
               <Route
-                path="packs/pantorrilleras/:disenio/:nombre"
+                path="packs/pantorrilleras/:disenio/:compresion/:nombre"
                 element={<PackProductDescription />}
               />
 
@@ -157,7 +157,7 @@ export const ItSocksRoutes = () => {
               />
 
               <Route
-                path="packs/media_cania/:disenio/:nombre"
+                path="packs/media_cania/:compresion/:disenio/:nombre"
                 element={<PackProductDescription />}
               />
 

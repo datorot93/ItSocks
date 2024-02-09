@@ -15,10 +15,9 @@ import { usePack } from "../../../hooks/usePack";
 export const PackCard = (pack) => {
 
 
-  console.log('ESTE ES EL PACK CARD')
-  console.log(pack)
+  // console.log('ESTE ES EL PACK CARD')
+  // console.log(pack)
 
-  const dispatch = useDispatch();
 
   const { createPack } = usePack();
 
@@ -27,26 +26,30 @@ export const PackCard = (pack) => {
     const current_product = JSON.stringify(pack);
     const packs = JSON.stringify({ ...pack, prductos: [] });
 
-    createPack({ ...pack, prductos: [] });
+    createPack({ ...pack, prductos: [] }); 
 
     localStorage.setItem("pack", packs);
   };
 
   const pack_routes = {
-    "PARES DE MEDIAS LARGAS X4": "largas",
-    "PARES DE MEDIAS LARGAS X3": "largas",
-    "PARES DE MEDIAS PANTORRILLERAS X4": "pantorrilleras",
-    "PARES DE MEDIAS PANTORRILLERAS X3": "pantorrilleras",
-    "PARES DE MEDIAS MEDIA CAÑA X4": "media_cania",
-    "PARES DE MEDIAS MEDIA CAÑA X3": "media_cania",
+    "4 Pares de medias largas": "largas",
+    "3 Pares de medias largas": "largas",
+    "4 Pares de pantorrilleras": "pantorrilleras",
+    "3 Pares de pantorrilleras": "pantorrilleras",
+    "4 Pares de media cañas": "media_cania",
+    "3 Pares de media cañas": "media_cania",
   };
 
   return (
     <div className={styles.card}>
-      <Link to={pack_routes[pack.name.toUpperCase()]} onClick={handleClick}>
+      <Link to={pack_routes[pack.name]} onClick={handleClick}>
         <LazyLoadImage src={pack.image_url} alt={pack.name} />
         <div className={styles.product_info}>
-          <p>{pack.name.toUpperCase()}</p>
+          <p><strong>{pack.name}</strong></p>
+          <p>{`${pack.price.toLocaleString("es-CO", {
+              style: "currency",
+              currency: "COP",
+            })}`}</p>
         </div>
       </Link>
     </div>

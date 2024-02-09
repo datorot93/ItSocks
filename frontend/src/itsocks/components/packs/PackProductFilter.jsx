@@ -24,17 +24,27 @@ export const PackProductFilter = ({
   skip_page,
 }) => {
 
-  const { pack } = usePack();
+  const { pack, substrackProductFromPack } = usePack();
+
+  // const pack = JSON.parse(localStorage.getItem("pack"))
 
   const initialStatePack = pack.prductos ? pack.prductos.map((producto) => producto.name) : null;
-
 
   const [checkedItems, setCheckedItems] = useState({});
   const [ disenio, setDisenio ] = useState(null)
   const location = useLocation().pathname;
   const [productosPack, setProductosPack] = useState(initialStatePack);
+  const [isChecked, setIsChecked] = useState({});
   const [ compresion, setCompresion ] = useState();
   const navigate = useNavigate();
+
+  const handleCheckBoxChange = (event, product) => {
+    const updatedCheckedItems = { ...isChecked, [product.name]: event.target.checked };
+    setIsChecked(updatedCheckedItems);
+    if (!event.target.checked) {
+      substrackProductFromPack(product)
+    }
+  };
 
 
   useEffect(() => {
@@ -61,11 +71,8 @@ export const PackProductFilter = ({
   };
 
   useEffect(() => {
-    for (let index = 0; index < pack.cantidad - productosPack.length; index++) {
-      setProductosPack([...productosPack, ""]);
-      console.log(index);
-    }
-  });
+    setProductosPack([...pack.prductos.map((producto) => producto.name)]);
+  }, [pack]);
 
   useEffect(() => {
     let newDisenio = null;
@@ -91,24 +98,29 @@ export const PackProductFilter = ({
 
   }, [location]);
 
-  console.log(compresion)
+  const capitalizeText = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
 
   return (
     <>
       {
         location.split("/").length == 3 ?
         <div className={styles.product_filter_pack}>
-          <button className={styles.selected_button} value={pack.name}>
-            {pack.name.toUpperCase()}
+          <button className={styles.selected_button_pack} value={pack.name}>
+            {pack.name}
           </button>
-
-          {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
-            <Link to={disenio} key={disenio}>
-              <button className={styles.filter_buttons} value={disenio}>
-                {disenio}
-              </button>
-            </Link>
-          ))}
+          <div className={styles.filters_container}>
+            <h3>Filtra por diseño</h3>
+            {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
+              <Link to={disenio} key={disenio}>
+                <button className={styles.filter_buttons} value={disenio}>
+                  {capitalizeText(disenio)}
+                </button>
+              </Link>
+            ))}
+          </div>
+          
 
           {initialStatePack && productosPack.length !== 0 && typeof productosPack === "object" ? (
             <div className={styles.pack_products}>
@@ -119,7 +131,10 @@ export const PackProductFilter = ({
                     <input
                       type="checkbox"
                       value={producto}
-                      defaultChecked={producto !== "" ? true : false}
+                      checked={isChecked[producto] || true}
+                      onChange={ () => handleCheckBoxChange(event, pack.prductos.filter( product => product.name === producto )[0])}
+                      // defaultChecked={producto !== "" ? true : false}
+                      
                     />
                     {producto !== "" ? producto : "Pendiente"}
                   </label>
@@ -136,6 +151,9 @@ export const PackProductFilter = ({
             <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ retroceder }/>
             <p>Volver a filtro por diseño</p>
           </div>
+          <button className={styles.selected_button_pack} value={pack.name}>
+            {pack.name}
+          </button>
           {Object.getOwnPropertyNames(checkedItems).filter( 
             item => item.toLowerCase() == disenio
           ).map((disenio) => (
@@ -143,10 +161,10 @@ export const PackProductFilter = ({
               
               <div className={`${ styles.filter_selected}`} key={ disenio }>
                   <button 
-                    className={`${styles.selected_button}`} 
+                    className={`${styles.selected_button_pack}`} 
                     value={disenio}              
                   >
-                    {disenio}
+                    {capitalizeText(disenio)}
                     
                   </button>  
 

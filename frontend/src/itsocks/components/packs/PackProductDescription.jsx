@@ -29,10 +29,10 @@ export const PackProductDescription = () => {
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
     if (!objeto.name.toLowerCase().includes("pack")) {
-      console.log("Entré");
+      // console.log("Entré");
       return acumulador + objeto.cantidad * objeto.price;
     } else {
-      console.log("No entré");
+      // console.log("No entré");
       return acumulador + objeto.price; // No se suma al acumulador si no cumple la condición
     }
   }, 0);
@@ -55,7 +55,7 @@ export const PackProductDescription = () => {
   useEffect(() => {
     const getColorsAndSizes = async () => {
       const extra_info = await getProductExtraInfo(producto.name, producto.type);
-      setTallas(extra_info[0].tallas);
+      setTallas(extra_info[0].size);
     };
     getColorsAndSizes();
   }, []);
@@ -109,17 +109,28 @@ export const PackProductDescription = () => {
     navigate(-1);
   };
 
-  console.log(cantProducts);
+  // console.log(cantProducts);
 
   // HANDLES
   const handleAgregarSeleccionado = () => {
-    if (pack.product_quantity - pack.prductos.length === 0) {
+    if (pack.product_quantity - pack.prductos.length === 0 || pack.product_quantity - pack.prductos.length === 1) {
+      for (let index = 0; index < cantProducts; index++) {
+        addToPack({ ...currentProduct, cantidad: 1 });
+      }
+
+      console.log('ESTE ES EL PACK')
+      console.log(pack)
+
+
+      addToCart({ ...pack, cantidad: 1 });
       navigate("/carrito");
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
         addToPack({ ...currentProduct, cantidad: 1 });
       }
+      navigate(-1)
     }
+    
   };
 
   const handleShowPopUp = (title) => {
@@ -137,7 +148,7 @@ export const PackProductDescription = () => {
     }
   };
 
-  console.log(Boolean(tallaSeleccionada));
+  // console.log(Boolean(tallaSeleccionada));
   return (
     <div className={styles.main}>
       {showPopUp ? <div className={styles.block_page}></div> : <></>}

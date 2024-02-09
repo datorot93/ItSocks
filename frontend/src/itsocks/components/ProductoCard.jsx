@@ -33,7 +33,7 @@ export const ProductoCard = (product, isPack) => {
     toPath = `${product.design.toLowerCase()}/${compresion}/${product.name.toLowerCase()}`
   }
 
-  console.log(toPath)
+  // console.log(toPath)
 
   return (
     <div className={`${styles.card} animate__animated animate__fadeIn`}>

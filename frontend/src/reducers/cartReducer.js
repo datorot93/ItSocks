@@ -88,9 +88,18 @@ const UPDATE_STATE_BY_ACTION = {
 
   [CART_ACTION_TYPES.REMOVE_FROM_CART]: (state, action) => {
 
+    // console.log('PRODUCTO')
+    // console.log(action.payload)
+
     const { id, name, subcategory, price } = action.payload
+    // console.log('ESTADO')
+    // console.log(state)
+    // console.log('FILTRO')
+    // console.log(state.filter(
+    //   item => item.id !== id
+    // ))
     const newState = state.filter(
-      item => item.id !== id && item.name !== name && item.subcategory !== subcategory && item.price !== price
+      item => item.id !== id
     )
     updateLocalStorage(newState)
     return newState

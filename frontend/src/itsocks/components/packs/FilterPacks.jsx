@@ -15,9 +15,6 @@ import { usePack } from "../../../hooks/usePack";
 export const FilterPacks = ({ lista_packs }) => {
   const initialState = {};
 
-  console.log('ESTA ES LA LISTA PACKS')
-  console.log(lista_packs)
-
   const { createPack } = usePack();
   
 
@@ -38,17 +35,16 @@ export const FilterPacks = ({ lista_packs }) => {
   }
 
   const pack_routes = {
-    "PARES DE MEDIAS LARGAS X4": "largas",
-    "PARES DE MEDIAS LARGAS X3": "largas",
-    "PARES DE MEDIAS PANTORRILLERAS X4": "pantorrilleras",
-    "PARES DE MEDIAS PANTORRILLERAS X3": "pantorrilleras",
-    "PARES DE MEDIAS MEDIA CAÑA X4": "media_cania",
-    "PARES DE MEDIAS MEDIA CAÑA X3": "media_cania",
+    "4 Pares de medias largas": "largas",
+    "3 Pares de medias largas": "largas",
+    "4 Pares de pantorrilleras": "pantorrilleras",
+    "3 Pares de pantorrilleras": "pantorrilleras",
+    "4 Pares de media cañas": "media_cania",
+    "3 Pares de media cañas": "media_cania",
   };
 
   const handleClick = (pack) => {
-    console.log('ESTE ES EL PACK FILTRO')
-    console.log(pack)
+
     const current_product = JSON.stringify(pack);
     const packs = JSON.stringify({ ...pack, prductos: [] });
 
@@ -61,19 +57,19 @@ export const FilterPacks = ({ lista_packs }) => {
   return (
     <>
 
-        <div className={styles.product_filter}>
+        <div className={styles.product_filter_pack}>
           {
           lista_packs.map((pack) => (
             
             <Link 
-              to={pack_routes[pack.name.toUpperCase()]} 
+              to={pack_routes[pack.name]} 
               key={pack.name}
               onClick={ () => handleClick(pack) }
             >
               <button 
-                className={styles.filter_buttons}             
+                className={styles.filter_buttons_packs}             
               >
-                {pack.name.toUpperCase()}
+                {pack.name}
               </button>
             </Link>
           ))}

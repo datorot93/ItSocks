@@ -192,6 +192,10 @@ export const getProductsByCatTypeDesignCompresion = async( category, type, desig
 export const getProductExtraInfo = async( name, type ) => {
     const resp = await fetchWithoutToken(`products/q/colors_tallas/${name}/${type}`)
     const data = await resp.json();
- 
+    
+    console.log('ESTA ES LA DATA')
+    console.log(data[0].size)
     return data
 }
+
+
