@@ -10,10 +10,13 @@ import IconoCarrito from "../../assets/navbar/Vector.svg";
 import styles from "./../styles/Navbar.module.css";
 import { useCart } from "../../hooks/useCart";
 import { usePack } from "../../hooks/usePack";
+import { useWish } from "../../hooks/useWish";
 
 export const Navbar = () => {
   const { cart } = useCart();
+  const { wish } = useWish();
   const [cantidad, setCantidad] = useState(0);
+  const [cantidadWish, setCantidadWish] = useState(0);
   const { clearPack } = usePack()
   const [selectedLink, setSelectedLink] = useState(null);
 
@@ -27,6 +30,14 @@ export const Navbar = () => {
       }, 0)
     );
   }, [cart]);
+
+  useEffect(() => {
+    setCantidadWish(
+      wish.reduce((acumulador, objeto) => {
+        return acumulador + objeto.cantidad;
+      }, 0)
+    );
+  }, [wish]);
 
   // console.log(selectedLink)
   // console.log(location)
@@ -74,12 +85,18 @@ export const Navbar = () => {
             className={condition && selectedLink === 'mas'? styles.selected : ""}
           >Más</Link>
 
-          <Link>
-            <img src={IconoCorazon} alt="Icono buscar" />
+          <Link
+            to={"lista_de_favoritos"}
+          >
+            
+            <div className={styles.contenedor_contador}>
+              <div className={styles.contador_carrito}>{cantidadWish}</div>
+              <img src={IconoCorazon} alt="Lista deseados" />
+            </div>
           </Link>
 
           <Link 
-            to={"carrito"} 
+            to={"carrito"}
             onClick={() => handleLinkClick("carrito")}
             className={condition ? styles.selected : ""}
           >

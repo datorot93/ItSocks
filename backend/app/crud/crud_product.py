@@ -913,7 +913,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             filter(
                 unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).all()
         
 
         lista_productos = self._get_product_list(
@@ -976,7 +976,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
                 unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).all()
         
 
         lista_productos = self._get_product_list(
@@ -1039,7 +1039,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
                 unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).all()
         
 
         lista_productos = self._get_product_list(
@@ -1097,7 +1097,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             filter(
                 unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).all()
         
 
         lista_productos = self._get_product_list(

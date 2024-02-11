@@ -119,7 +119,7 @@ export const ProductDescription = () => {
             const product_to_add = { ...producto, cantidad: cantProducts };
             addToCart(product_to_add);
           } else {
-            setTitle("Lista de regalos");
+            setTitle("LISTA DE DESEOS");
             const product_to_add = { ...producto, cantidad: cantProducts };
             addToWish(product_to_add);
             

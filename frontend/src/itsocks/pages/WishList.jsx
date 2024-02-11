@@ -12,14 +12,20 @@ import arrow_left_circle from '../../../public/assets/carrito/ArrowCircleLeft.sv
 import { Link, useNavigate } from 'react-router-dom'
 import { ListaWish } from '../components/ListaWish'
 import { useWish } from '../../hooks/useWish'
+import { useCart } from '../../hooks/useCart'
 
 export const WishList = () => {
 
   const navigate = useNavigate();
 
   const { wish, addOneToWish, subtractOneToWish, removeFromWish } = useWish();
+  const { addOneToCart } = useCart();
 
   const handleComprarLista = () => {
+    wish.forEach(product => {
+      addOneToCart(product)
+      subtractOneToWish(product)
+    })
     navigate('/carrito')
   }
   
@@ -42,12 +48,11 @@ export const WishList = () => {
             <button className={styles.boton_compartir_lista}>COMPARTIR LISTA DE DESEOS</button>
             <Link 
               className={ styles.link_boton_lista }
-              onClick={ handleComprarLista }
               to="/carrito"
             >
               <button
                 className={styles.boton_comprar_lista}
-                
+                onClick={ handleComprarLista }
               >COMPRAR LISTA</button>
             </Link>
           </div>
