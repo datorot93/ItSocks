@@ -41,5 +41,9 @@ export const usePackReducer = () => {
     type: 'CLEAR_PACK',
   })
 
-  return { state, addToPack, removeFromPack, addOneToPack, subtractOneToPack, substrackProductFromPack, clearPack, createPack}
+  const updatePack = () => dispatch({
+    type: 'UPDATE_PACK',
+  })
+
+  return { state, addToPack, removeFromPack, addOneToPack, subtractOneToPack, substrackProductFromPack, clearPack, createPack, updatePack}
 }

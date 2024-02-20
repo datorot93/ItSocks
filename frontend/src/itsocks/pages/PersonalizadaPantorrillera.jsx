@@ -92,15 +92,15 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
 
   return (
     <div className={styles.main}>
-      <h1>{ `${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')} PERSONALIZADAS` }</h1>
+      <h1>{ `MEDIAS ${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')} PERSONALIZADAS` }</h1>
       <div className={styles.medias_container}>
         
         <ScrollPersonalizadas images={ filteredImages }/>
-        <p><strong>¿Te imaginas llevar medias únicas de tu equipo, con la carita de tu mascota o la imagen que más te gusta? </strong></p>
+        <p className={ styles.negrita }>¿Te imaginas llevar medias únicas de tu equipo, con la carita de tu mascota o la imagen que más te gusta?</p>
         <p>
         Ahora es posible hacerlo realidad. Nuestro servicio te ofrece la oportunidad de personalizar tus medias completamente a tu gusto.
         </p>
-        <p><strong>¡Cóntáctanos para crear juntos tus medias soñadas!</strong></p>
+        <p className={ styles.negrita }>¡Contáctanos para crear juntos tus medias soñadas!</p>
       </div>
       <a 
         href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20personalizados%20en%20la%20categoría%20${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')},%20me%20podrías%20dar%20más%20información%2E%20Gracias`} 

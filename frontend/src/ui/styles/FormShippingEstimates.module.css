@@ -1,6 +1,7 @@
 .main_container {
     display: flex;
     flex-direction: column;
+    font-family: "Montserrat";
     padding: 10px;
     width: 100%;
     height: auto;
@@ -10,6 +11,7 @@
     margin-left: 10px;
     border: 1px solid #F2F2F2;
     font-family: Montserrat;
+    margin-bottom: 44px;
 }
 
 .main_container h3 {
@@ -24,9 +26,12 @@
     align-self: center;
 }
 
+
+
 .form_field {
     display: flex;
     flex-direction: column;
+    font-family: "Montserrat";
     margin: 25px;
     gap: 10px;
     
@@ -37,8 +42,9 @@
     font-family: PT Sans;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
+    margin: 0;
 }
 
 .form_field select {
@@ -59,6 +65,8 @@
     padding: 18px 24px 18px 18px;
     border: 0.4px solid #b7b7b7;
     background: #FFF;
+    border-radius: 16px;
+    border: 1px solid lightgrey;
 }
 
 .form_field_regalo {
@@ -86,10 +94,10 @@
 
 .form_field p strong {
     color: #000;
-    font-family: Oswald;
-    font-size: 16px;
+    font-family: "Montserrat";
+    font-size: 14px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     line-height: bolder;
 }
 
@@ -98,6 +106,8 @@
     height: 80px;
     flex-shrink: 0;
     resize: none;
+    border-radius: 16px;
+    border: 1px solid lightgrey;
 }
 
 .calculate_shipping {
@@ -142,14 +152,23 @@
     margin: 25px;
 }
 
+.costo_envio p {
+    margin: 0;
+}
+
 .mensaje_envio {
     margin: 25px;
     color: #424242;
     font-family: PT Sans;
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.mensaje_envio p {
+    margin: 0;
+
 }
 
 .form_field_tyc {
@@ -182,6 +201,11 @@
     justify-content: center;
 }
 
+.finalizar_pedido_button:hover {
+    background: linear-gradient(to bottom right, #00B475, #232CC7); /* Degradado */
+
+}
+
 .finalizar_pedido a {
     justify-content: center;
 }
@@ -192,6 +216,8 @@
     padding: 10px 117px;
     align-items: center;
     justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
     gap: 10px;
     background: #00B475;
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
@@ -200,6 +226,8 @@
     cursor: pointer;
     border-radius: 10px;
     text-decoration: none;
+    margin: 30px 0;
+
 }
 
 .disabled_button {

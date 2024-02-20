@@ -47,8 +47,8 @@ function VideoComponent() {
                                 </div>
                             </Col>
                             <Col sm={9}>
-                                <h5>Mejora la circulación sanguínea</h5>
-                                <p>Ayudan a aumentar el flujo de sangre desde las extremidades hacia el corazón</p>
+                                <h5>Mejoran la circulación sanguínea</h5>
+                                <p>Ayudan a aumentar el flujo de sangre desde las extremidades hacia el corazón.</p>
                             </Col>
                         </Row>
                     </div>
@@ -64,7 +64,7 @@ function VideoComponent() {
                                 </div>
                             </Col>
                             <Col sm={9}>
-                                <h5>Mejora el rendimiento deportivo</h5>
+                                <h5>Mejoran el rendimiento deportivo</h5>
                                 <p>Algunos atletas utilizan medias de compresión para reducir la fatiga muscular durante el ejercicio.</p>
                             </Col>
                         </Row>

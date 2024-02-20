@@ -14,9 +14,9 @@ function OpinionCliente() {
   const opinionesClientes = [
     {
       id: "c1",
-      nombre_cliente: "Caronloina López",
+      nombre_cliente: "Carolina López",
       src: "../../../public/assets/homepage/opiniones/c1.png",
-      opinion: "Espectaculares como siempre, nunca me han quemado así estén nuevas. Nunca salgo a entrenar sin sus medias, hago gym, bici y running sin problema",
+      opinion: "Espectaculares como siempre, nunca me han quemado así estén nuevas. Nunca salgo a entrenar sin sus medias, hago gym, bici y running sin problema.",
       description: "Esta es una imagen del cliente",
       calificacion: 5
     },

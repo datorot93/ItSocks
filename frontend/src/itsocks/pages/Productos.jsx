@@ -13,14 +13,25 @@ import { ProductFilter } from "../components/ProductFilter";
 import { useLocation } from "react-router-dom";
 
 export const Productos = ({ categoria, subcategoria, type, match }) => {
+  const obj_nombres = {
+    "larga": "Largas",
+    "media_cania": "Media caña",
+    "pantorrillera": "Pantorrilleras",
+    "accesorios": "Accesorios",
+  }
 
   return (
     <>
       <div className={styles.main}>
         <div className={styles.container}>
           <div className={styles.trancking_container}>
-            <h1>{categoria?.toUpperCase()} </h1>
-            </div>
+            {
+              type ? 
+              <h1>MEDIAS {type.toUpperCase()}</h1>
+              : <h1>{categoria?.toUpperCase()} </h1>
+            }
+              
+          </div>
                 <>                  
                   <ProductoList
                     categoria={categoria}

@@ -38,6 +38,8 @@
     font-size: 12.8px;
     padding: 2px;
     margin: 0px 10px;
+    text-decoration: none;
+    color: #000000;
   }
 
   .icons_container {

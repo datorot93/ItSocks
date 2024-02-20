@@ -29,7 +29,7 @@ export const PackProductoCard = ( product ) => {
     const dispatch = useDispatch();
 
     const handleClick = () => {
-        dispatch( getSpecificProduct( product ));
+        // dispatch( getSpecificProduct( product ));
 
         const current_product = JSON.stringify(product);
         const packs =JSON.stringify({ ...product, 'prductos': []})

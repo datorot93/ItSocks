@@ -245,6 +245,11 @@
 
 }
 
+.boton_comprar:hover {
+    background: linear-gradient(to bottom right, #00B475, #232CC7); /* Degradado */
+
+}
+
 .informacion_adicional {
     display: flex;
     align-items: center;
@@ -417,7 +422,7 @@
 .talla_selected {
     background: #00B475;
     color: white;
-    border: solid 1px #050505;
+    border: solid 2px #232cc7;
 }
 
 .precio_sin_descuento {

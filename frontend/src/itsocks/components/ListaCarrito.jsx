@@ -42,6 +42,16 @@ export const ListaCarrito = () => {
                     />
                     <span>
                       <strong>{producto.name.toUpperCase()}</strong>
+                      {
+                        producto.selected_size !== '' &&
+                        <p>Talla: <strong>{producto.selected_size}</strong></p>
+                      }
+
+                      {
+                        producto.selected_color !== '' &&
+                        <p>Color: <strong>{producto.selected_color}</strong></p>
+                      }
+
                     </span>
                   </div>
                 </td>
@@ -96,7 +106,11 @@ export const ListaCarrito = () => {
                     >
                       <span>X</span>
                     </div>
-                    <img src={producto.image_url} alt={producto.name} />
+                    <img 
+                      src={producto.image_url} 
+                      className={styles.img_descri_prod}
+                      alt={producto.name} 
+                    />
                     <div className={styles.pack_description}>
                       <span>
                         <strong>{producto.name.toUpperCase()}</strong>

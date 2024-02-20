@@ -13,6 +13,8 @@ export const MigaDePan = () => {
     .replaceAll("%201", "")
     .replaceAll("%C3%B1", "ñ")
     .replaceAll("%C3%B3", "ó")
+    .replaceAll("mas", "Más")
+    .replaceAll("proteccion", "protección")
     .split("/")
     .filter((x) => x.charAt(0));
 

@@ -20,15 +20,15 @@ export const Pregunta = ({ pregunta, respuesta}) => {
     return (
       <div>
         <div className={ `${styles.question} ${showAnswer ? styles.active : ''}`  } onClick={toggleAnswer}>
-          <h3>{ pregunta }</h3>
+          <p>{ pregunta }</p>
           {
             showAnswer ?
-            <img src={ up_circle_arrow} alt='Up Circle Arrow' />
-            : <img src={ down_circle_arrow } alt='Up Circle Arrow' />
+            <img src={ up_circle_arrow} alt='Up Circle Arrow' className='animate__animated animate__rotateIn'/>
+            : <img src={ down_circle_arrow } alt='Up Circle Arrow' className='animate__animate animate__bounceInUp'/>
           }
           {/* <span>{respuesta ? '' : '+'}</span> */}
         </div>
-        {showAnswer && <div className={ `${styles.answer} ${showAnswer ? styles.show : ''}` }>{respuesta}</div>}
+        {showAnswer && <div className={ `${styles.answer} ${showAnswer ? styles.show : 'animate__animated animate__fadeInDown'} animate__animated animate__fadeInDown` }>{respuesta}</div>}
       </div>
     );
 }

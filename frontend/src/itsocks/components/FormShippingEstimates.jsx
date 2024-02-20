@@ -171,7 +171,7 @@ export const FormShippingEstimates = () => {
             </div>
 
             <div className={styles.form_field}>
-              <p>Direcicón de envío</p>
+              <p>Dirección de envío</p>
               <input
                 type="text"
                 value={direccion}
@@ -198,20 +198,18 @@ export const FormShippingEstimates = () => {
             {isChecked ? (
               <>
                 <div className={styles.form_field}>
-                  <p>De quién</p>
+                  <p>De quien</p>
                   <input
                     type="text"
                     value={from}
-                    placeholder="Apartamento, local, etc (opcional)"
                     onChange={handleFrom}
                   />
                 </div>
                 <div className={styles.form_field}>
-                  <p>Para quién</p>
+                  <p>Para quien</p>
                   <input
                     type="text"
                     value={to}
-                    placeholder="Apartamento, local, etc(opcional)"
                     onChange={handleTo}
                   />
                 </div>
@@ -222,7 +220,7 @@ export const FormShippingEstimates = () => {
 
             <div className={styles.form_field}>
               <p>
-                <strong>INSTRUCCIONES ESPECIALES PARA EL VENDEDOR</strong>
+                <strong>Instrucciones especiales para el vendedor</strong>
               </p>
               <textarea
                 value={indicacionesExtra}
@@ -295,7 +293,7 @@ export const FormShippingEstimates = () => {
                       })
                     }
                   >
-                    FINALIZAR PEDIDO
+                    FINALIZAR COMPRA
                   </button>
                 </Link>
                 :<></>
@@ -305,13 +303,16 @@ export const FormShippingEstimates = () => {
         ) : (
           <div className={styles.envios_exterior}>
             <p>
-              No tenemos convenios para enviar a otros paises desde la pagina
-              web pero te tenemos una solocion dale clic al boton.
+            No tenemos convenios para enviar a otros países desde la página web, pero te tenemos una solución. Dale click al siguiente botón:
             </p>
             <p className={ styles.hola }>At the moment, we don’t support international purchases made via our website. However, we offer other payment methods which might work better for you. If you want to learn more, click here:</p>
-            <button className={styles.finalizar_pedido_button}>
-              CONTÁCTANOS
-            </button>
+            <a
+              href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS`} 
+            >
+              <button className={styles.finalizar_pedido_button}>
+                CONTÁCTANOS
+              </button>
+            </a>
           </div>
         )}
       </div>

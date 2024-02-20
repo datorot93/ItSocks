@@ -16,6 +16,7 @@
   grid-template-rows: auto;
   max-width: 1513px;
   gap: 27px;
+  margin-bottom: 44px;
 }
 
 /* FILTRO PRODUCTOS */
@@ -73,7 +74,7 @@
   color: #000;
 
   /* Subtitulo */
-  font-family: Montserrat;
+  font-family: "Montserrat";
   font-size: 27px;
   font-style: normal;
   font-weight: 600;
@@ -103,6 +104,11 @@
   grid-row: 1;
   display: flex;
   justify-content: center;
+}
+
+.trancking_container h1 {
+  font-family: "Montserrat";
+  font-weight: 600;
 }
 
 /* PRODUCTOS */

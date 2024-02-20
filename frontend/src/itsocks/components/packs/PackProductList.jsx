@@ -1,5 +1,5 @@
 //REACT
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // ACTIONS
 import { PackProductoCard } from "./PackProductoCard";
@@ -21,6 +21,10 @@ export const PackProductoList = ({ categoria, type }) => {
   const design = location.split('/')[3] ? location.split('/')[3] : null;
   
   const { products } = useFetchPackItems(skip_page, setSkip, location, categoria, type)
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
 
   // console.log(products)
 

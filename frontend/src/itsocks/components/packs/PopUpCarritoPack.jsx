@@ -18,7 +18,7 @@ export const PopUpCarritoPack = ({
   };
 
   const { pack, clearPack } = usePack();
-  const { cart } = useCart();
+  const { cart, addToCart } = useCart();
 
   // console.log(cart);
   const total = cart.reduce((acumulador, objeto) => {
