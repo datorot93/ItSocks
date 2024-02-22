@@ -120,7 +120,7 @@ export const PackProductDescription = () => {
       }
 
       console.log(console.log(JSON.parse(localStorage.getItem("pack"))));
-      addToCart({ ...pack, cantidad: 1 });
+      addToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, currentProduct]});
       navigate("/carrito");
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
@@ -136,7 +136,6 @@ export const PackProductDescription = () => {
       if(tallaSeleccionada){
         if (title === "carrito") {
           setTitle("Carrito de compras");
-          const product_to_add = { ...producto, cantidad: 1 };
           addToCart({ ...pack, cantidad: 1 });
         } else {
           setTitle("Lista de regalos");

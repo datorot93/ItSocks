@@ -18,7 +18,7 @@ const UPDATE_STATE_BY_ACTION = {
   },
 
   [SHIPPING_ACTION_TYPES.MODIFY_SHIPPING]: (state, action) => {
-    const newState = { ...action.payload }
+    const newState = { ...state, ...action.payload }
     updateLocalStorage(newState)
     return newState
   }
