@@ -39,7 +39,7 @@ export const WishList = () => {
           <ListaWish />
           <div 
             className={ styles.seguir_comprando}
-            onClick={ () => navigate(-2)}
+            onClick={ () => navigate("/")}
           >
             <img src={ arrow_left_circle } alt="Seguir comprando"/>
             <span>Seguir comprando</span>

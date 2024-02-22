@@ -217,7 +217,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             product_dict = {key: product_dict[key] for key in selected_fields}
             product_list.append(product_dict)
 
-        lista_productos = self.eliminar_repetidos(product_list)
+        lista_productos = product_list
         return lista_productos
 
     def get_products_by_subcat_cat(
@@ -859,7 +859,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
                 unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
                 unaccent(func.lower(Type.name)) == unidecode(type.strip().lower())
-            ).first()
+            ).all()
 
         return product
     

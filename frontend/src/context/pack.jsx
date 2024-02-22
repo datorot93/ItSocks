@@ -3,7 +3,7 @@ import { usePackReducer } from "../hooks/usePackReducer";
 
 export const PackContext = createContext();
 export const PackProvider = ({ children }) => {
-  const { state, addToPack, clearPack, createPack, substrackProductFromPack } = usePackReducer();
+  const { state, addToPack, clearPack, createPack, substrackProductFromPack, updatePack } = usePackReducer();
   return (
     <PackContext.Provider
       value={{
@@ -12,6 +12,7 @@ export const PackProvider = ({ children }) => {
         substrackProductFromPack,
         clearPack,
         createPack,
+        updatePack,
       }}
     >
       {children}

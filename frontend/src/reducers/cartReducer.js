@@ -1,3 +1,5 @@
+import { usePack } from "../hooks/usePack"
+
 export const cartInitialState = JSON.parse(window.localStorage.getItem('cart')) || []
 
 export const CART_ACTION_TYPES = {
@@ -14,30 +16,28 @@ export const updateLocalStorage = state => {
 }
 
 const UPDATE_STATE_BY_ACTION = {
-  [CART_ACTION_TYPES.ADD_TO_CART]: (state, action) => {
-    const { id, name } = action.payload
-    const productInCartIndex = state.findIndex(item => item.name === name && item.id === id)
 
-    if (productInCartIndex > 0) {
-      const newState = [
-        ...state.slice(0, productInCartIndex),
-        { ...state[productInCartIndex], cantidad: state[productInCartIndex].cantidad + action.payload.cantidad },
-        ...state.slice(productInCartIndex + 1)
-      ]
-      
-      updateLocalStorage(newState)
-      return newState
+  [CART_ACTION_TYPES.ADD_TO_CART]: (state, action) => {
+    const { id, name, selected_size, selected_color, type } = action.payload;
+
+    const productExists = state.some(
+      item => item.name === name && item.id === id && item.selected_size == selected_size && item.selected_color == selected_color && item.type === type
+    );
+
+    let newState;
+
+    if (productExists) {
+      newState = state.map(item => 
+        item.name === name && item.id === id && item.selected_size == selected_size && item.selected_color == selected_color && item.type === type
+        ? { ...item, cantidad: item.cantidad + action.payload.cantidad }
+        : item
+      );
+    } else {
+      newState = [...state, { ...action.payload }];
     }
 
-    const newState = [
-      ...state,
-      {
-        ...action.payload
-      }
-    ]
-
-    updateLocalStorage(newState)
-    return newState
+    updateLocalStorage(newState);
+    return newState;
   },
 
   [CART_ACTION_TYPES.ADD_ONE_TO_CART]: (state, action) => {
@@ -69,8 +69,10 @@ const UPDATE_STATE_BY_ACTION = {
   
   [CART_ACTION_TYPES.SUBTRACT_ONE_TO_CART]: (state, action) => {
     console.log(action.payload)
-    const { id, name } = action.payload
-    const productInCartIndex = state.findIndex(item => item.id === id && item.name === name)
+    const { id, name, selected_color, selected_size } = action.payload
+    const productInCartIndex = state.findIndex(
+      item => item.name === name && item.id === id && item.selected_size == selected_size && item.selected_color == selected_color
+    )
 
     if (productInCartIndex !== -1) {
       if ( state[productInCartIndex].cantidad > 1){
@@ -88,22 +90,20 @@ const UPDATE_STATE_BY_ACTION = {
 
   [CART_ACTION_TYPES.REMOVE_FROM_CART]: (state, action) => {
 
-    // console.log('PRODUCTO')
-    // console.log(action.payload)
+    const { id, name, subcategory, type, price, selected_color, selected_size } = action.payload
 
-    const { id, name, subcategory, price } = action.payload
-    // console.log('ESTADO')
-    // console.log(state)
-    // console.log('FILTRO')
-    // console.log(state.filter(
-    //   item => item.id !== id
-    // ))
-    const newState = state.filter(
-      item => item.id !== id
+    const prod_a_eliminar = state.filter(
+      item => item.name === name && item.id === id && item.selected_size === selected_size && item.selected_color === selected_color && item.type === type && item.subcategory === subcategory
     )
+
+    const newState = state.filter(
+      item => item !== prod_a_eliminar[0]
+    )
+
     updateLocalStorage(newState)
     return newState
   },
+
   [CART_ACTION_TYPES.CLEAR_CART]: () => {
     updateLocalStorage([])
     return []

@@ -11,6 +11,7 @@ export const PACK_ACTION_TYPES = {
   SUBSTRACT_PRODUCT_FROM_PACK: "SUBSTRACT_PRODUCT_FROM_PACK",
   CLEAR_PACK: "CLEAR_PACK",
   CREATE_PACK: "CREATE_PACK",
+  UPDATE_PACK: 'UDATE_PACK'
 };
 
 // update localStorage with state for pack
@@ -23,6 +24,8 @@ const UPDATE_STATE_BY_ACTION = {
 
 
   [PACK_ACTION_TYPES.ADD_TO_PACK]: (state, action) => {
+
+    console.log('AGREGANDO AL PACK')
 
     if ( state.prductos.length < state.product_quantity) {
       const newState = 
@@ -63,6 +66,12 @@ const UPDATE_STATE_BY_ACTION = {
       updateLocalStorage(newState);
       return newState;
     }
+  },
+
+  [PACK_ACTION_TYPES.UPDATE_PACK]: (state) => {
+
+    updateLocalStorage(state);
+    return state;
   }
 
   // [PACK_ACTION_TYPES.ADD_ONE_TO_PACK]: (state, action) => {

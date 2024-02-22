@@ -37,6 +37,11 @@ export const PackProductDescription = () => {
     }
   }, 0);
 
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  },[]);
+
   const navigate = useNavigate();
   const { pack, addToPack } = usePack();
 
@@ -65,8 +70,6 @@ export const PackProductDescription = () => {
   const handleTallaClick = (talla) => {
     setTallaSeleccionada(talla);
   };
-
-  const similares = getProductsByPartOfName(producto.name);
 
   const initialState = Object.keys(producto.images).slice(
     1,
@@ -109,8 +112,6 @@ export const PackProductDescription = () => {
     navigate(-1);
   };
 
-  // console.log(cantProducts);
-
   // HANDLES
   const handleAgregarSeleccionado = () => {
     if (pack.product_quantity - pack.prductos.length === 0 || pack.product_quantity - pack.prductos.length === 1) {
@@ -118,11 +119,8 @@ export const PackProductDescription = () => {
         addToPack({ ...currentProduct, cantidad: 1 });
       }
 
-      console.log('ESTE ES EL PACK')
-      console.log(pack)
-
-
-      addToCart({ ...pack, cantidad: 1 });
+      console.log(console.log(JSON.parse(localStorage.getItem("pack"))));
+      addToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, currentProduct]});
       navigate("/carrito");
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
@@ -138,7 +136,6 @@ export const PackProductDescription = () => {
       if(tallaSeleccionada){
         if (title === "carrito") {
           setTitle("Carrito de compras");
-          const product_to_add = { ...producto, cantidad: 1 };
           addToCart({ ...pack, cantidad: 1 });
         } else {
           setTitle("Lista de regalos");
@@ -215,7 +212,7 @@ export const PackProductDescription = () => {
             className={styles.guia_tallas}
             onClick={() => setShowPopUpTallas(true)}
           >
-              <span>¡Consulta la guia de talla!</span>
+              <span>¡Consulta la guia de tallas!</span>
           </div>
 
           <div className={styles.cantidad_packs}>

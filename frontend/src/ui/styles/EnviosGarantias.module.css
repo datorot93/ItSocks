@@ -7,10 +7,11 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
     width: 100%;
+    font-family: "Montserrat";
 }
 
 .main_section h1 {
-    font-family: Montserrat;
+    font-family: "Montserrat";
     font-size: 40px;
     font-style: normal;
     font-weight: 700;
@@ -25,6 +26,7 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
     width: 70%;
+    font-weight: lighter;
 }
 
 .container h3 {
@@ -32,7 +34,7 @@
 
     /* Subtitulo */
     font-family: Montserrat;
-    font-size: 27px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 600;
     margin-bottom: 35px;
@@ -44,10 +46,13 @@
     gap: 30px;
     margin: 10px 0 10px 0;
     font-family: Montserrat;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
+    font-size: 28px;
+    font-weight: lighter;
     line-height: 27px;
+}
+
+.text_content strong {
+    font-weight: bold;
 }
 
 .text_content ul li{

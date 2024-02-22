@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styles from '../../ui/styles/EnviosGarantias.module.css';
 
 export const EnviosGarantiasCambios = () => {
+
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
   return (
 
     <section className={ styles.main_section }>

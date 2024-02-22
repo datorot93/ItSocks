@@ -5,6 +5,7 @@ import React from 'react'
 // Styles
 import styles from '../../ui/styles/ProductsBillingList.module.css'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { useShipping } from '../../hooks/useShipping'
 
 export const ProductsBillingList = ({ precio_envio = ''}) => {
 
@@ -17,22 +18,33 @@ export const ProductsBillingList = ({ precio_envio = ''}) => {
     return acumulador + (objeto.cantidad * objeto.price)
   }, 0)
 
-  
+  // console.log(shipping)
   return (
     <div className={ styles.main_billing_articles }>
       <h1>Artículos de envío</h1>
       <div className={ styles.products}>
         {
-          products_list.map( product => (
-            <div key={ product.id }>
+          products_list.map( (product, index) => (
+            <div key={ index }>
               <div key={ product.id } className={ styles.product }>
-                <div className={ styles.product_description } >
-                  <LazyLoadImage src={ product.images['image1']}/>
-                  <div className={ styles.quantity }>
-                    { product.cantidad}
-                  </div>
-                  <h3>{product.name }</h3>
-                </div>
+                  {
+                    product.images && product.images['image1'] != undefined ?
+                    <div className={ styles.product_description } >
+                      <LazyLoadImage src={ product.images.image1}/>
+                      <div className={ styles.quantity }>
+                        { product.cantidad }
+                      </div>
+                      <h3>{product.name }</h3>
+                    </div>
+                    :
+                    <div className={ styles.product_description } >
+                      <LazyLoadImage src={ product.image_url}/>
+                      <div className={ styles.quantity }>
+                        { product.cantidad}
+                      </div>
+                      <h3>{product.name }</h3>
+                    </div>
+                  }
                 
                 <span>{ product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</span>
               </div>

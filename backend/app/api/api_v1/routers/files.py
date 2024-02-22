@@ -92,7 +92,8 @@ dict_colores = {
     'AMARILLO': 6,
     'NARANJA': 7,
     'FUCSIA': 8,
-    'ROSADO': 9
+    'ROSADO': 9,
+    "AZUL": 10
 }
 
 
@@ -374,8 +375,6 @@ async def upload_colors(
     df['TAGS'] = df['TAGS'].fillna('')
     df['DESCUENTO'] = df['DESCUENTO'].fillna(0)
     df['COLOR'] = df['COLOR'].fillna('')
-    # df['CANTIDAD'] = df['CANTIDAD'].fillna(0)
-    # df['CANTIDAD'] = df['CANTIDAD'].astype(int)
 
     df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
     
@@ -396,7 +395,48 @@ async def upload_colors(
                 db,
                 obj_in=schemas.ProductColorCreate(
                     product_id = product.id,
-                    color_id = dict_tallas[row[15]]
+                    color_id = dict_colores[row[6]]
+                )
+            )
+
+    return df.shape
+
+
+@router.post("/upload_sizes")
+async def upload_sizes(
+    request: Request,
+    file: UploadFile = File(default=None,),
+    db: Session = Depends(deps.get_db),
+):
+    content = await file.read()
+    xlsxfile = pd.ExcelFile(content)
+    df = xlsxfile.parse("Productos")
+
+    df['CANTIDAD'] = df['CANTIDAD'].fillna(1000000)
+    df['IMAGENES'] = df['IMAGENES'].fillna('')
+    df['TAGS'] = df['TAGS'].fillna('')
+    df['DESCUENTO'] = df['DESCUENTO'].fillna(0)
+    df['COLOR'] = df['COLOR'].fillna('')
+
+    df.rename(columns={'DE COMPRESIÓN?': 'COMPRESION'}, inplace=True)
+
+    
+
+    for row in df.itertuples():
+
+        product = crud.product.get_product_by_name_subcat_type(
+                db,
+                name=row[2],
+                subcategory=row[4],
+                type=row[5]
+            )
+        
+        if product:
+            crud.product_size.create(
+                db,
+                obj_in=schemas.ProductSizeCreate(
+                    product_id = product.id,
+                    size_id = dict_tallas[row[15]]
                 )
             )
 

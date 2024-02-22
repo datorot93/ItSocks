@@ -29,6 +29,10 @@ import { useWish } from "../../hooks/useWish";
 
 export const ProductDescription = () => {
 
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
   
   const { addToCart, removeFromCart, cart } = useCart();
   const { addToWish, removeFromWish, wish } = useWish();
@@ -116,38 +120,58 @@ export const ProductDescription = () => {
         if(tallaSeleccionada){
           if (title === "carrito") {
             setTitle("CARRITO DE COMPRA");
-            const product_to_add = { ...producto, cantidad: cantProducts };
+            const product_to_add = { 
+              ...producto, 
+              cantidad: cantProducts,
+              selected_color: '',
+              selected_size: tallaSeleccionada
+            };
             addToCart(product_to_add);
           } else {
             setTitle("LISTA DE DESEOS");
-            const product_to_add = { ...producto, cantidad: cantProducts };
+            const product_to_add = { 
+              ...producto, 
+              cantidad: cantProducts,
+              selected_color: '',
+              selected_size: tallaSeleccionada
+            };
             addToWish(product_to_add);
             
           }
           setShowPopUp(true);
-          setCantProducts(0);
+          setCantProducts(1);
           setTallaSeleccionada(null);
           setColorSeleccionado(null);
         }
-      }else if(colors[0] !== "nan"){
+      }else if(colors.length > 0){
         if(colorSeleccionado){
           if (title === "carrito") {
             setTitle("CARRITO DE COMPRA");
-            const product_to_add = { ...producto, cantidad: cantProducts };
+            const product_to_add = { 
+              ...producto, 
+              cantidad: cantProducts,
+              selected_size: '',
+              selected_color: colorSeleccionado 
+            };
             addToCart(product_to_add);
           } else {
             setTitle("Lista de regalos");
           }
           setShowPopUp(true);
-          setCantProducts(0);
+          setCantProducts(1);
           setTallaSeleccionada(null);
           setColorSeleccionado(null);
         }
 
-      }else if(tallas[0] === 'unica' && colors[0] === 'nan'){
+      }else if(tallas[0] === 'unica' && colors.length === 0){
         if (title === "carrito") {
           setTitle("CARRITO DE COMPRA");
-          const product_to_add = { ...producto, cantidad: cantProducts };
+          const product_to_add = { 
+            ...producto, 
+            cantidad: cantProducts,
+            selected_size: '',
+            selected_color: ''
+          };
           addToCart(product_to_add);
         } else {
           setTitle("Lista de regalos");
@@ -166,22 +190,37 @@ export const ProductDescription = () => {
     if(cantProducts > 0 ){
       if(tallas[0] && tallas[0] !== "unica"){
         if(tallaSeleccionada){
-          const product_to_add = { ...producto, cantidad: cantProducts };
+          const product_to_add = { 
+            ...producto, 
+            cantidad: cantProducts,
+            selected_color: '',
+            selected_size: tallaSeleccionada
+          };
           addToCart(product_to_add);
           navigate("/carrito");
         }else {
           alert('Debes seleccionar una talla')
         }
-      }else if(colors[0] !== "nan"){
+      }else if(colors.length > 0){
         if(colorSeleccionado){
-          const product_to_add = { ...producto, cantidad: cantProducts };
+          const product_to_add = { 
+            ...producto, 
+            cantidad: cantProducts,
+            selected_color: colorSeleccionado,
+            selected_size: ''
+          };
           addToCart(product_to_add);
           navigate("/carrito");
         }else {
           alert('Debes seleccionar un color')
         }      
-      }else if(tallas[0] === 'unica' && colors[0] === 'nan'){
-        const product_to_add = { ...producto, cantidad: cantProducts };
+      }else if(tallas[0] === 'unica' && colors.length === 0){
+        const product_to_add = { 
+          ...producto, 
+          cantidad: cantProducts,
+          selected_color: '',
+          selected_size: ''
+        };
         addToCart(product_to_add);
         navigate("/carrito");
 
@@ -198,11 +237,7 @@ export const ProductDescription = () => {
   };
   const handleColorClick = (color) => {
     setColorSeleccionado(color);
-    console.log(color, colorSeleccionado)
-    console.log(color === colorSeleccionado)
   };
-
-  // console.log(showPopUp);
 
   return (
     <>
@@ -281,7 +316,7 @@ export const ProductDescription = () => {
                   className={styles.guia_tallas}
                   onClick={() => setShowPopUpTallas(true)}
                 >
-                    <span>¡Consulta la guia de talla!</span>
+                    <span>¡Consulta la guia de tallas!</span>
                 </div>
                 <div className={styles.tallas}>
                 <div className={styles.tallas_label}>Tallas: </div>
@@ -303,7 +338,7 @@ export const ProductDescription = () => {
               <></>
             )}
 
-            {colors[0] !== "nan" ? (
+            {colors.length > 0 ? (
               <div className={styles.colores}>
                 <div className={styles.colores_label}>Colores: </div>
                 <div className={styles.numeros_colores}>

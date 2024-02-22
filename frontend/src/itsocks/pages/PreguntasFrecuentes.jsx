@@ -14,12 +14,13 @@ export const PreguntasFrecuentes = () => {
 
   const faqList = [
     {
-      pregunta: '¿Cómo ciudar mis medias de compresión?',
+      pregunta: '¿Cómo cuidar mis medias de compresión?',
       respuesta:
-        <div style={{width: '100%'}}>
+        <div className={ styles.cuidado}>
+          <p className={ styles.inner_text}>Instrucciones de cuidado:</p>
           <ul>
             <li>No usar productos blanqueadores</li>
-            <li>Lavar la prenda a mano</li>
+            <li>Lavar la prenda al revés</li>
             <li>No usar lavadora; Lavar a mano</li>
             <li>No dejar en remojo ni retorcer</li>
           </ul>
@@ -39,7 +40,8 @@ export const PreguntasFrecuentes = () => {
     },
     {
       pregunta: '¿Cuál es la diferencia entre las medias largas y las pantorrilleras de compresión, y cuándo debo usar cada una?',
-      respuesta: <div>
+      respuesta: 
+        <div className={ styles.diferencias}>
           <p><strong><span>Pantorrilleras:</span> Úsalas mientras estes activo.</strong></p>
           <p>No recomendamos usarlas en predioso de inactividad, o durante la recuperación después de estar mucho tiempo corriendo; en estos periodos la sangre puede comenzar a acumularse en tus pies</p>
           <p><strong><span>Medias largas:</span> Úsalas en cualquier momento</strong></p>
@@ -48,7 +50,7 @@ export const PreguntasFrecuentes = () => {
     },
     {
       pregunta: '¿Cómo puedo hacer seguimiento de mi pedido?',
-      respuesta: <div>
+      respuesta: <div className={ styles.seguimiento}>
           <p>Una vez despachemos tu pedido, recibirás un correo con el resumen del mismo y encontrarás la información de envío, número de guía y transportadora.</p>
           <p>Así mismo, puedes contactar a nuestra línea de atención al cliente (ling wtp) donde te podremos ayudar a consultar más detalles de tu compra si lo necesitas.</p>
         </div>
@@ -58,7 +60,7 @@ export const PreguntasFrecuentes = () => {
   return (
     <>  
       <div className={ styles.main } >
-        <h1>Preguntas Frecuentes</h1>
+        <h1>PREGUNTAS FRECUENTES</h1>
         <div className={ styles.container }>
           {faqList.map((item, index) => (
             <Pregunta key={index} pregunta={item.pregunta} respuesta={item.respuesta} />

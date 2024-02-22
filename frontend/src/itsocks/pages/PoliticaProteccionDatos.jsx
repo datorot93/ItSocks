@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styles from '../../ui/styles/EnviosGarantias.module.css';
 
 export const PoliticaProteccionDatos = () => {
+  
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className={ styles.main_section }>
       <h1>POLÍTICA DE PROTECCIÓN DE DATOS</h1>
@@ -20,7 +26,7 @@ export const PoliticaProteccionDatos = () => {
       <div className={ `${styles.envios} ${styles.container}` }>
         <h3>1. IDENTIFICACIÓN DEL RESPONSABLE DEL TRATAMIENTO</h3>
         <div className={ styles.text_content}>
-          <p><strong>RAZÓN SOCIAL: IT SOCKS COL SAS, o, “LA EMPRESA”.</strong></p>
+          <p><strong>RAZÓN SOCIAL: IT SOCKS COL SAS,</strong> o<strong>, “LA EMPRESA”.</strong></p>
           <p><strong>DOMICILIO Y DIRECCIÓN</strong>: Domiciliada en la ciudad de Bogotá D.C. N.I.T. 901.396.065, con sede principal en la Tv 57 No 108 - 14</p>
           <p><strong>CORREO ELECTRÓNICO</strong>: itsocks17@gmail.com</p>
           <p><strong>TELÉFONOS</strong>: 3143939837</p>

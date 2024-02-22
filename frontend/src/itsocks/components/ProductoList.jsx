@@ -1,5 +1,5 @@
 //REACT
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // UTILITIES
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -22,6 +22,11 @@ export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
   const location = useLocation().pathname;
 
   const design = location.split('/')[4] ? location.split('/')[4] : null;
+
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
 
   const params = useParams();
   // console.log('ESTOS SON LOS PARAMS')

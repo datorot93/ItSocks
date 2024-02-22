@@ -13,7 +13,7 @@ export const Mas = () => {
     return (
     <>
         <section  className={ styles.main }>
-        <h1>Mas</h1>
+        <h1>MÁS</h1>
         <div className={ styles.container }>
             <div className={ styles.link_container}>
                 <img src={ icono_ventas_por_mayor } alt="Ventas al por mayor" />

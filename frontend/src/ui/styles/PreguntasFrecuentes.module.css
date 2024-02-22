@@ -31,3 +31,38 @@
     gap: 15px;
     font-family: Montserrat;
 }
+
+.inner_text {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cuidado {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+
+.question.active p{
+    color: var(--Primario-azul, #232CC7);
+}
+
+.question.active span {
+    color: var(--Primario-azul, #232CC7);
+    color: #fff;
+}
+
+.diferencias span {
+  color: #232cc7;
+  font-size: 24px;
+}
+
+.diferencias strong{
+  font-size: 24px;
+  line-height: 100%;
+}
+
+.seguimiento p {
+    margin: 0
+}

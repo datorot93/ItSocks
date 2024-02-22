@@ -31,7 +31,7 @@ export const CarritoCompras = () => {
             <img src={ arrow_left_circle } alt="Seguir comprando"/>
             <span>Seguir comprando</span>
           </div>
-          <p>We processes all orders in COP. While the content of your cart is currently displayed in COP, the checkout will use COP at the most current exchange rate.</p>
+          
         </div>
 
         <div>

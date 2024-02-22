@@ -56,6 +56,10 @@
     align-items: center;
 }
 
+.td_producto img {
+    object-fit: contain;
+}
+
 .quitar_producto {
     display: flex;
     width: 31px;
@@ -207,6 +211,7 @@
     justify-content: center;
     gap: 373px;
     margin-top: 56px;
+    margin-bottom: 44px;
 }
 
 .boton_comprar_lista{
@@ -219,6 +224,10 @@
     border: none;
     cursor: pointer;
     border-radius: 16px;
+}
+
+.boton_comprar_lista:hover {
+    background: linear-gradient(to bottom right, #00B475, #232CC7);
 }
 
 .boton_compartir_lista {
