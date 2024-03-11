@@ -30,6 +30,8 @@ export const Packs = () => {
     fetchData();
   }, []);
 
+  console.log(resultado)
+
   return (
     <>
       <div className={styles.main}>
@@ -40,7 +42,7 @@ export const Packs = () => {
           {resultado ? (
             <>
               <ListaPacks lista_packs={resultado} />
-              <FilterPacks lista_packs={resultado} />
+              <FilterPacks lista_packs={resultado.sort((a, b) => a.name.localeCompare(b.name)) } />
             </>
           ) : (
             <></>

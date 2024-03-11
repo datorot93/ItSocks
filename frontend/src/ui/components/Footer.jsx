@@ -24,21 +24,24 @@ export const Footer = () => {
                 >Envíos, Garantías y Cambios</Link>
                 <Link
                     to='/politicas_proteccion_datos'
-                >Plíticas de protección de datos</Link> |
+                >Políticas de protección de datos</Link> |
                 <div className={ styles.icons_container }>
                     <a 
                         href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS,%20me%20podrías%20dar%20más%20información%2E%20Gracias`}
                         target='_blank'
                     >
                         <img src={ icono_whatsapp } alt="Ícono WhatsApp" />
-                    </a> 
+                    </a>
                     <a 
                         href="https://www.instagram.com/itsocks_/"
                         target='_blank'
                     >
                         <img src={ icono_instagram } alt="Ícono Instagram" />
-                    </a>    
-                    <a>
+                    </a>
+                    <a
+                        href="https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d"
+                        target="_blank"
+                    >
                         <img src={ icono_facebook } alt="Ícono Facebook" />
                     </a>  
                     <a 

@@ -9,7 +9,7 @@ import styles from "../../ui/styles/Accesorios.module.css";
 
 // UTILITIES
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { getProductsByTags, getProductsByTagsSubcategory, getProductsByTagsType } from "../helpers/getProductByTags";
+import { getProductsByTags, getProductsByTagsSubcategory, getProductsByTagsSubcategoryCompresion, getProductsByTagsType, getProductsByTagsTypeCompresion } from "../helpers/getProductByTags";
 import { useLocation } from "react-router-dom";
 
 export const ProductoList2 = ({estilo, filtro}) => {
@@ -30,20 +30,38 @@ export const ProductoList2 = ({estilo, filtro}) => {
             return setProducts( products => [...products, ...res] )
           }
         );
-    }else if ( location.split('/').length > 2 && filtro === 'estilo') {
+    }else if ( location.split('/').length == 4 && filtro === 'estilo') {
       getProductsByTagsType( estilo, tag_filter, skip_page )
         .then( 
           res => {        
-            console.log(res)
+
             return setProducts( products => [...products, ...res] )
           }
         );
-    }else if ( location.split('/').length > 2 && filtro === 'tipo') {
+    }else if ( location.split('/').length == 4 && filtro === 'tipo') {
       getProductsByTagsSubcategory( estilo, tag_filter, skip_page )
         .then( 
           res => {        
-            console.log(res)
+
             return setProducts( products => [...products, ...res] )
+          }
+        );
+    }else if ( location.split('/').length > 4 && filtro === 'estilo') {
+      console.log('ENTRÉ AL FILTRO DE COMPRESIÓN ESTILO')
+      let compresion_filter = location.split('/')[4]
+      getProductsByTagsTypeCompresion( estilo, tag_filter, compresion_filter, skip_page )
+        .then( 
+          res => {
+            return setProducts(  products => [...products, ...res] )
+          }
+        );
+    }else if ( location.split('/').length > 4 && filtro === 'tipo') {
+      console.log('ENTRÉ AL FILTRO DE COMPRESIÓN TIPO')
+      let compresion_filter = location.split('/')[4]
+      getProductsByTagsSubcategoryCompresion( estilo, tag_filter, compresion_filter, skip_page )
+        .then( 
+          res => {        
+            return setProducts(  products => [...products, ...res] )
           }
         );
     }
@@ -69,8 +87,8 @@ export const ProductoList2 = ({estilo, filtro}) => {
         >
 
           <div className={styles.products_container}>
-            {products.map((producto) => (
-              <ProductoCard2 key={producto.id} {...producto} />
+            {products.map((producto, index) => (
+              <ProductoCard2 key={index} {...producto} />
             ))}
           </div>
         </InfiniteScroll>

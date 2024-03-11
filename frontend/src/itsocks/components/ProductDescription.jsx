@@ -155,7 +155,8 @@ export const ProductDescription = () => {
             };
             addToCart(product_to_add);
           } else {
-            setTitle("Lista de regalos");
+            setTitle("LISTA DE DESEOS");
+            addToWish(product_to_add);
           }
           setShowPopUp(true);
           setCantProducts(1);
@@ -173,8 +174,18 @@ export const ProductDescription = () => {
             selected_color: ''
           };
           addToCart(product_to_add);
+          setShowPopUp(true);
+
         } else {
-          setTitle("Lista de regalos");
+          setTitle("LISTA DE DESEOS");
+          const product_to_add = { 
+            ...producto, 
+            cantidad: cantProducts,
+            selected_size: '',
+            selected_color: ''
+          };
+          addToWish(product_to_add);
+          setShowPopUp(true);
         }
         setShowPopUp(true);
         setCantProducts(0);
@@ -185,6 +196,10 @@ export const ProductDescription = () => {
       
     }
   };
+  console.log('ESTAS SON LAS TALLAS')
+  console.log(tallas)
+  console.log('ESTOS SON LOS COLORES')
+  console.log(colors)
 
   const handleComprarAhora = () => {
     if(cantProducts > 0 ){

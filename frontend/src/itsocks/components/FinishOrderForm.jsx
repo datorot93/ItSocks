@@ -13,17 +13,22 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 // MERCADOPAGO
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { getPreference } from '../helpers/getPreference'
+import { useShipping } from '../../hooks/useShipping'
 
 
 
 
 export const FinishOrderForm = () => {
 
+    const {shipping, modifyShipping} = useShipping()
+
+    const [ currentAddess, setCurrentAddress ] = useState(shipping.address)
+    const [ currentEmail, setCurrentEmail ] = useState(shipping.email)
+
     initMercadoPago('APP_USR-394df966-9b8b-442a-9c5c-71f6923d3ad0', {
         locale: 'es-CO'
     });
     const carrito = JSON.parse(localStorage.getItem('cart'))
-    const shipping = JSON.parse(localStorage.getItem('shipping'))
 
     // const [ carrito, setCarrito ] = useState(JSON.parse(localStorage.getItem('cart')))
     const [ preference , setPreference ] = useState({})
@@ -65,25 +70,36 @@ export const FinishOrderForm = () => {
     }, [])
 
     const navigate = useNavigate();
-    
-    console.log(preference)
 
-    // const [ direccion, setDireccion ] = useState('')
-
-    const handleDireccion = (e) => {        
-        setDireccion(e.target.value)
+    const handleEmail = (e) => {
+        setCurrentEmail(e.target.value)
     }
 
+    const handleDireccion = (e) => {
+        setCurrentAddress(e.target.value)
+    }
+    
   return (
     <section className={ styles.billing_form }>
         <h3>Información</h3>
         <form>
             <div className={ styles.form_field }>                
-                <input type="text" placeholder="Correo Electrónico" required/>
+                <input 
+                    type="text" 
+                    placeholder="Correo Electrónico"
+                    value={ currentEmail }
+                    onChange={ handleEmail}
+                    required
+                />
             </div>
 
             <div className={ styles.form_field }>                
-                <input type="text" placeholder="Dirección" required/>
+                <input 
+                    type="text" 
+                    placeholder="Dirección"
+                    value={ currentAddess }
+                    onChange={ handleDireccion }
+                    required/>
             </div>
 
             

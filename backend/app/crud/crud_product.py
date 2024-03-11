@@ -986,6 +986,138 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             
         return lista_productos
     
+
+    def get_products_by_tag_type_compresion(
+            self,
+            db: Session,
+            *,
+            tag: str,
+            type: str,
+            compresion: bool,
+            skip: int,
+            limit: int,
+    ):
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                Product.compresion == compresion,
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+        product_images = db.query(
+                Image.url,
+                Image.id_product
+            ).\
+            join(Product, Product.id == Image.id_product).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                Product.compresion == compresion,
+                Product.state == True,
+            ).all()
+        
+
+        lista_productos = self._get_product_list(
+                products=products,
+                product_images=product_images
+            )
+            
+        return lista_productos
+    
+
+    def get_products_by_tag_subcategory_compresion(
+            self,
+            db: Session,
+            *,
+            tag: str,
+            subcategory: str,
+            compresion: bool,
+            skip: int,
+            limit: int,
+    ):
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                Product.compresion == compresion,
+                Product.state == True,
+            ).offset(skip).limit(limit).all()
+        
+        product_images = db.query(
+                Image.url,
+                Image.id_product
+            ).\
+            join(Product, Product.id == Image.id_product).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                Product.compresion == compresion,
+                Product.state == True,
+            ).all()
+        
+
+        lista_productos = self._get_product_list(
+                products=products,
+                product_images=product_images
+            )
+            
+        return lista_productos
+    
     
     def get_products_by_tag_subcategory(
             self,
@@ -1181,6 +1313,68 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
                 Product.state == True,
 
+            ).distinct().all()
+        
+        products = {
+            "compresion_filters": [
+                'Medias de compresión' if item[0] == True else 'Medias sin compresión' for item in compresion_filters
+            ]
+        }
+
+        return products
+    
+
+    def get_compresion_filters_tag_type(
+        self, 
+        db: Session, 
+        *, 
+        tag: str,
+        type: str,
+    ):
+        """
+        Get compresion filters by tag and type
+        """
+        compresion_filters = db.query(
+                Product.compresion,
+            ).\
+            join(Type, Type.id == Product.id_type).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                Product.state == True,
+            ).distinct().all()
+        
+        products = {
+            "compresion_filters": [
+                'Medias de compresión' if item[0] == True else 'Medias sin compresión' for item in compresion_filters
+            ]
+        }
+
+        return products
+    
+
+    def get_compresion_filters_tag_subcategory(
+        self, 
+        db: Session, 
+        *, 
+        tag: str,
+        subcategory: str,
+    ):
+        """
+        Get compresion filters by tag and type
+        """
+        compresion_filters = db.query(
+                Product.compresion,
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(TagProduct, TagProduct.product_id == Product.id).\
+            join(Tag, Tag.id == TagProduct.tag_id).\
+            filter(
+                unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
+                unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
+                Product.state == True,
             ).distinct().all()
         
         products = {

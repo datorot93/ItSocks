@@ -117,7 +117,7 @@ export const ListaCarrito = () => {
                       </span>
                       <ul>
                         {producto.prductos.map((item, index) => (
-                          <li key={`${id}-${index}`}>{item.name}</li>
+                          <li key={`${id}-${index}`}>{item.name} - Talla: {item.selected_size}</li>
                         ))}
                       </ul>
                     </div>

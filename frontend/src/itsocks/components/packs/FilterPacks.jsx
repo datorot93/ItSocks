@@ -39,8 +39,8 @@ export const FilterPacks = ({ lista_packs }) => {
     "3 Pares de medias largas": "largas",
     "4 Pares de pantorrilleras": "pantorrilleras",
     "3 Pares de pantorrilleras": "pantorrilleras",
-    "4 Pares de media cañas": "media_cania",
-    "3 Pares de media cañas": "media_cania",
+    "4 Pares de media caña": "media_cania",
+    "3 Pares de media caña": "media_cania",
   };
 
   const handleClick = (pack) => {

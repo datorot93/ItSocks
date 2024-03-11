@@ -501,41 +501,46 @@ export const ItSocksRoutes = () => {
                 <Route path="running" element={<Estilos estilo={"running"} />} />
                 <Route path="running/tipo_media/:filter" element={<Estilos estilo={"running"} filtro={"tipo"}/>} />              
                 <Route path="running/estilo_media/:filter" element={<Estilos estilo={"running"} filtro={"estilo"}/>} />
-                <Route path="running/tipo_media/:filter/:producto" element={<ProductDescription/>} />
-                <Route path="running/estilo_media/:filter/:producto" element={<ProductDescription/>} />
-                <Route path="running/:disenio/:producto" element={<ProductDescription />} />
+                <Route path="running/tipo_media/:filter/:compresion" element={<Estilos estilo={"running"} filtro={"tipo"}/>} />
+                <Route path="running/estilo_media/:filter/:compresion" element={<Estilos estilo={"running"} filtro={"estilo"}/>} />
+                <Route path="running/estilo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
+                <Route path="running/tipo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
 
 
                 <Route path="trabajo" element={<Estilos estilo={"trabajo"} />} />
                 <Route path="trabajo/tipo_media/:filter" element={<Estilos estilo={"trabajo"} filtro={"tipo"}/>} />
                 <Route path="trabajo/estilo_media/:filter" element={<Estilos estilo={"trabajo"} filtro={"estilo"}/>} />
-                <Route path="trabajo/estilo_media/:filter/:producto" element={<ProductDescription/>} />
-                <Route path="trabajo/tipo_media/:filter/:producto" element={<ProductDescription/>} />
-                <Route path="trabajo/:disenio/:producto" element={<ProductDescription/>} />
+                <Route path="trabajo/tipo_media/:filter/:compresion" element={<Estilos estilo={"trabajo"} filtro={"tipo"}/>} />
+                <Route path="trabajo/estilo_media/:filter/:compresion" element={<Estilos estilo={"trabajo"} filtro={"estilo"}/>} />
+                <Route path="trabajo/estilo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
+                <Route path="trabajo/tipo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
 
                 
                 <Route path="dia_a_dia" element={<Estilos estilo={"día a día"} />} />
                 <Route path="dia_a_dia/tipo_media/:filter" element={<Estilos estilo={"día a día"} filtro={"tipo"}/>} />
                 <Route path="dia_a_dia/estilo_media/:filter" element={<Estilos estilo={"día a día"} filtro={"estilo"}/>} />
-                <Route path="dia_a_dia/estilo_media/:filter/:producto" element={<ProductDescription/>}/>
-                <Route path="dia_a_dia/tipo_media/:filter/:producto" element={<ProductDescription/>}/>
-                <Route path="dia_a_dia/:disenio/:producto" element={<ProductDescription/>}/>
+                <Route path="dia_a_dia/tipo_media/:filter/:compresion" element={<Estilos estilo={"día a día"} filtro={"tipo"}/>} />
+                <Route path="dia_a_dia/estilo_media/:filter/:compresion" element={<Estilos estilo={"fitndía a díass"} filtro={"estilo"}/>} />
+                <Route path="dia_a_dia/estilo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
+                <Route path="dia_a_dia/tipo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
 
 
                 <Route path="fitness" element={<Estilos estilo={"fitness"} />} />
                 <Route path="fitness/tipo_media/:filter" element={<Estilos estilo={"fitness"} filtro={"tipo"}/>} />
                 <Route path="fitness/estilo_media/:filter" element={<Estilos estilo={"fitness"} filtro={"estilo"}/>} />
-                <Route path="fitness/estilo_media/:filter/:producto" element={<ProductDescription/>} />
-                <Route path="fitness/tipo_media/:filter/:producto" element={<ProductDescription/>} />
-                <Route path="fitness/:disenio/:producto" element={<ProductDescription/>} />
+                <Route path="fitness/tipo_media/:filter/:compresion" element={<Estilos estilo={"fitness"} filtro={"tipo"}/>} />
+                <Route path="fitness/estilo_media/:filter/:compresion" element={<Estilos estilo={"fitness"} filtro={"estilo"}/>} />
+                <Route path="fitness/estilo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
+                <Route path="fitness/tipo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
 
 
                 <Route path="ciclismo" element={<Estilos estilo={"ciclismo"} />} />
                 <Route path="ciclismo/tipo_media/:filter" element={<Estilos estilo={"ciclismo"} filtro={"tipo"}/>} />
                 <Route path="ciclismo/estilo_media/:filter" element={<Estilos estilo={"ciclismo"} filtro={"estilo"}/>} />
-                <Route path="ciclismo/estilo_media/:filter/:producto" element={<ProductDescription/>}/>
-                <Route path="ciclismo/tipo_media/:filter/:producto" element={<ProductDescription/>}/>
-                <Route path="ciclismo/:disenio/:producto" element={<ProductDescription/>}/>
+                <Route path="ciclismo/tipo_media/:filter/:compresion" element={<Estilos estilo={"ciclismo"} filtro={"tipo"}/>} />
+                <Route path="ciclismo/estilo_media/:filter/:compresion" element={<Estilos estilo={"ciclismo"} filtro={"estilo"}/>} />
+                <Route path="ciclismo/estilo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
+                <Route path="ciclismo/tipo_media/:filter/:compresion/:producto" element={<ProductDescription/>} />
 
                 
                 {/* WISH LIST */}

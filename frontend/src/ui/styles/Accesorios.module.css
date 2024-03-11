@@ -89,7 +89,7 @@
 
   /* resaltado MINICARD */
   font-family: Montserrat;
-  font-size: 13px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 18px; /* 169.231% */
@@ -411,4 +411,8 @@
   align-items: center;
   justify-content: center;
   gap: 15px;
+}
+
+.compresion_filters {
+  margin-top: 50px;
 }

@@ -36,7 +36,7 @@ export const ItSocks = () => {
     },
     {
       id: "p4",
-      src: "../../../public/assets/homepage/estilos_vida/p4.png",
+      src: "../../../public/assets/homepage/estilos_vida/p4.jpg",
       description: "DÍA A DÍA",
     },
     {

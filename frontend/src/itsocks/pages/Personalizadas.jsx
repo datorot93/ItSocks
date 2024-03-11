@@ -8,7 +8,7 @@ export const Personalizadas = ({ subcategory }) => {
   
   return (
     <div  className={ styles.main }>
-      <h1>{ subcategory?.toUpperCase() }</h1>
+      <h1>{ ` MEDIAS ${subcategory?.toUpperCase()}` }</h1>
       <div className={ styles.container }>
         <MediasTipos subcategory={ subcategory }/>
       </div>

@@ -7,6 +7,9 @@
     align-items: center;
     justify-content: center;
 }
+.main h1 {
+    font-weight: bold;
+}
 
 .main_container {
     display: grid;

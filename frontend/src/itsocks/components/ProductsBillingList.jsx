@@ -5,9 +5,8 @@ import React from 'react'
 // Styles
 import styles from '../../ui/styles/ProductsBillingList.module.css'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useShipping } from '../../hooks/useShipping'
 
-export const ProductsBillingList = ({ precio_envio = ''}) => {
+export const ProductsBillingList = ({ email, name, lastName, document, phone }) => {
 
   const products = localStorage.getItem('cart')
   const shipping = JSON.parse(localStorage.getItem('shipping'))
@@ -20,7 +19,7 @@ export const ProductsBillingList = ({ precio_envio = ''}) => {
 
   // console.log(shipping)
   return (
-    <div className={ styles.main_billing_articles }>
+    <div className={ styles.main_billing_articles }> 
       <h1>Artículos de envío</h1>
       <div className={ styles.products}>
         {

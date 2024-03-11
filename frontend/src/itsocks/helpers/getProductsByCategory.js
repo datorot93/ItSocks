@@ -71,7 +71,26 @@ export const getTagTypeFilters = async( tag ) => {
     const data = await resp.json();
 
     return data
+}
 
+export const getTagTypeCompresionFilters = async( tag, type ) => {
+    const resp = await fetchWithoutToken(
+        `products/q/compresion_filters_tag_type/${tag}/${type}`
+    )
+
+    const data = await resp.json();
+
+    return data
+}
+
+export const getTagSubcategoryCompresionFilters = async( tag, subcategory ) => {
+    const resp = await fetchWithoutToken(
+        `products/q/compresion_filters_tag_subcategory/${tag}/${subcategory}`
+    )
+
+    const data = await resp.json();
+
+    return data
 }
 
 export const getCompresionFilters = async(
@@ -80,7 +99,7 @@ export const getCompresionFilters = async(
     type,
     design
 ) => {
-    // console.log(`products/q/compresion_filters/${category}/${subcategory}/${type}/${design}`)
+
     const resp = await fetchWithoutToken(
         `products/q/compresion_filters/${category}/${subcategory}/${type}/${design}`
     )
@@ -94,7 +113,6 @@ export const getPackCompresionFilters = async(
     type,
     design
 ) => {
-    console.log(`products/q/pack_compresion_filters/medias/${type}/${design}`)
     const resp = await fetchWithoutToken(
         `products/q/pack_compresion_filters/medias/${type}/${design}`
     )
@@ -135,7 +153,7 @@ export const getProductsByCatSubcatType = async( category, subcategory, type, sk
 }
 
 export const getProductsByCatSubcatTypeDesign = async( category, subcategory, type, design, skip ) => {
-    
+    // console.log('ESTOY EN EL FRILTRO DISENIO')
     const resp = await fetchWithoutToken(
         `products/q/products_categories_subcat_types_designs?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&skip=${skip}&limit=${LIMIT_QUERY}`
     )
@@ -168,7 +186,7 @@ export const getProductsByCatSubcatTypeDesignCompresion = async( category, subca
         'medias_de_compresion': true
     }
 
-    console.log(`products/q/products_categories_subcat_types_designs_compresion?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`)
+    // console.log(`products/q/products_categories_subcat_types_designs_compresion?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`)
     const resp = await fetchWithoutToken(
         `products/q/products_categories_subcat_types_designs_compresion?category=${category}&subcategory=${subcategory}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`
     )
