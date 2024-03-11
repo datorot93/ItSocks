@@ -20,6 +20,9 @@ export const Productos = ({ categoria, subcategoria, type, match }) => {
     "accesorios": "Accesorios",
   }
 
+  console.log('ESTE ES EL TYPE')
+  console.log(type)
+
   return (
     <>
       <div className={styles.main}>
@@ -27,7 +30,7 @@ export const Productos = ({ categoria, subcategoria, type, match }) => {
           <div className={styles.trancking_container}>
             {
               type ? 
-              <h1>MEDIAS {type.toUpperCase()}</h1>
+              <h1>{type === 'Media caña' || type === 'Pantorrilleras' ? `${type.toUpperCase()}` : `MEDIAS ${type.toUpperCase()}`}</h1>
               : <h1>{categoria?.toUpperCase()} </h1>
             }
               

@@ -32,7 +32,7 @@ export const PreguntasFrecuentes = () => {
     },
     {
       pregunta: '¿Las medias de compresión son solo para atletas profesionales?',
-      respuesta: <p><strong>Absolutamente no.</strong> Cualquier persona las puede usar, incluso los atletas aficionados que quiere cuidar su cuerpo y mejorar su rendimiento. Desde que somo jóvenes es bueno empezar a utilizar las medias de compresión para prevenir problemas circulatorios. <strong>¡Todos merecemos piernas felices y saludables!</strong></p>
+      respuesta: <p><strong>Absolutamente no.</strong> Cualquier persona las puede usar, incluso los atletas aficionados que quieren cuidar su cuerpo y mejorar su rendimiento. Desde que somos jóvenes es bueno empezar a utilizar las medias de compresión para prevenir problemas circulatorios. <strong>¡Todos merecemos piernas felices y saludables!</strong></p>
     },
     {
       pregunta: '¿Con qué frecuencia se deben reemplazar las medias de compresión?',
@@ -43,16 +43,16 @@ export const PreguntasFrecuentes = () => {
       respuesta: 
         <div className={ styles.diferencias}>
           <p><strong><span>Pantorrilleras:</span> Úsalas mientras estes activo.</strong></p>
-          <p>No recomendamos usarlas en predioso de inactividad, o durante la recuperación después de estar mucho tiempo corriendo; en estos periodos la sangre puede comenzar a acumularse en tus pies</p>
+          <p>No recomendamos usarlas en periodos de inactividad, o durante la recuperación después de estar mucho tiempo corriendo; en estos periodos la sangre puede comenzar a acumularse en tus pies</p>
           <p><strong><span>Medias largas:</span> Úsalas en cualquier momento</strong></p>
-          <p>Son excelentes para el rendimiento y la recuperación. Puedes usarlas antes, durante y después de una carrera, esto te ayudará continuamente con el flujo sanguineo y el retorno venoso</p>
+          <p>Son excelentes para el rendimiento y la recuperación. Puedes usarlas antes, durante y después de una carrera, esto te ayudará continuamente con el flujo sanguíneo y el retorno venoso.</p>
         </div>
     },
     {
       pregunta: '¿Cómo puedo hacer seguimiento de mi pedido?',
       respuesta: <div className={ styles.seguimiento}>
           <p>Una vez despachemos tu pedido, recibirás un correo con el resumen del mismo y encontrarás la información de envío, número de guía y transportadora.</p>
-          <p>Así mismo, puedes contactar a nuestra línea de atención al cliente (ling wtp) donde te podremos ayudar a consultar más detalles de tu compra si lo necesitas.</p>
+          <p>Así mismo, puedes contactar a nuestra <a href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS`} target='_blank'>línea de atención al cliente</a> donde te podremos ayudar a consultar más detalles de tu compra si lo necesitas.</p>
         </div>
     }
   ];

@@ -82,7 +82,7 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
     },
   ];
 
-  console.log(subcategory)
+
 
   const [ filteredImages, setFilteredImages ] = useState(images);
 
@@ -90,9 +90,10 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
     setFilteredImages(images.filter( image => image.subcategory == subcategory.toLowerCase()));
   }, []);
 
+  console.log(subcategory)
   return (
     <div className={styles.main}>
-      <h1>{ `MEDIAS ${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')} PERSONALIZADAS` }</h1>
+      <h1>{subcategory === 'Media_Cania' || subcategory === 'Pantorrilleras' ? `${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')}` : `MEDIAS ${subcategory.toUpperCase()}`}</h1>
       <div className={styles.medias_container}>
         
         <ScrollPersonalizadas images={ filteredImages }/>

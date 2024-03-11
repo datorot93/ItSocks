@@ -29,7 +29,7 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
       if(locationParts.length == 4 && locationParts[1].toLowerCase() !== 'accesorios'){
         setProductData(getProductsByCatSubcatType(categoria, subcategoria, type, skip_page));
       } else if (locationParts.length === 5 && locationParts[1].toLowerCase() !== 'accesorios') {
-        setProductData(getProductsByCatSubcatTypeDesign(categoria, subcategoria, type, design.replace('%20', ' '), skip_page + 1));
+        setProductData(getProductsByCatSubcatTypeDesign(categoria, subcategoria, type, design.replace('%20', ' '), skip_page));
       } else if (locationParts.length === 6 && ['medias_sin_compresion', 'medias_de_compresion'].includes(locationParts[5])) {
         setProductData(
           getProductsByCatSubcatTypeDesignCompresion(
@@ -38,7 +38,7 @@ export const useFetchItems = (skip_page, setSkip, location, design, categoria, s
             type,
             design.replace('%20', ' '),
             locationParts[5],
-            skip_page + 1
+            skip_page
           )
         );
       }

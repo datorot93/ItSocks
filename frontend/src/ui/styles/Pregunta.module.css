@@ -59,3 +59,7 @@ strong{
     max-height: 1000px;
     transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
 }
+
+.active p{
+  color: #232CC7;
+}

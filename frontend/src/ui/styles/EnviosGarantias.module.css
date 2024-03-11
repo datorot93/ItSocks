@@ -34,7 +34,7 @@
 
     /* Subtitulo */
     font-family: Montserrat;
-    font-size: 12px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 600;
     margin-bottom: 35px;
@@ -53,6 +53,7 @@
 
 .text_content strong {
     font-weight: bold;
+    font-size: 24px;
 }
 
 .text_content ul li{

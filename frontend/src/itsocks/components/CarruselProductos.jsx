@@ -52,7 +52,7 @@ export const CarruselProductos = () => {
   }
 
   useEffect(() => {
-    const interval = setInterval(() => showImage('avanzar'), 8000);
+    const interval = setInterval(() => showImage('avanzar'), 3000);
     setIsSelected(true)
 
     return () => {

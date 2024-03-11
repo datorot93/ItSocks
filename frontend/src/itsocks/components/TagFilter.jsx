@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { getTagSubcategoryFilters, getTagTypeFilters } from '../helpers/getProductsByCategory';
+import { getTagSubcategoryCompresionFilters, getTagSubcategoryFilters, getTagTypeCompresionFilters, getTagTypeFilters } from '../helpers/getProductsByCategory';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // Images
@@ -14,10 +14,12 @@ export const TagFilter = ( {estilo} ) => {
   
   const [subcategories, setSubcategories] = useState(null);
   const [types, setTypes] = useState(null);
+  const [compresion, setCompresion] = useState(null)
 
   const location = useLocation().pathname;
   const navigate = useNavigate();
-
+  const exceptions_array = ['Viseras', 'termos', 'canguros', 'pines']
+  
   
   useEffect(() => {
 
@@ -32,13 +34,31 @@ export const TagFilter = ( {estilo} ) => {
     ).catch(
       (err) => console.log(err)
     )
+    
 
-  }, []);
+    if(location.split('/').length > 2){
+      let current_filter = location.split('/')[3].replace('media_cania', 'Media caña')
+      if(location.split('/')[2] === 'tipo_media' && !exceptions_array.includes(current_filter)){
+        getTagSubcategoryCompresionFilters(estilo, current_filter).then(
+          (res) => setCompresion(res)
+        ).catch(
+          (err) => console.log(err)
+        )
+      }else {
+        getTagTypeCompresionFilters(estilo, current_filter).then(
+          (res) => setCompresion(res)
+        ).catch(
+          (err) => console.log(err)
+        )
+
+      }
+    }
+
+  }, [location]);
 
   const retroceder = () => {
     navigate(-1);
   };
-
 
   return (
     <>
@@ -52,7 +72,7 @@ export const TagFilter = ( {estilo} ) => {
               subcategories ?
               Object.getOwnPropertyNames(subcategories).map( (subcategorie) => (
                 <Link
-                  to={`tipo_media/${subcategorie.replace('Media caña', 'media_cania')}`}
+                  to={`tipo_media/${subcategorie.replace('Media caña', 'media_cania').toLowerCase()}`}
                   key={subcategorie}            
                 >
                   <button 
@@ -75,7 +95,7 @@ export const TagFilter = ( {estilo} ) => {
               types ?
               Object.getOwnPropertyNames(types).map( (type, index) => (
                 <Link
-                  to={`estilo_media/${type.replace('Media caña', 'media_cania')}`}
+                  to={`estilo_media/${type.replace('Media caña', 'media_cania').toLowerCase()}`}
                   key={index}            
                 >
                   <button 
@@ -118,6 +138,77 @@ export const TagFilter = ( {estilo} ) => {
               </div>
             </div>
 
+            <div className={ styles.compresion_filters} >
+               <h4>Filtra por compresión</h4>
+            
+            {
+              compresion && compresion['compresion_filters'].length == 1 ?
+
+                <>
+                  {
+                    compresion.compresion_filters.map( filter => (
+
+                      <div className={`${ styles.filter_selected}`}>
+                        <button 
+                          className={`${styles.selected_button}`}
+                        >
+                          {filter}
+                        </button>  
+                      </div>
+                    ))
+                  }
+                </>
+
+            :
+              <>
+                { 
+                  compresion && location.split('/').length == 4?
+                  
+                      <>
+                        {
+                          compresion.compresion_filters.map( (filter, index) => (
+
+                            <div className={`${ styles.filter_selected}`} key={ index }>
+                              <Link
+                                to={filter.replaceAll(' ', '_').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}
+                                key={filter}
+                              >
+                                <button 
+                                  className={`${styles.filter_buttons}`}
+                                >
+                                  {filter}
+                                </button>  
+                              </Link>
+                            </div>
+                          ))
+                        }
+                      </>
+                    
+                  :
+                  <>
+                  {
+
+                      <>
+                        {
+                          location.split("/")[4] ?
+                          <div className={`${ styles.filter_selected}`}>
+                            <button 
+                              className={`${styles.selected_button}`}
+                            >
+                              {location.split("/")[4].replaceAll('_', ' ').replaceAll('compresion', 'compresión').replaceAll('medias', 'Medias')}
+                            </button>  
+                          </div>
+                          :<></>
+                        }
+                      </>
+
+                  }
+                </>
+                }
+              </>
+
+            }
+            </div>
           </div>
         </section>
         

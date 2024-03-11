@@ -60,9 +60,7 @@ export const ProductoCard = (product, isPack) => {
       </Link>
       : 
       <Link 
-        // to={
-        //   `${pathname.split("/").length === 4 ? product.design.toLowerCase() + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`
-        // }
+
         to={toPath}
         onClick={handleClick}>
       <LazyLoadImage src={product.images.image1} alt={product.name} />

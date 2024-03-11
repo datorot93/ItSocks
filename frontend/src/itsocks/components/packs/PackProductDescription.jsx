@@ -116,15 +116,24 @@ export const PackProductDescription = () => {
   const handleAgregarSeleccionado = () => {
     if (pack.product_quantity - pack.prductos.length === 0 || pack.product_quantity - pack.prductos.length === 1) {
       for (let index = 0; index < cantProducts; index++) {
-        addToPack({ ...currentProduct, cantidad: 1 });
+        addToPack(
+          { 
+            ...currentProduct, 
+            cantidad: 1,
+            selected_size: tallaSeleccionada
+          });
       }
 
-      console.log(console.log(JSON.parse(localStorage.getItem("pack"))));
-      addToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, currentProduct]});
+      // console.log(console.log(JSON.parse(localStorage.getItem("pack"))));
+      addToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, {...currentProduct, cantidad: 1, selected_size: tallaSeleccionada}]});
       navigate("/carrito");
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
-        addToPack({ ...currentProduct, cantidad: 1 });
+        addToPack({ 
+          ...currentProduct, 
+          cantidad: 1,
+          selected_size: tallaSeleccionada
+        });
       }
       navigate(-1)
     }

@@ -32,6 +32,11 @@
     gap: 10px;
 }
 
+.link_container img{
+    width: 30px;
+    height: 30px;
+}
+
 .link_container a {
     text-decoration: none;
     color: black;
@@ -39,8 +44,9 @@
 
 .link_container a p {
     font-family: Montserrat;
-    font-size: 20px;
+    font-size: 27px;
     font-style: normal;
+    margin: 0;
     font-weight: 600;
     line-height: 0px; /* 0% */
 }

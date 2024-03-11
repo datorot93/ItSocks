@@ -143,11 +143,124 @@ async def get_products_by_tag_type(
     # response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
-@router.get("/tag_products_subcategories", response_model_exclude_none=True)
-async def get_products_by_tag_subcategories(
+@router.get("/tag_products_types_compresion", response_model_exclude_none=True)
+async def get_products_by_tag_type_compresion(
+    response: Response,
+    tag: str,
+    type: str,
+    compresion: bool,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por tag
+    """
+    products = crud.product.get_products_by_tag_type_compresion(
+        db, 
+        tag=tag, 
+        type=type,
+        compresion=compresion,
+        skip=skip, 
+        limit=limit
+    )
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
+@router.get("/tag_products_subcategory_compresion", response_model_exclude_none=True)
+async def get_products_by_tag_subcategory_compresion(
     response: Response,
     tag: str,
     subcategory: str,
+    compresion: bool,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por tag
+    """
+    products = crud.product.get_products_by_tag_subcategory_compresion(
+        db, 
+        tag=tag, 
+        subcategory=subcategory,
+        compresion=compresion,
+        skip=skip, 
+        limit=limit
+    )
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
+@router.get(
+    "/q/compresion_filters_tag_type/{tag}/{type}", response_model_exclude_none=True
+)
+async def get_compresion_tag_type_filters(
+    response: Response,
+    tag: str,
+    type: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener los filtros por compresión
+    """
+
+    compresion_filters = crud.product.get_compresion_filters_tag_type(
+        db=db, 
+        tag=tag, 
+        type=type
+    )
+
+    return compresion_filters
+    
+    
+
+@router.get(
+    "/q/compresion_filters_tag_subcategory/{tag}/{subcategory}", response_model_exclude_none=True
+)
+async def get_compresion_tag_subcategory_filters(
+    response: Response,
+    tag: str,
+    subcategory: str,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Obtener los filtros por compresión
+    """
+
+    compresion_filters = crud.product.get_compresion_filters_tag_subcategory(
+        db=db, 
+        tag=tag, 
+        subcategory=subcategory
+    )
+    
+    return compresion_filters
+
+
+@router.get("/tag_products_subcategories", response_model_exclude_none=True)
+async def get_products_by_tag_subcategory(
+    response: Response,
+    tag: str,
+    subcategory: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Obtener todos los productos por tag
+    """
+    products = crud.product.get_products_by_tag_subcategory(db, tag=tag, subcategory=subcategory, skip=skip, limit=limit)
+    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    return products
+
+@router.get("/tag_products_subcategories_compresion", response_model_exclude_none=True)
+async def get_products_by_tag_subcategories_compresion(
+    response: Response,
+    tag: str,
+    subcategory: str,
+    compresion: bool,
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,

@@ -307,7 +307,8 @@ export const FormShippingEstimates = () => {
             </p>
             <p className={ styles.hola }>At the moment, we don’t support international purchases made via our website. However, we offer other payment methods which might work better for you. If you want to learn more, click here:</p>
             <a
-              href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS`} 
+              href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS`}
+              target="_blank"
             >
               <button className={styles.finalizar_pedido_button}>
                 CONTÁCTANOS
