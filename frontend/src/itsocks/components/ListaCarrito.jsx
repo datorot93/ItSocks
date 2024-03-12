@@ -13,6 +13,7 @@ export const ListaCarrito = () => {
   const [cantProducts, setCantProducts] = useState(0);
   const { cart, addOneToCart, subtractOneToCart, removeFromCart } = useCart();
 
+  // console.log(cart, "cart")
   return (
     <section className={styles.lista_carrito}>
       <table className={styles.tabla_productos}>
@@ -97,7 +98,7 @@ export const ListaCarrito = () => {
                 </td>
               </tr>
             ) : (
-              <tr key={producto.id}>
+              <tr key={index}>
                 <td>
                   <div className={styles.td_producto}>
                     <div
@@ -117,7 +118,7 @@ export const ListaCarrito = () => {
                       </span>
                       <ul>
                         {producto.prductos.map((item, index) => (
-                          <li key={`${id}-${index}`}>{item.name} - Talla: {item.selected_size}</li>
+                          <li key={`${index}`}>{item.name} - Talla: {item.selected_size}</li>
                         ))}
                       </ul>
                     </div>
@@ -140,7 +141,7 @@ export const ListaCarrito = () => {
                       >-</button>
                       <span>{producto.cantidad}</span>
                       <button 
-                        onClick={() => addOneToCart(producto)(producto)}
+                        onClick={() => addOneToCart(producto)}
                         className={styles.button_right}
                       >
                         +

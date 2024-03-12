@@ -54,9 +54,12 @@
 }
 
 .td_producto {
-    
     display: flex;
     align-items: center;
+}
+
+.td_producto strong{
+    font-size: 18px;
 }
 
 .td_producto img {

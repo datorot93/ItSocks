@@ -22,9 +22,12 @@ import { useCart } from "../../../hooks/useCart";
 import { PopUpCarritoPack } from "./PopUpCarritoPack";
 import { getProductExtraInfo } from "../../helpers/getProductsByCategory";
 import { PopUpTallas } from "../PopUpTallas";
+import { useDispatch } from "react-redux";
 
 export const PackProductDescription = () => {
-  const { addToCart, cart } = useCart();
+
+  const dispatch = useDispatch();
+  const { addPackToCart, cart } = useCart();
 
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
@@ -114,18 +117,26 @@ export const PackProductDescription = () => {
 
   // HANDLES
   const handleAgregarSeleccionado = () => {
-    if (pack.product_quantity - pack.prductos.length === 0 || pack.product_quantity - pack.prductos.length === 1) {
+    if (pack.product_quantity - pack.prductos.length === 0 || pack.product_quantity - pack.prductos.length === 1 || cantProducts + pack.prductos.length == pack.product_quantity) {
+      let temp_product_list = []
       for (let index = 0; index < cantProducts; index++) {
+        temp_product_list.push({ 
+          ...currentProduct, 
+          cantidad: 1,
+          selected_size: tallaSeleccionada
+        })
         addToPack(
           { 
             ...currentProduct, 
             cantidad: 1,
             selected_size: tallaSeleccionada
-          });
-      }
+          })
 
+      }
+      console.log(pack.prductos)
       // console.log(console.log(JSON.parse(localStorage.getItem("pack"))));
-      addToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, {...currentProduct, cantidad: 1, selected_size: tallaSeleccionada}]});
+      addPackToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, ...temp_product_list]});
+      // addPackToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, {...currentProduct, cantidad: 1, selected_size: tallaSeleccionada}]});
       navigate("/carrito");
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
@@ -145,7 +156,7 @@ export const PackProductDescription = () => {
       if(tallaSeleccionada){
         if (title === "carrito") {
           setTitle("Carrito de compras");
-          addToCart({ ...pack, cantidad: 1 });
+          addPackToCart({ ...pack, cantidad: 1 });
         } else {
           setTitle("Lista de regalos");
         }

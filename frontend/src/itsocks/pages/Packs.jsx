@@ -30,7 +30,6 @@ export const Packs = () => {
     fetchData();
   }, []);
 
-  console.log(resultado)
 
   return (
     <>
