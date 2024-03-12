@@ -4,6 +4,7 @@ export const cartInitialState = JSON.parse(window.localStorage.getItem('cart')) 
 
 export const CART_ACTION_TYPES = {
   ADD_TO_CART: 'ADD_TO_CART',
+  ADD_PACK_TO_CART: 'ADD_PACK_TO_CART',
   REMOVE_FROM_CART: 'REMOVE_FROM_CART',
   ADD_ONE_TO_CART: 'ADD_ONE_TO_CART',
   SUBTRACT_ONE_TO_CART: 'SUBTRACT_ONE_TO_CART',
@@ -40,9 +41,20 @@ const UPDATE_STATE_BY_ACTION = {
     return newState;
   },
 
+  [CART_ACTION_TYPES.ADD_PACK_TO_CART]: (state, action) => {
+
+    let newState = [...state, { ...action.payload }];
+    // console.log('ESTE ES EL NUEVO ESTADO')
+    // console.log(newState)
+    updateLocalStorage(newState);
+    return newState;
+  },
+
   [CART_ACTION_TYPES.ADD_ONE_TO_CART]: (state, action) => {
-    const { id } = action.payload
-    const productInCartIndex = state.findIndex(item => item.id === id)
+    const { id, selected_size, selected_color, subcategory } = action.payload
+    const productInCartIndex = state.findIndex(
+      item => item.id === id && item.selected_size === selected_size && item.selected_color === selected_color && item.subcategory === subcategory
+    )
 
     if (productInCartIndex >= 0) {
       const newState = [
@@ -68,7 +80,8 @@ const UPDATE_STATE_BY_ACTION = {
   },
   
   [CART_ACTION_TYPES.SUBTRACT_ONE_TO_CART]: (state, action) => {
-    console.log(action.payload)
+    // console.log('ESTOY EN SUBTRACT_ONE_TO_CART')
+    // console.log(action.payload)
     const { id, name, selected_color, selected_size } = action.payload
     const productInCartIndex = state.findIndex(
       item => item.name === name && item.id === id && item.selected_size == selected_size && item.selected_color == selected_color

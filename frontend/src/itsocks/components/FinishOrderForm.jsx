@@ -130,7 +130,7 @@ export const FinishOrderForm = () => {
             </div>
 
             <div className={ styles.buttons }>                
-                <div className={ styles.seguir_comprando} onClick={ () => navigate("")}>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate("/")}>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Seguir comprando</span>
                 </div>

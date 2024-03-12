@@ -25,14 +25,15 @@ const UPDATE_STATE_BY_ACTION = {
 
   [PACK_ACTION_TYPES.ADD_TO_PACK]: (state, action) => {
 
-    console.log('AGREGANDO AL PACK')
-
+    
     if ( state.prductos.length < state.product_quantity) {
+      
       const newState = 
         {
           ...state,
           prductos: [...state.prductos, action.payload]
         }
+
       updateLocalStorage(newState);
       return newState;
     }

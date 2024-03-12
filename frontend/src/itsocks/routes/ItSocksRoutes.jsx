@@ -24,6 +24,7 @@ import { EnviosGarantiasCambios } from "../pages/EnviosGarantiasCambios";
 import { PoliticaProteccionDatos } from "../pages/PoliticaProteccionDatos";
 import { WishProvider } from "../../context/wish";
 import { WishList } from "../pages/WishList";
+import { Search } from "../pages/Search";
 
 export const ItSocksRoutes = () => {
 
@@ -36,8 +37,13 @@ export const ItSocksRoutes = () => {
             <ShippingProvider>
               <Navbar />
               <MigaDePan />
-
               <Routes>
+                {/* SEARCH */}
+                <Route
+                  path="search"
+                  element={<Search />}
+                />
+
                 <Route
                   path="accesorios"
                   element={<Productos categoria={"Accesorios"} isPack={ false }/>}

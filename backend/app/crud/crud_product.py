@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from sqlalchemy import select, inspect, func, over, asc, desc
 from sqlalchemy.orm import join
+from sqlalchemy import or_
 
 from .crud_shipping import unaccent
 
@@ -69,6 +70,66 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
     def object_as_dict(self, obj):
         return {c.key: getattr(obj, c.key)
             for c in inspect(obj).mapper.column_attrs}
+    
+    def get_products_by_search(
+        self,
+        db: Session,
+        *,
+        skip: int,
+        limit: int,
+        input: str,
+        
+    ):
+
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            filter(
+                
+                unaccent(func.lower(Product.name)).ilike(f"%{unidecode(input.strip().lower())}%"),
+                Product.state == True
+            ).offset(skip).limit(limit).all()
+
+        product_images = db.query(
+            Image.url,
+            Image.id_product
+        ).\
+        join(Product, Product.id == Image.id_product).\
+        join(Subcategory, Product.id_subcategory == Subcategory.id).\
+        join(Category, Category.id == Subcategory.id_category).\
+        filter(
+            or_(
+                unaccent(func.lower(Product.name)).ilike(f"%{unidecode(input.strip().lower())}%"),
+                Product.state == True
+            ),
+            Product.state == True
+        ).\
+        all()
+
+
+        lista_productos = self._get_product_list(
+            products=products,
+            product_images=product_images
+        )
+        
+        return lista_productos
     
 
     def get_products_by_category(
@@ -897,7 +958,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             filter(
                 unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).distinct().offset(skip).limit(limit).all()
         
         product_images = db.query(
                 Image.url,
@@ -959,7 +1020,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
                 unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).distinct().offset(skip).limit(limit).all()
         
         product_images = db.query(
                 Image.url,
@@ -1024,7 +1085,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
                 Product.compresion == compresion,
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).distinct().offset(skip).limit(limit).all()
         
         product_images = db.query(
                 Image.url,
@@ -1090,7 +1151,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
                 Product.compresion == compresion,
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).distinct().offset(skip).limit(limit).all()
         
         product_images = db.query(
                 Image.url,
@@ -1154,7 +1215,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 unaccent(func.lower(Tag.name)) == unidecode(tag.strip().lower()),
                 unaccent(func.lower(Subcategory.name)) == unidecode(subcategory.strip().lower()),
                 Product.state == True,
-            ).offset(skip).limit(limit).all()
+            ).distinct().offset(skip).limit(limit).all()
         
         product_images = db.query(
                 Image.url,

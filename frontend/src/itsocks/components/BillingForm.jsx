@@ -156,7 +156,7 @@ export const BillingForm = () => {
             </div>
 
             <div className={ styles.buttons }>
-                <div className={ styles.seguir_comprando} onClick={ () => navigate(-1) }>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate("/") }>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Seguir comprando</span>
                 </div>

@@ -39,6 +39,15 @@ export const ListaWish = () => {
                     />
                     <span>
                       <strong>{producto.name.toUpperCase()}</strong>
+                      {
+                        producto.selected_size !== '' &&
+                        <p>Talla: <strong>{producto.selected_size}</strong></p>
+                      }
+
+                      {
+                        producto.selected_color !== '' &&
+                        <p>Color: <strong>{producto.selected_color}</strong></p>
+                      }
                     </span>
                   </div>
                 </td>
