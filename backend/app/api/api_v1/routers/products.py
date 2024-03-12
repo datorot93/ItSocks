@@ -38,6 +38,25 @@ async def product_create(
 
 
 
+@router.get("/q/search", response_model_exclude_none=True)
+async def get_products_by_search(
+    response: Response,
+    input: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Obtener todos los productos por busqueda
+    """
+
+    products = crud.product.get_products_by_search(db=db, input=input, skip=skip, limit=limit)
+    # print(product)
+    
+    
+    return products
+
+
 @router.get("/q/colors_tallas/{name}/{type}", response_model_exclude_none=True)
 async def get_colors_tallas_by_product(
     response: Response,
