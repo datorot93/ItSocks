@@ -1,0 +1,31 @@
+
+
+.guia_tallas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 53px;    
+}
+
+.guia_tallas h1 {
+    color: #000;
+
+    /* Titulos (H1) */
+    font-family: Montserrat;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 0px; /* 0% */
+    margin-top: 88px;
+}
+
+.guia_tallas img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    align-self: center;
+    min-width: 430px;
+    max-width: 1412px;
+}
