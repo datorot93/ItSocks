@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // Iconoso Navbar
 import itsocks_logo from "../../assets/navbar/itsocks_logo.png";
@@ -19,10 +19,11 @@ export const Navbar = () => {
   const [cantidadWish, setCantidadWish] = useState(0);
   const { clearPack } = usePack()
   const [selectedLink, setSelectedLink] = useState(null);
+  const [input, setInput] = useState("")
 
 
   const location = useLocation().pathname.split("/");
-
+  const navigate = useNavigate();
   useEffect(() => {
     setCantidad(
       cart.reduce((acumulador, objeto) => {
@@ -39,8 +40,17 @@ export const Navbar = () => {
     );
   }, [wish]);
 
-  // console.log(selectedLink)
-  // console.log(location)
+  const handleChangeSearch = (event) => {
+    setInput(event.target.value)
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      navigate(`search?input=${input}`)
+    }
+  }
+
 
   const handleLinkClick = (path) => {
     // clearPack();
@@ -59,8 +69,17 @@ export const Navbar = () => {
         </Link>
 
         <div className={styles.search_container}>
-          <img src={IconoBuscar} alt="Icono buscar" />
-          <input type="text" placeholder="Buscar en nuestro sitio" />
+          <Link
+            to={ input.length > 2 ? `search?input=${input}` : ``}
+          >
+            <img src={IconoBuscar} alt="Icono buscar" />
+          </Link>
+          <input 
+            type="text" 
+            placeholder="Buscar en nuestro sitio"
+            onChange={ handleChangeSearch }
+            onKeyDown={handleKeyDown}
+          />
         </div>
 
         <div className={styles.link_container}>

@@ -24,7 +24,7 @@ export const ProductoCard = (product, isPack) => {
 
   let toPath = "";
   const compresion = product.compresion ? 'medias_de_compresion' : 'medias_sin_compresion';
-  if (pathname.split("/").length === 6){
+  if (pathname.split("/").length === 6 || pathname.split("/").length === 2){
     toPath =product.name.toLowerCase()
   } else if (pathname.split("/").length === 5){
     

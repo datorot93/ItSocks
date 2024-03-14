@@ -45,6 +45,11 @@ export const ItSocksRoutes = () => {
                 />
 
                 <Route
+                  path="search/:product"
+                  element={<ProductDescription />}
+                />
+
+                <Route
                   path="accesorios"
                   element={<Productos categoria={"Accesorios"} isPack={ false }/>}
                 />

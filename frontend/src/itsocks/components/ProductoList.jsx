@@ -29,8 +29,7 @@ export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
   }, []);
 
   const params = useParams();
-  // console.log('ESTOS SON LOS PARAMS')
-  // console.log(params)
+
   const { products } = useFetchItems(skip_page, setSkip, location, design, categoria, subcategoria, type);
 
   return (

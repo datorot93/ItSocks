@@ -58,7 +58,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         *, 
         id: int
     ):  
-        print('ESTE ES EL PRODUCTO')
+
         print(db.query(Product).filter(
             Product.id == id
         ))
@@ -102,8 +102,11 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             join(Type, Type.id == Product.id_type).\
             join(Design, Design.id == Product.id_design).\
             filter(
-                
-                unaccent(func.lower(Product.name)).ilike(f"%{unidecode(input.strip().lower())}%"),
+                or_(
+                    unaccent(func.lower(Product.name)).ilike(f"%{unidecode(input.strip().lower())}%"),
+                    unaccent(func.lower(Design.name)).ilike(f"%{unidecode(input.strip().lower())}%"),
+                    unaccent(func.lower(Category.name)).ilike(f"%{unidecode(input.strip().lower())}%"),
+                ),
                 Product.state == True
             ).offset(skip).limit(limit).all()
 
