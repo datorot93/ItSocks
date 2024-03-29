@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Styles
 import styles from '../../ui/styles/Billing.module.css'
 
 // Icons
+import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
+import fase_1 from '../../../public/assets/pago/1_fase.png'
+
 import { Link, useNavigate } from 'react-router-dom'
 import { useShipping } from '../../hooks/useShipping'
 
 export const BillingForm = () => {
+
+   
 
     const [ direccion, setDireccion ] = useState('')
     const {shipping, modifyShipping} = useShipping()
@@ -58,6 +63,10 @@ export const BillingForm = () => {
 
   return (
     <section className={ styles.billing_form }>
+        <div className={ styles.billing_header }>
+            <img src={ itsocks_logo } alt="Logo de Itsocks"/>
+            <img src={ fase_1 } alt="Logo de Itsocks"/>
+        </div>
         <h3>Información de contacto facturación</h3>
         <form>
         <div className={ styles.form_field }>                
@@ -156,9 +165,9 @@ export const BillingForm = () => {
             </div>
 
             <div className={ styles.buttons }>
-                <div className={ styles.seguir_comprando} onClick={ () => navigate("/") }>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate("/carrito") }>
                     <span className={ styles.left_arrow }>{'<'} </span>
-                    <span>Seguir comprando</span>
+                    <span>Volver al carrito</span>
                 </div>
 
                 {/* <input type="submit" className={ styles.continuar_confirmacion} value="Continuar con confirmación" /> */}

@@ -117,7 +117,7 @@ function ScrollHorizontal({masVendidos}) {
     infinite: true,
     autoplay: true,
     speed: 500,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 80000,
     arrows: true,
     slidesToShow: 4,
     slidesToScroll: 2,
@@ -156,7 +156,12 @@ function ScrollHorizontal({masVendidos}) {
   return (
     <Slider {...settings}>
       {masVendidos.map((image, index) => (
-        <div className={styles.img_container} key={index} onMouseOver={ mouseOver } onMouseLeave={ mouseLeave }>
+        <div 
+          className={styles.img_container} 
+          key={index} 
+          onMouseOver={ mouseOver } 
+          onMouseLeave={ mouseLeave }
+        >
           <Link to={`/productos/${image.name.toLowerCase()}`}>
 
             <div className={styles.product}>

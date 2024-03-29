@@ -11,7 +11,7 @@ const fetchWithoutToken = (endpoint, data, method = 'GET') => {
             headers: {
                 'Content-type': 'application/json',
             },
-            body: data,
+            body: JSON.stringify(data),
         });
     }
 };

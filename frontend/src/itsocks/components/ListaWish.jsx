@@ -4,11 +4,11 @@ import React, { useId, useState } from "react";
 import styles from "../../ui/styles/CarritoCompras.module.css";
 import { useWish } from "../../hooks/useWish";
 
-export const ListaWish = () => {
+export const ListaWish = ({wish}) => {
   const id = useId();
 
   const [cantProducts, setCantProducts] = useState(0);
-  const { wish, addOneToWish, subtractOneToWish, removeFromWish } = useWish();
+  const { addOneToWish, subtractOneToWish, removeFromWish } = useWish();
 
   return (
     <section className={styles.lista_carrito}>

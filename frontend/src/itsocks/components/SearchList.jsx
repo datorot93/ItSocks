@@ -29,13 +29,28 @@ export const SearchList = ({ input }) => {
 
   useEffect(() => {
     // Scroll hacia arriba al cargar la página
+    setSkip(0)
     window.scrollTo(0, 0);
   }, []);
 
+
+
   useEffect(() => {
-    setProducts([])
+    console.log('ENTRÉ AL USEEFFECT DE LIMPIAR')
     setSkip(0)
+    setProducts([])
+    console.log(skip_page)
+    getSearchedProudcts(input, skip_page).then(
+      res => setProducts([...res])
+    ).catch(
+      err => console.log(err)
+    )
+    // setProducts([])
   }, [search])
+
+  // useEffect(() => {
+
+  // }, [search])
 
   useEffect(() => {
     console.log('ENTRÉ AL USEEFFECT DE SEARCHLIST')
@@ -44,10 +59,11 @@ export const SearchList = ({ input }) => {
     ).catch(
       err => console.log(err)
     )
-  }, [skip_page, search])
+  }, [skip_page])
   // const { products } = useFetchItems(skip_page, setSkip, location, design, categoria, subcategoria, type);
   console.log(products)
   console.log(search)
+  console.log(skip_page)
   return (
     <>
       {

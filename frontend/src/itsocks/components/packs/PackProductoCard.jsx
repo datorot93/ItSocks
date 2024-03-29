@@ -44,6 +44,7 @@ export const PackProductoCard = ( product ) => {
                 ruta
             }
             onClick={ handleClick }
+            state={{previousPath: pathname}}
         >
             <LazyLoadImage src={ product.images.image1 } alt= { product.name } />
             <div className={ styles.product_info }>

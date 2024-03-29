@@ -19,7 +19,7 @@ import { colores } from "../types/types";
 import { PopUpCarrito } from "./PopUpCarrito";
 import { useCart } from "../../hooks/useCart";
 import { getProductExtraInfo, getProductsByDesign } from "../helpers/getProductsByCategory";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PopUpTallas } from "./PopUpTallas";
 import { ProductosSimilares } from "./products/ProductosSimilares";
 import ScrollHorizontal from "./ScrollHorizontal";
@@ -29,6 +29,7 @@ import { useWish } from "../../hooks/useWish";
 
 export const ProductDescription = () => {
 
+  const {pathname} = useLocation();
   useEffect(() => {
     // Scroll hacia arriba al cargar la página
     window.scrollTo(0, 0);
@@ -114,130 +115,166 @@ export const ProductDescription = () => {
 
   const [title, setTitle] = useState("");
 
+  const [product_to_add, setProduct_to_add] = useState({});
+
+  useEffect(() => {
+    if(title === "CARRITO DE COMPRA"){
+      addToCart(product_to_add);
+      setShowPopUp(true);
+      setCantProducts(1);
+      setTallaSeleccionada(null);
+      setColorSeleccionado(null);
+    }else if(title === "LISTA DE DESEOS"){
+      addToWish(product_to_add);
+      setShowPopUp(true);
+      setCantProducts(1);
+      setTallaSeleccionada(null);
+      setColorSeleccionado(null);
+    }
+  }, [product_to_add, title]);
+
   const handleShowPopUp = (title) => {
     if (cantProducts > 0) {
       if(tallas[0] && tallas[0] !== "unica"){
         if(tallaSeleccionada){
           if (title === "carrito") {
             setTitle("CARRITO DE COMPRA");
-            const product_to_add = { 
+            setProduct_to_add({ 
               ...producto, 
               cantidad: cantProducts,
               selected_color: '',
               selected_size: tallaSeleccionada
-            };
-            addToCart(product_to_add);
+            });
+            // if(Object.keys(product_to_add).length > 0){
+            //   addToCart(product_to_add);
+            // }
           } else {
             setTitle("LISTA DE DESEOS");
-            const product_to_add = { 
+            setProduct_to_add({ 
               ...producto, 
               cantidad: cantProducts,
               selected_color: '',
               selected_size: tallaSeleccionada
-            };
-            addToWish(product_to_add);
+            });
+            // if(Object.keys(product_to_add).length > 0){
+            //   addToWish(product_to_add);
+            // }
             
           }
-          setShowPopUp(true);
-          setCantProducts(1);
-          setTallaSeleccionada(null);
-          setColorSeleccionado(null);
+          // setShowPopUp(true);
+          // setCantProducts(1);
+          // setTallaSeleccionada(null);
+          // setColorSeleccionado(null);
         }
       }else if(colors.length > 0){
         if(colorSeleccionado){
           if (title === "carrito") {
             setTitle("CARRITO DE COMPRA");
-            const product_to_add = { 
+            setProduct_to_add({ 
               ...producto, 
               cantidad: cantProducts,
               selected_size: '',
               selected_color: colorSeleccionado 
-            };
-            addToCart(product_to_add);
+            });
+            // if(Object.keys(product_to_add).length > 0){
+            //   addToCart(product_to_add);
+            // }
           } else {
             setTitle("LISTA DE DESEOS");
-            addToWish(product_to_add);
+            setProduct_to_add({ 
+              ...producto, 
+              cantidad: cantProducts,
+              selected_size: '',
+              selected_color: colorSeleccionado 
+            });
+            // if(Object.keys(product_to_add).length > 0){
+            //   addToWish(product_to_add);
+            // }
           }
-          setShowPopUp(true);
-          setCantProducts(1);
-          setTallaSeleccionada(null);
-          setColorSeleccionado(null);
+          // setShowPopUp(true);
+          // setCantProducts(1);
+          // setTallaSeleccionada(null);
+          // setColorSeleccionado(null);
         }
 
       }else if(tallas[0] === 'unica' && colors.length === 0){
         if (title === "carrito") {
           setTitle("CARRITO DE COMPRA");
-          const product_to_add = { 
+          setProduct_to_add({ 
             ...producto, 
             cantidad: cantProducts,
             selected_size: '',
             selected_color: ''
-          };
-          addToCart(product_to_add);
-          setShowPopUp(true);
+          });
+          // if(Object.keys(product_to_add).length > 0){
+          //   addToCart(product_to_add);
+          // }
 
         } else {
           setTitle("LISTA DE DESEOS");
-          const product_to_add = { 
+          setProduct_to_add({ 
             ...producto, 
             cantidad: cantProducts,
             selected_size: '',
             selected_color: ''
-          };
-          addToWish(product_to_add);
-          setShowPopUp(true);
-        }
-        setShowPopUp(true);
-        setCantProducts(0);
-        setTallaSeleccionada(null);
-        setColorSeleccionado(null);
-      }
+          });
+          // if(Object.keys(product_to_add).length > 0){
+          //   addToWish(product_to_add);
+          // }
 
-      
+        }
+
+        // setShowPopUp(true);
+        // setCantProducts(1);
+        // setTallaSeleccionada(null);
+        // setColorSeleccionado(null);
+      }
     }
   };
-  console.log('ESTAS SON LAS TALLAS')
-  console.log(tallas)
-  console.log('ESTOS SON LOS COLORES')
-  console.log(colors)
 
   const handleComprarAhora = () => {
     if(cantProducts > 0 ){
       if(tallas[0] && tallas[0] !== "unica"){
         if(tallaSeleccionada){
-          const product_to_add = { 
+          setProduct_to_add({ 
             ...producto, 
             cantidad: cantProducts,
             selected_color: '',
             selected_size: tallaSeleccionada
-          };
-          addToCart(product_to_add);
-          navigate("/carrito");
+          });
+          if(Object.keys(product_to_add).length > 0){
+            addToCart(product_to_add);
+          }
+          navigate("/carrito", {state:{previousPath: pathname}});
         }else {
           alert('Debes seleccionar una talla')
         }
       }else if(colors.length > 0){
         if(colorSeleccionado){
-          const product_to_add = { 
+          setProduct_to_add({ 
             ...producto, 
             cantidad: cantProducts,
             selected_color: colorSeleccionado,
             selected_size: ''
-          };
-          addToCart(product_to_add);
-          navigate("/carrito");
+          });
+          // if(Object.keys(product_to_add).length > 0){
+          //   addToCart(product_to_add);
+          // }
+          navigate("/carrito", {state:{previousPath: pathname}});
         }else {
           alert('Debes seleccionar un color')
         }      
       }else if(tallas[0] === 'unica' && colors.length === 0){
-        const product_to_add = { 
+        setProduct_to_add({ 
           ...producto, 
           cantidad: cantProducts,
           selected_color: '',
           selected_size: ''
-        };
-        addToCart(product_to_add);
-        navigate("/carrito");
+        });
+        // if(Object.keys(product_to_add).length > 0){
+        //   addToCart(product_to_add);
+        // }
+        navigate("/carrito", {state:{previousPath: pathname}});
 
       }
     }
@@ -449,7 +486,7 @@ export const ProductDescription = () => {
         {showPopUp && (
           <PopUpCarrito
             title={title}
-            product={producto}
+            product={product_to_add}
             showPopUp={showPopUp}
             setShowPopUp={setShowPopUp}
           />

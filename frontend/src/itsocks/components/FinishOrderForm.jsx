@@ -5,6 +5,10 @@ import styles from '../../ui/styles/Billing.module.css'
 
 //IMAGES
 import metodo_pago from '../../../public/assets/pago/metodo_pago.jpg'
+import pencil_edit from '../../../public/assets/pago/pencil_edit.svg'
+import tooltip_icon from '../../../public/assets/pago/tooltip_icon.svg'
+import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
+import fase_2 from '../../../public/assets/pago/2_fase.png'
 
 // REACT ROUTER DOM
 import { Link, useNavigate } from 'react-router-dom'
@@ -24,6 +28,8 @@ export const FinishOrderForm = () => {
 
     const [ currentAddess, setCurrentAddress ] = useState(shipping.address)
     const [ currentEmail, setCurrentEmail ] = useState(shipping.email)
+
+    const [showTooltip, setShowTooltip] = useState(false)
 
     initMercadoPago('APP_USR-394df966-9b8b-442a-9c5c-71f6923d3ad0', {
         locale: 'es-CO'
@@ -79,27 +85,66 @@ export const FinishOrderForm = () => {
         setCurrentAddress(e.target.value)
     }
     
+
+    const tooltipComponent = <div className={ styles.tooltip }>
+        <p>En este correo recibirás la información del estado de tu pedido</p>
+    </div>
+
   return (
     <section className={ styles.billing_form }>
+        <div className={ styles.billing_header }>
+            <img src={ itsocks_logo } alt="Logo de Itsocks"/>
+            <img src={ fase_2 } alt="Logo de Itsocks"/>
+        </div>
         <h3>Información</h3>
         <form>
-            <div className={ styles.form_field }>                
-                <input 
-                    type="text" 
-                    placeholder="Correo Electrónico"
-                    value={ currentEmail }
-                    onChange={ handleEmail}
-                    required
-                />
-            </div>
+            <div className={ styles.informacion_container }>
 
-            <div className={ styles.form_field }>                
-                <input 
-                    type="text" 
-                    placeholder="Dirección"
-                    value={ currentAddess }
-                    onChange={ handleDireccion }
-                    required/>
+                <div className={ styles.form_field_finish_order }>
+                    <label>Contacto:</label>
+                    <div className={ styles.informacion_envio }>
+                        <input 
+                            type="text" 
+                            placeholder="Correo Electrónico"
+                            value={ currentEmail }
+                            onChange={ handleEmail}
+                            required
+                        />
+
+                        <img src={ pencil_edit } alt="Editar"/>
+
+                    </div>
+                </div>
+                <div className={ styles.field_with_tootip}>
+                    <div className={ styles.form_field_finish_order }>
+                        <label>Enviar a:</label>
+                        <div className={ styles.informacion_envio}>
+                            <input 
+                                type="text" 
+                                placeholder="Email"
+                                value={ currentAddess }
+                                onChange={ handleDireccion }
+                                required
+                            />
+
+                                <img src={ pencil_edit } alt="Editar"/>
+                                
+
+                        </div>
+                    </div>
+                    <div 
+                        className={ styles.tooltip_container }
+                        onMouseEnter={ () => setShowTooltip(true) }
+                        onMouseLeave={ () => setShowTooltip(false)}
+                    >
+                        {
+                            showTooltip ?
+                            <>{tooltipComponent}</>
+                            :<></>
+                        }
+                        <img src={ tooltip_icon } alt="Editar"/>
+                    </div>
+                </div>
             </div>
 
             
@@ -130,9 +175,9 @@ export const FinishOrderForm = () => {
             </div>
 
             <div className={ styles.buttons }>                
-                <div className={ styles.seguir_comprando} onClick={ () => navigate("/")}>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate("/carrito/billing")}>
                     <span className={ styles.left_arrow }>{'<'} </span>
-                    <span>Seguir comprando</span>
+                    <span>Volver a información</span>
                 </div>
 
                 {

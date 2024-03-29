@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react'
 import styles from '../../ui/styles/Billing.module.css'
 
 // Icons
+import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
+import fase_1 from '../../../public/assets/pago/1_fase.png'
+
 import { Link, useNavigate } from 'react-router-dom'
 
 // DATA
@@ -88,6 +91,11 @@ export const BillingInfoForm = () => {
 
   return (
     <section className={ styles.billing_form }>
+
+        <div className={ styles.billing_header }>
+            <img src={ itsocks_logo } alt="Logo de Itsocks"/>
+            <img src={ fase_1 } alt="Logo de Itsocks"/>
+        </div>
         <h3>Información de contacto facturación</h3>
         <form>
 
@@ -172,10 +180,10 @@ export const BillingInfoForm = () => {
             >
                 <div 
                     className={ styles.seguir_comprando}
-                    onClick={ () => navigate('/')}
+                    onClick={ () => navigate('/carrito')}
                 >
                     <span className={ styles.left_arrow }>{'<'} </span>
-                    <span>Seguir comprando</span>
+                    <span>Volver al carrito</span>
                 </div>
 
                 {/* <input type="submit" className={ styles.continuar_confirmacion} value="Continuar con confirmación" /> */}

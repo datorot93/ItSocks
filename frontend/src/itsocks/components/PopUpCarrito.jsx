@@ -4,26 +4,28 @@ import React, { useEffect, useState } from "react";
 import styles from "../../ui/styles/PopUpCarrito.module.css";
 import camion from "../../../public/assets/producto/camion.svg";
 import x_popup_green from "../../../public/assets/producto/x_popup_green.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 
 export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
 
   const navigate = useNavigate();
+  const {pathname} = useLocation();
+  const { subtractOneToCart, cart, addToCart } = useCart();
 
   const handleClickCarrito = () => {
-    navigate("/carrito");
+    
+    if( title === "CARRITO DE COMPRA" ){
+      navigate("/carrito", { state: { previousPath: pathname } });
+    }else{
+      addToCart(product);
+      navigate("/carrito", { state: { previousPath: pathname } });
+    }
   };
 
   const handleCloseClick = () => {
     setShowPopUp(false);
   };
-
-  const handleClickComprar = () => {
-    useNavigate("");
-  };
-
-  const { subtractOneToCart, cart } = useCart();
   
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
@@ -115,8 +117,15 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
               COMPRAR AHORA
             </button>
 
-            <Link to={title == "CARRITO DE COMPRA" ?  "../../carrito" : "../../lista_de_favoritos"} className={styles.link_boton_carrito}>
-              <button className={styles.boton_ver_carrito}>{ title == "CARRITO DE COMPRA" ? "VER CARRITO": "VER LISTA DE DESEOS"}</button>
+            <Link 
+              to={title == "CARRITO DE COMPRA" ?  "../../carrito" : "../../lista_de_favoritos"}
+              state = {{previousPath: pathname}}
+              className={styles.link_boton_carrito}
+            >
+
+              <button className={styles.boton_ver_carrito}>
+                { title == "CARRITO DE COMPRA" ? "VER CARRITO": "VER LISTA DE DESEOS"}
+              </button>
             </Link>
           </div>
         </div>
