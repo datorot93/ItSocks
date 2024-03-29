@@ -29,23 +29,28 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
                   {
                     product.images && product.images['image1'] != undefined ?
                     <div className={ styles.product_description } >
-                      <LazyLoadImage src={ product.images.image1}/>
-                      <div className={ styles.quantity }>
-                        { product.cantidad }
+                      <div className={ styles.image_description}>
+
+                        <LazyLoadImage src={ product.images.image1}/>
+                        <div className={ styles.quantity }>
+                          { product.cantidad }
+                        </div>
                       </div>
-                      <h3>{product.name }</h3>
+                      <p>{product.name }</p>
                     </div>
                     :
                     <div className={ styles.product_description } >
-                      <LazyLoadImage src={ product.image_url}/>
-                      <div className={ styles.quantity }>
-                        { product.cantidad}
+                      <div className={ styles.image_description}>
+                        <LazyLoadImage src={ product.image_url}/>
+                        <div className={ styles.quantity }>
+                          { product.cantidad}
+                        </div>
                       </div>
-                      <h3>{product.name }</h3>
+                      <p>{product.name }</p>
                     </div>
                   }
                 
-                <span>{ product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</span>
+                <span><strong>{ product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
               </div>
             </div>
           ))
@@ -53,17 +58,17 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
         <hr />
         <div className={ styles.subtotal }>
           <div className={ styles.subtotal_up }>
-            <span>Subtotal</span>
-            <span><strong>{ subtotal.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
+            <p><strong>Subtotal</strong></p>
+            <p><strong>{ subtotal.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
           </div>
           <div className={ styles.subtotal_down }>
             <div className={ styles.subtotal_up}>
-              <p>Envíos</p>
-              <div className={ styles.quantity }>
+              <p><strong>Envíos</strong></p>
+              {/* <div className={ styles.quantity }>
                 ?
-              </div>
+              </div> */}
             </div>
-            <span><strong>{ shipping.shipping_value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
+            <p><strong>{ shipping.shipping_value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
           </div>
           
         </div>
@@ -71,7 +76,7 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
         <div className={ styles.subtotal}>
           <div className={ styles.subtotal_up}>
             <span>Total</span>
-            <span><strong>{ ((subtotal) + shipping.shipping_value).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
+            <span>COP <strong>{ ((subtotal) + shipping.shipping_value).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
           </div>
         </div>
       </div>

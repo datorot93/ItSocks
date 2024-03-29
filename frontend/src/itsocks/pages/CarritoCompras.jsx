@@ -15,14 +15,27 @@ import { usePack } from '../../hooks/usePack'
 
 export const CarritoCompras = () => {
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const navigate = useNavigate();
   const { clearPack } = usePack()
 
-
+  const {state} = useLocation()
 
   const handelReturn = () => {
     clearPack()
-    navigate(-3)
+    if(state.previousPath.split('/')[1] === 'packs'){
+      navigate('/packs')
+    }else if (state.previousPath.split('/')[1] === 'accesorios'){
+      navigate('/accesorios')
+    }else if (state.previousPath.split('/')[1] === 'medias'){
+      navigate('/medias')
+    }else{
+      navigate('/')
+    
+    }
   }
   
   return (
@@ -35,7 +48,7 @@ export const CarritoCompras = () => {
           <ListaCarrito />
           <div 
             className={ styles.seguir_comprando}
-            onClick={ handelReturn}
+            onClick={ handelReturn }
           >
             <img src={ arrow_left_circle } alt="Seguir comprando"/>
             <span>Seguir comprando</span>

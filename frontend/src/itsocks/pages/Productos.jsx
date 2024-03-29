@@ -20,8 +20,6 @@ export const Productos = ({ categoria, subcategoria, type, match }) => {
     "accesorios": "Accesorios",
   }
 
-  console.log('ESTE ES EL TYPE')
-  console.log(type)
 
   return (
     <>

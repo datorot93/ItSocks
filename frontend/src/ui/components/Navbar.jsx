@@ -23,6 +23,7 @@ export const Navbar = () => {
 
 
   const location = useLocation().pathname.split("/");
+  const {pathname} = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     setCantidad(
@@ -54,6 +55,7 @@ export const Navbar = () => {
 
   const handleLinkClick = (path) => {
     // clearPack();
+    setInput("")
     setSelectedLink(path);
   };
 
@@ -62,7 +64,10 @@ export const Navbar = () => {
   return (
     <header>
       <nav>
-        <Link to="/">
+        <Link 
+          to="/"
+          onClick={() => setInput("")}
+        >
           <picture>
             <img src={itsocks_logo} alt="ItSocks Logo" />
           </picture>
@@ -75,7 +80,8 @@ export const Navbar = () => {
             <img src={IconoBuscar} alt="Icono buscar" />
           </Link>
           <input 
-            type="text" 
+            type="text"
+            value={input}
             placeholder="Buscar en nuestro sitio"
             onChange={ handleChangeSearch }
             onKeyDown={handleKeyDown}
@@ -94,7 +100,7 @@ export const Navbar = () => {
             className={condition && selectedLink === 'accesorios' ? styles.selected : ""}
           >Accesorios</Link>
           <Link 
-            to="packs" 
+            to="packs"
             onClick={() => handleLinkClick("packs")}
             className={condition && selectedLink === 'packs'? styles.selected : ""}
           >Packs</Link>
@@ -116,6 +122,7 @@ export const Navbar = () => {
 
           <Link 
             to={"carrito"}
+            state={{previousPath: pathname}}
             onClick={() => handleLinkClick("carrito")}
             className={condition ? styles.selected : ""}
           >

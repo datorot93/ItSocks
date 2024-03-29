@@ -1,12 +1,13 @@
 from fastapi import APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 # from app.api.api_v1.routers import login, users
-from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors
+from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists
 
 
 api_router = APIRouter()
 
 api_router.include_router(products.router, prefix="/products", tags=["product"])
+api_router.include_router(wish_lists.router, prefix="/wish_list", tags=["WishList"])
 api_router.include_router(sizes.router, prefix="/sizes", tags=["sizes"])
 api_router.include_router(colors.router, prefix="/colors", tags=["colors"])
 api_router.include_router(categories.router, prefix="/categories", tags=["category"])

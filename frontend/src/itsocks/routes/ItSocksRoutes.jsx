@@ -25,6 +25,7 @@ import { PoliticaProteccionDatos } from "../pages/PoliticaProteccionDatos";
 import { WishProvider } from "../../context/wish";
 import { WishList } from "../pages/WishList";
 import { Search } from "../pages/Search";
+import { WishListShared } from "../pages/WishListShared";
 
 export const ItSocksRoutes = () => {
 
@@ -555,7 +556,15 @@ export const ItSocksRoutes = () => {
 
                 
                 {/* WISH LIST */}
-                <Route path="lista_de_favoritos" element={<WishList />} />
+                <Route 
+                  path="lista_de_favoritos" 
+                  element={<WishList />} 
+                />
+
+                <Route 
+                  path="lista_de_favoritos/:id_lista" 
+                  element={<WishListShared/>} 
+                />
 
                 {/* COMPRAS */}
                 <Route path="carrito" element={<CarritoCompras />} />

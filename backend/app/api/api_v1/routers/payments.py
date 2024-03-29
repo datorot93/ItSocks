@@ -24,7 +24,7 @@ async def create_payment_preference(
     obj_in['back_urls'] = {
         'success': 'https://itsocks-static-files.s3-website.us-east-2.amazonaws.com/',
         'failure': 'https://www.google.com',
-        'pending': 'https://www.youtube.com'
+        'pending': 'https://itsocks-static-files.s3-website.us-east-2.amazonaws.com/'
     }
     preference_response = sdk.preference().create(obj_in)
     preference = preference_response["response"]

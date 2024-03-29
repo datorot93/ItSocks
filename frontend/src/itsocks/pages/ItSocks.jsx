@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // Styles
 import styles from "../../ui/styles/HomePage.module.css";
@@ -16,7 +16,13 @@ const quitarAcentos = (cadena) => {
 }
 
 
+
 export const ItSocks = () => {
+
+  useEffect(() => {
+    // Scroll hacia arriba al cargar la página
+    window.scrollTo(0, 0);
+  }, []);
 
   const estilosVida = [
     {

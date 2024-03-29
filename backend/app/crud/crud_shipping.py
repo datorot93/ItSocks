@@ -108,7 +108,7 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
     ):
         shipping_departamentos = db.query(
                 Shipping.departamento
-            ).distinct().all()
+            ).order_by(Shipping.departamento).distinct().all()
         
         lista_departamentos = [item["departamento"] for item in shipping_departamentos]
 
@@ -132,7 +132,7 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
                 Shipping.municipio_ciudad
             ).filter(
                 unaccent(func.lower(Shipping.departamento)) == unidecode(departamento.lower())
-            ).distinct().all()
+            ).order_by(Shipping.municipio_ciudad).distinct().all()
         
         lista_departamentos = [item["municipio_ciudad"] for item in shipping_municipios]
 

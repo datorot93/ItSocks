@@ -1,7 +1,7 @@
 // React
 import React, { useEffect, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // Estilos
 import styles from "../../../ui/styles/ProductDescription.module.css";
@@ -26,7 +26,8 @@ import { useDispatch } from "react-redux";
 
 export const PackProductDescription = () => {
 
-  const dispatch = useDispatch();
+  const {pathname} = useLocation();
+
   const { addPackToCart, cart } = useCart();
 
   const total = cart.reduce((acumulador, objeto) => {
@@ -133,11 +134,11 @@ export const PackProductDescription = () => {
           })
 
       }
-      console.log(pack.prductos)
+      // console.log(pack.prductos)
       // console.log(console.log(JSON.parse(localStorage.getItem("pack"))));
       addPackToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, ...temp_product_list]});
       // addPackToCart({ ...pack, cantidad: 1, prductos: [...pack.prductos, {...currentProduct, cantidad: 1, selected_size: tallaSeleccionada}]});
-      navigate("/carrito");
+      navigate("/carrito", {state:{previousPath: pathname}});
     } else if (cantProducts > 0) {
       for (let index = 0; index < cantProducts; index++) {
         addToPack({ 
