@@ -44,12 +44,13 @@ class CRUDDiscountCode(CRUDBase[DiscountCode, DiscountCodeCreate, DiscountCodeUp
     ):
 
         return db.query(DiscountCode).filter(
-            DiscountCode.code == code
+            func.upper(DiscountCode.code) == code.upper()
         ).first()
     
     def object_as_dict(self, obj):
         return {c.key: getattr(obj, c.key)
                 for c in inspect(obj).mapper.column_attrs}
+    
 
     def get_codes(
         self,

@@ -7,7 +7,7 @@ import styles from '../../ui/styles/Billing.module.css'
 import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
 import fase_1 from '../../../public/assets/pago/1_fase.png'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useShipping } from '../../hooks/useShipping'
 
 export const BillingForm = () => {
@@ -15,7 +15,7 @@ export const BillingForm = () => {
    
 
     const [ direccion, setDireccion ] = useState('')
-    const {shipping, modifyShipping} = useShipping()
+    const {modifyShipping} = useShipping()
 
     // Fields
     const [ email, setEmail ] = useState('')
@@ -59,6 +59,7 @@ export const BillingForm = () => {
         })
     }
 
+    const {pathname} = useLocation();
     const navigate = useNavigate();
 
   return (
@@ -165,7 +166,7 @@ export const BillingForm = () => {
             </div>
 
             <div className={ styles.buttons }>
-                <div className={ styles.seguir_comprando} onClick={ () => navigate("/carrito") }>
+                <div className={ styles.seguir_comprando} onClick={ () => navigate("/carrito", {state: {previousPath: pathname}}) }>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Volver al carrito</span>
                 </div>

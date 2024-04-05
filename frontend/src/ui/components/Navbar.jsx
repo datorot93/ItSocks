@@ -63,7 +63,7 @@ export const Navbar = () => {
 
   return (
     <header>
-      <nav>
+      <nav className={ styles.nav_container}>
         <Link 
           to="/"
           onClick={() => setInput("")}
@@ -110,10 +110,11 @@ export const Navbar = () => {
             className={condition && selectedLink === 'mas'? styles.selected : ""}
           >Más</Link>
 
-          <Link
+          
+        </div>
+        <Link
             to={"lista_de_favoritos"}
           >
-            
             <div className={styles.contenedor_contador}>
               <div className={styles.contador_carrito}>{cantidadWish}</div>
               <img src={IconoCorazon} alt="Lista deseados" />
@@ -131,7 +132,6 @@ export const Navbar = () => {
               <img src={IconoCarrito} alt="Icono carrito" />
             </div>
           </Link>
-        </div>
       </nav>
     </header>
   );
