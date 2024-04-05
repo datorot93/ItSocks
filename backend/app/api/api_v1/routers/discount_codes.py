@@ -40,6 +40,24 @@ async def get_active_codes(
     return codes
 
 
+@router.get("specific_code", response_model_exclude_none=True)
+async def get_specific_code(
+    response: Response,
+    code: str,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Get specific code
+    """
+    code = crud.discount_code.get_discount_by_code(db, code=code)
+
+    if code:
+        return code
+    
+    return None
+
+
 # CREATE DISCOUNT CODE
 @router.post("discount_code_create", response_model=schemas.DiscountCode, response_model_exclude_none=True)
 async def discount_code_create(

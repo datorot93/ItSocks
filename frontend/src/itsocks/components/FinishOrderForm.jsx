@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 // STYLES
 import styles from '../../ui/styles/Billing.module.css'
@@ -28,8 +28,21 @@ export const FinishOrderForm = () => {
 
     const [ currentAddess, setCurrentAddress ] = useState(shipping.address)
     const [ currentEmail, setCurrentEmail ] = useState(shipping.email)
+    const emailInput = useRef(null)
+    const addressInput = useRef(null)
 
     const [showTooltip, setShowTooltip] = useState(false)
+
+    const handleClickEmail = () => {
+        emailInput.current.focus()
+        emailInput.current.select()
+    }
+
+    const handleClickAddress = () => {
+        addressInput.current.focus()
+        addressInput.current.select()
+
+    }
 
     initMercadoPago('APP_USR-394df966-9b8b-442a-9c5c-71f6923d3ad0', {
         locale: 'es-CO'
@@ -99,6 +112,8 @@ export const FinishOrderForm = () => {
         <h3>Información</h3>
         <form>
             <div className={ styles.informacion_container }>
+                
+            <div className={ styles.field_with_tootip}>
 
                 <div className={ styles.form_field_finish_order }>
                     <label>Contacto:</label>
@@ -108,31 +123,16 @@ export const FinishOrderForm = () => {
                             placeholder="Correo Electrónico"
                             value={ currentEmail }
                             onChange={ handleEmail}
+                            ref={ emailInput }
                             required
                         />
 
-                        <img src={ pencil_edit } alt="Editar"/>
+                        <img onClick={ handleClickEmail } src={ pencil_edit } alt="Editar"/>
 
                     </div>
                 </div>
-                <div className={ styles.field_with_tootip}>
-                    <div className={ styles.form_field_finish_order }>
-                        <label>Enviar a:</label>
-                        <div className={ styles.informacion_envio}>
-                            <input 
-                                type="text" 
-                                placeholder="Email"
-                                value={ currentAddess }
-                                onChange={ handleDireccion }
-                                required
-                            />
 
-                                <img src={ pencil_edit } alt="Editar"/>
-                                
-
-                        </div>
-                    </div>
-                    <div 
+                <div 
                         className={ styles.tooltip_container }
                         onMouseEnter={ () => setShowTooltip(true) }
                         onMouseLeave={ () => setShowTooltip(false)}
@@ -144,6 +144,26 @@ export const FinishOrderForm = () => {
                         }
                         <img src={ tooltip_icon } alt="Editar"/>
                     </div>
+            </div>
+                <div className={ styles.field_with_tootip}>
+                    <div className={ styles.form_field_finish_order }>
+                        <label>Enviar a:</label>
+                        <div className={ styles.informacion_envio}>
+                            <input 
+                                type="text" 
+                                placeholder="Dirección de envío"
+                                value={ currentAddess }
+                                onChange={ handleDireccion }
+                                ref={ addressInput }
+                                required
+                            />
+
+                                <img onClick={ handleClickAddress } src={ pencil_edit } alt="Editar"/>
+                                
+
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
 

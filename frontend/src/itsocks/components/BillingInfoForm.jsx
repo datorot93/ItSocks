@@ -81,7 +81,7 @@ export const BillingInfoForm = () => {
 
     const handleContinuarConfirmacion = () => {
         modifyShipping({
-            address: direccion,
+            billingAddress: direccion,
             region: selectedRegion,
             city: selectedCity,
             extra_information: extraInformation

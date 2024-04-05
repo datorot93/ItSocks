@@ -23,6 +23,7 @@ export const WishList = () => {
   const {pathname} = useLocation()
 
   const [copied, setCopied] = useState(false);
+  const [copiedText, setCopiedText] = useState('');
 
   const { wish, addOneToWish, subtractOneToWish } = useWish();
   const { addOneToCart } = useCart();
@@ -59,21 +60,46 @@ export const WishList = () => {
       "url_list": `${FRONTEND_URL}lista_de_favoritos/${idsConcatenados}`,
       "id_list": idsConcatenados
     }
-    navigator.clipboard.writeText(lista_wish.url_list)
-      .then(() => {
-        console.log("Texto copiado al portapapeles:", lista_wish.url_list);
-        setCopied(true);
-        setTimeout(() => {
-          setCopied(false);
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error("Error al copiar texto al portapapeles:", error);
-        alert("Error al copiar texto al portapapeles");
-      });
+    
     const resp = setWishList(lista_wish).then( data => {
       console.log(data)
     })
+
+    try{
+      navigator.clipboard.writeText(lista_wish.url_list)
+        .then(() => {
+          console.log("Texto copiado al portapapeles:", lista_wish.url_list);
+          setCopied(true);
+          setCopiedText("Lista de deseos copiada exitosamente en el portapeles");
+          setTimeout(() => {
+            setCopied(false);
+          }, 3000);
+        })
+        .catch((error) => {
+          
+        });
+    }catch(e){
+      setCopied(true);
+      setCopiedText(lista_wish.url_list)
+      setTimeout(() => {
+        setCopied(false);
+      }, 5000);
+      console.error("Error al copiar texto al portapapeles:", e);
+    }
+
+    // navigator.clipboard.writeText(lista_wish.url_list)
+    //   .then(() => {
+    //     console.log("Texto copiado al portapapeles:", lista_wish.url_list);
+    //     setCopied(true);
+    //     setCopiedText("Lista de deseos copiada exitosamente en el portapeles");
+    //     setTimeout(() => {
+    //       setCopied(false);
+    //     }, 3000);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al copiar texto al portapapeles:", error);
+    //     setCopiedText(lista_wish.url_list)
+    //   });
   }
   
   return (
@@ -94,7 +120,7 @@ export const WishList = () => {
           <div className={styles.wish_buttons}>
           {
             copied ? 
-            <div>Lista de deseos copiada exitosamente en el portapeles</div>
+            <div>{ copiedText }</div>
             :<button 
               className={styles.boton_compartir_lista}
               onClick={ handleCompartirLista }

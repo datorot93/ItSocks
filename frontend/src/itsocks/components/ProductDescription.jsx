@@ -130,6 +130,11 @@ export const ProductDescription = () => {
       setCantProducts(1);
       setTallaSeleccionada(null);
       setColorSeleccionado(null);
+    }else if (title === "COMPRAR AHORA"){
+      addToCart(product_to_add);
+      setCantProducts(1);
+      setTallaSeleccionada(null);
+      setColorSeleccionado(null);
     }
   }, [product_to_add, title]);
 
@@ -236,15 +241,24 @@ export const ProductDescription = () => {
     if(cantProducts > 0 ){
       if(tallas[0] && tallas[0] !== "unica"){
         if(tallaSeleccionada){
+          console.log('ENTRÉ AQUI 1')
           setProduct_to_add({ 
             ...producto, 
             cantidad: cantProducts,
             selected_color: '',
             selected_size: tallaSeleccionada
           });
-          if(Object.keys(product_to_add).length > 0){
-            addToCart(product_to_add);
+          let product = {
+            ...producto, 
+            cantidad: cantProducts,
+            selected_color: '',
+            selected_size: tallaSeleccionada
           }
+          setTitle('COMPRAR AHORA')
+          addToCart(product);
+          // if(Object.keys(product_to_add).length > 0){
+          //   console.log('ENTRÉ AQUI 2')
+          // }
           navigate("/carrito", {state:{previousPath: pathname}});
         }else {
           alert('Debes seleccionar una talla')

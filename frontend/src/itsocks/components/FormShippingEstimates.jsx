@@ -14,8 +14,10 @@ import { useShipping } from "../../hooks/useShipping";
 import { getCiudadesPorDepartamento, getDepartamentos, getShippingCost } from "../helpers/getShippingInfo";
 
 export const FormShippingEstimates = () => {
+  // Estados
   const { cart } = useCart();
   const { addShipping } = useShipping();
+
   const [departamentos, setDepartamentos] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState("Colombia");
@@ -29,7 +31,6 @@ export const FormShippingEstimates = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [indicacionesExtra, setIndicacionesExtra] = useState("");
   const [isAcepted, setIsAcepted] = useState(false);
-  const [isCalculated, setIsCalculated] = useState(false);
 
   const total = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
@@ -149,7 +150,7 @@ export const FormShippingEstimates = () => {
             <div className={styles.form_field}>
               <p>Departamento</p>
               <select value={selectedRegion} onChange={handleRegionChange}>
-                <option value="">Seleccione una provincia</option>
+                <option value="">Seleccione una departamento</option>
                 {departamentos.map((departamento) => (
                   <option value={departamento} key={departamento}>
                     {departamento}
@@ -274,7 +275,7 @@ export const FormShippingEstimates = () => {
 
             <div className={styles.finalizar_pedido}>
               {
-                isAcepted && selectedCountry && selectedCity && selectedRegion && direccion?
+                isAcepted && selectedCountry && selectedCity && selectedRegion && direccion ?
                 <Link to="billing">
                   <button
                     className={`${styles.finalizar_pedido_button} ${
@@ -286,10 +287,12 @@ export const FormShippingEstimates = () => {
                         region: selectedRegion,
                         city: selectedCity,
                         address: direccion,
+                        billingAddress: direccion,
                         from: from,
                         to: to,
                         extra_information: datosExtra,
                         shipping_value: shippingCost,
+                        isGift: isChecked,
                       })
                     }
                   >
