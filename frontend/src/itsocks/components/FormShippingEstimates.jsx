@@ -12,6 +12,7 @@ import regalo from "../../../public/assets/carrito/regalo 1.svg";
 import { Link } from "react-router-dom";
 import { useShipping } from "../../hooks/useShipping";
 import { getCiudadesPorDepartamento, getDepartamentos, getShippingCost } from "../helpers/getShippingInfo";
+import { useDiscount } from "../../hooks/useDiscount";
 
 export const FormShippingEstimates = () => {
   // Estados
@@ -120,6 +121,24 @@ export const FormShippingEstimates = () => {
   const handleCalculateShipping = (event) => {
     setIsCalculated(true);
   };
+
+  const { removeFromDiscount } = useDiscount();
+
+  const handleFinalizarCompra = () => {
+    removeFromDiscount();
+    addShipping({
+      country: selectedCountry, 
+      region: selectedRegion,
+      city: selectedCity,
+      address: direccion,
+      billingAddress: direccion,
+      from: from,
+      to: to,
+      extra_information: datosExtra,
+      shipping_value: shippingCost,
+      isGift: isChecked,
+    });
+  }
 
   const subtotal = cart.reduce((acumulador, objeto) => {
     // Agregar una condición para filtrar elementos
@@ -281,20 +300,7 @@ export const FormShippingEstimates = () => {
                     className={`${styles.finalizar_pedido_button} ${
                       isAcepted ? "" : styles.disabled_button
                     }`}
-                    onClick={() =>
-                      addShipping({
-                        country: selectedCountry,
-                        region: selectedRegion,
-                        city: selectedCity,
-                        address: direccion,
-                        billingAddress: direccion,
-                        from: from,
-                        to: to,
-                        extra_information: datosExtra,
-                        shipping_value: shippingCost,
-                        isGift: isChecked,
-                      })
-                    }
+                    onClick={ handleFinalizarCompra }
                   >
                     FINALIZAR COMPRA
                   </button>

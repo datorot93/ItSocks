@@ -25,3 +25,81 @@
     border-width: 0.1px;
     border-style: solid;
 }
+
+@media (max-width: 1000px) {
+    .beneficios_image_container video {
+        width: 100%;
+    }
+
+    .container_beneficios{
+        margin: 30px 20px 30px 20px;
+        padding: 20px;
+        width: 500px;
+    }
+
+    .container_beneficios p {
+        margin: 0;
+        font-size: 15px;
+    }
+
+    .container_beneficios h5 {
+        font-size: 15px;
+
+    }
+}
+
+@media (max-width: 860px) {
+    .beneficios_image_container video {
+        width: 100%;
+    }
+
+    .container_beneficios{
+        margin: 30px 20px 30px 20px;
+        padding: 20px;
+        width: 400px;
+    }
+
+    .container_beneficios p {
+        margin: 0;
+        font-size: 15px;
+    }
+
+    .container_beneficios h5 {
+        font-size: 15px;
+
+    }
+}
+
+@media (max-width: 775px) {
+    .beneficios_image_container video {
+        width: 100%;
+    }
+
+    .container_beneficios{
+        margin: 30px 20px 30px 20px;
+        padding: 20px;
+        width: 360px;
+    }
+
+    .container_beneficios p {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    .container_beneficios h5 {
+        font-size: 12px;
+    }
+
+    /* .icon_container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon_container svg {
+        width: 40px;
+        height: 40px;
+    } */
+}

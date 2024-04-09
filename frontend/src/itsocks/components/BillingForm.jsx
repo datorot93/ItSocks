@@ -9,6 +9,7 @@ import fase_1 from '../../../public/assets/pago/1_fase.png'
 
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useShipping } from '../../hooks/useShipping'
+import { useDiscount } from '../../hooks/useDiscount';
 
 export const BillingForm = () => {
 
@@ -16,6 +17,7 @@ export const BillingForm = () => {
 
     const [ direccion, setDireccion ] = useState('')
     const {modifyShipping} = useShipping()
+    const { removeFromDiscount } = useDiscount()
 
     // Fields
     const [ email, setEmail ] = useState('')
@@ -61,6 +63,11 @@ export const BillingForm = () => {
 
     const {pathname} = useLocation();
     const navigate = useNavigate();
+
+    const handleVolverCarrito = () => {
+        removeFromDiscount()
+        navigate("/carrito", {state: {previousPath: pathname}})
+    }
 
   return (
     <section className={ styles.billing_form }>
@@ -166,7 +173,7 @@ export const BillingForm = () => {
             </div>
 
             <div className={ styles.buttons }>
-                <div className={ styles.seguir_comprando} onClick={ () => navigate("/carrito", {state: {previousPath: pathname}}) }>
+                <div className={ styles.seguir_comprando} onClick={ handleVolverCarrito }>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Volver al carrito</span>
                 </div>

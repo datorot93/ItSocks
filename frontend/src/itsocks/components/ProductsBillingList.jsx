@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 
@@ -7,14 +7,17 @@ import styles from '../../ui/styles/ProductsBillingList.module.css'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useLocation } from 'react-router-dom'
 import { getDiscountCode } from '../helpers/getDiscountsCodes'
+import { useDiscount } from '../../hooks/useDiscount'
 
 export const ProductsBillingList = ({ email, name, lastName, document, phone }) => {
 
   const products = localStorage.getItem('cart')
   const shipping = JSON.parse(localStorage.getItem('shipping'))
 
+  const { discount, addToDiscount, removeFromDiscount } = useDiscount()
+
   const [ code, setCode ] = useState('')
-  const [ discount, setDiscount ] = useState(null)
+  const [ currentDiscount, setCurrentDiscount ] = useState(discount ? discount.discount : null)
   const [ inputDisabled, setInputDisabled ] = useState(false)
   
   const {pathname} = useLocation()
@@ -39,17 +42,28 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
     getDiscountCode(code).then( (res) => {
       // setDiscountCode(res.)
       if(res){
-        setDiscount(res.discount)
+        setCurrentDiscount(res.discount)
         setSubtotal(subtotal - (subtotal * (res.discount / 100)))
         setInputDisabled(true)
+        addToDiscount(res)
       }
     })
   }
 
+  useEffect(() => {
+    if(currentDiscount !== null){
+      setPreviusSubtotal(subtotal)
+      setSubtotal(subtotal - (subtotal * (currentDiscount / 100)))
+    }
+  }, [])
+
+  console.log(discount)
+
   const handleDeleteDiscount = () => {
-    setDiscount(null)
+    setCurrentDiscount(null)
     setSubtotal(previusSubtotal)
     setInputDisabled(false)
+    removeFromDiscount()
     setCode('')
   }
 
@@ -75,8 +89,8 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
                       <div className={ styles.product_name }>
                         <p>{product.name }</p>
                         {
-                          discount !== null &&
-                          <p className={ styles.discount_text }>{ `${code.toUpperCase()} (-${(previusSubtotal * (discount / 100)).toLocaleString('es-CO', { style: 'currency', currency: 'COP' })})` }</p>
+                          currentDiscount !== null &&
+                          <p className={ styles.discount_text }>{ `${discount.code.toUpperCase()} (-${(previusSubtotal * (discount.discount / 100)).toLocaleString('es-CO', { style: 'currency', currency: 'COP' })})` }</p>
                         }
                       </div>
                     </div>
@@ -91,17 +105,17 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
                       <div className={styles.product_name}>
                         <p>{product.name }</p>
                         {
-                          discount !== null &&
+                          currentDiscount !== null &&
                           <p className={ styles.discount_text }>{ code.toUpperCase() }</p>
                         }
                       </div>
                     </div>
                   }
                   {
-                    discount !== null ?
+                    currentDiscount !== null ?
                     <div className={ styles.prices_discount }>
                       <p>{ product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</p>
-                      <span><strong>{ (product.price -  (product.price * (discount/100))).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
+                      <span><strong>{ (product.price -  (product.price * (currentDiscount/100))).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
                     </div>
                     : <span><strong>{ (product.price).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></span>
                   }
@@ -119,20 +133,20 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
               onChange={ handleCode } 
               type="text" 
               placeholder="Código de descuento"
-              disabled={ inputDisabled }
+              disabled={ Boolean(discount) }
             />
             <button 
               onClick={ handleAplicarCupon } 
               className={ styles.button_cupon }
-              disabled={ inputDisabled }
+              disabled={ Boolean(discount) }
             >Aplicar</button>
           </div>
         }
         {
-          discount !== null &&
+          currentDiscount !== null &&
           <div className={ styles.discount_code }>
               <div className={ styles.code }>
-                {code}
+                {discount.code.toUpperCase()}
                 <div className={ styles.delete_discount} onClick={ handleDeleteDiscount }>x</div>
               </div>
           </div>
@@ -141,16 +155,20 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
         <hr />
         <div className={ styles.subtotal }>
           {
-            discount !== null &&
+            currentDiscount !== null &&
             <div className={ styles.subtotal_up }>
               <p><strong>Descuento</strong></p>
-              <p><strong>{ discount }%</strong></p>
+              <p><strong>{ currentDiscount }%</strong></p>
             </div>
           }
 
           <div className={ styles.subtotal_up }>
             <p><strong>Subtotal</strong></p>
-            <p><strong>{ subtotal.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
+            {
+              currentDiscount !== null ?
+              <p><strong>{ (subtotal).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
+              :<p><strong>{ subtotal.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
+            }
           </div>
           <div className={ styles.subtotal_down }>
             <div className={ styles.subtotal_up}>

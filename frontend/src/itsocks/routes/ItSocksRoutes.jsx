@@ -26,6 +26,7 @@ import { WishProvider } from "../../context/wish";
 import { WishList } from "../pages/WishList";
 import { Search } from "../pages/Search";
 import { WishListShared } from "../pages/WishListShared";
+import { DiscountProvider } from "../../context/discount";
 
 export const ItSocksRoutes = () => {
 
@@ -36,6 +37,8 @@ export const ItSocksRoutes = () => {
         <WishProvider>
           <PackProvider>
             <ShippingProvider>
+              <DiscountProvider>
+
               <Navbar />
               <MigaDePan />
               <Routes>
@@ -582,6 +585,7 @@ export const ItSocksRoutes = () => {
               </Routes>
               <Suscription />
               <Footer />
+              </DiscountProvider>
             </ShippingProvider>
           </PackProvider>
         </WishProvider>

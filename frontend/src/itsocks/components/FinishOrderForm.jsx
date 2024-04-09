@@ -6,7 +6,7 @@ import styles from '../../ui/styles/Billing.module.css'
 //IMAGES
 import metodo_pago from '../../../public/assets/pago/metodo_pago.jpg'
 import pencil_edit from '../../../public/assets/pago/pencil_edit.svg'
-import tooltip_icon from '../../../public/assets/pago/tooltip_icon.svg'
+import tooltip_icon from '../../../public/assets/pago/tootip_icon.svg'
 import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
 import fase_2 from '../../../public/assets/pago/2_fase.png'
 
@@ -18,6 +18,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { getPreference } from '../helpers/getPreference'
 import { useShipping } from '../../hooks/useShipping'
+import { useDiscount } from '../../hooks/useDiscount'
 
 
 
@@ -30,6 +31,8 @@ export const FinishOrderForm = () => {
     const [ currentEmail, setCurrentEmail ] = useState(shipping.email)
     const emailInput = useRef(null)
     const addressInput = useRef(null)
+
+    const { removeFromDiscount } = useDiscount()
 
     const [showTooltip, setShowTooltip] = useState(false)
 
@@ -97,6 +100,11 @@ export const FinishOrderForm = () => {
     const handleDireccion = (e) => {
         setCurrentAddress(e.target.value)
     }
+
+    const handleVolverInformacion = () => {
+        removeFromDiscount()
+        navigate("/carrito/billing")
+    }
     
 
     const tooltipComponent = <div className={ styles.tooltip }>
@@ -116,7 +124,22 @@ export const FinishOrderForm = () => {
             <div className={ styles.field_with_tootip}>
 
                 <div className={ styles.form_field_finish_order }>
-                    <label>Contacto:</label>
+                    <div className={ styles.header_contacto}>
+                        
+                        <label>Contacto:</label>
+                        <div 
+                            className={ styles.tooltip_container }
+                            onMouseEnter={ () => setShowTooltip(true) }
+                            onMouseLeave={ () => setShowTooltip(false)}
+                        >
+                            {
+                                showTooltip ?
+                                <>{tooltipComponent}</>
+                                :<></>
+                            }
+                            <img src={ tooltip_icon } alt="Editar"/>
+                        </div>
+                    </div>
                     <div className={ styles.informacion_envio }>
                         <input 
                             type="text" 
@@ -132,18 +155,7 @@ export const FinishOrderForm = () => {
                     </div>
                 </div>
 
-                <div 
-                        className={ styles.tooltip_container }
-                        onMouseEnter={ () => setShowTooltip(true) }
-                        onMouseLeave={ () => setShowTooltip(false)}
-                    >
-                        {
-                            showTooltip ?
-                            <>{tooltipComponent}</>
-                            :<></>
-                        }
-                        <img src={ tooltip_icon } alt="Editar"/>
-                    </div>
+                
             </div>
                 <div className={ styles.field_with_tootip}>
                     <div className={ styles.form_field_finish_order }>
@@ -195,7 +207,7 @@ export const FinishOrderForm = () => {
             </div>
 
             <div className={ styles.buttons }>                
-                <div className={ styles.seguir_comprando} onClick={ () => navigate("/carrito/billing")}>
+                <div className={ styles.seguir_comprando} onClick={ handleVolverInformacion }>
                     <span className={ styles.left_arrow }>{'<'} </span>
                     <span>Volver a información</span>
                 </div>

@@ -3,7 +3,6 @@ section {
   timeline-scope: --carousel;
 }
 
-
 .img_carrusel {
   width: 100%;
   height: auto;
@@ -14,6 +13,7 @@ section {
 .not_loaded{
   opacity: 0;
 }
+
 .loaded{
   opacity: 1;
 }
@@ -97,4 +97,32 @@ section {
 
 .arrow_visible {
   opacity: .3;
+}
+
+
+/* MEDIA QUERIES */
+@media (max-width: 1200px) {
+
+  .arrow_buttons {
+    width: 60px;
+    height: 60px;
+  }
+
+  .arrow_buttons img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .left_arrow {
+    left: 10px;
+  }
+
+  .right_arrow {
+    right: 10px;
+  }
+
+  .slider_nav_button {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }

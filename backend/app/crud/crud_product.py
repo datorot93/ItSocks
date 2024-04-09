@@ -1254,53 +1254,90 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         limit: int,
         design: str,
     ):
-        products = db.query(
-                Product.id,
-                Product.name,
-                Product.code,
-                Product.price,
-                Product.compresion,
-                Product.quantity,
-                Product.description,
-                Product.discount,
-                Category.discount.label('category_discount'),
-                Subcategory.discount.label('subcategory_discount'),
-                Category.name.label('category'),
-                Subcategory.name.label('subcategory'),
-                Type.name.label('type'),
-                Design.name.label('design'),
-            ).\
-            join(Subcategory, Subcategory.id == Product.id_subcategory).\
-            join(Category, Category.id == Subcategory.id_category).\
-            join(Type, Type.id == Product.id_type).\
-            join(Design, Design.id == Product.id_design).\
-            filter(
-                unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
-                Product.state == True,
-            ).offset(skip).limit(limit).all()
         
-        product_images = db.query(
-                Image.url,
-                Image.id_product
-            ).\
-            join(Product, Product.id == Image.id_product).\
-            join(Subcategory, Subcategory.id == Product.id_subcategory).\
-            join(Category, Category.id == Subcategory.id_category).\
-            join(Type, Type.id == Product.id_type).\
-            join(Design, Design.id == Product.id_design).\
-            join(TagProduct, TagProduct.product_id == Product.id).\
-            join(Tag, Tag.id == TagProduct.tag_id).\
-            filter(
-                unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
-                Product.state == True,
-            ).all()
-        
+        if design.lower() not in  ['canguros', 'termos', 'pines', 'viseras']:
+            products = db.query(
+                    Product.id,
+                    Product.name,
+                    Product.code,
+                    Product.price,
+                    Product.compresion,
+                    Product.quantity,
+                    Product.description,
+                    Product.discount,
+                    Category.discount.label('category_discount'),
+                    Subcategory.discount.label('subcategory_discount'),
+                    Category.name.label('category'),
+                    Subcategory.name.label('subcategory'),
+                    Type.name.label('type'),
+                    Design.name.label('design'),
+                ).\
+                join(Subcategory, Subcategory.id == Product.id_subcategory).\
+                join(Category, Category.id == Subcategory.id_category).\
+                join(Type, Type.id == Product.id_type).\
+                join(Design, Design.id == Product.id_design).\
+                filter(
+                    unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
+                    Product.state == True,
+                ).offset(skip).limit(limit).all()
+            
+            product_images = db.query(
+                    Image.url,
+                    Image.id_product
+                ).\
+                join(Product, Product.id == Image.id_product).\
+                join(Subcategory, Subcategory.id == Product.id_subcategory).\
+                join(Category, Category.id == Subcategory.id_category).\
+                join(Type, Type.id == Product.id_type).\
+                join(Design, Design.id == Product.id_design).\
+                filter(
+                    unaccent(func.lower(Design.name)) == unidecode(design.strip().lower()),
+                    Product.state == True,
+                ).all()
+        else:
+            products = db.query(
+                    Product.id,
+                    Product.name,
+                    Product.code,
+                    Product.price,
+                    Product.compresion,
+                    Product.quantity,
+                    Product.description,
+                    Product.discount,
+                    Category.discount.label('category_discount'),
+                    Subcategory.discount.label('subcategory_discount'),
+                    Category.name.label('category'),
+                    Subcategory.name.label('subcategory'),
+                    Type.name.label('type'),
+                    Design.name.label('design'),
+                ).\
+                join(Subcategory, Subcategory.id == Product.id_subcategory).\
+                join(Category, Category.id == Subcategory.id_category).\
+                join(Type, Type.id == Product.id_type).\
+                filter(
+                    Category.name == "Accesorios",
+                    Product.state == True,
+                ).distinct().offset(skip).limit(limit).all()
+            
+            product_images = db.query(
+                    Image.url,
+                    Image.id_product
+                ).\
+                join(Product, Product.id == Image.id_product).\
+                join(Subcategory, Subcategory.id == Product.id_subcategory).\
+                join(Category, Category.id == Subcategory.id_category).\
+                join(Type, Type.id == Product.id_type).\
+                filter(
+                    Category.name == "Accesorios",
+                    Product.state == True,
+                ).all()
+            
 
         lista_productos = self._get_product_list(
                 products=products,
                 product_images=product_images
             )
-            
+                
         return lista_productos
     
     def clave_personalizada(self, elemento):
@@ -1308,6 +1345,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             return int(elemento.split("-")[0])
         else:
             return elemento
+        
     
     def get_colors_tallas_by_product(
         self, 
@@ -1343,10 +1381,21 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
             unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
         ).distinct().order_by(Size.size).all()
+
+        def orden(letra):
+            if letra == 'S':
+                return 0  # La letra 'S' va primero
+            elif letra == 'M':
+                return 1  # La letra 'M' va segundo
+            elif letra == 'L':
+                return 2
+            else:
+                return 3  # Las demás letras mantienen el orden original
         
         products[0]["size"] = [ item[0] for item in tallas ]
 
         products[0]["size"] = sorted(products[0]["size"], key=self.clave_personalizada)
+        products[0]["size"] = sorted(products[0]["size"], key=orden)
 
         return products
     
