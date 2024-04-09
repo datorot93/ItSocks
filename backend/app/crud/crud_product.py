@@ -1345,6 +1345,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             return int(elemento.split("-")[0])
         else:
             return elemento
+        
     
     def get_colors_tallas_by_product(
         self, 
@@ -1380,10 +1381,21 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
             unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
         ).distinct().order_by(Size.size).all()
+
+        def orden(letra):
+            if letra == 'S':
+                return 0  # La letra 'S' va primero
+            elif letra == 'M':
+                return 1  # La letra 'M' va segundo
+            elif letra == 'L':
+                return 2
+            else:
+                return 3  # Las demás letras mantienen el orden original
         
         products[0]["size"] = [ item[0] for item in tallas ]
 
         products[0]["size"] = sorted(products[0]["size"], key=self.clave_personalizada)
+        products[0]["size"] = sorted(products[0]["size"], key=orden)
 
         return products
     
