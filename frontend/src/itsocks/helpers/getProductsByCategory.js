@@ -25,7 +25,7 @@ export const getProductsByCategoryDesign = async( category, design, skip ) => {
 export const getProductsByDesign = async( design ) => {
 
     const resp = await fetchWithoutToken(
-        `products/product_by_design?design=${design}&skip=0&limit=60`
+        `products/product_by_design?design=${design}&skip=0&limit=30`
     )
     const data = await resp.json();
 

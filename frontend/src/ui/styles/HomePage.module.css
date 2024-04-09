@@ -1,4 +1,3 @@
-
 .main {
     display: flex;
     width: 100%;
@@ -148,3 +147,167 @@
     overflow-x: scroll;
     margin-top: 50px;
 }*/
+
+@media (max-width: 1880px) {
+    .image_container img {
+        width: 458px;
+        max-width: 458px;
+    }
+
+    .estilos_card {
+        height: 458px;
+    }
+}
+
+
+
+@media (max-width: 1375px) {
+    .image_container img {
+        width: 350px;
+        max-width: 350px;
+    }
+
+    .estilos_card {
+        height: 350px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .mas_vendidos h2 {
+        font-size: 25px;
+    }
+
+    .estilos_vida h2 {
+        font-size: 30px;
+    }
+
+    .image_container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 60px;
+        gap: 10px
+    }
+    
+    .image_container img {
+        width: 315px;
+        max-width: 315px;
+    }
+
+    .estilos_card {
+        height: 315px;
+    }
+
+    .estilos_card p {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 1050px){
+    .image_container img {
+        width: 280px;
+        max-width: 280px;
+    }
+
+    .estilos_card {
+        height: 280px;
+    }
+
+    .estilos_card p {
+        font-size: 25px;
+    }
+
+    
+}
+
+@media (max-width: 850px) {
+    .mas_vendidos h2 {
+        font-size: 25px;
+    }
+
+    .estilos_vida h2 {
+        font-size: 30px;
+    }
+
+    .image_container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 60px;
+        gap: 10px
+    }
+    
+    .image_container img {
+        width: 215px;
+        max-width: 215px;
+    }
+
+    .estilos_card {
+        height: 215px;
+    }
+
+    .estilos_card p {
+        font-size: 25px;
+    }
+}
+
+
+@media (max-width: 680px) {
+    .mas_vendidos h2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .mas_vendidos{
+        margin-top: 10px;
+    }
+
+    .estilos_vida h2 {
+        font-size: 20px;
+    }
+
+    .image_container {
+        margin-top: 30px;
+    }
+    
+    .image_container img {
+        width: 150px;
+        max-width: 150px;
+    }
+
+    .estilos_card {
+        height: 150px;
+    }
+
+    .estilos_card p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .image_container {
+        margin-top: 30px;
+    }
+    
+    .image_container img {
+        width: 115px;
+        max-width: 115px;
+    }
+
+    .estilos_card {
+        height: 115px;
+    }
+
+    .estilos_card p {
+        font-size: 15px;
+    }
+}

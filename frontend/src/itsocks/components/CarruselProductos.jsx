@@ -86,7 +86,7 @@ export const CarruselProductos = () => {
           <img 
             src={ right_arrow } 
             alt="left arrow" 
-            className={styles.left_arrow} 
+            className={styles.right_arrow}
             onClick={ () => showImage('avanzar') }
           />
         </div>

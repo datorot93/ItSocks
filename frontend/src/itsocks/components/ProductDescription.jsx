@@ -82,6 +82,8 @@ export const ProductDescription = () => {
     ).catch( err => console.log(err))
   }, []);
 
+  // console.log(simirlarProducts)
+
   // States
   const [otherPhotos, setOtherPhotos] = useState(initialState);
   const [cantProducts, setCantProducts] = useState(1);
@@ -150,9 +152,7 @@ export const ProductDescription = () => {
               selected_color: '',
               selected_size: tallaSeleccionada
             });
-            // if(Object.keys(product_to_add).length > 0){
-            //   addToCart(product_to_add);
-            // }
+
           } else {
             setTitle("LISTA DE DESEOS");
             setProduct_to_add({ 
@@ -161,15 +161,10 @@ export const ProductDescription = () => {
               selected_color: '',
               selected_size: tallaSeleccionada
             });
-            // if(Object.keys(product_to_add).length > 0){
-            //   addToWish(product_to_add);
-            // }
+
             
           }
-          // setShowPopUp(true);
-          // setCantProducts(1);
-          // setTallaSeleccionada(null);
-          // setColorSeleccionado(null);
+
         }
       }else if(colors.length > 0){
         if(colorSeleccionado){
@@ -181,9 +176,7 @@ export const ProductDescription = () => {
               selected_size: '',
               selected_color: colorSeleccionado 
             });
-            // if(Object.keys(product_to_add).length > 0){
-            //   addToCart(product_to_add);
-            // }
+
           } else {
             setTitle("LISTA DE DESEOS");
             setProduct_to_add({ 
@@ -192,14 +185,9 @@ export const ProductDescription = () => {
               selected_size: '',
               selected_color: colorSeleccionado 
             });
-            // if(Object.keys(product_to_add).length > 0){
-            //   addToWish(product_to_add);
-            // }
+
           }
-          // setShowPopUp(true);
-          // setCantProducts(1);
-          // setTallaSeleccionada(null);
-          // setColorSeleccionado(null);
+
         }
 
       }else if(tallas[0] === 'unica' && colors.length === 0){
@@ -211,9 +199,7 @@ export const ProductDescription = () => {
             selected_size: '',
             selected_color: ''
           });
-          // if(Object.keys(product_to_add).length > 0){
-          //   addToCart(product_to_add);
-          // }
+
 
         } else {
           setTitle("LISTA DE DESEOS");
@@ -223,16 +209,9 @@ export const ProductDescription = () => {
             selected_size: '',
             selected_color: ''
           });
-          // if(Object.keys(product_to_add).length > 0){
-          //   addToWish(product_to_add);
-          // }
+
 
         }
-
-        // setShowPopUp(true);
-        // setCantProducts(1);
-        // setTallaSeleccionada(null);
-        // setColorSeleccionado(null);
       }
     }
   };
@@ -519,13 +498,9 @@ export const ProductDescription = () => {
       </div>
       <div className={ styles.title_recomendados}>
         <h2>Productos recomendados 🔥</h2>
-            {/* <div className={styles.recommended_images}> */}
       </div>
       <ScrollHorizontal masVendidos={simirlarProducts}/>
-        {/* <ProductosSimilares 
-          design={producto.design}
-          product={producto}
-        /> */}
+
     </>
   );
 };

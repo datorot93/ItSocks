@@ -1,4 +1,3 @@
-import { usePack } from "../hooks/usePack"
 
 export const cartInitialState = JSON.parse(window.localStorage.getItem('cart')) || []
 

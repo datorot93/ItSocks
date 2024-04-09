@@ -25,6 +25,7 @@ function ScrollHorizontal({masVendidos}) {
     setArrowsVisible(true)
   }
 
+  console.log(masVendidos)
   const mouseLeave = () => {
     setArrowsVisible(false)
   }
@@ -36,7 +37,7 @@ function ScrollHorizontal({masVendidos}) {
           image1: "../../../public/assets/medias/productos/p1.png"
         },
         name: "Esta es una media",
-        price: "10000",
+        price: 10000,
       },
       {
         id: "p2",
@@ -44,7 +45,7 @@ function ScrollHorizontal({masVendidos}) {
           image1: "../../../public/assets/medias/productos/p2.png"
         },
         name: "Esta es una media",
-        price: "10000",
+        price: 10000,
       },
       {
         id: "p3",
@@ -52,7 +53,7 @@ function ScrollHorizontal({masVendidos}) {
           image1: "../../../public/assets/medias/productos/p3.png"
         },
         name: "Esta es una media",
-        price: "10000",
+        price: 10000,
       },
       {
         id: "p4",
@@ -60,7 +61,7 @@ function ScrollHorizontal({masVendidos}) {
           image1: "../../../public/assets/medias/productos/p5.png"
         },
         name: "Esta es una media",
-        price: "10000",
+        price: 10000,
       },
       {
         id: "p5",
@@ -68,7 +69,7 @@ function ScrollHorizontal({masVendidos}) {
           image1: "../../../public/assets/medias/productos/p3.png"
         },
         name: "Esta es una media",
-        price: "10000",
+        price: 10000,
       },
       {
         id: "p6",
@@ -76,7 +77,7 @@ function ScrollHorizontal({masVendidos}) {
           image1: "../../../public/assets/medias/productos/p5.png"
         },
         name: "Esta es una media",
-        price: "10000",
+        price: 10000,
       }
     ];
   }
@@ -113,11 +114,10 @@ function ScrollHorizontal({masVendidos}) {
     );
   }
   var settings = {
-    // className: "center",
     infinite: true,
     autoplay: true,
-    speed: 500,
-    autoplaySpeed: 80000,
+    speed: 2000,
+    autoplaySpeed: 30000,
     arrows: true,
     slidesToShow: 4,
     slidesToScroll: 2,
@@ -133,18 +133,18 @@ function ScrollHorizontal({masVendidos}) {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 390,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 3,
+          slidesToScroll: 3,
           initialSlide: 2,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
     ],
@@ -170,7 +170,10 @@ function ScrollHorizontal({masVendidos}) {
               </div>
               <div className={styles.container_price}>
                 <p className={styles.description_image}>{image.name}</p>
-                <p className={styles.price_image}>{image.price}</p>
+                <p className={styles.price_image}>{image.price.toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  })}</p>
               </div>
             </div>
           </Link>
