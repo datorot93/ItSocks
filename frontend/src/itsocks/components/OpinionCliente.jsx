@@ -120,6 +120,16 @@ function OpinionCliente() {
         ``
       );
     },
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true
+        }
+      }
+    ],
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />
   };

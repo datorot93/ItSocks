@@ -27,7 +27,6 @@
 
     font-weight: bold;
     font-size: 31.25px;
-    margin: 0px;
     margin: 50px 0 15px 0;
   }
 
@@ -58,7 +57,7 @@
     padding: 10px 15px;
     height: 60px;
     background: #E5E7EB;
-    font-size: 10px;
+    font-size: 16px;
     line-height: 22px;
     color: #000;
     border: none;
@@ -75,4 +74,56 @@
     color: #00B475;
     border: none;
     border-radius: 0 18px 18px 0;
+  }
+
+  @media (max-width: 520px) {
+    .main {
+      height: 147px;
+      margin-bottom: 5px;
+    }
+    .text_container {
+      height: 100%;;
+    }
+  
+    .text_container h2 {
+      font-size: 15px;
+      margin: 9px 0 15px 0;
+
+    }
+    .suscribete {
+      font-size: 8px;
+      /* margin: 0px; */
+    }
+
+    .suscribete p {
+      margin-bottom: 9px;
+    }
+
+    .haz_click{
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .suscription_container{
+      padding: 0 8px;
+    }
+
+    .suscription_container input{
+      width: 227px;
+      padding: 10px 15px;
+      height: 20px;
+      font-size: 7px;
+    }
+
+    .suscription_container button{
+      width: 41px;
+      height: 20px;
+      padding: 0px;
+      background: #FFFFFF;
+      font-size: 7px;
+      font-weight: bold;
+      color: #00B475;
+      border: none;
+      border-radius: 0 18px 18px 0;
+    }
   }

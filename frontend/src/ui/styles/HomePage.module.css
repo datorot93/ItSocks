@@ -96,9 +96,9 @@
     transition: opacity 0.2s ease;
 }
 
-.beneficios_container{
+.beneficios_container_exterior{
     margin-top: 60px;
-    padding: 40px;
+    padding: 20px;
     background-color: #e9eaf9;
 }
 
@@ -140,13 +140,7 @@
     position: relative
 }
 
-/*.opiniones_clientes {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    overflow-x: scroll;
-    margin-top: 50px;
-}*/
+
 
 @media (max-width: 1880px) {
     .image_container img {
@@ -219,7 +213,7 @@
         font-size: 25px;
     }
 
-    
+
 }
 
 @media (max-width: 850px) {
@@ -309,5 +303,11 @@
 
     .estilos_card p {
         font-size: 15px;
+    }
+
+    .clientes_titulo{
+        font-size: 20px;
+        text-align: center;
+        padding: 10px;
     }
 }

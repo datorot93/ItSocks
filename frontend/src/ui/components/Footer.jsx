@@ -53,7 +53,7 @@ export const Footer = () => {
                 </div>
                 
             </div>
-            <div>
+            <div className={ styles.footer_logo}>
                 <img src={ itsocks_logo } />
             </div>
         </div>

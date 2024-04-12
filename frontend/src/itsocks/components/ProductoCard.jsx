@@ -22,6 +22,8 @@ export const ProductoCard = (product, isPack) => {
     localStorage.setItem("current_product", current_product);
   };
 
+  
+
   let toPath = "";
   const compresion = product.compresion ? 'medias_de_compresion' : 'medias_sin_compresion';
   if (pathname.split("/").length === 6 || pathname.split("/").length === 2){
