@@ -47,3 +47,40 @@
     justify-self: end;
     align-self: flex-end;
   }
+
+  @media (max-width: 520px) {
+    .main {
+      height: 40px;
+    }
+
+    .container {
+      padding: 0px 5px;
+    }
+
+    .links_container {
+      gap: 5px;
+      align-items: center;
+    }
+
+    .links_container a {
+      font-size: 7px;
+      margin: 0;
+    }
+
+    .footer_logo {
+      display: none;
+    }
+
+    .icons_container{
+      align-self: center;
+    }
+
+    .icons_container a {
+      align-self: center;
+    }
+
+    .icons_container img {
+      width: 10px;
+      height: 10px;
+    }
+  }

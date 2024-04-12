@@ -73,6 +73,7 @@ export const ProductDescription = () => {
   useEffect(() => {
     const getColorsAndSizes = async () => {
       const extra_info = await getProductExtraInfo(producto.name, producto.type);
+      console.log(extra_info)
       setColors(extra_info[0].colores);
       setTallas(extra_info[0].size);
     };
@@ -250,6 +251,15 @@ export const ProductDescription = () => {
             selected_color: colorSeleccionado,
             selected_size: ''
           });
+          let product = {
+            ...producto, 
+            cantidad: cantProducts,
+            selected_color: '',
+            selected_size: tallaSeleccionada
+          }
+          setTitle('COMPRAR AHORA')
+          addToCart(product);
+          
           // if(Object.keys(product_to_add).length > 0){
           //   addToCart(product_to_add);
           // }
@@ -258,12 +268,23 @@ export const ProductDescription = () => {
           alert('Debes seleccionar un color')
         }      
       }else if(tallas[0] === 'unica' && colors.length === 0){
+        console.log('ENTRÉ AQUI 3')
+        
         setProduct_to_add({ 
           ...producto, 
           cantidad: cantProducts,
           selected_color: '',
           selected_size: ''
         });
+
+        let product = {
+          ...producto, 
+          cantidad: cantProducts,
+          selected_color: '',
+          selected_size: tallaSeleccionada
+        }
+        setTitle('COMPRAR AHORA')
+        addToCart(product);
         // if(Object.keys(product_to_add).length > 0){
         //   addToCart(product_to_add);
         // }

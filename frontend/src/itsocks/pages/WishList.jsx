@@ -34,7 +34,7 @@ export const WishList = () => {
       subtractOneToWish(product)
     })
 
-    navigate('/carrito', {state:{ previousPath: pathname}})
+    navigate('/carrito', {state: {previousPath: pathname}})
   }
 
 
@@ -87,19 +87,6 @@ export const WishList = () => {
       console.error("Error al copiar texto al portapapeles:", e);
     }
 
-    // navigator.clipboard.writeText(lista_wish.url_list)
-    //   .then(() => {
-    //     console.log("Texto copiado al portapapeles:", lista_wish.url_list);
-    //     setCopied(true);
-    //     setCopiedText("Lista de deseos copiada exitosamente en el portapeles");
-    //     setTimeout(() => {
-    //       setCopied(false);
-    //     }, 3000);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error al copiar texto al portapapeles:", error);
-    //     setCopiedText(lista_wish.url_list)
-    //   });
   }
   
   return (
@@ -112,7 +99,7 @@ export const WishList = () => {
           <ListaWish wish={wish}/>
           <div 
             className={ styles.seguir_comprando}
-            onClick={ () => navigate("/")}
+            onClick={ () => navigate("/", {state: {previousPath: pathname}})}
           >
             <img src={ arrow_left_circle } alt="Seguir comprando"/>
             <span>Seguir comprando</span>
@@ -126,15 +113,19 @@ export const WishList = () => {
               onClick={ handleCompartirLista }
             >COMPARTIR LISTA DE DESEOS</button>
           }
-            <Link 
+            <div 
               className={ styles.link_boton_lista }
-              to="/carrito"
+              // to={{
+              //   pathname: "/carrito",
+              //   state: { previousPath: pathname }
+              // }}
+              onClick={ handleComprarLista }
             >
               <button
                 className={styles.boton_comprar_lista}
-                onClick={ handleComprarLista }
+                
               >COMPRAR LISTA</button>
-            </Link>
+            </div>
             
           </div>
         </div>

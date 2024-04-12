@@ -193,15 +193,12 @@ export const BillingForm = () => {
         <div className={ styles.billing_footer}>
             <hr />
             <div className={ styles.footer_links }>
-                <Link>
-                    <p>Política de reembolso</p>
+                <Link
+                    to='/mas/envios_garantias_cambios'
+                >
+                    <p>Envios, Garantías y Cambios</p>
                 </Link>
-                <Link>
-                    <p>Política de envío</p>
-                </Link>
-                <Link>
-                    <p>Política de Privacidad</p>
-                </Link>
+
             </div>
         </div>
     </section>

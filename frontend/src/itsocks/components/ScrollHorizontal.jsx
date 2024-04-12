@@ -16,9 +16,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import styles from "../../ui/styles/ScrollHorizontal.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function ScrollHorizontal({masVendidos}) {
+  const { pathname } = useLocation();;
 
   const [arrowsVisible, setArrowsVisible] = useState(false);
   const mouseOver = () => {
@@ -38,6 +39,11 @@ function ScrollHorizontal({masVendidos}) {
         },
         name: "Esta es una media",
         price: 10000,
+        category: 'Medias',
+        subcategory: 'Media caña',
+        type: 'Media caña',
+        design: 'Diseño',
+        compresion: true
       },
       {
         id: "p2",
@@ -46,6 +52,11 @@ function ScrollHorizontal({masVendidos}) {
         },
         name: "Esta es una media",
         price: 10000,
+        category: 'Medias',
+        subcategory: 'Media caña',
+        type: 'Media caña',
+        design: 'Diseño',
+        compresion: true
       },
       {
         id: "p3",
@@ -54,6 +65,11 @@ function ScrollHorizontal({masVendidos}) {
         },
         name: "Esta es una media",
         price: 10000,
+        category: 'Medias',
+        subcategory: 'Media caña',
+        type: 'Media caña',
+        design: 'Diseño',
+        compresion: true
       },
       {
         id: "p4",
@@ -62,6 +78,11 @@ function ScrollHorizontal({masVendidos}) {
         },
         name: "Esta es una media",
         price: 10000,
+        category: 'Medias',
+        subcategory: 'Media caña',
+        type: 'Media caña',
+        design: 'Diseño',
+        compresion: true
       },
       {
         id: "p5",
@@ -70,6 +91,11 @@ function ScrollHorizontal({masVendidos}) {
         },
         name: "Esta es una media",
         price: 10000,
+        category: 'Medias',
+        subcategory: 'Media caña',
+        type: 'Media caña',
+        design: 'Diseño',
+        compresion: true
       },
       {
         id: "p6",
@@ -78,6 +104,11 @@ function ScrollHorizontal({masVendidos}) {
         },
         name: "Esta es una media",
         price: 10000,
+        category: 'Medias',
+        subcategory: 'Media caña',
+        type: 'Media caña',
+        design: 'Diseño',
+        compresion: true
       }
     ];
   }
@@ -117,7 +148,7 @@ function ScrollHorizontal({masVendidos}) {
     infinite: true,
     autoplay: true,
     speed: 2000,
-    autoplaySpeed: 30000,
+    autoplaySpeed: 3000,
     arrows: true,
     slidesToShow: 4,
     slidesToScroll: 2,
@@ -141,7 +172,7 @@ function ScrollHorizontal({masVendidos}) {
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 520,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
@@ -153,6 +184,18 @@ function ScrollHorizontal({masVendidos}) {
   };
 
   // console.log(masVendidos)
+
+  const obj_type = {
+    'Media caña': 'media_cania',
+    'Pantorrilleras': 'pantorrillera',
+    'Largas': 'larga'
+  }
+  const handleClick = ( product ) => {
+    localStorage.setItem('current_product', JSON.stringify(product))
+    window.scrollTo(0, 0)
+  }
+
+
   return (
     <Slider {...settings}>
       {masVendidos.map((image, index) => (
@@ -162,7 +205,13 @@ function ScrollHorizontal({masVendidos}) {
           onMouseOver={ mouseOver } 
           onMouseLeave={ mouseLeave }
         >
-          <Link to={`/productos/${image.name.toLowerCase()}`}>
+          <Link 
+            to={
+              pathname.split('/')[1] ==='accesorios' ? `/${image.category.toLowerCase()}/${image.subcategory.toLowerCase()}/${image.name.toLowerCase()}`
+              : `/${image.category.toLowerCase()}/${image.subcategory.toLowerCase()}/${obj_type[image.type]}/${image.design.toLowerCase()}/${image.compresion ? 'medias_de_compresion' : 'medias_sin_compresion'}/${image.name.toLowerCase()}`
+            }
+            onClick={() => handleClick(image)}
+          >
 
             <div className={styles.product}>
               <div className={styles.img_center}>
