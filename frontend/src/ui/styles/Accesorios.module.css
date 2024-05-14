@@ -362,8 +362,12 @@
 .pack_products_checks{
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   margin: 15px 40px;
+}
+
+.pack_products_checks input[type="checkbox"]{
+  margin-right: 10px;
 }
 
 .back_circle_arrow {
@@ -417,4 +421,156 @@
 
 .compresion_filters {
   margin-top: 50px;
+}
+
+.filters_button_container {
+  display: none;
+  width: 80%;
+}
+
+.x_circle {
+  display: none;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.x_circle img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+
+ /* ********************* */
+ /* #region Responsive */
+ /* ********************* */
+
+@media (max-width: 520px) {
+  .card {
+    width: 110px;
+    height: 225px;
+  }
+
+  .card img {
+    width: 105px;
+    height: 190px;
+    object-fit: contain;
+  }
+
+  .product_filter{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    background-color: white;
+    height: 100dvh;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+
+  .product_filter_pack{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    background-color: white;
+    height: 100dvh;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+
+  .filter_buttons{
+    width: 240px;
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .selected_button {
+    width: 240px;
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .selected_button_pack{
+    width: 240px;
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .products_container {
+    gap: 5px;
+  }
+
+  .trancking_container h1 {
+    font-size: 15px;
+  }
+
+  .product_info {
+    font-size: 9px;
+  }
+
+  .product_info p strong{
+    font-size: 9px;
+  }
+
+  .filters_button_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 90%;
+    margin: 0 16px 0 16px;
+    border: none;
+    background-color: #00A968;
+    color: white;
+  }
+
+  .filter_buttons_packs{
+    width: 240px;
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .filters_button_container p{
+    margin: 0;
+  }
+
+  .filters_button_container img {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+  
+  }
+
+  .product_filter.visible {
+    display: flex;
+  }
+
+  .product_filter_pack.visible {
+    display: flex;
+  }
+
+  .x_circle{
+    display: flex;
+  }
+
+  .card img:hover {
+    /* border-radius: 2px solid black; */
+    height: 225px;
+    padding-bottom: 10px;
+  }
+
+  .pack_products_checks {
+    font-size: 12px;
+  }
 }

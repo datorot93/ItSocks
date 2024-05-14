@@ -50,3 +50,22 @@
     font-weight: 600;
     line-height: 0px; /* 0% */
 }
+
+@media (max-width: 520px) {
+    .container {
+        padding-left: 30px;
+        margin: 15px;
+    }
+
+    .main h1 {
+        margin: 0;
+    }
+
+    .link_container{
+        font-size: 20px;
+    }
+
+    .link_container a p {
+        font-size: 15px;
+    }
+}

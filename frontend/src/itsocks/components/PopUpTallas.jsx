@@ -10,8 +10,6 @@ import tallas_pantorrilleras from '../../../public/assets/guia_tallas/tallas_pan
 
 export const PopUpTallas = ({ tipo_media, showPopUpTallas, setShowPopUpTallas }) => {
 
-  console.log(tipo_media)
-
   const popUp = {
     "pantorrilleras": tallas_pantorrilleras,
     "largas": tallas_media,

@@ -11,6 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from "../../../ui/styles/Accesorios.module.css";
 import { useLocation } from "react-router-dom";
 import { useFetchPackItems } from "../../../hooks/useFetchPacksItems";
+import { usePack } from "../../../hooks/usePack";
 
 export const PackProductoList = ({ categoria, type }) => {
 
@@ -27,6 +28,18 @@ export const PackProductoList = ({ categoria, type }) => {
   }, []);
 
   // console.log(products)
+  const { pack, substrackProductFromPack } = usePack();
+  const initialStatePack = pack.prductos ? pack.prductos.map((producto) => producto.name) : null;
+  const [productosPack, setProductosPack] = useState(initialStatePack);
+  const [isChecked, setIsChecked] = useState({});
+
+  const handleCheckBoxChange = (event, product) => {
+    const updatedCheckedItems = { ...isChecked, [product.name]: event.target.checked };
+    setIsChecked(updatedCheckedItems);
+    if (!event.target.checked) {
+      substrackProductFromPack(product)
+    }
+  };
 
   return (
     <InfiniteScroll
@@ -37,6 +50,28 @@ export const PackProductoList = ({ categoria, type }) => {
     >
 
       <div className={styles.container}>
+      {initialStatePack && productosPack.length !== 0 && typeof productosPack === "object" ? (
+            <div className={styles.pack_products}>
+              <h5>Medias seleccionadas</h5>
+              <div className={styles.pack_products_checks}>
+                {productosPack?.map((producto, index) => (
+                  <label key={index}>
+                    <input
+                      type="checkbox"
+                      value={producto}
+                      checked={isChecked[producto] || true}
+                      onChange={ () => handleCheckBoxChange(event, pack.prductos.filter( product => product.name === producto )[0])}
+                      // defaultChecked={producto !== "" ? true : false}
+                      
+                    />
+                    {producto !== "" ? producto : "Pendiente"}
+                  </label>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
             <div className={styles.trancking_container}>
               <div className={ styles.products_container }>            
                 {

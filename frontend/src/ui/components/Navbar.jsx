@@ -19,7 +19,6 @@ export const Navbar = () => {
   const { wish } = useWish();
   const [cantidad, setCantidad] = useState(0);
   const [cantidadWish, setCantidadWish] = useState(0);
-  const { clearPack } = usePack()
   const [selectedLink, setSelectedLink] = useState(null);
   const [input, setInput] = useState("")
   const [toSearch, setToSearch] = useState(false)
@@ -57,7 +56,6 @@ export const Navbar = () => {
     }
   }
 
-
   const handleLinkClick = (path) => {
     // clearPack();
     setInput("")
@@ -73,15 +71,16 @@ export const Navbar = () => {
     setToSearch(!toSearch)
   }
 
-  console.log(toSearch)
-
   const condition = location[1] && location[1] === selectedLink
 
   return (
     <header>
       <nav className={ styles.nav_container}>
 
-        <div className={`${styles.burguer_container} ${styles.elemento}`} onClick={ handleMobilMenu }>
+        <div 
+          className={`${styles.burguer_container} ${styles.elemento}`} 
+          onClick={ handleMobilMenu }
+        >
           <img src={burguerMenu} alt="Burguer Menu" />
         </div>
 

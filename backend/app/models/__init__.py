@@ -16,6 +16,7 @@ from .product_size import ProductSize
 from .color import Color
 from .product_color import ProductColor
 from .wish_list import WishList
+from .customer import Customer
 # from .type_design import TypeDesign
 # from .type_subcategory import TypeSubcategory
 # from .order import Order

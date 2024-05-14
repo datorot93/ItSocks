@@ -55,7 +55,7 @@ export const ScrollPersonalizadas = ({images}) => {
     // className: "center",
     infinite: true,
     autoplay: true,
-    speed: 500,
+    speed: 2000,
     autoplaySpeed: 3000,
     arrows: true,
     slidesToShow: 3,
@@ -74,49 +74,22 @@ export const ScrollPersonalizadas = ({images}) => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
     ],
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
-
-  // ANTERIOR
-  // const location = useLocation().pathname
-
-  // console.log(location.split('/').length)
-  // const scrollContainerRef = useRef(null);
-  // const [scrollLeft, setScrollLeft] = useState(0);
-  
-  // const handleScroll = (direction) => {    
-  //   const container = scrollContainerRef.current;    
-
-  //   if (container) {
-  //     const scrollAmount = 300;
-  //     const newScrollLeft =
-  //       direction === 'left'
-  //         ? scrollLeft - scrollAmount
-  //         : scrollLeft + scrollAmount;
-
-  //     container.scrollTo({
-  //       left: newScrollLeft,
-  //       behavior: 'smooth',
-  //     });
-
-  //     setScrollLeft(newScrollLeft);
-  //   }
-  // };
-
 
   return (
 
@@ -130,32 +103,5 @@ export const ScrollPersonalizadas = ({images}) => {
       }
     </Slider>
 
-    // <section className={ styles.main }>
-    //     <div className={ styles.container }>
-
-    //       <div 
-    //         className={ `${styles.arrow_container} ${styles.left}` }
-    //         onClick={() => handleScroll('left')}
-    //       >
-    //         <img src={ left_arrow } alt="left arrow" />
-    //       </div>
-
-    //         <div className={ styles.image_scroll} ref={scrollContainerRef}>
-    //             {
-    //                 images.map( image => (
-    //                     <img src={ image.src } alt={ image.descruption } key={ image.id }/>
-    //                 ))
-    //             }
-    //         </div>
-
-    //         <div 
-    //           className={ `${styles.arrow_container} ${styles.right}` }
-    //           onClick={() => handleScroll('right')}
-    //         >
-    //           <img src={ right_arrow } alt="right arrow" />
-    //       </div>
-
-    //     </div>
-    // </section>
   )
 }

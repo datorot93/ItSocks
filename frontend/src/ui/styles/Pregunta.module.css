@@ -63,3 +63,25 @@ strong{
 .active p{
   color: #232CC7;
 }
+
+@media (max-width: 520px) {
+  .question p {
+    font-size: 20px;
+  }
+
+  .question p strong{
+    font-size: 20px;
+  }
+  .answer {
+    font-size: 15px;
+  }
+
+  .answer strong {
+    font-size: 15px;
+  }
+
+  .answer img {
+    width: 350px;
+    height: auto;
+  }
+}

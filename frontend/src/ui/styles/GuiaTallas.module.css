@@ -29,3 +29,9 @@
     min-width: 430px;
     max-width: 1412px;
 }
+
+@media (max-width: 520px) {
+    .guia_tallas h1 {
+        font-size: 20px;
+    }
+}

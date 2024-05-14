@@ -16,6 +16,6 @@ from .product_color import ProductColor, ProductColorCreate, ProductColorUpdate
 from .size import Size, SizeCreate, SizeUpdate
 from .product_size import ProductSize, ProductSizeCreate, ProductSizeUpdate
 from .wish_list import WishList, WishListCreate, WishListUpdate
-
+from .customer import Customer, CustomerCreate, CustomerUpdate
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 

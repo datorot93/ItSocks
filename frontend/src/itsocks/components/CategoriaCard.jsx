@@ -49,7 +49,6 @@ export const CategoriaCard = ({
         <div className={`${ styles.blur_div} ${isHovered ? styles.hovered : ""}`}>
           <div className={styles.hoverText}>
               <p>{ labels[nombre.toUpperCase().replace('_', ' ')] }</p>
-              {/* <p>{ nombre.toUpperCase().replace('_', ' ') }</p> */}
           </div>
         </div>
       </Link>

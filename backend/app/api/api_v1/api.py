@@ -1,7 +1,6 @@
 from fastapi import APIRouter
-from fastapi.middleware.cors import CORSMiddleware
 # from app.api.api_v1.routers import login, users
-from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists
+from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers
 
 
 api_router = APIRouter()
@@ -18,6 +17,7 @@ api_router.include_router(images.router, prefix="/images", tags=["image"])
 api_router.include_router(packs.router, prefix="/packs", tags=["packs"])
 api_router.include_router(shippings.router, prefix="/shippings", tags=["shippings"])
 api_router.include_router(discount_codes.router, prefix="/discounts", tags=["discounts_codes"])
+api_router.include_router(customers.router, prefix="/customer", tags=["customers"])
 api_router.include_router(files.router, prefix="/files", tags=["files"])
 api_router.include_router(payments.router, prefix="/payments_preference", tags=["payments"])
 api_router.include_router(sliders.router, prefix="/sliders", tags=["sliders"])

@@ -21,7 +21,6 @@ import { useCart } from "../../hooks/useCart";
 import { getProductExtraInfo, getProductsByDesign } from "../helpers/getProductsByCategory";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PopUpTallas } from "./PopUpTallas";
-import { ProductosSimilares } from "./products/ProductosSimilares";
 import ScrollHorizontal from "./ScrollHorizontal";
 import { useWish } from "../../hooks/useWish";
 
@@ -50,44 +49,60 @@ export const ProductDescription = () => {
   }, 0);
 
   // console.log(total)
-
-  const [selectedIndex, setSelectedIdenx] = useState(0);
-  const navigate = useNavigate();
-
-  const product = localStorage.getItem("current_product");
-  const producto = JSON.parse(product);
-
-  const [colors, setColors] = useState([]);
-  const [tallas, setTallas] = useState([]);
-
-  const similares = getProductsByPartOfName(producto.name);
-
+  const [producto, setProducto] = useState(JSON.parse(localStorage.getItem("current_product")));
   const initialState = Object.keys(producto.images).slice(
     1,
     Object.keys(producto.images).length
   );
 
+  // States
+  const [selectedIndex, setSelectedIdenx] = useState(0);
+  const [otherPhotos, setOtherPhotos] = useState(initialState);
+  const [cantProducts, setCantProducts] = useState(1);
+
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setProducto(JSON.parse(localStorage.getItem("current_product")));
+    setOtherPhotos(Object.keys(producto.images).slice(
+      1,
+      Object.keys(producto.images).length
+    ))
+  }, [pathname]);
+
+  // const product = localStorage.getItem("current_product");
+  // const producto = JSON.parse(product);
+
+  const [colors, setColors] = useState([]);
+  const [tallas, setTallas] = useState([]);
+
+
+  
+
   const [ simirlarProducts, setSimirlarProducts] = useState([])
 
   // Petición de colores y tallas del producto
   useEffect(() => {
-    const getColorsAndSizes = async () => {
-      const extra_info = await getProductExtraInfo(producto.name, producto.type);
-      console.log(extra_info)
-      setColors(extra_info[0].colores);
-      setTallas(extra_info[0].size);
-    };
-    getColorsAndSizes();
+    
+    getProductExtraInfo(producto.name, producto.type).then(
+        (res) => {
+          setColors(res[0].colores);
+          setTallas(res[0].size);
+        }
+      ).catch( err => console.log(err)
+    );
+
     getProductsByDesign(producto.design).then(
       res => setSimirlarProducts([...res])
     ).catch( err => console.log(err))
-  }, []);
+
+    
+
+  }, [producto, pathname]);
 
   // console.log(simirlarProducts)
 
-  // States
-  const [otherPhotos, setOtherPhotos] = useState(initialState);
-  const [cantProducts, setCantProducts] = useState(1);
 
   const next = () => {
     const condition = selectedIndex < Object.keys(producto.images).length - 1;
@@ -215,6 +230,8 @@ export const ProductDescription = () => {
         }
       }
     }
+
+    window.scrollTo(0, 0);
   };
 
   const handleComprarAhora = () => {
