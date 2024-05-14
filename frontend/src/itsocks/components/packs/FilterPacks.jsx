@@ -6,13 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 // React Reouter DOM
 import { Link, useNavigate } from "react-router-dom";
 
+// IMAGES
+import xCircle from "../../../assets/navbar/x_circle.svg";
+
 //UTILITIES
 import { types } from "../../types/types";
 
 import styles from "../../../ui/styles/Accesorios.module.css";
 import { usePack } from "../../../hooks/usePack";
 
-export const FilterPacks = ({ lista_packs }) => {
+export const FilterPacks = ({ 
+  lista_packs,
+  showFilters,
+  setShowFilters
+}) => {
+
+  console.log(showFilters)
   const initialState = {};
 
   const { createPack } = usePack();
@@ -57,7 +66,10 @@ export const FilterPacks = ({ lista_packs }) => {
   return (
     <>
 
-        <div className={styles.product_filter_pack}>
+        <div className={showFilters ? `${styles.product_filter_pack} ${styles.visible}`: styles.product_filter_pack}>
+          <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+            <img src={xCircle} alt="Cerrar Menu" />
+          </div>
           {
           lista_packs.map((pack) => (
             

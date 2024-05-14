@@ -66,3 +66,34 @@
 .seguimiento p {
     margin: 0
 }
+
+@media (max-width: 520px) {
+    .container {
+        padding-left: 10px;
+        margin: 15px;
+    }
+
+    .main h1 {
+        font-size: 20px;
+    }
+
+    .inner_text {
+        font-size: 20px;
+    }
+
+    .cuidado {
+        gap: 15px;
+    }
+
+    .diferencias span {
+        font-size: 15px;
+    }
+
+    .diferencias strong {
+        font-size: 15px;
+    }
+
+    .seguimiento a {
+        font-size: 15px;
+    }
+}

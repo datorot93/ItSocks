@@ -53,6 +53,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    /* color: red; */
     color: #ffffff00;
     z-index: 2;
     font-family: Montserrat;
@@ -139,7 +140,6 @@
 .opiniones {
     position: relative
 }
-
 
 
 @media (max-width: 1880px) {
@@ -299,10 +299,12 @@
 
     .estilos_card {
         height: 115px;
+        background-color: rgb(0, 2, 36);
     }
 
     .estilos_card p {
-        font-size: 15px;
+        font-size: 11px;
+        color: #ffffff;
     }
 
     .clientes_titulo{
@@ -310,4 +312,9 @@
         text-align: center;
         padding: 10px;
     }
+
+    .image_container img {
+        opacity: 0.6;
+    }
+    
 }

@@ -4,7 +4,10 @@ function VideoComponent() {
     const beneficiosImage = [
         {
             id: "b2",
+            src2: "../../../public/assets/homepage/beneficios/b2.webm",
             src: "../../../public/assets/homepage/beneficios/b2.mp4",
+            src3: "../../../public/assets/homepage/beneficios/b2.ogg",
+            poster: "../../../public/assets/homepage/beneficios/poster.png",
             description: "Video beneficios",
         },
     ];
@@ -15,8 +18,16 @@ function VideoComponent() {
 
                 <div className={styles.beneficios_image_container}>
                     {beneficiosImage.map((image, index) => (
-                        <video controls key={index}>
+                        <video 
+                            controls 
+                            playsInline 
+                            muted 
+                            key={index} 
+                            poster={image.poster}
+                        >
+                            <source src={image.src2} type="video/webm" />
                             <source src={image.src} type="video/mp4" />
+                            <source src={image.src3} type="video/ogg" />
                         </video>
                     ))}
                 </div>

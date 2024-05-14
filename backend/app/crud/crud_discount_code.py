@@ -17,6 +17,7 @@ from app.schemas.discount_code import DiscountCodeCreate, DiscountCodeUpdate
 import re
 from unicodedata import normalize
 import unicodedata
+from datetime import datetime, timedelta
 
 
 class CRUDDiscountCode(CRUDBase[DiscountCode, DiscountCodeCreate, DiscountCodeUpdate]):
@@ -104,16 +105,37 @@ class CRUDDiscountCode(CRUDBase[DiscountCode, DiscountCodeCreate, DiscountCodeUp
 
         return db_obj
     
-    def remove_pack(
-        self, 
+
+    def create_unique_code(
+        self,
         db: Session,
-        *, 
-        id: str
-    ) -> DiscountCode:
-        obj = self.get_discount_by_id(db, id=id)
-        db.delete(obj)
-        db.commit()
-        return obj
+        *,
+        email: str,
+        name: str,
+        promo: int,
+        user_id: int
+    ):
+        num_week = datetime.now().isocalendar()[1]
+        code = f'{name[0]}{num_week:02}W{user_id}{email[0].upper()}'
+        if not self.get_discount_by_code(db, code=code):
+            expiration_date = datetime.now() + timedelta(days=365*5)
+            db_obj = DiscountCode(
+                code=code,
+                discount=promo,
+                state= True,
+                expiration_date=expiration_date
+            )
+            print(db_obj)
+            db.add(db_obj)
+            db.commit()
+            db.refresh(db_obj)
+
+        else:
+            return None
+
+        return db_obj
+    
+    
 
 
 discount_code = CRUDDiscountCode(DiscountCode)

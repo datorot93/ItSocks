@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // Styles
 import styles from "../../ui/styles/HomePage.module.css";
 
+// Images
+import popup_promo_c from "../../../public/assets/homepage/popup_promo_c.jpg.webp";
+
 import { CarruselProductos } from "../components/CarruselProductos";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import OpinionCliente from "../components/OpinionCliente";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import VideoComponent from "../components/VideoComponent";
 import ScrollHorizontal from "../components/ScrollHorizontal";
+import { PopUpPromo } from "../components/PopUpPromo";
 
 
 const quitarAcentos = (cadena) => {
@@ -17,12 +21,20 @@ const quitarAcentos = (cadena) => {
 
 
 
+
 export const ItSocks = () => {
+  
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    // Scroll hacia arriba al cargar la página
+    const hasPopupBeenShown = sessionStorage.getItem('popupShown');
+    if (!hasPopupBeenShown) {
+      setShowPopup(true);
+      sessionStorage.setItem('popupShown', 'true');
+    }
     window.scrollTo(0, 0);
   }, []);
+
 
   const estilosVida = [
     {
@@ -61,8 +73,14 @@ export const ItSocks = () => {
   ];
 
 
+  
   return (
     <section className={styles.main}>
+      {
+        showPopup && (
+          <PopUpPromo setShowPopup = {setShowPopup}/>
+        )
+      }
       <div className={styles.container}>
         <CarruselProductos />
         <div className={styles.mas_vendidos}>

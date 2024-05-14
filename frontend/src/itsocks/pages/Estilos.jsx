@@ -7,10 +7,18 @@ import styles from '../../ui/styles/Accesorios.module.css';
 import { TagFilter } from '../components/TagFilter';
 
 
+import filters_icon from "../../assets/navbar/filters_icon.svg";
+
+
 export const Estilos = ({ estilo, filtro }) => {
   // const productos = getProductsByTags( estilo );
 
+  const [showFilters, setShowFilters] = useState(false);
   
+  const handleButtonFilters = () => {
+    setShowFilters(!showFilters);
+  }
+
 
   return (
     <>
@@ -19,7 +27,16 @@ export const Estilos = ({ estilo, filtro }) => {
           <div className={ styles.trancking_container }>
             <h1>{estilo.toUpperCase()}</h1>
           </div>
-          <TagFilter estilo={estilo} filtro={filtro}/>
+          <div className={ styles.filters_button_container} onClick={ handleButtonFilters }>
+            <img src={ filters_icon } alt="icono filtros" />
+            <p>Filtros</p>
+          </div>
+          <TagFilter 
+            estilo={estilo} 
+            filtro={filtro}
+            showFilters={showFilters}
+            setShowFilters={setShowFilters}
+          />
           <ProductoList2 estilo={estilo} filtro={filtro}/>
         </div>
       </div>

@@ -60,3 +60,28 @@
     margin-bottom: 30px;
 }
 
+@media (max-width: 520px) {
+    .main_section {
+        padding-left: 10px;
+
+    }
+
+    .main_section h1 {
+        font-size: 18px;
+    }
+
+    .text_content {
+        font-size: 15px;
+        gap: 10px;
+    }
+
+    .text_content strong {
+        font-size: 15px;
+        color: black;
+    }
+
+    .container h3{
+        margin: 0;
+        font-size: 18px;
+    }
+}

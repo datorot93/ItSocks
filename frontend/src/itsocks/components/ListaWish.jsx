@@ -12,6 +12,70 @@ export const ListaWish = ({wish}) => {
 
   return (
     <section className={styles.lista_carrito}>
+
+
+      <div className={styles.responsive_list}>
+
+        {
+          wish.map((producto, index) => (
+            <div className={ styles.product_responsive} key={ index }>
+              <div className={ styles.product_image_responsive}>
+
+                <div
+                    className={styles.quitar_producto}
+                    onClick={() => removeFromCart(producto)}
+                >
+                  <span>X</span>
+                </div>
+                <img
+                  src={producto.images.image1}
+                  alt={producto.description}
+                />
+              </div>
+
+              <div className={styles.product_responsive_info}>
+                <div className={styles.product_responsive_info_name}>
+                  <p>{producto.name.toUpperCase()}</p>
+                  {
+                    producto.selected_size !== '' &&
+                    <p>Talla: {producto.selected_size} </p>
+                  }
+
+                  {
+                    producto.selected_color !== '' &&
+                    <p>Color: {producto.selected_color} </p>
+                  }
+                </div>
+                <div className={styles.product_responsive_info_price}>
+                  <p>{`${producto.price.toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  })}`}</p>
+                </div>
+              </div>
+
+              <div className={styles.comprar}>
+                <div className={styles.conteo}>
+                  <button 
+                    onClick={() => subtractOneToWish(producto)}
+                    className={styles.button_left}
+                  >-</button>
+                  <span>{producto.cantidad}</span>
+                  <button 
+                    onClick={() => addOneToWish(producto)}
+                    className={styles.button_right}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+
+      </div>
+
+
       <table className={styles.tabla_productos}>
         <thead>
           <tr>

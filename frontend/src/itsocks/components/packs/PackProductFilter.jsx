@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // Images
 import back_circle_arrow from '../../../../public/assets/producto/back_circle_arrow.svg'
+import xCircle from "../../../assets/navbar/x_circle.svg";
 
 //UTILITIES
 import { filters } from "../../data/filters";
@@ -22,6 +23,8 @@ export const PackProductFilter = ({
   categoria,
   type = null,
   skip_page,
+  showFilters,
+  setShowFilters
 }) => {
 
   const { pack, substrackProductFromPack } = usePack();
@@ -104,9 +107,13 @@ export const PackProductFilter = ({
 
   return (
     <>
+      
       {
         location.split("/").length == 3 ?
-        <div className={styles.product_filter_pack}>
+        <div className={showFilters ? `${styles.product_filter_pack} ${styles.visible}`: styles.product_filter_pack}>
+          <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+            <img src={xCircle} alt="Cerrar Menu" />
+          </div>
           <button className={styles.selected_button_pack} value={pack.name}>
             {pack.name}
           </button>
@@ -146,7 +153,10 @@ export const PackProductFilter = ({
           )}
         </div>
       :
-      <div className={styles.product_filter}>
+      <div className={showFilters ? `${styles.product_filter_pack} ${styles.visible}`: styles.product_filter_pack}>
+          <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+            <img src={xCircle} alt="Cerrar Menu" />
+          </div>
           <div className={ styles.back_circle_arrow}>
             <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ retroceder }/>
             <p>Volver a filtro por diseño</p>

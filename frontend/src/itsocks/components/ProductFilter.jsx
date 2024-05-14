@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // Images
 import back_circle_arrow from '../../../public/assets/producto/back_circle_arrow.svg'
+import xCircle from "../../assets/navbar/x_circle.svg";
 
 // Estilos
 import styles from "../../ui/styles/Accesorios.module.css";
@@ -25,6 +26,8 @@ export const ProductFilter = ({
   subcategoria = null,
   categoria,
   type = null,
+  showFilters,
+  setShowFilters
 }) => {
 
   const products = useSelector((state) => state.product.products);
@@ -121,10 +124,16 @@ export const ProductFilter = ({
 
   return (
     <>
+
+          
       {
-        (location.split("/").length == 4 && location.split("/")[1].toLowerCase() !== 'accesorios') || (location.split("/").length != 3 && location.split("/")[1].toLowerCase() === 'accesorios') ?
-        <div className={styles.product_filter}>
         
+        (location.split("/").length == 4 && location.split("/")[1].toLowerCase() !== 'accesorios') || (location.split("/").length != 3 && location.split("/")[1].toLowerCase() === 'accesorios') ?
+        <div className={showFilters ? `${styles.product_filter} ${styles.visible}`: styles.product_filter}>
+
+          <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+            <img src={xCircle} alt="Cerrar Menu" />
+          </div>
           {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
 
               <Link 
@@ -144,7 +153,10 @@ export const ProductFilter = ({
         </div>
         :
 
-        <div className={styles.product_filter}>
+        <div className={ showFilters ? `${styles.product_filter} ${ styles.visible}`: styles.product_filter }>
+          <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+            <img src={xCircle} alt="Cerrar Menu" />
+          </div>
           <div className={ styles.back_circle_arrow}>
             <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ retroceder }/>
             <p>Volver a filtro por diseño</p>

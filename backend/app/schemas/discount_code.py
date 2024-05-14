@@ -11,7 +11,10 @@ class DiscountCodeBase(BaseModel):
     
 
 class DiscountCodeCreate(DiscountCodeBase):
-    pass
+    code: str = None
+    discount: int = None
+    state: bool = None
+    expiration_date: Timestamp = None
     
 
 class DiscountCodeUpdate(DiscountCodeBase):

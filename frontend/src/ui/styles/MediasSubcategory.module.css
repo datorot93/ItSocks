@@ -67,3 +67,32 @@ main a {
     text-decoration: none;
 }
 
+
+@media (max-width: 520px) {
+    .medias_container {
+        padding-left: 30px;
+        margin: 15px;
+    }
+
+    .medias_container p {
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    .main h1 {
+        font-size: 20px;
+    }
+
+    .negrita {
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    .main button {
+        width: 200px;
+        height: 30px;
+        padding: 10px;
+        font-size: 15px;
+        margin: 20px 0 40px 0;
+    }
+}

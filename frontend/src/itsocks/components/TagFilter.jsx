@@ -5,12 +5,17 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // Images
 import back_circle_arrow from '../../../public/assets/producto/back_circle_arrow.svg'
+import xCircle from "../../assets/navbar/x_circle.svg";
 
 
 // Estilos
 import styles from "../../ui/styles/Accesorios.module.css";
 
-export const TagFilter = ( {estilo} ) => {
+export const TagFilter = ( {
+  estilo,
+  showFilters,
+  setShowFilters
+} ) => {
   
   const [subcategories, setSubcategories] = useState(null);
   const [types, setTypes] = useState(null);
@@ -65,7 +70,10 @@ export const TagFilter = ( {estilo} ) => {
       {
         location.split('/').length === 2 ?
         <section>
-          <div className={styles.product_filter}>
+          <div className={showFilters ? `${styles.product_filter} ${styles.visible}`: styles.product_filter}>
+            <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+              <img src={xCircle} alt="Cerrar Menu" />
+            </div>
             <h3>Filtra por media</h3>
 
             {
@@ -88,8 +96,10 @@ export const TagFilter = ( {estilo} ) => {
             }
           </div>
 
-          <div className={styles.product_filter}>
-
+          <div className={showFilters ? `${styles.product_filter} ${styles.visible}`: styles.product_filter}>
+            <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+              <img src={xCircle} alt="Cerrar Menu" />
+            </div>
             <h5>Estilo de media</h5>
             {
               types ?

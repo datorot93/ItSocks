@@ -26,7 +26,6 @@ function ScrollHorizontal({masVendidos}) {
     setArrowsVisible(true)
   }
 
-  console.log(masVendidos)
   const mouseLeave = () => {
     setArrowsVisible(false)
   }
@@ -148,7 +147,7 @@ function ScrollHorizontal({masVendidos}) {
     infinite: true,
     autoplay: true,
     speed: 2000,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
     arrows: true,
     slidesToShow: 4,
     slidesToScroll: 2,

@@ -16,4 +16,5 @@ from .crud_color import color
 from .crud_product_size import product_size
 from .crud_product_color import product_color
 from .crud_wish_list import wish_list
+from .crud_customer import customer
 # from .crud_type_design import type_design

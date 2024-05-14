@@ -16,6 +16,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 // MERCADOPAGO
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+
+// HELPERS
 import { getPreference } from '../helpers/getPreference'
 import { useShipping } from '../../hooks/useShipping'
 import { useDiscount } from '../../hooks/useDiscount'
@@ -47,7 +49,7 @@ export const FinishOrderForm = () => {
 
     }
 
-    initMercadoPago('APP_USR-394df966-9b8b-442a-9c5c-71f6923d3ad0', {
+    initMercadoPago('TEST-6b8b4952-c53c-4ad0-b93d-f9ec7d4306cf', {
         locale: 'es-CO'
     });
     const carrito = JSON.parse(localStorage.getItem('cart'))
@@ -58,7 +60,6 @@ export const FinishOrderForm = () => {
     useEffect( ()=> {
         let items_compra = []
         let envio = shipping.shipping_value / carrito.reduce((accumulator, item) => accumulator + item.cantidad, 0)
-        console.log('envio', envio)
         if(carrito){
             carrito.forEach(item => {
                 items_compra.push({
@@ -85,11 +86,19 @@ export const FinishOrderForm = () => {
         }
 
         getPreference(datos_compra).then( 
-            res => setPreference(res)
+            res => {
+                console.log('res', res)
+                setPreference(res)
+                
+            }
         ).catch(
-            err => console.log(err)
+            err => {
+                console.log(err)
+            }
         )
     }, [])
+
+    
 
     const navigate = useNavigate();
 
@@ -215,7 +224,10 @@ export const FinishOrderForm = () => {
                 {
                     Object.keys(preference).length > 0 ?
                     <div id="wallet_container">
-                        <Wallet initialization={{ preferenceId: preference.id }} />
+                        <Wallet initialization={{ 
+                            preferenceId: preference.id
+                        }} 
+                        />
                     </div>
                     :<></>
                 }

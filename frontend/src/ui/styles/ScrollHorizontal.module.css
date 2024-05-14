@@ -421,6 +421,11 @@
     .description_image {
         font-size: 10px;
     }
+
+    img {
+        width: 100px;
+        height: auto;
+    }
 }
 
 @media (max-width: 450px) {

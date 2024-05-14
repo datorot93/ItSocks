@@ -73,11 +73,11 @@ export const BillingForm = () => {
     <section className={ styles.billing_form }>
         <div className={ styles.billing_header }>
             <img src={ itsocks_logo } alt="Logo de Itsocks"/>
-            <img src={ fase_1 } alt="Logo de Itsocks"/>
+            <img src={ fase_1 } className={ styles.progress_image} alt="Logo de Itsocks"/>
         </div>
         <h3>Información de contacto facturación</h3>
         <form>
-        <div className={ styles.form_field }>                
+            <div className={ styles.form_field }>                
                 <input 
                   type="text" 
                   placeholder="Correo Electrónico"

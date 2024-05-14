@@ -24,8 +24,6 @@ export const CarritoCompras = () => {
 
   const {state} = useLocation()
 
-  console.log(state.previousPath)
-
   const handelReturn = () => {
     clearPack()
     if(state.previousPath.split('/')[1] === 'packs'){
