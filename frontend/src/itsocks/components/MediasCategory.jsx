@@ -12,7 +12,11 @@ import { CategoriaCard } from './CategoriaCard';
 export const MediasCategory = ({ category }) => {
 
   return (
-    <div className={ styles.categories_container }>
+    <div 
+      className={
+         `${styles.cards_container} ${styles.categories_container}` 
+      }
+    >
       {
           categorias.map( categoria => (
             <CategoriaCard

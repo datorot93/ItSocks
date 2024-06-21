@@ -15,20 +15,25 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 // MERCADOPAGO
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+// import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 
 // HELPERS
 import { getPreference } from '../helpers/getPreference'
 import { useShipping } from '../../hooks/useShipping'
 import { useDiscount } from '../../hooks/useDiscount'
+import { usePreference } from '../../hooks/usePreference'
 
 
 
 
 export const FinishOrderForm = () => {
 
-    const {shipping, modifyShipping} = useShipping()
+    const {shipping} = useShipping()
 
+    const {preference} = usePreference()
+    console.log(preference.response)
+    
     const [ currentAddess, setCurrentAddress ] = useState(shipping.address)
     const [ currentEmail, setCurrentEmail ] = useState(shipping.email)
     const emailInput = useRef(null)
@@ -49,56 +54,21 @@ export const FinishOrderForm = () => {
 
     }
 
-    initMercadoPago('TEST-6b8b4952-c53c-4ad0-b93d-f9ec7d4306cf', {
+    initMercadoPago('APP_USR-fdd1f5ed-5de6-4b53-bf09-28c53ff9827a', {
         locale: 'es-CO'
     });
-    const carrito = JSON.parse(localStorage.getItem('cart'))
 
-    // const [ carrito, setCarrito ] = useState(JSON.parse(localStorage.getItem('cart')))
-    const [ preference , setPreference ] = useState({})
+    const initialization = {
+        preferenceId: preference.response.id,
+      }
 
-    useEffect( ()=> {
-        let items_compra = []
-        let envio = shipping.shipping_value / carrito.reduce((accumulator, item) => accumulator + item.cantidad, 0)
-        if(carrito){
-            carrito.forEach(item => {
-                items_compra.push({
-                    id: item.id,
-                    title: item.name,
-                    code: item.code,
-                    unit_price: item.price,
-                    compresion: item.compresion,
-                    quantity: item.cantidad,
-                    description: item.description,
-                    discount: item.discount,
-                    category_discount: item.category_discount,
-                    subcategory_discount: item.subcategory_discount,
-                    category: item.category,
-                    subcategory: item.subcategory,
-                    type: item.type,
-                    design: item.design,
-                    images: item.images
-                })
-            });
-        }
-        const datos_compra = {
-            items: [...items_compra, {title: 'Envío', unit_price: shipping.shipping_value, quantity: 1}],
-        }
+    console.log(preference.response.id)
 
-        getPreference(datos_compra).then( 
-            res => {
-                console.log('res', res)
-                setPreference(res)
-                
-            }
-        ).catch(
-            err => {
-                console.log(err)
-            }
-        )
-    }, [])
-
-    
+    const customization = {
+        texts: {
+         valueProp: 'smart_option',
+        },
+      }
 
     const navigate = useNavigate();
 
@@ -224,10 +194,18 @@ export const FinishOrderForm = () => {
                 {
                     Object.keys(preference).length > 0 ?
                     <div id="wallet_container">
-                        <Wallet initialization={{ 
-                            preferenceId: preference.id
-                        }} 
-                        />
+                        {/* <Wallet 
+                            initialization={initialization}
+                            customization={customization}
+                            onSubmit={() => console.log('Submit')}
+                            onReady={() => console.log('Ready')}
+                            onError={(error) => console.log('Error', error)}
+                        /> */}
+                        <a
+                            href={ preference.response.init_point }
+                            className={ styles.pagar_mercadopago}
+                            // className={ styles.pagar_mercadopago }
+                        >Pagar con Mercado Pago</a>
                     </div>
                     :<></>
                 }

@@ -144,11 +144,11 @@ export const getFiltersAccesorios = async( category ) => {
 }
 
 export const getProductsByCatSubcatType = async( category, subcategory, type, skip ) => {
-    
     const resp = await fetchWithoutToken(
         `products/q/products_categories_subcat_types?category=${category}&subcategory=${subcategory}&type=${type}&skip=${skip}&limit=${LIMIT_QUERY}`
     )
     const data = await resp.json();
+
     return data
 }
 
@@ -199,7 +199,7 @@ export const getProductsByCatTypeDesignCompresion = async( category, type, desig
         'medias_sin_compresion': false,
         'medias_de_compresion': true
     }
-    console.log(`products/q/products_categories_types_designs_compresion?category=${category}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`)
+
     const resp = await fetchWithoutToken(
         `products/q/products_categories_types_designs_compresion?category=${category}&type=${type}&design=${design}&compresion=${obj_compresion[compresion]}&skip=${skip}&limit=${LIMIT_QUERY}`
     )
@@ -211,8 +211,6 @@ export const getProductExtraInfo = async( name, type ) => {
     const resp = await fetchWithoutToken(`products/q/colors_tallas/${name}/${type}`)
     const data = await resp.json();
     
-    // console.log('ESTA ES LA DATA')
-    // console.log(data[0].size)
     return data
 }
 

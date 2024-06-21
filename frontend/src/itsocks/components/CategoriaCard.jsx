@@ -34,9 +34,9 @@ export const CategoriaCard = ({
     'LARGA': 'LARGAS',
     'PANTORRILLERA': 'PANTORRILLERAS',
     'PERSONALIZADAS': 'PERSONALIZADAS',
+    'TOBILLERAS': 'TOBILLERAS'
   }
 
-  console.log()
   return (
     
     <div className={ `${styles.imageContainer}` }

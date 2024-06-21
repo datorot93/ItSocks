@@ -81,11 +81,13 @@ export const TagFilter = ( {
               Object.getOwnPropertyNames(subcategories).map( (subcategorie) => (
                 <Link
                   to={`tipo_media/${subcategorie.replace('Media caña', 'media_cania').toLowerCase()}`}
-                  key={subcategorie}            
+                  key={subcategorie}
+                  onClick={ () => setShowFilters(!showFilters)}
                 >
                   <button 
                     className={`${styles.filter_buttons}`} 
-                    value={subcategorie}   
+                    value={subcategorie}
+                    onClick={ () => setShowFilters(!showFilters)}
                   >
                     {subcategorie}
                     
@@ -106,11 +108,13 @@ export const TagFilter = ( {
               Object.getOwnPropertyNames(types).map( (type, index) => (
                 <Link
                   to={`estilo_media/${type.replace('Media caña', 'media_cania').toLowerCase()}`}
-                  key={index}            
+                  key={index}
+                  onClick={ () => setShowFilters(!showFilters)}
                 >
                   <button 
-                    className={`${styles.filter_buttons}`} 
-                    value={type}   
+                    className={`${styles.filter_buttons}`}
+                    value={type}
+                    onClick={ () => setShowFilters(!showFilters)}
                   >
                     {type}
                     
@@ -125,8 +129,10 @@ export const TagFilter = ( {
         :
         <section>
           
-          <div className={styles.product_filter}>
-
+          <div className={showFilters ? `${styles.product_filter} ${styles.visible}`: styles.product_filter}>
+            <div className={styles.x_circle} onClick={ () => setShowFilters(!showFilters)}>
+              <img src={xCircle} alt="Cerrar Menu" />
+            </div>
             <div className={ styles.back_circle_arrow}>
               <img src={ back_circle_arrow } alt="Flecha de regreso" onClick={ () => navigate(-1) }/>
               <p>Volver a filtro por diseño</p>
@@ -158,7 +164,7 @@ export const TagFilter = ( {
                   {
                     compresion.compresion_filters.map( filter => (
 
-                      <div className={`${ styles.filter_selected}`}>
+                      <div className={`${ styles.filter_selected}`} key={ filter }>
                         <button 
                           className={`${styles.selected_button}`}
                         >

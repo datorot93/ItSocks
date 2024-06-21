@@ -59,8 +59,6 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
     }
   }, [])
 
-  console.log(discount)
-
   const handleDeleteDiscount = () => {
     setCurrentDiscount(null)
     setSubtotal(previusSubtotal)
@@ -84,41 +82,84 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
         {
           products_list.map((producto, index) => (
             <div className={ styles.product_responsive} key={ index }>
-              <div className={ styles.product_image_responsive}>
-                <img
-                  src={producto.images.image1}
-                  alt={producto.description}
-                />
-              </div>
+              {
+                producto.images && producto.images['image1'] != undefined ?
+                <>
+                  <div className={ styles.product_image_responsive}>
+                  <img
+                    src={producto.images.image1}
+                    alt={producto.description}
+                  />
+                  </div>
 
-              <div className={styles.product_responsive_info}>
-                <div className={styles.product_responsive_info_name}>
-                  <p>{producto.name.toUpperCase()}</p>
-                  {
-                    producto.selected_size !== '' &&
-                    <p>Talla: {producto.selected_size} </p>
-                  }
+                  <div className={styles.product_responsive_info}>
+                    <div className={styles.product_responsive_info_name}>
+                      <p>{producto.name.toUpperCase()}</p>
+                      {
+                        producto.selected_size !== '' &&
+                        <p>Talla: {producto.selected_size} </p>
+                      }
 
-                  {
-                    producto.selected_color !== '' &&
-                    <p>Color: {producto.selected_color} </p>
-                  }
-                </div>
-                <div className={styles.product_responsive_info_price}>
-                  <p>{`${producto.price.toLocaleString("es-CO", {
-                    style: "currency",
-                    currency: "COP",
-                  })}`}</p>
-                </div>
-              </div>
+                      {
+                        producto.selected_color !== '' &&
+                        <p>Color: {producto.selected_color} </p>
+                      }
+                    </div>
+                    <div className={styles.product_responsive_info_price}>
+                      <p>{`${producto.price.toLocaleString("es-CO", {
+                        style: "currency",
+                        currency: "COP",
+                      })}`}</p>
+                    </div>
+                  </div>
 
-              <div className={styles.comprar}>
-                <div className={styles.conteo}>
+                  <div className={styles.comprar}>
+                    <div className={styles.conteo}>
 
-                  <span>{producto.cantidad}</span>
+                      <span>{producto.cantidad}</span>
 
-                </div>
-              </div>
+                    </div>
+                  </div>
+                </>
+                :<>
+                  <div className={ styles.product_image_responsive}>
+                  <img
+                    src={producto.image_url}
+                    alt={producto.description}
+                  />
+                  </div>
+
+                  <div className={styles.product_responsive_info}>
+                    <div className={styles.product_responsive_info_name}>
+                      <p>{producto.name.toUpperCase()}</p>
+                      {
+                        producto.selected_size !== '' &&
+                        <p>Talla: {producto.selected_size} </p>
+                      }
+
+                      {
+                        producto.selected_color !== '' &&
+                        <p>Color: {producto.selected_color} </p>
+                      }
+                    </div>
+                    <div className={styles.product_responsive_info_price}>
+                      <p>{`${producto.price.toLocaleString("es-CO", {
+                        style: "currency",
+                        currency: "COP",
+                      })}`}</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.comprar}>
+                    <div className={styles.conteo}>
+
+                      <span>{producto.cantidad}</span>
+
+                    </div>
+                  </div>
+                </>
+              }
+              
             </div>
           ))
         }

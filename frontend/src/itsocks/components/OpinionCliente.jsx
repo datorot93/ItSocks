@@ -111,8 +111,8 @@ function OpinionCliente() {
     centerPadding: "60px",
     slidesToScroll: 1,
     autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
+    speed: 4000,
+    autoplaySpeed: 4000,
     slidesToShow: 4,
     swipeToSlide: true,
     afterChange: function (index) {

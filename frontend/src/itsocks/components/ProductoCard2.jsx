@@ -16,7 +16,6 @@ export const ProductoCard2 = ( product ) => {
   
   const { pathname } = useLocation();
   const ruta = `/${product.categoria}/${ product.subcategoria == "estampadas" ? "estampadas/pantorrillera/" : ""}${product.nombre}`
-  console.log(product)
   const dispatch = useDispatch();
 
   const handleClick = () => {

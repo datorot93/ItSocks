@@ -80,6 +80,31 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
       subcategory: "media_cania",
       description: "Esta es una media",
     },
+
+    {
+      id: "t1",
+      src: "../../../public/assets/medias/tipos/personalizadas/ejemplos/tobilleras/1.png",
+      subcategory: "tobilleras",
+      description: "Esta es una media",
+    },
+    {
+      id: "t2",
+      src: "../../../public/assets/medias/tipos/personalizadas/ejemplos/tobilleras/1.png",
+      subcategory: "tobilleras",
+      description: "Esta es una media",
+    },
+    {
+      id: "t3",
+      src: "../../../public/assets/medias/tipos/personalizadas/ejemplos/tobilleras/1.png",
+      subcategory: "tobilleras",
+      description: "Esta es una media",
+    },
+    {
+      id: "t4",
+      src: "../../../public/assets/medias/tipos/personalizadas/ejemplos/tobilleras/1.png",
+      subcategory: "tobilleras",
+      description: "Esta es una media",
+    },
   ];
 
 

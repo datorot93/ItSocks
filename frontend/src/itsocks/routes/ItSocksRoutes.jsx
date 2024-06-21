@@ -27,6 +27,7 @@ import { WishList } from "../pages/WishList";
 import { Search } from "../pages/Search";
 import { WishListShared } from "../pages/WishListShared";
 import { DiscountProvider } from "../../context/discount";
+import { PreferenceProvider } from "../../context/preference";
 
 export const ItSocksRoutes = () => {
 
@@ -226,6 +227,13 @@ export const ItSocksRoutes = () => {
                 />
 
                 <Route
+                  path="medias/personalizadas/tobilleras"
+                  element={
+                    <PersonalizadaPantorrillera subcategory={"Tobilleras"} />
+                  }
+                />
+
+                <Route
                   path="medias/estampadas"
                   element={<Personalizadas subcategory={"Estampadas"} />}
                 />
@@ -319,6 +327,50 @@ export const ItSocksRoutes = () => {
                 />
                 <Route
                   path="medias/estampadas/larga/:disenio/:compresion/:nombre"
+                  element={<ProductDescription />}
+                />
+
+                {/* ESTAMPADAS TOBILLERAS  */}
+                <Route
+                  path="medias/estampadas/tobilleras"
+                  element={
+                    <Productos
+                      categoria={"Medias"}
+                      subcategoria={"Estampadas"}
+                      type={"Tobilleras"}
+                    />
+                  }
+                />              
+                <Route 
+                  path="medias/estampadas/tobilleras/:disenio"
+                  element={
+                    <Productos
+                      categoria={"Medias"}
+                      subcategoria={"Estampadas"}
+                      type={"Tobilleras"}
+                    />
+                  }
+                />
+                <Route 
+                  path="medias/estampadas/tobilleras/:disenio/:compresion"
+                  element={
+                    <Productos
+                      categoria={"Medias"}
+                      subcategoria={"Estampadas"}
+                      type={"Tobilleras"}
+                    />
+                  }
+                />
+                <Route
+                  path="medias/estampadas/tobilleras/:nombre"
+                  element={<ProductDescription />}
+                />
+                <Route
+                  path="medias/estampadas/tobilleras/:disenio/:nombre"
+                  element={<ProductDescription />}
+                />
+                <Route
+                  path="medias/estampadas/tobilleras/:disenio/:compresion/:nombre"
                   element={<ProductDescription />}
                 />
                 
@@ -455,6 +507,50 @@ export const ItSocksRoutes = () => {
                   element={<ProductDescription />}
                 />
 
+                {/* TEJIDAS TOBILELRAS  */}
+                <Route
+                  path="medias/tejidas/tobilleras"
+                  element={
+                    <Productos
+                      categoria={"Medias"}
+                      subcategoria={"Tejidas"}
+                      type={"Tobilleras"}
+                    />
+                  }
+                />
+                <Route 
+                  path="medias/tejidas/tobilleras/:disenio"
+                  element={
+                    <Productos
+                      categoria={"Medias"}
+                      subcategoria={"Tejidas"}
+                      type={"Tobilleras"}
+                    />
+                  }
+                />
+                <Route 
+                  path="medias/tejidas/tobilleras/:disenio/:compresion"
+                  element={
+                    <Productos
+                      categoria={"Medias"}
+                      subcategoria={"Tejidas"}
+                      type={"Tobilleras"}
+                    />
+                  }
+                />
+                <Route 
+                  path="medias/tejidas/tobilleras/:disenio/:nombre"
+                  element={<ProductDescription />}
+                />
+                <Route 
+                  path="medias/tejidas/tobilleras/:disenio/:compresion/:nombre"
+                  element={<ProductDescription />}
+                />
+                <Route
+                  path="medias/tejidas/tobilleras/:nombre"
+                  element={<ProductDescription />}
+                />
+
                 {/* TEJIDAS MEDIA CANIA  */}
                 <Route
                   path="medias/tejidas/media_cania"
@@ -568,21 +664,27 @@ export const ItSocksRoutes = () => {
                   path="lista_de_favoritos/:id_lista" 
                   element={<WishListShared/>} 
                 />
-
-                {/* COMPRAS */}
-                <Route path="carrito" element={<CarritoCompras />} />
-                <Route path="carrito/billing" element={<Billing />} />
-                <Route
-                  path="carrito/billing/finish_order"
-                  element={<FinishOrder />}
-                />
-                <Route
-                  path="carrito/billing/billing_info"
-                  element={<BillingInfo />}
-                />
+                
 
                 <Route path="/" element={<ItSocks />} />
               </Routes>
+
+              <PreferenceProvider>
+                <Routes>
+                  
+                  {/* COMPRAS */}
+                  <Route path="carrito" element={<CarritoCompras />} />
+                  <Route path="carrito/billing" element={<Billing />} />
+                  <Route
+                    path="carrito/billing/finish_order"
+                    element={<FinishOrder />}
+                  />
+                  <Route
+                    path="carrito/billing/billing_info"
+                    element={<BillingInfo />}
+                  />
+                </Routes>
+                </PreferenceProvider>
               <Suscription />
               <Footer />
               </DiscountProvider>

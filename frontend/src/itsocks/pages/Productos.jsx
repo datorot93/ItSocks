@@ -13,17 +13,17 @@ import { ProductoList } from "../components/ProductoList";
 import styles from "../../ui/styles/Accesorios.module.css";
 import { ProductFilter } from "../components/ProductFilter";
 
-export const Productos = ({ categoria, subcategoria, type, match }) => {
+export const Productos = ({ categoria, subcategoria, type }) => {
 
   const [showFilters, setShowFilters] = useState(false);
-  const [showButtonFilters, setShowButtonFilters] = useState(false);
 
-  const obj_nombres = {
-    "larga": "Largas",
-    "media_cania": "Media caña",
-    "pantorrillera": "Pantorrilleras",
-    "accesorios": "Accesorios",
-  }
+  // const obj_nombres = {
+  //   "larga": "Largas",
+  //   "media_cania": "Media caña",
+  //   "pantorrillera": "Pantorrilleras",
+  //   "tobilleras": "Tobilleras",
+  //   "accesorios": "Accesorios",
+  // }
 
   const handleButtonFilters = () => {
     setShowFilters(!showFilters);
@@ -37,7 +37,7 @@ export const Productos = ({ categoria, subcategoria, type, match }) => {
           <div className={styles.trancking_container}>
             {
               type ? 
-              <h1>{type === 'Media caña' || type === 'Pantorrilleras' ? `${type.toUpperCase()}` : `MEDIAS ${type.toUpperCase()}`}</h1>
+              <h1>{type === 'Media caña' || type === 'Pantorrilleras' || type === "Tobilleras" ? `${type.toUpperCase()}` : `MEDIAS ${type.toUpperCase()}`}</h1>
               : <h1>{categoria?.toUpperCase()} </h1>
             }
           </div>
