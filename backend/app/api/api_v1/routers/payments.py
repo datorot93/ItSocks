@@ -11,7 +11,7 @@ import mercadopago
 
 router = APIRouter()
 
-sdk = mercadopago.SDK("TEST-8944576435109529-121520-5c0d24b5fb06cfe20048a87da50e520f-113403489")
+sdk = mercadopago.SDK("APP_USR-3862339680898373-061913-d48cd5b2fa6933c9ab7671f72d9d0e31-756609509")
 
 @router.post("create_payment_preference")
 async def create_payment_preference(
@@ -23,9 +23,9 @@ async def create_payment_preference(
     # print(obj_in)
 
     obj_in['back_urls'] = {
-        'success': 'http://itsocks-static-files.s3-website.us-east-2.amazonaws.com/',
-        'failure': 'https://www.google.com',
-        'pending': 'http://itsocks-static-files.s3-website.us-east-2.amazonaws.com/'
+        'success': 'http://itsocks.s3-website.us-east-2.amazonaws.com/',
+        'failure': 'http://itsocks.s3-website.us-east-2.amazonaws.com/carrito',
+        'pending': 'http://itsocks.s3-website.us-east-2.amazonaws.com/'
     }
     obj_in['auto_return'] = 'approved'
 

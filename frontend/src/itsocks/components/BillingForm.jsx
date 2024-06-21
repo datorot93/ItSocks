@@ -7,16 +7,25 @@ import styles from '../../ui/styles/Billing.module.css'
 import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
 import fase_1 from '../../../public/assets/pago/1_fase.png'
 
+// Mercadopago
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useShipping } from '../../hooks/useShipping'
 import { useDiscount } from '../../hooks/useDiscount';
+import { usePreference } from '../../hooks/usePreference';
+import { getPreference } from '../helpers/getPreference';
 
 export const BillingForm = () => {
 
    
 
     const [ direccion, setDireccion ] = useState('')
+    const [ preferenceLoading, setPreferenceLoading ] = useState(false)
+
+
     const {modifyShipping} = useShipping()
+    const { addToPreference } = usePreference()
     const { removeFromDiscount } = useDiscount()
 
     // Fields
@@ -50,7 +59,52 @@ export const BillingForm = () => {
         setPhone(e.target.value)
     }
 
+    const carrito = JSON.parse(localStorage.getItem('cart'))
+    const {shipping} = useShipping()
+
     const handleClick = () => {
+        
+        setPreferenceLoading(true)
+
+        let items_compra = []
+        if(carrito){
+            carrito.forEach(item => {
+                items_compra.push({
+                    id: item.id,
+                    title: item.name,
+                    code: item.code,
+                    unit_price: item.price,
+                    compresion: item.compresion,
+                    quantity: item.cantidad,
+                    description: item.description,
+                    discount: item.discount,
+                    category_discount: item.category_discount,
+                    subcategory_discount: item.subcategory_discount,
+                    category: item.category,
+                    subcategory: item.subcategory,
+                    type: item.type,
+                    design: item.design,
+                    images: item.images
+                })
+            });
+        }
+        const datos_compra = {
+            items: [...items_compra, {title: 'Envío', unit_price: shipping.shipping_value, quantity: 1}],
+        }
+        
+        getPreference(datos_compra).then( 
+            res => {
+                addToPreference(res)
+                console.log(res)
+            }
+        ).catch(
+            err => {
+                console.log(err)
+            }
+        ).finally(
+            setPreferenceLoading(false)
+        )
+
         modifyShipping({
             email,
             name,
@@ -185,7 +239,11 @@ export const BillingForm = () => {
                     : "billing_info"}
                     onClick={ handleClick }
                 >
-                    <button className={ styles.continuar_confirmacion} value="Continuar con confirmación">Continuar con confirmación</button>
+                    <button 
+                        className={ styles.continuar_confirmacion} 
+                        value="Continuar con confirmación"
+                        onClick={ handleClick}
+                    >Continuar con confirmación</button>
                 </Link>
             </div>
         </form>

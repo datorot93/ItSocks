@@ -13,7 +13,6 @@ export const ListaCarrito = () => {
   const [cantProducts, setCantProducts] = useState(0);
   const { cart, addOneToCart, subtractOneToCart, removeFromCart } = useCart();
   
-  console.log(cart)
   return (
     <section className={styles.lista_carrito}>
 
