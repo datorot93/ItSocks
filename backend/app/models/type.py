@@ -19,7 +19,8 @@ class Type(Base):
     name = Column(String, nullable=False)
     code = Column(String)
     discount = Column(Integer, nullable=True, default=0)
-    
+    image_url = Column(String, nullable=True)
+
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 

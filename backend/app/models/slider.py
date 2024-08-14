@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, DateTime, Boolean
 from sqlalchemy.orm import relationship
 
 from typing import TYPE_CHECKING
@@ -18,6 +18,7 @@ class Slider(Base):
     link = Column(String, nullable=True)
     description = Column(String, nullable=True)
     alt = Column(String, nullable=True)
+    state = Column(Boolean, nullable=False, default=True)
 
     url = Column(String, nullable=False)
     

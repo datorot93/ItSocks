@@ -1,4 +1,5 @@
 from typing import Optional, Any, Union, Dict
+import json
 
 from sqlalchemy.orm import Session
 
@@ -36,6 +37,89 @@ from app.schemas.product_size import ProductSizeCreate, ProductSizeUpdate
 from unidecode import unidecode
 
 class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
+
+    def get_category_discount(
+        self,
+        db: Session,
+        *,
+        categories: list[str],
+    ):
+        
+        categories_lowered = [category.lower() for category in categories]
+        category_discounts = db.query(
+            Category.name,
+            Category.discount.label('category_discount'),
+            
+        ).filter(
+            unaccent(func.lower(Category.name)).in_(categories_lowered),
+        ).all()
+
+        discounts = { category["name"].lower(): category["category_discount"] for category in category_discounts }
+        
+        return discounts
+    
+
+    def get_subcategory_discount(
+        self,
+        db: Session,
+        *,
+        subcategories: list[str]
+    ):
+
+        subcategories_lowered = [subcategory.lower() for subcategory in subcategories]
+        subcategory_discounts = db.query(
+            Subcategory.name,
+            Subcategory.discount.label('subcategory_discount'),
+            
+        ).filter(
+            unaccent(func.lower(Subcategory.name)).in_(subcategories_lowered),
+        ).all()
+
+        discounts = { subcategory["name"].lower(): subcategory["subcategory_discount"] for subcategory in subcategory_discounts }
+        
+        return discounts
+    
+    
+    def get_design_discount(
+        self,
+        db: Session,
+        *,
+        designs: list[str]
+    ):
+        desings_lowered = [design.lower() for design in designs]
+
+        design_discounts = db.query(
+            Design.name,
+            Design.discount.label('design_discount'),
+            
+        ).filter(
+            unaccent(func.lower(Design.name)).in_(desings_lowered),
+        ).all()
+
+        discounts = { design["name"].lower(): design["design_discount"] for design in design_discounts }
+        
+        return discounts
+    
+    def get_type_discount(
+        self,
+        db: Session,
+        *,
+        types: list[str]
+    ):
+        types_lowered = [type.lower() for type in types]
+
+        type_discounts = db.query(
+            Type.name,
+            Type.discount.label('type_discount'),
+            
+        ).filter(
+            unaccent(func.lower(Type.name)).in_(types_lowered),
+        ).all()
+        
+        discounts = { type["name"].lower(): type["type_discount"] for type in type_discounts }
+
+        return discounts
+    
     
     def get_product(
         self, 
@@ -198,7 +282,9 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         category: str,
         design: str,
     ):
-
+        print('*'*10)
+        print('*'*10)
+        print(category, design)
         products = db.query(
                 Product.id,
                 Product.name,
@@ -862,6 +948,48 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             filter(unaccent(func.lower(Product.name)) == unidecode(name.strip().lower())).all()
 
         return products
+
+    
+    def get_filtered(
+        self,
+        db: Session,
+        *,
+        filters: dict = {},
+        sort = None,
+        range = None,
+    ):
+        """
+        Get all products filtered
+        """
+
+        query = db.query(
+            Product
+        )
+
+        #  Apply filters
+        if 'q' in filters:
+            query = query.\
+                filter(
+                    unaccent(func.lower(Product.name)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
+                )
+
+
+        # Apply sorting
+        if sort:
+            sort_field, sort_order = sort
+            if sort_order.lower() == "asc":
+                query = query.order_by(asc(getattr(Product, sort_field)))
+            else:
+                query = query.order_by(desc(getattr(Product, sort_field)))
+
+        # Apply range (pagination)
+        if range:
+            start, end = range
+            query = query.offset(start).limit(end - start + 1)
+
+
+        return query.all()
+        # return query.offset(skip).limit(limit).all()
     
     def get_products_by_name_type(
         self,
@@ -1380,6 +1508,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         filter(
             unaccent(func.lower(Product.name)) == unidecode(name.strip().lower()),
             unaccent(func.lower(Type.name)) == unidecode(type.strip().lower()),
+            Product.state == True,
         ).distinct().order_by(Size.size).all()
 
         def orden(letra):

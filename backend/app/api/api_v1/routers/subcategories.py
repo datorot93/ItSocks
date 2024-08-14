@@ -1,71 +1,125 @@
+# Utils
 from typing import Any, List
 
-from fastapi import APIRouter, Request, Depends, HTTPException, Response
+# FastAPI
+from fastapi import APIRouter, Request, Depends, HTTPException, Response, UploadFile, File
+
+# SQLAlchemy
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
 
+# AWS S3
+from app.core.config import aws_access_key, aws_secret_key, aws_region_name, aws_bucket_name
+import boto3
+
 router = APIRouter()
 
-@router.post("", response_model=schemas.Subcategory, response_model_exclude_none=True)
+@router.post("", response_model_exclude_none=True)
 async def subcategory_create(
     request: Request,
-    subcategory_in: schemas.SubcategoryCreate,
     id_category: int,
+    name: str,
+    discount: int = 0,
+    code: str = "",
+    file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Subcategory
     """
-    category = crud.category.get_category_by_id(db, id=id_category)
-    if not category:
-        raise HTTPException(
-            status_code=400,
-            detail="No existe la categoría especificada"
-        )
+
+    s3 = boto3.resource(
+        's3', 
+        aws_access_key_id=aws_access_key, 
+        aws_secret_access_key=aws_secret_key,
+        region_name=aws_region_name
+    )
+    
+    file_name = file.filename
+    url = ""
+    with open(file_name, "wb") as buffer:
+        buffer.write(await file.read())
+        bucket = s3.Bucket('itsocks-images')
+        obj = bucket.Object(file.filename)
+        obj.upload_file(buffer.name)
+        url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
 
     
-    subcategory = crud.subcategory.get_subcategory_by_name(db, name=subcategory_in.name)
-    if subcategory:
-        raise HTTPException(
-            status_code=400, detail="The Subcategory type already exists",
-        )
-    
-    subcategory = crud.subcategory.create(
-        db, 
-        obj_in=subcategory_in,
-        id_category=id_category
+    subcategory_in = schemas.SubcategoryCreate(
+        id_category = id_category,
+        name = name,
+        code = code,
+        discount = discount,
+        image_url = url
     )
+
+    subcategory = crud.subcategory.create(db, obj_in=subcategory_in)
     
     return subcategory
 
+
+
 @router.put(
-    "/{code}", response_model=schemas.Subcategory, response_model_exclude_none=True
+    "/{subcategory_id}",
+    response_model_exclude_none=True
 )
 async def subcategory_edit(
     request: Request,
-    code: str,
-    subcategory_in: schemas.SubcategoryCreate,
+    subcategory_id: int,
+    id_category: int,
+    name: str,
+    discount: int = 0,
+    code: str = "",
+    file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """ Update an existing Subcategory """
-    subcategory = crud.subcategory.get_by_code(db, code=code)
+
+    subcategory = crud.subcategory.get_by_id(db, id=subcategory_id)
+
     if not subcategory:
         raise HTTPException(
             status_code=404,
-            detail=f"No existe subcategoría con el código {code}",
+            detail=f"No existe subcategoría con el ID {id}",
         )
+    
+    s3 = boto3.resource(
+        's3', 
+        aws_access_key_id=aws_access_key, 
+        aws_secret_access_key=aws_secret_key,
+        region_name=aws_region_name
+    )
+    
+    file_name = file.filename
+    url = ""
+    with open(file_name, "wb") as buffer:
+        buffer.write(await file.read())
+        bucket = s3.Bucket('itsocks-images')
+        obj = bucket.Object(file.filename)
+        obj.upload_file(buffer.name)
+        url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+
+    
+    subcategory_in = schemas.SubcategoryCreate(
+        id_category = id_category,
+        name = name,
+        code = code,
+        discount = discount,
+        image_url = url
+    )
 
     subcategory = crud.subcategory.update(
         db, db_obj=subcategory, obj_in=subcategory_in
     )
+
     return subcategory
 
 @router.get(
-    "/all_categories", 
+    "", 
     response_model=List[schemas.Subcategory], 
     response_model_exclude_none=True,
 )
@@ -89,22 +143,40 @@ async def subcategories_list(
     return subcategories
 
 @router.delete(
-    "/{code}", response_model=schemas.Subcategory, response_model_exclude_none=True
+    "/{subcategory_id}", response_model=schemas.Subcategory, response_model_exclude_none=True
 )
 async def subcategory_delete(
     request: Request,
-    code: str,
+    subcategory_id: int,
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Subcategory
     """
-    subcategory = crud.subcategory.get_by_code(db, code=code)
+    subcategory = crud.subcategory.get(db, id=subcategory_id)
     if not subcategory:
         raise HTTPException(
             status_code=404,
-            detail=f"No existe la subcategoría especificada con el código {code}",
+            detail=f"No existe la subcategoría especificada con el ID {subcategory_id}",
         )
-    subcategory = crud.subcategory.remove_subcategory(db=db, code=code)
+    subcategory = crud.subcategory.remove(db=db, id=subcategory_id)
     return subcategory
+
+
+@router.get(
+    "/{subcategory_id}", response_model=schemas.Category, response_model_exclude_none=True
+)
+async def subcategory_by_id(
+    subcategory_id: int,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific subcategory by id.
+    """
+    subcategory = crud.subcategory.get(db, id=subcategory_id)
+    if subcategory:
+        return subcategory
+    else:
+        raise HTTPException(status_code=400, detail="The subcategory doesn't exists")

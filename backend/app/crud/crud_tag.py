@@ -51,8 +51,7 @@ class CRUDTag(CRUDBase[Tag, TagCreate, TagUpdate]):
 
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(
-            **obj_in_data, 
-            
+            **obj_in_data,
         )
         db.add(db_obj)
         db.commit()

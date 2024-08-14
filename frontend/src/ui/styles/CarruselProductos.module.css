@@ -8,6 +8,11 @@ section {
   height: auto;
   transition: 1s;
   object-fit: fill;
+  cursor: pointer;
+}
+
+.img_pointer img{
+  cursor: pointer !important;
 }
 
 .not_loaded{

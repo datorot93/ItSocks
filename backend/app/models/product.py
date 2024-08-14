@@ -56,4 +56,6 @@ class Product(Base):
     tag_product = relationship('TagProduct', back_populates='product')
     product_size = relationship('ProductSize', back_populates='product')
     product_color = relationship('ProductColor', back_populates='product')
+
+    product_order = relationship('ProductOrder', back_populates='product')
     

@@ -20,7 +20,7 @@ router = APIRouter()
 ]
 
 @router.post(
-    "/upload_slider", 
+    "", 
     response_model=schemas.Slider,
     response_model_exclude_none=True
 )
@@ -35,8 +35,6 @@ async def slider_create(
     """
     Create a new Slider Image
     """
-
-
 
     s3 = boto3.resource(
         's3', 
@@ -60,7 +58,8 @@ async def slider_create(
         link = "",
         description = "",
         alt = "",
-        url = url
+        url = url,
+        state = True
     )
 
 
@@ -71,7 +70,7 @@ async def slider_create(
     
     return slider
 
-@router.get("/sliders", response_model=List[schemas.Slider], response_model_exclude_none=True)
+@router.get("", response_model=List[schemas.Slider], response_model_exclude_none=True)
 async def sliders_list(
     response: Response,
     db: Session = Depends(deps.get_db),
@@ -83,5 +82,85 @@ async def sliders_list(
     Get all sliders
     """
     sliders = crud.slider.get_sliders(db, skip=skip, limit=limit)
-    # response.headers["Content-Range"] = f"0-9/{len(packs)}"
+    response.headers["Content-Range"] = f"0-9/{len(sliders)}"
     return sliders
+
+@router.get("/active", response_model=List[schemas.Slider], response_model_exclude_none=True)
+async def active_sliders_list(
+    response: Response,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Get all sliders
+    """
+    sliders = crud.slider.get_active_sliders(db, skip=skip, limit=limit)
+    response.headers["Content-Range"] = f"0-9/{len(sliders)}"
+    return sliders
+
+@router.get(
+    "/{slider_id}", response_model=schemas.Slider, response_model_exclude_none=True
+)
+async def slider_by_id(
+    slider_id: int,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific Slider by id.
+    """
+    slider = crud.slider.get(db, id=slider_id)
+    if not slider:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe slider con el ID {slider_id}",
+        )
+    return slider
+
+@router.delete(
+    "/{slider_id}", response_model=schemas.Slider, response_model_exclude_none=True
+)
+async def slider_delete(
+    request: Request,
+    slider_id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Delete a Slider
+    """
+    slider = crud.slider.get(db, id=slider_id)
+    if not slider:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe slider con el ID {slider_id}",
+        )
+    slider = crud.slider.remove(db, id=slider_id)
+    return slider
+
+
+@router.put(
+    "/{slider_id}", 
+    response_model=schemas.Slider, 
+    response_model_exclude_none=True
+)
+async def slider_edit(
+    request: Request,
+    slider_id: int,
+    slider_in: schemas.SliderUpdate,
+    db: Session = Depends(deps.get_db)
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Update existing Slider
+    """
+    slider = crud.slider.get(db, id=slider_id)
+    if not slider:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe slider con el ID {slider_id}",
+        )
+    slider = crud.slider.update(db, db_obj=slider, obj_in=slider_in)
+    return slider

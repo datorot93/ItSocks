@@ -8,14 +8,12 @@ import { Link } from 'react-router-dom';
 import styles from '../../ui/styles/Medias.module.css';
 
 export const CategoriaCard = ({
-    id,
-    nombre,
-    estado,
-    categoria,
-    image
+    name,
+    image_url,
+
 }) => {
 
-
+  
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -26,17 +24,6 @@ export const CategoriaCard = ({
     setIsHovered(false);
   };
 
-  const labels = {
-    'MEDIA CANIA': 'MEDIA CAÑA',
-    'ESTAMPADAS': 'ESTAMPADAS',
-    'TEJIDAS': 'TEJIDAS',
-    'LARGAS': 'LARGAS',
-    'LARGA': 'LARGAS',
-    'PANTORRILLERA': 'PANTORRILLERAS',
-    'PERSONALIZADAS': 'PERSONALIZADAS',
-    'TOBILLERAS': 'TOBILLERAS'
-  }
-
   return (
     
     <div className={ `${styles.imageContainer}` }
@@ -44,25 +31,15 @@ export const CategoriaCard = ({
       onMouseLeave={handleMouseLeave}
     >
       
-      <Link to={ nombre } >
-        <img src={ image } alt= { nombre } />        
+      <Link to={ name.replace('%20', '_').replace(' ', '_').replace('caña', 'cania') } >
+        <img src={ image_url } alt= { name } />        
         <div className={`${ styles.blur_div} ${isHovered ? styles.hovered : ""}`}>
           <div className={styles.hoverText}>
-              <p>{ labels[nombre.toUpperCase().replace('_', ' ')] }</p>
+              {/* <p>{ labels[name.toUpperCase().replace('_', ' ')] }</p> */}
+              <p>{ name.toUpperCase().replace('_', ' ') }</p>
           </div>
         </div>
       </Link>
-
-      
-
-      {/* <div className={`${styles.blur_div} ${isHovered ? styles.hovered : ""}`} `}>
-          <div className={styles.hoverText}>
-              <p>{ nombre }</p>
-          </div>
-        </div> */}
-      {/* {isHovered && (
-        
-      )} */}
     </div>
     
   )

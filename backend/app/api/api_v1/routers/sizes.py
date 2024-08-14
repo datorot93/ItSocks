@@ -8,7 +8,50 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.post("/size_create", response_model=schemas.Size, response_model_exclude_none=True)
+
+@router.get("", response_model=List[schemas.Size], response_model_exclude_none=True)
+async def size_list(
+    response: Response,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Get all Sizes
+    """
+
+    sizes = crud.size.get_sizes(
+        db, 
+        skip=skip, 
+        limit=limit
+    )
+
+    # print(devices)
+    response.headers["Content-Range"] = f"0-9/{len(sizes)}"
+    return sizes
+
+
+@router.get("/{size_id}", response_model=schemas.Size, response_model_exclude_none=True)
+async def size_detail(
+    size_id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Get a specific Size by id
+    """
+    size = crud.size.get(db, id=size_id)
+
+    if size is None:
+        raise HTTPException(
+            status_code=404, detail="The size with this id does not exist in the system",
+        )
+
+    return size
+
+
+@router.post("", response_model=schemas.Size, response_model_exclude_none=True)
 async def size_create(
     request: Request,
     size_in: schemas.SizeCreate,
@@ -29,6 +72,54 @@ async def size_create(
         db,
         obj_in=size_in
     )
+    
+    return size
+
+
+@router.put("/{size_id}", response_model=schemas.Size, response_model_exclude_none=True)
+async def size_update(
+    request: Request,
+    size_id: int,
+    size_in: schemas.SizeUpdate,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Update an Size
+    """
+    size = crud.size.get(db, id=size_id)
+
+    if size is None:
+        raise HTTPException(
+            status_code=404, detail="The size with this id does not exist in the system",
+        )
+
+    size = crud.size.update(
+        db,
+        db_obj=size,
+        obj_in=size_in
+    )
+    
+    return size
+
+
+@router.delete("/{size_id}", response_model=schemas.Size, response_model_exclude_none=True)
+async def size_delete(
+    size_id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Delete an Size
+    """
+    size = crud.size.get(db, id=size_id)
+
+    if size is None:
+        raise HTTPException(
+            status_code=404, detail="The size with this id does not exist in the system",
+        )
+
+    size = crud.size.remove(db, id=size_id)
     
     return size
 
@@ -62,72 +153,3 @@ async def product_size_create(
     )
     
     return product_size
-
-
-@router.put(
-    "/{code}", response_model=schemas.Type, response_model_exclude_none=True
-)
-async def type_edit(
-    request: Request,
-    code: str,
-    type_in: schemas.TypeUpdate,
-    db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
-):
-    """ Update an existing Type """
-    type = crud.type.get_by_code(db, code=code)
-    if not type:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No existe tipo con el código {code}",
-        )
-
-    type = crud.type.update(
-        db, db_obj=type, obj_in=type_in
-    )
-    return type
-
-@router.get(
-    "/all_types", 
-    response_model=List[schemas.Type], 
-    response_model_exclude_none=True,
-)
-async def type_list(
-    response: Response,
-    db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
-):
-    """
-    Get all Subcategories
-    """
-    types = crud.type.get_multi(
-        db, 
-        skip=skip, 
-        limit=limit
-    )
-    # print(devices)
-    response.headers["Content-Range"] = f"0-9/{len(types)}"
-    return types
-
-@router.delete(
-    "/{code}", response_model=schemas.Type, response_model_exclude_none=True
-)
-async def type_delete(
-    request: Request,
-    code: str,
-    db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
-):
-    """
-    Delete existing Type
-    """
-    type = crud.type.get_by_code(db, code=code)
-    if not type:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No existe el tipo especificado con el código {code}",
-        )
-    type = crud.type.remove_type(db=db, code=code)
-    return type

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 class DesignBase( BaseModel ):
     name: str = None
     code: str = None
+    discount: int = None
 
 class DesignCreate( DesignBase ):
     pass

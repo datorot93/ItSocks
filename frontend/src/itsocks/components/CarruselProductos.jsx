@@ -1,6 +1,11 @@
+// ESTILOS
 import styles from "../../ui/styles/CarruselProductos.module.css";
 
+// REACT
 import { useEffect, useState } from "react";
+
+// REACT-ROUTER-DOM
+import { Link, useNavigate} from "react-router-dom";
 
 // IMAGES
 import left_arrow from "../../../public/assets/homepage/slider/left_arrow.svg";
@@ -13,6 +18,7 @@ import { getSliders } from "../helpers/getSliders";
 
 export const CarruselProductos = () => {
 
+  const navigate = useNavigate();
 
   const [images, setImages] = useState([]);
 
@@ -23,6 +29,7 @@ export const CarruselProductos = () => {
 
   useEffect(() => {
     getSliders().then((res) => {
+      console.log('res', res)
       setImages(res);
       setSelectedImage(res[0]);
       setSelectedIndex(0);
@@ -52,7 +59,7 @@ export const CarruselProductos = () => {
   }
 
   useEffect(() => {
-    const interval = setInterval(() => showImage('avanzar'), 3000);
+    const interval = setInterval(() => showImage('avanzar'), 4000);
     setIsSelected(true)
 
     return () => {
@@ -69,6 +76,12 @@ export const CarruselProductos = () => {
 
   const mouseLeave = () => {
     setArrowsVisible(false)
+  }
+
+  const handleNavigate = (link) => {
+    if (link !== ''){
+      navigate(link);
+    }
   }
 
   return (
@@ -95,10 +108,10 @@ export const CarruselProductos = () => {
             <LazyLoadImage
               src={selectedImage.url || ''}
               alt={selectedImage.alt || ''}
-              className={`${styles.img_carrusel} ${
-                loaded ? "loaded" : "not_loaded"
-              }`}
+              className={`${styles.img_carrusel} ${selectedImage.link != '' ? styles.img_pointer : ''}`}
+              onClick={ () => handleNavigate(selectedImage.link)}
               onLoad={() => setLoaded(true)}
+              
             />: <></>
         }
         

@@ -33,6 +33,7 @@ typer = "0.9.0"
 unidecode = "^1.3.2"
 pillow = "10.1.0"
 mercadopago = "2.2.1"
+facebook_business = "*"
 
 
 [tool.poetry.dev-dependencies]

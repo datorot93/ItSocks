@@ -23,16 +23,18 @@ import { getPreference } from '../helpers/getPreference'
 import { useShipping } from '../../hooks/useShipping'
 import { useDiscount } from '../../hooks/useDiscount'
 import { usePreference } from '../../hooks/usePreference'
+import { setOrder, setProductOrder } from '../helpers/setOrder'
+import { useCart } from '../../hooks/useCart'
 
 
 
 
 export const FinishOrderForm = () => {
 
-    const {shipping} = useShipping()
-
+    const { shipping } = useShipping()
+    const { cart, clearCart } = useCart()
     const {preference} = usePreference()
-    console.log(preference.response)
+
     
     const [ currentAddess, setCurrentAddress ] = useState(shipping.address)
     const [ currentEmail, setCurrentEmail ] = useState(shipping.email)
@@ -58,17 +60,17 @@ export const FinishOrderForm = () => {
         locale: 'es-CO'
     });
 
-    const initialization = {
-        preferenceId: preference.response.id,
-      }
+    // const initialization = {
+    //     preferenceId: preference.response.id,
+    //   }
 
-    console.log(preference.response.id)
+    console.log(preference)
 
-    const customization = {
-        texts: {
-         valueProp: 'smart_option',
-        },
-      }
+    // const customization = {
+    //     texts: {
+    //      valueProp: 'smart_option',
+    //     },
+    //   }
 
     const navigate = useNavigate();
 
@@ -83,6 +85,84 @@ export const FinishOrderForm = () => {
     const handleVolverInformacion = () => {
         removeFromDiscount()
         navigate("/carrito/billing")
+    }
+
+    // console.log(cart)
+
+    const handleOrder = () => {
+        // const resp = setWishList(lista_wish).then( data => {
+        //     console.log(data)
+        //   })
+        const order = setOrder({
+            "first_name": shipping.first_name,
+            "last_name": shipping.last_name,
+            "address": shipping.address,
+            "phone_number": shipping.phone,
+            "billing_addess": shipping.billingAddress,
+            "region": shipping.region,
+            "country": shipping.country,
+            "city": shipping.city,
+            "document": shipping.document,
+            "email": shipping.email,
+            "extra_info": shipping.extra_information,
+            "de": shipping.from,
+            "para": shipping.to,
+            "isGift": shipping.isGift,
+            "state": "No preparado",
+            "quantity": shipping.products_quantity,
+            "shipping_cost": shipping.shipping_value,
+            "total": shipping.total,
+            "subtotal": shipping.subtotal,
+            "shipping_guide": "No asignada",
+            "shipping_guide_url": ""
+        }).then(
+            data => {
+                console.log('Este es el data: ', data)
+                const promises = [];
+                
+                cart.forEach((product, index) => {
+                    if (product.name.toLowerCase().includes('pares')) {
+                        product.prductos.forEach(prod => {
+                            console.log('Este es el producto: ', product);
+                            const promise = setProductOrder({
+                                product_id: prod.id,
+                                order_id: data.id,
+                                quantity: prod.cantidad,
+                                pack: product.name,
+                                num_in_order: index + 1
+                            }).then(res => {
+                                console.log('Este es el res1: ', res);
+                            });
+                            promises.push(promise);
+                        });
+                    } else {
+                        const promise = setProductOrder({
+                            product_id: product.id,
+                            order_id: data.id,
+                            quantity: product.cantidad,
+                            pack: '',
+                            num_in_order: index + 1
+                        }).then(res => {
+                            console.log('Este es el res2: ', res);
+                        });
+                        promises.push(promise);
+                    }
+                });
+                
+                Promise.all(promises)
+                    .then(() => {
+                        console.log('All products have been processed.');
+                    })
+                    .catch(error => {
+                        console.error('An error occurred while processing products:', error);
+                    });
+            }
+        )
+
+        
+
+        // clearCart()
+
     }
     
 
@@ -159,7 +239,6 @@ export const FinishOrderForm = () => {
             </div>
 
             
-
             <div className={ styles.billing_opciones }>
                 <h3>Envíos</h3>
             
@@ -169,7 +248,10 @@ export const FinishOrderForm = () => {
                     </div>
                     {
                         shipping.shipping_value > 0 ?
-                        <p><strong>{ shipping.shipping_value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) }</strong></p>
+                        <p><strong>{ shipping.shipping_value.toLocaleString(
+                            'es-CO', 
+                            { style: 'currency', currency: 'COP' }
+                        ) }</strong></p>
                         :<p><strong>Envío Gratis</strong></p>
                     }
                     
@@ -202,7 +284,8 @@ export const FinishOrderForm = () => {
                             onError={(error) => console.log('Error', error)}
                         /> */}
                         <a
-                            href={ preference.response.init_point }
+                            onClick={ handleOrder }
+                            // href={ preference.response.init_point }
                             className={ styles.pagar_mercadopago}
                             // className={ styles.pagar_mercadopago }
                         >Pagar con Mercado Pago</a>

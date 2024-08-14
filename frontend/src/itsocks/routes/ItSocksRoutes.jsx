@@ -1,4 +1,6 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+
+import { Route, Routes } from "react-router-dom";
 import { Navbar } from "../../ui/components/Navbar";
 import { ItSocks, Medias, Packs, Productos } from "../pages";
 import { Personalizadas } from "../pages/Personalizadas";
@@ -28,10 +30,21 @@ import { Search } from "../pages/Search";
 import { WishListShared } from "../pages/WishListShared";
 import { DiscountProvider } from "../../context/discount";
 import { PreferenceProvider } from "../../context/preference";
+import { getFiltersAccesorios } from "../helpers/getProductsByCategory";
 
 export const ItSocksRoutes = () => {
 
-  // console.log(pathname);
+  const [ filtrosAccesorios, setFiltrosAccesorios ] = useState([]);
+
+  useEffect(() => {
+    getFiltersAccesorios( "accesorios" ).then(
+      (res) => setFiltrosAccesorios(Object.keys(res))
+    ).catch(
+      (err) => console.log(err)
+    )
+  }, [])
+  
+
   return (
     <>
       <CartProvider>
@@ -54,38 +67,55 @@ export const ItSocksRoutes = () => {
                   element={<ProductDescription />}
                 />
 
-                <Route
-                  path="accesorios"
-                  element={<Productos categoria={"Accesorios"} isPack={ false }/>}
-                />
-                <Route
-                  path="accesorios/viseras"
-                  element={
-                    <Productos
-                      categoria={"Accesorios"}
-                      subcategoria={"Viseras"}
+                {
+                  filtrosAccesorios.map( (filtro, index) => (
+                    <React.Fragment key={ index }>
+                      <Route
+                        path="accesorios"
+                        element={<Productos categoria={"Accesorios"} isPack={ false }/>}
+                      />
+                      <Route
+                        path={`accesorios/${filtro.replace('%20', '_').toLowerCase()}`}
+                        element={
+                          <Productos
+                            categoria={"Accesorios"}
+                            subcategoria={`${filtro}`}
+                          />
+                        }
+                      />
+                      {/* <Route
+                        path="accesorios/termos"
+                        element={
+                          <Productos categoria={"Accesorios"} subcategoria={"TERMOS"} />
+                        }
+                      />
+                      <Route
+                        path="accesorios/pines"
+                        element={
+                          <Productos categoria={"Accesorios"} subcategoria={"PINES"} />
+                        }
+                      />
+                      <Route
+                        path="accesorios/canguros"
+                        element={
+                          <Productos categoria={"Accesorios"} subcategoria={"CANGUROS"} />
+                        }
+                      /> */}
+                      
+                    </React.Fragment>
+                  ))
+
+                }
+                {
+                  filtrosAccesorios.map( (filtro, index) => (
+                    <Route
+                      path={`accesorios/${filtro.replace(' ', '_')}/:nombre`}
+                      element={<ProductDescription />}
+                      key={ index }
                     />
-                  }
-                />
-                <Route
-                  path="accesorios/termos"
-                  element={
-                    <Productos categoria={"Accesorios"} subcategoria={"TERMOS"} />
-                  }
-                />
-                <Route
-                  path="accesorios/pines"
-                  element={
-                    <Productos categoria={"Accesorios"} subcategoria={"PINES"} />
-                  }
-                />
-                <Route
-                  path="accesorios/canguros"
-                  element={
-                    <Productos categoria={"Accesorios"} subcategoria={"CANGUROS"} />
-                  }
-                />
-                <Route
+                  ))
+                }
+                {/* <Route
                   path="accesorios/termos/:nombre"
                   element={<ProductDescription />}
                 />
@@ -100,7 +130,7 @@ export const ItSocksRoutes = () => {
                 <Route
                   path="accesorios/canguros/:nombre"
                   element={<ProductDescription />}
-                />
+                /> */}
 
                 {/* PACKS */}
 
@@ -205,7 +235,7 @@ export const ItSocksRoutes = () => {
 
                 <Route
                   path="medias/personalizadas"
-                  element={<Personalizadas subcategory={"personalizadas"} />}
+                  element={<Personalizadas subcategory={"Personalizadas"} />}
                 />
                 <Route
                   path="medias/personalizadas/pantorrilleras"
@@ -244,7 +274,7 @@ export const ItSocksRoutes = () => {
 
                 {/* ESTAMPADAS PANTORRILLERAS */}
                 <Route
-                  path="medias/estampadas/pantorrillera"
+                  path="medias/estampadas/pantorrilleras"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -254,7 +284,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/estampadas/pantorrillera/:disenio"
+                  path="medias/estampadas/pantorrilleras/:disenio"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -264,7 +294,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/estampadas/pantorrillera/:disenio/:compresion"
+                  path="medias/estampadas/pantorrilleras/:disenio/:compresion"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -274,21 +304,21 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route
-                  path="medias/estampadas/pantorrillera/:disenio/:nombre"
+                  path="medias/estampadas/pantorrilleras/:disenio/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/estampadas/pantorrillera/:disenio/:compresion/:nombre"
+                  path="medias/estampadas/pantorrilleras/:disenio/:compresion/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/estampadas/pantorrillera/:nombre"
+                  path="medias/estampadas/pantorrilleras/:nombre"
                   element={<ProductDescription />}
                 />
 
                 {/* ESTAMPADAS LARGAS  */}
                 <Route
-                  path="medias/estampadas/larga"
+                  path="medias/estampadas/largas"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -298,7 +328,7 @@ export const ItSocksRoutes = () => {
                   }
                 />              
                 <Route 
-                  path="medias/estampadas/larga/:disenio"
+                  path="medias/estampadas/largas/:disenio"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -308,7 +338,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/estampadas/larga/:disenio/:compresion"
+                  path="medias/estampadas/largas/:disenio/:compresion"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -318,15 +348,15 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route
-                  path="medias/estampadas/larga/:nombre"
+                  path="medias/estampadas/largas/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/estampadas/larga/:disenio/:nombre"
+                  path="medias/estampadas/largas/:disenio/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/estampadas/larga/:disenio/:compresion/:nombre"
+                  path="medias/estampadas/largas/:disenio/:compresion/:nombre"
                   element={<ProductDescription />}
                 />
 
@@ -421,7 +451,7 @@ export const ItSocksRoutes = () => {
 
                 {/* TEJIDAS PANTORRILLERAS */}
                 <Route
-                  path="medias/tejidas/pantorrillera"
+                  path="medias/tejidas/pantorrilleras"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -431,7 +461,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/tejidas/pantorrillera/:disenio"
+                  path="medias/tejidas/pantorrilleras/:disenio"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -441,7 +471,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/tejidas/pantorrillera/:disenio/:compresion"
+                  path="medias/tejidas/pantorrilleras/:disenio/:compresion"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -451,21 +481,21 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route
-                  path="medias/tejidas/pantorrillera/:disenio/:nombre"
+                  path="medias/tejidas/pantorrilleras/:disenio/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/tejidas/pantorrillera/:disenio/:compresion/:nombre"
+                  path="medias/tejidas/pantorrilleras/:disenio/:compresion/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/tejidas/pantorrillera/:nombre"
+                  path="medias/tejidas/pantorrilleras/:nombre"
                   element={<ProductDescription />}
                 />
 
                 {/* TEJIDAS LARGAS  */}
                 <Route
-                  path="medias/tejidas/larga"
+                  path="medias/tejidas/largas"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -475,7 +505,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/tejidas/larga/:disenio"
+                  path="medias/tejidas/largas/:disenio"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -485,7 +515,7 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/tejidas/larga/:disenio/:compresion"
+                  path="medias/tejidas/largas/:disenio/:compresion"
                   element={
                     <Productos
                       categoria={"Medias"}
@@ -495,15 +525,15 @@ export const ItSocksRoutes = () => {
                   }
                 />
                 <Route 
-                  path="medias/tejidas/larga/:disenio/:nombre"
+                  path="medias/tejidas/largas/:disenio/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route 
-                  path="medias/tejidas/larga/:disenio/:compresion/:nombre"
+                  path="medias/tejidas/largas/:disenio/:compresion/:nombre"
                   element={<ProductDescription />}
                 />
                 <Route
-                  path="medias/tejidas/larga/:nombre"
+                  path="medias/tejidas/largas/:nombre"
                   element={<ProductDescription />}
                 />
 
@@ -599,7 +629,7 @@ export const ItSocksRoutes = () => {
 
                 {/* PERSONALIZADAS */}
                 <Route
-                  path="medias/personalizadas/pantorrillera"
+                  path="medias/personalizadas/pantorrilleras"
                   element={
                     <PersonalizadaPantorrillera subcategory={"Pantorrilleras"} />
                   }

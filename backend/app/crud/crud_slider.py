@@ -47,7 +47,29 @@ class CRUDSlider(CRUDBase[Slider, SliderCreate, SliderUpdate]):
                 Slider.link,
                 Slider.description,
                 Slider.alt,
-                Slider.url
+                Slider.url,
+                Slider.state
+            ).all()
+        # print(products)
+        
+        return sliders_list
+    
+    def get_active_sliders(
+        self,
+        db: Session,
+        *,
+        skip: int,
+        limit: int   
+    ):
+        sliders_list = db.query(
+                Slider.id,
+                Slider.link,
+                Slider.description,
+                Slider.alt,
+                Slider.url,
+                Slider.state
+            ).filter(
+                Slider.state == True
             ).all()
         # print(products)
         

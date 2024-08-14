@@ -14,7 +14,7 @@ from email.mime.text import MIMEText
 router = APIRouter()
 
 
-@router.get("discounts", response_model=List[schemas.DiscountCode], response_model_exclude_none=True)
+@router.get("", response_model=List[schemas.DiscountCode], response_model_exclude_none=True)
 async def get_codes_list(
     response: Response,
     db: Session = Depends(deps.get_db),
@@ -23,11 +23,29 @@ async def get_codes_list(
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """
-    Get all shippings
+    Get all discount codes
     """
-    codes = crud.discount_code.get_codes(db, skip=skip, limit=limit)
+    codes = crud.discount_code.get_multi(db, skip=skip, limit=limit)
     response.headers["Content-Range"] = f"0-9/{len(codes)}"
     return codes
+
+
+@router.get("/{id}", response_model=schemas.DiscountCode, response_model_exclude_none=True)
+async def get_code(
+    response: Response,
+    id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Get discount code by id
+    """
+    code = crud.discount_code.get(db, id=id)
+    if code:
+        return code
+    return None
+
+
 
 @router.get("active_discounts", response_model=List[schemas.DiscountCode], response_model_exclude_none=True)
 async def get_active_codes(
@@ -64,11 +82,10 @@ async def get_specific_code(
 
 
 # CREATE DISCOUNT CODE
-@router.post("/discount_code_create", response_model=schemas.DiscountCode, response_model_exclude_none=True)
+@router.post("", response_model=schemas.DiscountCode, response_model_exclude_none=True)
 async def discount_code_create(
     request: Request,
     discount_code_in: schemas.DiscountCodeCreate,
-
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
@@ -84,6 +101,45 @@ async def discount_code_create(
     discount = crud.discount_code.create(db, obj_in=discount_code_in)
     
     return discount
+
+@router.put("/{id}", response_model=schemas.DiscountCode, response_model_exclude_none=True)
+async def discount_code_update(
+    request: Request,
+    id: int,
+    discount_code_in: schemas.DiscountCodeUpdate,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Update a Discount Code
+    """
+    discount = crud.discount_code.get(db, id=id)
+    if not discount:
+        raise HTTPException(
+            status_code=404,
+            detail="The discount code with this id does not exist in the system",
+        )
+    discount = crud.discount_code.update(db, db_obj=discount, obj_in=discount_code_in)
+    return discount
+
+
+@router.delete("/{id}", response_model=schemas.DiscountCode, response_model_exclude_none=True)
+async def discount_code_delete(
+    request: Request,
+    id: int,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Delete a Discount Code
+    """
+    discount = crud.discount_code.get(db, id=id)
+    if not discount:
+        raise HTTPException(
+            status_code=404,
+            detail="The discount code with this id does not exist in the system",
+        )
+    discount = crud.discount_code.remove(db, id=id)
+    return discount
+
 
 
 def send_email(to_email, name, code):

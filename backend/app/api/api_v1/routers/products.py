@@ -1,12 +1,85 @@
-from typing import Any, List
+from typing import Any, List, Dict, Optional
 
-from fastapi import APIRouter, Request, Depends, HTTPException, Response
+from fastapi import APIRouter, Request, Depends, HTTPException, Response, Query
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
 
+# UTILS
+import json
+
 router = APIRouter()
+
+
+@router.get("/category_discount", response_model_exclude_none=True)
+async def get_category_discount(
+    response: Response,
+    categories: List[str] = Query([]),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get all discounts by category
+    """
+    
+    discounts = crud.product.get_category_discount(
+        db, 
+        categories=categories
+    )
+
+    return discounts
+
+@router.get("/subcategory_discount", response_model_exclude_none=True)
+async def get_subcategory_discount(
+    response: Response,
+    subcategories: List[str] = Query([]),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get all discounts
+    """
+    
+    discounts = crud.product.get_subcategory_discount(
+        db, 
+        subcategories=subcategories
+    )
+
+    return discounts
+
+@router.get("/type_discount", response_model_exclude_none=True)
+async def get_type_discount(
+    response: Response,
+    types: List[str] = Query([]),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get all discounts
+    """
+    
+    discounts = crud.product.get_type_discount(
+        db, 
+        types=types
+    )
+
+    return discounts
+
+
+@router.get("/design_discount", response_model_exclude_none=True)
+async def get_design_discount(
+    response: Response,
+    designs: List[str] = Query([]),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get all discounts
+    """
+    
+    discounts = crud.product.get_design_discount(
+        db, 
+        designs=designs
+    )
+
+    return discounts
 
 
 @router.post("", response_model=schemas.Product, response_model_exclude_none=True)
@@ -19,6 +92,8 @@ async def product_create(
     """
     Create a new Product
     """
+    product_in.talla = ""
+    product_in.color = ""
 
     product = crud.product.get_product(
         db, 
@@ -51,7 +126,6 @@ async def get_products_by_search(
     """
 
     products = crud.product.get_products_by_search(db=db, input=input, skip=skip, limit=limit)
-    # print(product)
     
     
     return products
@@ -69,7 +143,6 @@ async def get_colors_tallas_by_product(
     """
 
     product = crud.product.get_products_by_name_type(db=db, name=name, type=type)
-    # print(product)
     
     if not product:
         raise HTTPException(
@@ -320,19 +393,72 @@ async def product_edit(
 async def product_list(
     response: Response,
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
+    # name: str = None,
+    # id: int = None,
+    # q: str = None,
+    # skip: int = 0,
+    # limit: int = 1000,
+    sort: Optional[str] = Query(None),
+    range: Optional[str] = Query(None),
+    filter: Optional[str] = Query(None),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """
     Get all products
     """
-    product = crud.product.get_multi(db, skip=skip, limit=limit)
+    # Handle filtering
+
+    # if name:
+    #     filters['name'] = name
+    # if id:
+    #     filters['id'] = id
+    # if q:
+    #     filters['q'] = q
+
+    # Parse the sort parameter
+    sort_list = json.loads(sort) if sort else None
+
+    # Parse the range parameter
+    range_list = json.loads(range) if range else None
+
+    # Parse the filter parameter
+    filter_dict = json.loads(filter) if filter else None
+
+    product = crud.product.get_filtered(
+        db, 
+        filters=filter_dict,
+        sort=sort_list,
+        range=range_list
+    )
+    # product = crud.product.get_filtered(
+    #     db, 
+    #     filters=filter,
+    #     sort=sort,
+    #     range=range
+    # )
+    
     response.headers["Content-Range"] = f"0-9/{len(product)}"
     return product
+    # return {"total": len(product), "data": product}
 
-@router.get("/accesorios", response_model_exclude_none=True)
-async def get_accesorios(
+@router.get("/{product_id}", response_model_exclude_none=True)
+async def get_product_by_id(
+    response: Response,
+    product_id: int,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific product by id.
+    """
+    product = crud.product.get(db, id=product_id)
+
+    if not product:
+        raise HTTPException(status_code=400, detail="The product doesn't exists")
+    
+    return product
+
+@router.get("/category/{category}", response_model_exclude_none=True)
+async def get_category(
     response: Response,
     category: str,
     db: Session = Depends(deps.get_db),
@@ -343,8 +469,9 @@ async def get_accesorios(
     """
     Obtener todos los accesorios
     """
+    
     products = crud.product.get_products_by_category(db, category=category, skip=skip, limit=limit)
-    # response.headers["Content-Range"] = f"0-9/{len(products)}"
+    response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
 @router.get("/accesorios/design", response_model_exclude_none=True)
@@ -360,7 +487,8 @@ async def get_accesorios_design(
     """
     Obtener todos los accesorios por diseño
     """
-    products = crud.product.get_products_by_category_design(db, category=category, design=design, skip=skip, limit=limit)
+
+    products = crud.product.get_products_by_category_design(db, category=category.replace('_', ' '), design=design.replace('_', ' '), skip=skip, limit=limit)
     # response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
@@ -407,7 +535,7 @@ async def get_products_by_cat_subcat_type(
         skip=skip,
         limit=limit
     )
-
+    response.headers["Content-Range"] = f"0-9/{len(products)}"
     return products
 
 @router.get("/q/products_categories_subcat_types_designs", response_model_exclude_none=True)
@@ -699,7 +827,7 @@ async def product_by_name(
 
 
 @router.delete(
-    "/d/{product_id}", response_model=schemas.Product, response_model_exclude_none=True
+    "/{product_id}", response_model=schemas.Product, response_model_exclude_none=True
 )
 async def product_delete(
     request: Request,

@@ -1,21 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ESTILOS
 import styles from "../../ui/styles/PopUpTallas.module.css";
 
 // IMÁGENES
-import tallas_media from '../../../public/assets/guia_tallas/tallas_largas.png'
-import tallas_canguros from '../../../public/assets/guia_tallas/tallas_canguros.png'
-import tallas_pantorrilleras from '../../../public/assets/guia_tallas/tallas_pantorrilleras.png'
+import { getSizeGuidByName } from '../helpers/getSizeGuides';
 
 export const PopUpTallas = ({ tipo_media, showPopUpTallas, setShowPopUpTallas }) => {
 
-  const popUp = {
-    "pantorrilleras": tallas_pantorrilleras,
-    "largas": tallas_media,
-    "media caña": tallas_media,
-    "canguros": tallas_canguros
-  }
+  const [sizeGuide, setSizeGuide] = useState({})
+
+  useEffect(() => {
+    getSizeGuidByName(tipo_media).then( (data) => {
+      setSizeGuide(data)
+    })
+  }, [])
+
+  console.log(sizeGuide)
 
   return (
     <div className={ styles.container}>
@@ -23,7 +24,7 @@ export const PopUpTallas = ({ tipo_media, showPopUpTallas, setShowPopUpTallas })
           <span className={ styles.close_btn } onClick={() => setShowPopUpTallas(false)}>
             X
           </span>
-          <img src={popUp[tipo_media.toLowerCase()]} alt={`talla ${tipo_media}`} />
+          <img src={sizeGuide.image_url} alt={ sizeGuide.alt} />
         </div>
       </div>
   )

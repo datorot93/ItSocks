@@ -71,11 +71,6 @@ class CRUDTagProduct(CRUDBase[TagProduct, TagProductCreate, TagProductUpdate]):
         db.delete(obj)
         db.commit()
         return obj
-    
-    
-
-
-
 
 
 tag_product = CRUDTagProduct(TagProduct)

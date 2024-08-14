@@ -50,7 +50,9 @@ async def category_edit(
         raise HTTPException(
             status_code=404, detail="The Category Name does not exist in the system",
         )
-    category = crud.category.update(db, db_obj=category, obj_in=category_in)
+    category = crud.category.update(
+        db, db_obj=category, obj_in=category_in
+    )
     return category
 
 
@@ -68,6 +70,23 @@ async def category_list(
     categories = crud.category.get_multi(db, skip=skip, limit=limit)
     response.headers["Content-Range"] = f"0-9/{len(categories)}"
     return categories
+
+@router.get(
+    "/{category_id}", response_model=schemas.Category, response_model_exclude_none=True
+)
+async def category_by_id(
+    category_id: int,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific category by id.
+    """
+    category = crud.category.get(db, id=category_id)
+    if category:
+        return category
+    else:
+        raise HTTPException(status_code=400, detail="The category doesn't exists")
 
 
 @router.delete(
@@ -92,20 +111,5 @@ async def category_delete(
     return category
 
 
-@router.get(
-    "/{category_id}", response_model=schemas.Category, response_model_exclude_none=True
-)
-async def category_by_id(
-    category_id: int,
-    # current_user: models.User = Depends(deps.get_current_active_user),
-    db: Session = Depends(deps.get_db),
-):
-    """
-    Get a specific user by id.
-    """
-    category = crud.category.get(db, id=category_id)
-    if category:
-        return category
-    else:
-        raise HTTPException(status_code=400, detail="The category doesn't exists")
+
 

@@ -27,6 +27,20 @@ class CRUDSize(CRUDBase[Size, SizeCreate, SizeUpdate]):
     ):
         return db.query(Size).filter(Size.id == id).first()
     
+
+    def get_sizes(
+        self, 
+        db: Session, 
+        *, 
+        skip: int = 0, 
+        limit: int = 100
+    ):
+        sizes = db.query(Size).offset(skip).limit(limit).all() 
+        print(sizes)
+        return sizes
+    
+
+
     def get_size(
         self, 
         db: Session, 

@@ -17,5 +17,10 @@ from .size import Size, SizeCreate, SizeUpdate
 from .product_size import ProductSize, ProductSizeCreate, ProductSizeUpdate
 from .wish_list import WishList, WishListCreate, WishListUpdate
 from .customer import Customer, CustomerCreate, CustomerUpdate
+from .user import User, UserCreate, UserUpdate
+from .order import Order, OrderCreate, OrderUpdate
+from .product_order import ProductOrder, ProductOrderCreate, ProductOrderUpdate
+from .size_guide import SizeGuide, SizeGuideCreate, SizeGuideUpdate
+from .type_image import TypeImage, TypeImageCreate, TypeImageUpdate
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 

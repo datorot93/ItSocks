@@ -15,6 +15,8 @@ import { useShipping } from '../../hooks/useShipping'
 import { useDiscount } from '../../hooks/useDiscount';
 import { usePreference } from '../../hooks/usePreference';
 import { getPreference } from '../helpers/getPreference';
+import { useCart } from '../../hooks/useCart';
+import { getCategoryDiscount, getDesignDiscount, getSubcategoryDiscount, getTypeDiscount } from '../helpers/getShippingInfo';
 
 export const BillingForm = () => {
 
@@ -24,7 +26,7 @@ export const BillingForm = () => {
     const [ preferenceLoading, setPreferenceLoading ] = useState(false)
 
 
-    const {modifyShipping} = useShipping()
+    const {modifyShipping, shipping} = useShipping()
     const { addToPreference } = usePreference()
     const { removeFromDiscount } = useDiscount()
 
@@ -59,35 +61,96 @@ export const BillingForm = () => {
         setPhone(e.target.value)
     }
 
-    const carrito = JSON.parse(localStorage.getItem('cart'))
-    const {shipping} = useShipping()
+    const [ categoryDiscounts, setCategoryDiscounts ] = useState({});
+    const [ subcategoryDiscounts, setSubcategoryDiscounts ] = useState({});
+    const [ typeDiscounts, setTypeDiscounts ] = useState({});
+    const [ designDiscounts, setDesignDiscounts ] = useState({});
+    
+    const { cart } = useCart()
+
+    useEffect(() => {
+        const products_categories = cart.reduce((acc, item) => {
+          if (!acc.categories.includes(item.category)) {
+              acc.categories.push(item.category);
+          }
+          if (!acc.subcategories.includes(item.subcategory)) {
+              acc.subcategories.push(item.subcategory);
+          }
+          if (!acc.types.includes(item.type)) {
+              acc.types.push(item.type);
+          }
+          if (!acc.designs.includes(item.design)) {
+              acc.designs.push(item.design);
+          }
+          return acc;
+          }, {
+              categories: [],
+              subcategories: [],
+              types: [],
+              designs: []
+          });
+
+          getCategoryDiscount(products_categories['categories']).then(
+            (res) => setCategoryDiscounts(res)
+          )
+
+          getSubcategoryDiscount(products_categories['subcategories']).then(
+            (res) => setSubcategoryDiscounts(res)
+          )
+
+          getTypeDiscount(products_categories['types']).then(
+            (res) => setTypeDiscounts(res)
+          )
+
+          getDesignDiscount(products_categories['designs']).then(
+            (res) => setDesignDiscounts(res)
+          )
+    
+      }, []);
+
 
     const handleClick = () => {
         
         setPreferenceLoading(true)
 
         let items_compra = []
-        if(carrito){
-            carrito.forEach(item => {
-                items_compra.push({
-                    id: item.id,
-                    title: item.name,
-                    code: item.code,
-                    unit_price: item.price,
-                    compresion: item.compresion,
-                    quantity: item.cantidad,
-                    description: item.description,
-                    discount: item.discount,
-                    category_discount: item.category_discount,
-                    subcategory_discount: item.subcategory_discount,
-                    category: item.category,
-                    subcategory: item.subcategory,
-                    type: item.type,
-                    design: item.design,
-                    images: item.images
-                })
+        if(cart){
+            cart.forEach(item => {
+                if(item.name.toLowerCase().includes('pares')){
+                    items_compra.push({
+                        id: item.id,
+                        title: item.name,
+                        unit_price: item.price - (item.price * (item.discount/100)),
+                        quantity: item.cantidad,
+                        description: item.description,
+                        discount: item.discount,
+                        images: item.image_url
+                    })
+                }else{
+                    items_compra.push({
+                        id: item.id,
+                        title: item.name,
+                        code: item.code,
+                        unit_price: item.price,
+                        // unit_price: item.price - (item.price * (item.discount / 100)) - (item.price * (categoryDiscounts[item.category.toLowerCase()] / 100)) - (item.price * (subcategoryDiscounts[item.subcategory.toLowerCase()] / 100)) - (item.price * (typeDiscounts[item.type.toLowerCase()] / 100)) - (item.price * (designDiscounts[item.design.toLowerCase()] / 100)),
+                        compresion: item.compresion,
+                        quantity: item.cantidad,
+                        description: item.description,
+                        discount: item.discount,
+                        category_discount: item.category_discount,
+                        subcategory_discount: item.subcategory_discount,
+                        category: item.category,
+                        subcategory: item.subcategory,
+                        type: item.type,
+                        design: item.design,
+                        images: item.images
+                    })
+                }
+                
             });
         }
+
+        console.log(items_compra)
         const datos_compra = {
             items: [...items_compra, {title: 'Envío', unit_price: shipping.shipping_value, quantity: 1}],
         }
@@ -106,12 +169,12 @@ export const BillingForm = () => {
         )
 
         modifyShipping({
-            email,
-            name,
-            lastName,
-            document,
-            phone,
-            direccion
+            email: email,
+            first_name: name,
+            last_name: lastName,
+            document: document,
+            phone: phone,
+            direccion: direccion
         })
     }
 

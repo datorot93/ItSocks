@@ -44,6 +44,7 @@ class CRUDType(CRUDBase[Type, TypeCreate, TypeUpdate]):
 
         return db_obj
     
+    
     def remove_type(
         self, 
         db: Session, 

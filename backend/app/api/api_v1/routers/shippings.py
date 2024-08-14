@@ -9,7 +9,7 @@ from app.api import deps
 router = APIRouter()
 
 
-@router.get("/shippings", response_model=List[schemas.Shipping], response_model_exclude_none=True)
+@router.get("", response_model=List[schemas.Shipping], response_model_exclude_none=True)
 async def shipping_list(
     response: Response,
     db: Session = Depends(deps.get_db),
@@ -21,7 +21,7 @@ async def shipping_list(
     Get all shippings
     """
     shippings = crud.shipping.get_shippings(db, skip=skip, limit=limit)
-    # response.headers["Content-Range"] = f"0-9/{len(shippings)}"
+    response.headers["Content-Range"] = f"0-9/{len(shippings)}"
     return shippings
 
 
@@ -87,3 +87,79 @@ async def get_shipping_cost(
     """
     shipping_cost = crud.shipping.get_shipping_cost(db, departamento, municipio, skip=skip, limit=limit)
     return shipping_cost
+
+@router.get("/{shipping_id}")
+async def get_shipping_by_id(
+    shipping_id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Get a specific shipping by id.
+    """
+    shipping = crud.shipping.get_shipping_by_id(db=db, id=shipping_id)
+    if not shipping:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe el envío especificado con el ID {shipping_id}",
+        )
+    return shipping
+
+
+@router.put("/{shipping_id}", response_model=schemas.Shipping, response_model_exclude_none=True)
+async def update_shipping(
+    shipping_id: int,
+    shipping_in: schemas.ShippingUpdate,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Update an existing Shipping
+    """
+    shipping = crud.shipping.get_shipping_by_id(db=db, id=shipping_id)
+    if not shipping:
+        raise HTTPException(
+            status_code=404, detail="The Shipping does not exist in the system",
+        )
+    shipping = crud.shipping.update(
+        db=db, db_obj=shipping, obj_in=shipping_in
+    )
+    return shipping
+
+
+@router.delete("/{shipping_id}", response_model=schemas.Shipping, response_model_exclude_none=True)
+async def delete_shipping(
+    shipping_id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Delete an existing Shipping
+    """
+    shipping = crud.shipping.get_shipping_by_id(db=db, id=shipping_id)
+    if not shipping:
+        raise HTTPException(
+            status_code=404, detail="The Shipping does not exist in the system",
+        )
+    shipping = crud.shipping.remove(db=db, id=shipping_id)
+    return shipping
+
+@router.post("", response_model=schemas.Shipping, response_model_exclude_none=True)
+async def create_shipping(
+    request: Request,
+    shipping_in: schemas.ShippingCreate,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Create a new Shipping
+    """
+
+    print(shipping_in)
+    shipping = crud.shipping.get_shipping_by_municipio(db, municipio_ciudad=shipping_in.municipio_ciudad)
+    if shipping:
+        raise HTTPException(
+            status_code=400, detail="The Shipping type already exists",
+        )
+    shipping = crud.shipping.create(db=db, obj_in=shipping_in)
+    return shipping

@@ -22,7 +22,8 @@ origins = [
     "https://ec2-18-189-182-50.us-east-2.compute.amazonaws.com",
     "http://localhost",
     "http://localhost:8080",
-    "http://localhost:5173"
+    "http://localhost:5173/*",
+    "*"
 ]
 
 app.add_middleware(
@@ -31,6 +32,7 @@ app.add_middleware(
     # allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["Content-Range"]
 )
 
 @app.middleware("http")
