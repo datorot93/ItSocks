@@ -7,3 +7,11 @@ export const getSizeGuidByName = async( size_guide ) => {
 
     return data
 }
+
+
+export const getSizeGuides = async () => {
+    const resp = await fetchWithoutToken(`size_guides`)
+    const data = await resp.json();
+
+    return data
+}

@@ -31,6 +31,7 @@ import { WishListShared } from "../pages/WishListShared";
 import { DiscountProvider } from "../../context/discount";
 import { PreferenceProvider } from "../../context/preference";
 import { getFiltersAccesorios } from "../helpers/getProductsByCategory";
+import { OrderDescription } from "../pages/OrderDescription";
 
 export const ItSocksRoutes = () => {
 
@@ -702,7 +703,7 @@ export const ItSocksRoutes = () => {
               <PreferenceProvider>
                 <Routes>
                   
-                  {/* COMPRAS */}
+                  {/* CARRITO COMPRA */}
                   <Route path="carrito" element={<CarritoCompras />} />
                   <Route path="carrito/billing" element={<Billing />} />
                   <Route
@@ -712,6 +713,14 @@ export const ItSocksRoutes = () => {
                   <Route
                     path="carrito/billing/billing_info"
                     element={<BillingInfo />}
+                  />
+                </Routes>
+                
+                {/* DESCRIPCIÓN ORDEN */}
+                <Routes>
+                  <Route 
+                    path="order/:id_order" 
+                    element={<OrderDescription />} 
                   />
                 </Routes>
                 </PreferenceProvider>

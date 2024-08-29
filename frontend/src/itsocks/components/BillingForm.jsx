@@ -7,8 +7,6 @@ import styles from '../../ui/styles/Billing.module.css'
 import itsocks_logo from '../../../public/assets/navbar/itsocks_logo.png';
 import fase_1 from '../../../public/assets/pago/1_fase.png'
 
-// Mercadopago
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useShipping } from '../../hooks/useShipping'

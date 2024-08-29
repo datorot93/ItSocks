@@ -8,6 +8,8 @@ from app.api import deps
 
 # UTILITIES
 import os
+import httpx
+import requests
 
 # EMAIL
 from email.mime.multipart import MIMEMultipart
@@ -28,9 +30,11 @@ async def order_list(
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
-    Get all Orders
+    Get all Orders adsas
     """
 
+    # http://itsocks.s3-website.us-east-2.amazonaws.com/?collection_id=85419114517&collection_status=approved&payment_id=85419114517&status=approved&external_reference=null&payment_type=account_money&merchant_order_id=21964129510&preference_id=1600827084-e01ca9a8-7597-46c3-b1a9-cc5dcbbd9624&site_id=MCO&processing_mode=aggregator&merchant_account_id=null
+    
     orders = crud.order.get_order_list(
         db,
         skip=skip, 

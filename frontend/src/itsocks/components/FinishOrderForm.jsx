@@ -15,7 +15,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 // MERCADOPAGO
-// import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 
 // HELPERS
@@ -56,9 +55,15 @@ export const FinishOrderForm = () => {
 
     }
 
-    initMercadoPago('APP_USR-fdd1f5ed-5de6-4b53-bf09-28c53ff9827a', {
+
+    // https://www.mercadopago.com.co/checkout/v1/payment/redirect/bcb3db22-1c08-41d5-ad73-135cc79e6cc9/fatal/?preference-id=1600827084-c9b35f77-bbc4-4792-8862-7ef349b42c75&router-request-id=f571fc8f-adc7-4051-9019-245a4116b8cf&p=6c8b6c024d956c83aab8b0351d1e6edd
+
+    initMercadoPago('APP_USR-394df966-9b8b-442a-9c5c-71f6923d3ad0', {
         locale: 'es-CO'
     });
+    // initMercadoPago('APP_USR-fdd1f5ed-5de6-4b53-bf09-28c53ff9827a', {
+    //     locale: 'es-CO'
+    // });
 
     // const initialization = {
     //     preferenceId: preference.response.id,
@@ -114,7 +119,8 @@ export const FinishOrderForm = () => {
             "total": shipping.total,
             "subtotal": shipping.subtotal,
             "shipping_guide": "No asignada",
-            "shipping_guide_url": ""
+            "shipping_guide_url": "",
+            "preference": preference.response.id
         }).then(
             data => {
                 console.log('Este es el data: ', data)
@@ -162,6 +168,8 @@ export const FinishOrderForm = () => {
         
 
         // clearCart()
+        // navigate(preference.response.init_point, { replace: true })
+        window.location.href = preference.response.init_point;
 
     }
     

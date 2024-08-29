@@ -11,7 +11,7 @@ import mercadopago
 
 router = APIRouter()
 
-sdk = mercadopago.SDK("APP_USR-3862339680898373-061913-d48cd5b2fa6933c9ab7671f72d9d0e31-756609509")
+sdk = mercadopago.SDK("APP_USR-5570936269195060-121823-0c16a1942fc303996ffead6a436796ee-1600827084")
 
 @router.post("create_payment_preference")
 async def create_payment_preference(

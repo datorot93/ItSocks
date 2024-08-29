@@ -60,7 +60,6 @@ export const ProductDescription = () => {
   const [selectedIndex, setSelectedIdenx] = useState(0);
   const [otherPhotos, setOtherPhotos] = useState(initialState);
   const [cantProducts, setCantProducts] = useState(1);
-  const [sizeGuide, setSizeGuide] = useState({})
   
   const navigate = useNavigate();
 
