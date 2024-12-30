@@ -20,7 +20,8 @@ async def create_payment_preference(
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    # print(obj_in)
+    print(obj_in)
+
 
     obj_in['back_urls'] = {
         'success': 'http://itsocks.s3-website.us-east-2.amazonaws.com/',

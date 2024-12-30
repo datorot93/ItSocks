@@ -23,31 +23,34 @@ async def subcategory_create(
     name: str,
     discount: int = 0,
     code: str = "",
-    file: UploadFile = File(...),
+    file: UploadFile = File(None),
+    # file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Subcategory
     """
+    if file:
+        
+        s3 = boto3.resource(
+            's3', 
+            aws_access_key_id=aws_access_key, 
+            aws_secret_access_key=aws_secret_key,
+            region_name=aws_region_name
+        )
+        file_name = file.filename
+        url = ""
+        with open(file_name, "wb") as buffer:
+            buffer.write(await file.read())
+            bucket = s3.Bucket('itsocks-images')
+            obj = bucket.Object(file.filename)
+            obj.upload_file(buffer.name)
+            url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
 
-    s3 = boto3.resource(
-        's3', 
-        aws_access_key_id=aws_access_key, 
-        aws_secret_access_key=aws_secret_key,
-        region_name=aws_region_name
-    )
-    
-    file_name = file.filename
-    url = ""
-    with open(file_name, "wb") as buffer:
-        buffer.write(await file.read())
-        bucket = s3.Bucket('itsocks-images')
-        obj = bucket.Object(file.filename)
-        obj.upload_file(buffer.name)
-        url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+    else:
+        url = ""
 
-    
     subcategory_in = schemas.SubcategoryCreate(
         id_category = id_category,
         name = name,
@@ -55,6 +58,23 @@ async def subcategory_create(
         discount = discount,
         image_url = url
     )
+
+    if id_category == 2:
+        type_in = schemas.TypeCreate(
+            name = name,
+            code = code,
+            discount = 0
+        )
+
+        design_in = schemas.DesignCreate(
+            name = name,
+            code = code,
+            discount = 0
+        )
+
+        crud.type.create(db, obj_in=type_in)
+        crud.design.create(db, obj_in=design_in)
+
 
     subcategory = crud.subcategory.create(db, obj_in=subcategory_in)
     

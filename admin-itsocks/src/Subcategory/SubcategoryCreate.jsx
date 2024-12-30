@@ -18,15 +18,18 @@ export const SubcategoryCreate = (props) => {
   
   const handleSave = async (data) => {
     const formData = new FormData();
-    formData.append('file', data.file.rawFile);
-
+    if (data.file){
+      formData.append('file', data.file.rawFile);
+    }
+    
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
 
     const response = await fetch(
       // `http://localhost/api/v1/images?id_product=${data.id_product}`,
-      `http://localhost/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount}&code=${data.code}`,
+      
+      `http://localhost/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount? data.discount : "0"}&code=${data.code}`,
       {
         method: 'POST',
         body: formData,

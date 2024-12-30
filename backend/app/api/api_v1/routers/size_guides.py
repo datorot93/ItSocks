@@ -86,8 +86,9 @@ async def size_guides_list(
     return size_guides
 
 
+
 @router.get(
-    "/{size_guide}", 
+    "/name/{size_guide}", 
     response_model=schemas.SizeGuide, 
     response_model_exclude_none=True
 )
@@ -109,11 +110,12 @@ async def get_size_guide_by_name(
 
 
 @router.get(
-    "/{size_guide_id}", response_model=schemas.SizeGuide, response_model_exclude_none=True
+    "/{size_guide_id}", 
+    response_model=schemas.SizeGuide, 
+    response_model_exclude_none=True
 )
 async def size_guide_by_id(
     size_guide_id: int,
-    # current_user: models.User = Depends(deps.get_current_active_user),
     db: Session = Depends(deps.get_db),
 ):
     """
@@ -126,6 +128,7 @@ async def size_guide_by_id(
             detail=f"No existe size_guide con el ID {size_guide_id}",
         )
     return size_guide
+
 
 @router.delete(
     "/{size_guide_id}", response_model=schemas.SizeGuide, response_model_exclude_none=True
@@ -151,24 +154,58 @@ async def size_guide_delete(
 
 @router.put(
     "/{size_guide_id}", 
-    response_model=schemas.SizeGuide, 
+    # response_model=schemas.SizeGuide, 
     response_model_exclude_none=True
 )
 async def size_guide_edit(
     request: Request,
+    size_guide: str,
     size_guide_id: int,
-    size_guide_in: schemas.SizeGuideUpdate,
+    alt: str = '',
+    file: UploadFile = File(None),
     db: Session = Depends(deps.get_db)
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update existing SizeGuide
     """
+
+    print('*' * 20)
+    print(size_guide_by_id)
+    print(size_guide)
+
     size_guide = crud.size_guide.get(db, id=size_guide_id)
+
     if not size_guide:
         raise HTTPException(
             status_code=404,
             detail=f"No existe size_guide con el ID {size_guide_id}",
         )
-    size_guide = crud.size_guide.update(db, db_obj=size_guide, obj_in=size_guide_in)
-    return size_guide
+
+    url = ""
+    if file:
+        s3 = boto3.resource(
+            's3', 
+            aws_access_key_id=aws_access_key, 
+            aws_secret_access_key=aws_secret_key,
+            region_name=aws_region_name
+        )
+        file_name = file.filename
+        url = ""
+        with open(file_name, "wb") as buffer:
+            buffer.write(await file.read())
+            bucket = s3.Bucket('itsocks-images')
+            obj = bucket.Object(file.filename)
+            obj.upload_file(buffer.name)
+            url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+
+
+    # size_guide_in = schemas.SizeGuide(
+    #     size_guide = size_guide,
+    #     image_url = url,
+    #     alt = alt
+    # )
+
+    # size_guide = crud.size_guide.update(db, db_obj=size_guide, obj_in=size_guide_in)
+    # return size_guide
+    return ""

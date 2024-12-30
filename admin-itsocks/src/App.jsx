@@ -17,7 +17,7 @@ import { TagProductList, TagProductEdit, TagProductCreate } from './TagProduct'
 import { ProductSizeList, ProductSizeEdit, ProductSizeCreate } from './ProductSize'
 import { OrderList, OrderEdit } from './Order'
 import { ProductOrderList, ProductOrderEdit } from './ProductOrder'
-import { SizeGuideCreate, SizeGuideList } from './SizeGuide';
+import { SizeGuideCreate, SizeGuideList, SizeGuideEdit } from './SizeGuide';
 import { TypeImageList, TypeImageEdit, TypeImageCreate } from './TypeImage';
 
 import simpleRestProvider from 'ra-data-simple-rest';
@@ -168,6 +168,8 @@ function App() {
             name="size_guides"
             list={SizeGuideList}
             create={SizeGuideCreate}
+            edit={SizeGuideEdit}
+            options={{ label: 'Guías de tallas' }}
           />
           
           

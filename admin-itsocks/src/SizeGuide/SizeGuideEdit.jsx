@@ -1,32 +1,37 @@
 import React from 'react';
-
-import { Create, 
-  SimpleForm, 
-  FileInput, 
-  FileField, 
-  useNotify, 
-  useRedirect, 
-  ReferenceInput ,
-  SelectInput,
-  AutocompleteInput,
+import {
+  Edit,
+  SimpleForm,
   TextInput,
+  FileInput,
+  FileField,
+  ReferenceInput,
+  useNotify,
+  useRedirect,
 } from 'react-admin';
 
-export const SizeGuideCreate = (props) => {
+export const SizeGuideEdit = (props) => {
 
-  const notify = useNotify();
-  const redirect = useRedirect();
+  const notify = useNotify()
+  const redirect = useRedirect()
 
   const handleSave = async (data) => {
     const formData = new FormData();
+    console.log(data)
     formData.append('file', data.file.rawFile);
 
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
 
-    // const response = await fetch(`http://localhost/api/v1/images?id_product=${data.id_product}`, {
-    const response = await fetch(`http://localhost/api/v1/size_guides?size_guide=${data.size_guide}&alt=${data.alt}`, {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await fetch(
+      // `http://localhost/api/v1/subcategories/4?id_category=1&name=Estampadas&discount=0&code=me`
+      `http://localhost/api/v1/size_guides/${data.id}?size_guide=${data.size_guide}&alt=${data.alt}`,
+      {
+        method: 'PUT',
+        body: formData,
+      }
+    );
 
     if (response.ok) {
       notify('File uploaded successfully!');
@@ -36,9 +41,8 @@ export const SizeGuideCreate = (props) => {
     }
   };
 
-
   return (
-    <Create {...props}>
+    <Edit {...props}>
       <SimpleForm onSubmit={handleSave}>
         <TextInput source="size_guide" label="Guia talla"/>
         <TextInput source="alt" label="Alt"/>
@@ -47,6 +51,7 @@ export const SizeGuideCreate = (props) => {
           <FileField source="src" title="title" />
         </FileInput>
       </SimpleForm>
-    </Create>
-  );
-};
+    </Edit>
+  )
+}
+
