@@ -13,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import VideoComponent from "../components/VideoComponent";
 import ScrollHorizontal from "../components/ScrollHorizontal";
 import { PopUpPromo } from "../components/PopUpPromo";
+import { getLifeStyles } from "../helpers/getSliders";
 
 
 const quitarAcentos = (cadena) => {
@@ -20,11 +21,10 @@ const quitarAcentos = (cadena) => {
 }
 
 
-
-
 export const ItSocks = () => {
   
   const [showPopup, setShowPopup] = useState(false);
+  const [ lifeStyles, setLifeStyles ] = useState([]);
 
   useEffect(() => {
     const hasPopupBeenShown = sessionStorage.getItem('popupShown');
@@ -33,6 +33,10 @@ export const ItSocks = () => {
       sessionStorage.setItem('popupShown', 'true');
     }
     window.scrollTo(0, 0);
+
+    getLifeStyles().then( (data) => {
+      setLifeStyles(data);
+    })
   }, []);
 
 
@@ -91,15 +95,15 @@ export const ItSocks = () => {
         <div className={styles.estilos_vida}>
           <h2>ESTILOS DE VIDA</h2>
           <div className={styles.image_container}>
-            {estilosVida.map((image, index) => (
-              <Link key={index} to={quitarAcentos(image.description)}>
+            {lifeStyles.map((image, index) => (
+              <Link key={index} to={quitarAcentos(image.name)}>
                 <div className={styles.estilos_card} key={index}>
                   <LazyLoadImage
-                    src={image.src}
-                    alt={image.description}
+                    src={image.image_url}
+                    alt={image.name}
                     key={index}
                   />
-                  <p>{image.description}</p>
+                  <p>{image.name}</p>
                 </div>
               </Link>
             ))}

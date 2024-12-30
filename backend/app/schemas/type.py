@@ -5,6 +5,8 @@ from pydantic import BaseModel
 class TypeBase( BaseModel ):
     name: str = None
     code: str = None
+    discount: int = None
+    image_url: str = None
 
 class TypeCreate( TypeBase ):
     pass

@@ -25,25 +25,34 @@ class CRUDSubcategory(CRUDBase[Subcategory, SubcategoryCreate, SubcategoryUpdate
         code: str
     ):
         return db.query(Subcategory).filter(Subcategory.code == code).first()
+    
+    def get_by_id(
+        self,
+        db: Session,
+        *,
+        id: int
+    ):
+        
+        return db.query(Subcategory).filter(Subcategory.id == id).first()
 
 
-    def create(
-            self,
-            db: Session,
-            *,
-            obj_in: SubcategoryCreate,
-            id_category: int
-    ) -> Subcategory:
-        obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(
-            **obj_in_data, 
-            id_category=id_category
-        )
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
+    # def create(
+    #         self,
+    #         db: Session,
+    #         *,
+    #         obj_in: SubcategoryCreate,
+    #         id_category: int
+    # ) -> Subcategory:
+    #     obj_in_data = jsonable_encoder(obj_in)
+    #     db_obj = self.model(
+    #         **obj_in_data, 
+    #         id_category=id_category
+    #     )
+    #     db.add(db_obj)
+    #     db.commit()
+    #     db.refresh(db_obj)
 
-        return db_obj
+    #     return db_obj
     
     def remove_subcategory(
         self, 

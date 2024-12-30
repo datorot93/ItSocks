@@ -7,23 +7,27 @@ class SliderBase( BaseModel ):
     description: str
     alt: str
     url: str
+    state: bool
 
 class SliderCreate( SliderBase ):
     link: str = ""
     description: str = ""
     alt: str = ""
     url: str = ""
+    state: bool = True
 
 class SliderIn( BaseModel ):
     link: str = ""
     description: str
     alt: str
+    state: bool
 
 class SliderUpdate( SliderBase ):
     link: str = ""
     description: str
     alt: str
     url: str
+    state: bool
 
 class SliderInDBBase( SliderBase ):
     id: Optional[ int ] = None
@@ -31,6 +35,7 @@ class SliderInDBBase( SliderBase ):
     description: Optional[str]
     alt: Optional[str]
     url: str
+    state: bool
 
     class Config:
         orm_mode = True
@@ -41,6 +46,7 @@ class Slider( SliderInDBBase ):
     description: Optional[str] = None
     alt: Optional[str] = None
     url: str
+    state: bool
 
 class SliderInDB( SliderInDBBase ):
     pass

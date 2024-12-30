@@ -11,7 +11,7 @@ import camion from "../../../public/assets/carrito/Truck.svg";
 import regalo from "../../../public/assets/carrito/regalo 1.svg";
 import { Link } from "react-router-dom";
 import { useShipping } from "../../hooks/useShipping";
-import { getCiudadesPorDepartamento, getDepartamentos, getShippingCost } from "../helpers/getShippingInfo";
+import { getCategoryDiscount, getCiudadesPorDepartamento, getDepartamentos, getDesignDiscount, getShippingCost, getSubcategoryDiscount, getTypeDiscount } from "../helpers/getShippingInfo";
 import { useDiscount } from "../../hooks/useDiscount";
 
 export const FormShippingEstimates = () => {
@@ -33,14 +33,90 @@ export const FormShippingEstimates = () => {
   const [indicacionesExtra, setIndicacionesExtra] = useState("");
   const [isAcepted, setIsAcepted] = useState(false);
 
-  const total = cart.reduce((acumulador, objeto) => {
-    // Agregar una condición para filtrar elementos
-    if (!objeto.name.toLowerCase().includes("pack")) {
-      return acumulador + objeto.cantidad * objeto.price;
-    } else {
-      return acumulador + objeto.price;
-    }
-  }, 0);
+  const [total, setTotal] = useState(0);
+
+  // DISCOUNTS
+  const [ categoryDiscounts, setCategoryDiscounts ] = useState({});
+  const [ subcategoryDiscounts, setSubcategoryDiscounts ] = useState({});
+  const [ typeDiscounts, setTypeDiscounts ] = useState({});
+  const [ designDiscounts, setDesignDiscounts ] = useState({});
+
+
+  
+
+  
+  // console.log(products_categories)
+  useEffect(() => {
+    const products_categories = cart.reduce((acc, item) => {
+      if (!acc.categories.includes(item.category) && item.category) {
+          acc.categories.push(item.category.toLowerCase());
+      }
+      if (!acc.subcategories.includes(item.subcategory) && item.subcategory) {
+          acc.subcategories.push(item.subcategory.toLowerCase());
+      }
+      if (!acc.types.includes(item.type) && item.type) {
+          acc.types.push(item.type.toLowerCase());
+      }
+      if (!acc.designs.includes(item.design) && item.design) {
+          acc.designs.push(item.design.toLowerCase());
+      }
+      return acc;
+      }, {
+          categories: [],
+          subcategories: [],
+          types: [],
+          designs: []
+      });
+
+      getCategoryDiscount(products_categories['categories']).then(
+        (res) => setCategoryDiscounts(res)
+      )
+
+      getSubcategoryDiscount(products_categories['subcategories']).then(
+        (res) => setSubcategoryDiscounts(res)
+      )
+
+      getTypeDiscount(products_categories['types']).then(
+        (res) => setTypeDiscounts(res)
+      )
+
+      getDesignDiscount(products_categories['designs']).then(
+        (res) => setDesignDiscounts(res)
+      )
+
+  }, []);
+
+  useEffect(() => {
+    setTotal(cart.reduce((acumulador, objeto) => {
+      const discounts = []
+      if (!objeto.name.toLowerCase().includes("pares")) {
+        
+        discounts.push(objeto.discount)
+
+        if (categoryDiscounts[objeto.category.toLowerCase()]){
+          discounts.push(categoryDiscounts[objeto.category.toLowerCase()])
+        }
+        if (subcategoryDiscounts[objeto.subcategory.toLowerCase()]){
+          discounts.push(subcategoryDiscounts[objeto.subcategory.toLowerCase()])
+        }
+        if (typeDiscounts[objeto.type.toLowerCase()]){
+          discounts.push(typeDiscounts[objeto.type.toLowerCase()])
+        }
+        if (designDiscounts[objeto.design.toLowerCase()]){
+          discounts.push(designDiscounts[objeto.design.toLowerCase])
+        }
+
+        return (acumulador + (objeto.cantidad * objeto.price)) -(
+          objeto.cantidad * objeto.price * (Math.max.apply(null,discounts) / 100)
+        )
+
+      } else {
+        return acumulador + objeto.price * objeto.cantidad - (
+          objeto.price * (objeto.discount / 100)
+        );
+      }
+    }, 0));
+  }, [categoryDiscounts, subcategoryDiscounts, typeDiscounts, designDiscounts]);
 
   useEffect(() => {
     if(selectedCountry === "Colombia") {
@@ -118,9 +194,6 @@ export const FormShippingEstimates = () => {
     setIsAcepted(event.target.checked);
   };
 
-  const handleCalculateShipping = (event) => {
-    setIsCalculated(true);
-  };
 
   const { removeFromDiscount } = useDiscount();
 
@@ -137,17 +210,25 @@ export const FormShippingEstimates = () => {
       extra_information: datosExtra,
       shipping_value: shippingCost,
       isGift: isChecked,
+      subtotal: total,
+      total: total + shippingCost,
+      products: cart,
+      products_quantity: cart.reduce((acumulador, objeto) => {
+        return acumulador + objeto.cantidad;
+      },0),
+      discount: 0,
+      discount_code: ""
     });
   }
 
-  const subtotal = cart.reduce((acumulador, objeto) => {
-    // Agregar una condición para filtrar elementos
-    if (Object.keys(objeto).length == 12) {
-      return acumulador + objeto.cantidad * objeto.price;
-    } else {
-      return acumulador + objeto.price;
-    }
-  }, 0);
+  // const subtotal = cart.reduce((acumulador, objeto) => {
+  //   // Agregar una condición para filtrar elementos
+  //   if (Object.keys(objeto).length == 12) {
+  //     return acumulador + objeto.cantidad * objeto.price;
+  //   } else {
+  //     return acumulador + objeto.price;
+  //   }
+  // }, 0);
 
   return (
     <div className={styles.main_container}>

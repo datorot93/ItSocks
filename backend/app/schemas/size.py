@@ -7,21 +7,20 @@ class SizeBase( BaseModel ):
     size: str = None
 
 class SizeCreate( SizeBase ):
-    size: str = None
+    pass
 
 class SizeUpdate( SizeBase ):
-    size: str = None
+    pass
 
 class SizeInDBBase( SizeBase ):
     id: int
-    size: str = None
 
     class Config:
         orm_mode = True
 
 
 class Size( SizeInDBBase ):
-    size: str = None
+    pass
 
 class SizeInDB( SizeInDBBase ):
     pass

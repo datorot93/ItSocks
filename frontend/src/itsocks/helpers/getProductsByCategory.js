@@ -3,11 +3,11 @@ import { fetchWithoutToken } from "../../utils/api";
 const LIMIT_QUERY = 30;
 
 export const getProductsByCategory = async( category, skip ) => {
+
     const resp = await fetchWithoutToken(
-        `products/accesorios?category=${category}&skip=${skip}&limit=${LIMIT_QUERY}`
+        `products/category/${category}?skip=${skip}&limit=${LIMIT_QUERY}`
     )
     const data = await resp.json();
-
     return data
 }
 
@@ -34,6 +34,8 @@ export const getProductsByDesign = async( design ) => {
 }
 
 export const getProductcsByCatSubcat = async( category, subcategory, skip) => {
+
+    
     const resp = await fetchWithoutToken(
         `products/q/products_categories?category=${category}&subcategory=${subcategory}&skip=${skip}&limit=${LIMIT_QUERY}`
     )
@@ -49,7 +51,6 @@ export const getProductsFilters = async( category, subcategory, type ) => {
     )
 
     const data = await resp.json();
-    // console.log(data)
     return data
 }
 

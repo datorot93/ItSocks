@@ -173,7 +173,7 @@ export const ListaCarrito = () => {
                 </td>
                 <td>
                   <div className={styles.centrar}>
-                    <span>{`${producto.price.toLocaleString("es-CO", {
+                    <span>{`${(producto.price - (producto.price * (producto.discount/100))).toLocaleString("es-CO", {
                       style: "currency",
                       currency: "COP",
                     })}`}</span>
@@ -203,8 +203,7 @@ export const ListaCarrito = () => {
                 <td>
                   <div className={styles.centrar}>
                     {`${(
-                      producto.price *
-                      (producto.cantidad + cantProducts)
+                      ((producto.price * (producto.cantidad + cantProducts)) - ((producto.price * (producto.cantidad + cantProducts)) * (producto.discount/100)))
                     ).toLocaleString("es-CO", {
                       style: "currency",
                       currency: "COP",
@@ -241,7 +240,7 @@ export const ListaCarrito = () => {
                 </td>
                 <td>
                   <div className={styles.centrar}>
-                    <span>{`${producto.price.toLocaleString("es-CO", {
+                    <span>{`${(producto.price - (producto.price * (producto.discount/100))).toLocaleString("es-CO", {
                       style: "currency",
                       currency: "COP",
                     })}`}</span>
@@ -266,7 +265,7 @@ export const ListaCarrito = () => {
                 </td>
                 <td>
                   <div className={styles.centrar}>{`${(
-                    producto.price * producto.cantidad
+                    ((producto.price * producto.cantidad) - ((producto.price * producto.cantidad) * (producto.discount/100))) 
                   ).toLocaleString("es-CO", {
                     style: "currency",
                     currency: "COP",

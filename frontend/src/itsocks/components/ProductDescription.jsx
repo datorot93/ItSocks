@@ -23,6 +23,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PopUpTallas } from "./PopUpTallas";
 import ScrollHorizontal from "./ScrollHorizontal";
 import { useWish } from "../../hooks/useWish";
+import { getSizeGuidByName } from "../helpers/getSizeGuides";
 
 // React Reducx
 
@@ -59,7 +60,6 @@ export const ProductDescription = () => {
   const [selectedIndex, setSelectedIdenx] = useState(0);
   const [otherPhotos, setOtherPhotos] = useState(initialState);
   const [cantProducts, setCantProducts] = useState(1);
-
   
   const navigate = useNavigate();
 
@@ -97,7 +97,9 @@ export const ProductDescription = () => {
       res => setSimirlarProducts([...res])
     ).catch( err => console.log(err))
 
-    
+    // getSizeGuidByName(tipo_media).then( (data) => {
+    //   setSizeGuide(data)
+    // })
 
   }, [producto, pathname]);
 
@@ -233,6 +235,8 @@ export const ProductDescription = () => {
 
     window.scrollTo(0, 0);
   };
+
+  console.log(tallas)
 
   const handleComprarAhora = () => {
     if(cantProducts > 0 ){

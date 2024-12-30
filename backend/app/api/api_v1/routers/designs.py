@@ -33,34 +33,34 @@ async def design_create(
     return design
 
 @router.put(
-    "/{code}", response_model=schemas.Type, response_model_exclude_none=True
+    "/{id}", response_model=schemas.Design, response_model_exclude_none=True
 )
-async def type_edit(
+async def desing_edit(
     request: Request,
-    code: str,
-    type_in: schemas.TypeUpdate,
+    id: int,
+    design_in: schemas.DesignUpdate,
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """ Update an existing Type """
-    type = crud.type.get_by_code(db, code=code)
-    if not type:
+    design = crud.design.get(db, id=id)
+    if not design:
         raise HTTPException(
             status_code=404,
-            detail=f"No existe tipo con el código {code}",
+            detail=f"No existe diseño con el ID {id}",
         )
 
-    type = crud.type.update(
-        db, db_obj=type, obj_in=type_in
+    design = crud.design.update(
+        db, db_obj=design, obj_in=design_in
     )
-    return type
+    return design
 
 @router.get(
-    "/all_types", 
-    response_model=List[schemas.Type], 
+    "", 
+    response_model=List[schemas.Design], 
     response_model_exclude_none=True,
 )
-async def type_list(
+async def design_list(
     response: Response,
     db: Session = Depends(deps.get_db),
     skip: int = 0,
@@ -68,34 +68,53 @@ async def type_list(
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
-    Get all Subcategories
+    Get all Designs
     """
-    types = crud.type.get_multi(
+    designs = crud.design.get_multi(
         db, 
         skip=skip, 
         limit=limit
     )
     # print(devices)
-    response.headers["Content-Range"] = f"0-9/{len(types)}"
-    return types
+    response.headers["Content-Range"] = f"0-9/{len(designs)}"
+    return designs
+
+@router.get(
+    "/{id}", response_model=schemas.Design, response_model_exclude_none=True
+)
+async def design_by_id(
+    id: int,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific Design by id.
+    """
+    design = crud.design.get(db, id=id)
+    if not design:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe el diseño con el ID {id}",
+        )
+    return design
 
 @router.delete(
-    "/{code}", response_model=schemas.Type, response_model_exclude_none=True
+    "/{id}", response_model=schemas.Design, response_model_exclude_none=True
 )
-async def type_delete(
+async def design_delete(
     request: Request,
-    code: str,
+    id: int,
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
-    Delete existing Type
+    Delete existing Design
     """
-    type = crud.type.get_by_code(db, code=code)
-    if not type:
+    design = crud.design.get(db, id=id)
+    if not design:
         raise HTTPException(
             status_code=404,
-            detail=f"No existe el tipo especificado con el código {code}",
+            detail=f"No existe el tipo especificado con el código {id}",
         )
-    type = crud.type.remove_type(db=db, code=code)
-    return type
+    design = crud.design.remove(db=db, id=id)
+    return design

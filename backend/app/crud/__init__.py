@@ -17,4 +17,9 @@ from .crud_product_size import product_size
 from .crud_product_color import product_color
 from .crud_wish_list import wish_list
 from .crud_customer import customer
+from .crud_user import user
+from .crud_order import order
+from .crud_product_order import product_order
+from .crud_size_guide import size_guide
+from .crud_type_image import type_image
 # from .crud_type_design import type_design

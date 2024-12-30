@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 # from app.api.api_v1.routers import login, users
-from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers
+from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers, users, tags, tag_products, product_sizes, orders, product_orders, size_guides, type_images
 
 
 api_router = APIRouter()
@@ -21,3 +21,11 @@ api_router.include_router(customers.router, prefix="/customer", tags=["customers
 api_router.include_router(files.router, prefix="/files", tags=["files"])
 api_router.include_router(payments.router, prefix="/payments_preference", tags=["payments"])
 api_router.include_router(sliders.router, prefix="/sliders", tags=["sliders"])
+api_router.include_router(users.router, prefix="/users", tags=["users"])
+api_router.include_router(tags.router, prefix="/tags", tags=["tags"])
+api_router.include_router(tag_products.router, prefix="/tag_products", tags=["tag_products"])
+api_router.include_router(product_sizes.router, prefix="/product_sizes", tags=["product_sizes"])
+api_router.include_router(orders.router, prefix="/orders", tags=["orders"])
+api_router.include_router(product_orders.router, prefix="/product_orders", tags=["product_orders"])
+api_router.include_router(size_guides.router, prefix="/size_guides", tags=["size_guides"])
+api_router.include_router(type_images.router, prefix="/type_images", tags=["type_images"])

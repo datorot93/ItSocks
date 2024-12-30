@@ -34,21 +34,21 @@ async def type_create(
     return type
 
 @router.put(
-    "/{code}", response_model=schemas.Type, response_model_exclude_none=True
+    "/{id}", response_model=schemas.Type, response_model_exclude_none=True
 )
 async def type_edit(
     request: Request,
-    code: str,
+    id: int,
     type_in: schemas.TypeUpdate,
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """ Update an existing Type """
-    type = crud.type.get_by_code(db, code=code)
+    type = crud.type.get(db, id=id)
     if not type:
         raise HTTPException(
             status_code=404,
-            detail=f"No existe tipo con el código {code}",
+            detail=f"No existe tipo con el ID {id}",
         )
 
     type = crud.type.update(
@@ -57,7 +57,7 @@ async def type_edit(
     return type
 
 @router.get(
-    "/all_types", 
+    "", 
     response_model=List[schemas.Type], 
     response_model_exclude_none=True,
 )
@@ -77,26 +77,50 @@ async def type_list(
         limit=limit
     )
     # print(devices)
+    print(types)
     response.headers["Content-Range"] = f"0-9/{len(types)}"
     return types
 
+@router.get(
+    "/{id}", 
+    response_model=schemas.Type, 
+    response_model_exclude_none=True,
+)
+async def type_by_id(
+    id: int,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific Type by id.
+    """
+    type = crud.type.get(db=db, id=id)
+    if not type:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe el tipo con el ID {id}",
+        )
+    
+    return type
+
 @router.delete(
-    "/{code}", response_model=schemas.Type, response_model_exclude_none=True
+    "/{id}", response_model=schemas.Type, response_model_exclude_none=True
 )
 async def type_delete(
     request: Request,
-    code: str,
+    id: int,
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Type
     """
-    type = crud.type.get_by_code(db, code=code)
+    type = crud.type.get(db, id=id)
     if not type:
         raise HTTPException(
             status_code=404,
-            detail=f"No existe el tipo especificado con el código {code}",
+            detail=f"No existe el tipo especificado con el ID {id}",
         )
-    type = crud.type.remove_type(db=db, code=code)
+    type = crud.type.remove(db=db, id=id)
+
     return type

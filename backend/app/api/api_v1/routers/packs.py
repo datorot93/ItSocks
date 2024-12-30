@@ -86,7 +86,7 @@ async def pack_create(
 #     return category
 
 
-@router.get("packs", response_model=List[schemas.Pack], response_model_exclude_none=True)
+@router.get("", response_model=List[schemas.Pack], response_model_exclude_none=True)
 async def packs_list(
     response: Response,
     db: Session = Depends(deps.get_db),
@@ -98,8 +98,27 @@ async def packs_list(
     Get all packs
     """
     packs = crud.pack.get_packs(db, skip=skip, limit=limit)
-    # response.headers["Content-Range"] = f"0-9/{len(packs)}"
+    response.headers["Content-Range"] = f"0-9/{len(packs)}"
     return packs
+
+@router.get(
+    "/{pack_id}", response_model=schemas.Pack, response_model_exclude_none=True
+)
+async def pack_by_id(
+    pack_id: int,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Get a specific Pack by id.
+    """
+    pack = crud.pack.get(db, id=pack_id)
+    if not pack:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No existe pack con el ID {pack_id}",
+        )
+    return pack
 
 
 @router.get("packs_names", response_model=List[schemas.Pack], response_model_exclude_none=True)
@@ -116,6 +135,51 @@ async def packs_names(
     packs = crud.pack.get_packs_names(db, skip=skip, limit=limit)
     # response.headers["Content-Range"] = f"0-9/{len(packs)}"
     return packs
+
+
+@router.put(
+    "/{pack_id}", 
+    response_model=schemas.Pack, 
+    response_model_exclude_none=True
+)
+async def pack_edit(
+    request: Request,
+    pack_id: int,
+    pack_in: schemas.PackUpdate,
+    db: Session = Depends(deps.get_db)
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """ Update an existing Pack """
+    pack = crud.pack.get(db, id=pack_id)
+
+    if not pack:
+        raise HTTPException(
+            status_code=404, detail="The Pack Name does not exist in the system",
+        )
+    pack = crud.pack.update(db, db_obj=pack, obj_in=pack_in)
+    return pack
+
+
+@router.delete(
+    "/{pack_id}", response_model=schemas.Pack, response_model_exclude_none=True
+)
+async def pack_delete(
+    request: Request,
+    pack_id: int,
+    db: Session = Depends(deps.get_db),
+    # current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Delete a Pack
+    """
+    pack = crud.pack.get(db, id=pack_id)
+    if not pack:
+        raise HTTPException(
+            status_code=404,
+            detail="The Pack with this Name does not exist in the system",
+        )
+    pack = crud.pack.remove(db=db, id=pack_id)
+    return pack
 
 
 # @router.delete(

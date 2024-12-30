@@ -52,7 +52,7 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
         self, 
         *,
         db: Session,
-        id
+        id: int
     ):
 
         return db.query(Shipping).filter(
@@ -162,6 +162,27 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
         
         return shipping_cost
 
+    def get_shipping_by_departamento(
+        self,
+        db: Session,
+        *,
+        departamento,
+    ):
+
+        return db.query(Shipping).filter(
+            unaccent(func.lower(Shipping.departamento)) == unidecode(departamento.lower()),
+        ).first()
+    
+    def get_shipping_by_municipio(
+        self,
+        db: Session,
+        *,
+        municipio_ciudad,
+    ):
+
+        return db.query(Shipping).filter(
+            unaccent(func.lower(Shipping.municipio_ciudad)) == unidecode(municipio_ciudad.lower())
+        ).first()
 
     # def create(
     #         self,

@@ -1,5 +1,5 @@
 from .category import Category
-# from .user import User
+from .user import User
 from .product import Product
 from .subcategory import Subcategory
 from .design import Design
@@ -17,6 +17,10 @@ from .color import Color
 from .product_color import ProductColor
 from .wish_list import WishList
 from .customer import Customer
+from .order import Order
+from .product_order import ProductOrder
+from .size_guide import SizeGuide
+from .type_image import TypeImage
 # from .type_design import TypeDesign
 # from .type_subcategory import TypeSubcategory
 # from .order import Order
