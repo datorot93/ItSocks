@@ -20,9 +20,11 @@ origins = [
     "https://itsocks-static-files.s3-website.us-east-2.amazonaws.com",
     "https://ec2-18-119-112-61.us-east-2.compute.amazonaws.com",
     "https://ec2-18-189-182-50.us-east-2.compute.amazonaws.com",
+    "http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com",
     "http://localhost",
+    "http://localhost:8000"
     "http://localhost:8080",
-    "http://localhost:5173/*",
+    "http://localhost:5173",
     "*"
 ]
 

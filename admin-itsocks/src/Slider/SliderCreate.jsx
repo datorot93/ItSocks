@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Create, SimpleForm, FileInput, FileField, useNotify, useRedirect } from 'react-admin';
+import { Create, SimpleForm, FileInput, FileField, useNotify, useRedirect, TextInput } from 'react-admin';
 
 export const SliderCreate = (props) => {
 
@@ -18,7 +18,7 @@ export const SliderCreate = (props) => {
 
     if (response.ok) {
       notify('File uploaded successfully!');
-      redirect('/#/sliders'); // Redirigir a la lista de recursos
+      redirect('/sliders'); // Redirigir a la lista de recursos
     } else {
       notify('Failed to upload file', { type: 'error' });
     }
@@ -28,6 +28,9 @@ export const SliderCreate = (props) => {
   return (
     <Create {...props}>
       <SimpleForm onSubmit={handleSave}>
+        {/* <TextInput source="description" label="Descripción"/>
+        <TextInput source="alt" label="Alt"/>
+        <TextInput source="link" label="Enlace página"/> */}
         <FileInput source="file" label="Related files" accept="image/*">
           <FileField source="src" title="title" />
         </FileInput>

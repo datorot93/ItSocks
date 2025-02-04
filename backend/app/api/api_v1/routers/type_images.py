@@ -52,7 +52,7 @@ async def type_image_create(
     url = ""
     with open(file_name, "wb") as buffer:
         buffer.write(await file.read())
-        bucket = s3.Bucket('itsocks-images')
+        bucket = s3.Bucket(aws_bucket_name)
         obj = bucket.Object(file.filename)
         obj.upload_file(buffer.name)
         url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
@@ -175,7 +175,7 @@ async def type_image_edit(
     url = ""
     with open(file_name, "wb") as buffer:
         buffer.write(await file.read())
-        bucket = s3.Bucket('itsocks-images')
+        bucket = s3.Bucket(aws_bucket_name)
         obj = bucket.Object(file.filename)
         obj.upload_file(buffer.name)
         url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"

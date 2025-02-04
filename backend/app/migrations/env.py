@@ -34,8 +34,11 @@ target_metadata = Base.metadata
 def get_url():
     user = os.getenv("POSTGRES_USER", "postgres")
     password = os.getenv("POSTGRES_PASSWORD", "1234")
-    server = os.getenv("POSTGRES_SERVER", "db")
+    server = os.getenv("POSTGRES_SERVER", "ec2-3-138-195-156.us-east-2.compute.amazonaws.com")
     db = os.getenv("POSTGRES_DB", "app")
+    print('ESTE ES EL SERVIDOR POSTGRESQL')
+    print(f"postgresql://{user}:{password}@{server}/{db}")
+
     return f"postgresql://{user}:{password}@{server}/{db}"
 
 

@@ -4,7 +4,7 @@ PROJECT_NAME = "ItSocks"
 
 user = os.getenv("POSTGRES_USER", "postgres")
 password = os.getenv("POSTGRES_PASSWORD", "")
-server = os.getenv("POSTGRES_SERVER", "db")
+server = os.getenv("POSTGRES_SERVER", "ec2-3-138-195-156.us-east-2.compute.amazonaws.com")
 db = os.getenv("POSTGRES_DB", "app")
 
 aws_access_key = os.getenv("AWS_ACCESS_KEY")
