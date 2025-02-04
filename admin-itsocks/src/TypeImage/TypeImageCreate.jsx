@@ -35,7 +35,7 @@ export const TypeImageCreate = (props) => {
 
     if (response.ok) {
       notify('File uploaded successfully!');
-      redirect('/types'); // Redirigir a la lista de recursos
+      redirect('/type_images'); // Redirigir a la lista de recursos
     } else {
       notify('Failed to upload file', { type: 'error' });
     }
@@ -43,7 +43,7 @@ export const TypeImageCreate = (props) => {
 
   return (
     <Create {...props}>
-      <SimpleForm >
+      <SimpleForm onSubmit={handleSave}>
         <TextInput source="name" />
         <TextInput source="category" />
         <TextInput source="subcategory" />

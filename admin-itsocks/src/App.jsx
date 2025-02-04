@@ -35,6 +35,7 @@ const httpClient = (url, options) => {
   return fetchUtils.fetchJson(url, options);
 };
 // PONER ACÁ URL DE LA API
+// const apiUrl = 'http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1';
 const apiUrl = 'http://localhost/api/v1';
 const dataProvider = simpleRestProvider(apiUrl, httpClient);
 
@@ -135,7 +136,7 @@ function App() {
             name="packs"
             list={PackList}
             edit={PackEdit}
-            create={DiscountCodeCreate}
+            create={PackCreate}
           />
           <Resource
             name="sizes"

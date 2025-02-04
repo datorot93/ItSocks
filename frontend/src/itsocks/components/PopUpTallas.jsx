@@ -11,12 +11,14 @@ export const PopUpTallas = ({ tipo_media, showPopUpTallas, setShowPopUpTallas })
   const [sizeGuide, setSizeGuide] = useState({})
 
   useEffect(() => {
+    console.log(tipo_media)
     getSizeGuidByName(tipo_media).then( (data) => {
       setSizeGuide(data)
     })
   }, [])
 
-  console.log(sizeGuide)
+  // console.log('ESTA ES LA GUIA TALLA')
+  // console.log(sizeGuide)
 
   return (
     <div className={ styles.container}>

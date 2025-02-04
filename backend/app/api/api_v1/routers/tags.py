@@ -89,7 +89,7 @@ async def tag_create(
     file_name = file.filename
     with open(file_name, "wb") as buffer:
         buffer.write(await file.read())
-        bucket = s3.Bucket('itsocks-images')
+        bucket = s3.Bucket(aws_bucket_name)
         obj = bucket.Object(file.filename)
         obj.upload_file(buffer.name)
         url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
@@ -113,7 +113,9 @@ async def tag_create(
 async def tag_update(
     request: Request,
     tag_id: int,
-    tag_in: schemas.TagUpdate,
+    tag_name: str = "",
+    discount: int = 0,
+    file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
@@ -126,6 +128,27 @@ async def tag_update(
         raise HTTPException(
             status_code=404, detail="The tag with this id does not exist in the system",
         )
+    
+    s3 = boto3.resource(
+        's3', 
+        aws_access_key_id=aws_access_key, 
+        aws_secret_access_key=aws_secret_key,
+        region_name=aws_region_name
+    )
+    
+    file_name = file.filename
+    with open(file_name, "wb") as buffer:
+        buffer.write(await file.read())
+        bucket = s3.Bucket(aws_bucket_name)
+        obj = bucket.Object(file.filename)
+        obj.upload_file(buffer.name)
+        url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+
+    tag_in = schemas.TagCreate(
+        name = tag_name.upper(),
+        discount = discount,
+        image_url = url
+    )
 
     tag = crud.tag.update(
         db,

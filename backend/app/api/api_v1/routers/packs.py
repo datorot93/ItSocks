@@ -21,13 +21,20 @@ async def pack_create(
     product_quantity: int,
     price: float,
     description: str,
-    image: UploadFile = File(...),
+    file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Pack
     """
+
+    pack = crud.pack.get_pack_by_name(db, name=name)
+    if pack:
+        raise HTTPException(
+            status_code=400, detail="El pack que está intentando crear ya existe",
+        )
+
     s3 = boto3.resource(
         's3', 
         aws_access_key_id=aws_access_key, 
@@ -35,12 +42,12 @@ async def pack_create(
         region_name=aws_region_name
     )
 
-    file_name = image.filename
+    file_name = file.filename
     url = ""
     with open(file_name, "wb") as buffer:
-        buffer.write(await image.read())
-        bucket = s3.Bucket('itsocks-images')
-        obj = bucket.Object(image.filename)
+        buffer.write(await file.read())
+        bucket = s3.Bucket(aws_bucket_name)
+        obj = bucket.Object(file.filename)
         obj.upload_file(buffer.name)
         url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
 
@@ -53,11 +60,7 @@ async def pack_create(
     )
 
 
-    pack = crud.pack.get_pack_by_name(db, name=pack_in.name)
-    if pack:
-        raise HTTPException(
-            status_code=400, detail="El pack que está intentando crear ya existe",
-        )
+    
     pack = crud.pack.create(db, obj_in=pack_in)
     
     return pack
@@ -139,25 +142,63 @@ async def packs_names(
 
 @router.put(
     "/{pack_id}", 
-    response_model=schemas.Pack, 
+    response_model=schemas.Pack,
     response_model_exclude_none=True
 )
 async def pack_edit(
     request: Request,
     pack_id: int,
-    pack_in: schemas.PackUpdate,
+    # pack_in: schemas.PackUpdate,
+    name: str,
+    product_quantity: int,
+    price: float,
+    description: str,
+    file: UploadFile = File(default=None),
+    state: bool = True,
+    discount: int = 0,
     db: Session = Depends(deps.get_db)
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Pack """
-    pack = crud.pack.get(db, id=pack_id)
-
+    pack = crud.pack.get_pack_by_name(db, name=name)
     if not pack:
         raise HTTPException(
-            status_code=404, detail="The Pack Name does not exist in the system",
+            status_code=400, detail="No existe el pack que está tratando de modificar",
         )
+
+    s3 = boto3.resource(
+        's3', 
+        aws_access_key_id=aws_access_key, 
+        aws_secret_access_key=aws_secret_key,
+        region_name=aws_region_name
+    )
+
+    
+    url = ""
+    if file is not None:
+        file_name = file.filename
+        with open(file_name, "wb") as buffer:
+            buffer.write(await file.read())
+            bucket = s3.Bucket(aws_bucket_name)
+            obj = bucket.Object(file.filename)
+            obj.upload_file(buffer.name)
+            url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+    else:
+        url = pack.image_url
+
+    pack_in = schemas.PackUpdate(
+        name = name,
+        image_url = url,
+        product_quantity = product_quantity,
+        price = price,
+        description = description,
+        state = state,
+        discount = discount
+    )
+
     pack = crud.pack.update(db, db_obj=pack, obj_in=pack_in)
     return pack
+
 
 
 @router.delete(

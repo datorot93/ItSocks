@@ -19,6 +19,7 @@ import boto3
 from app.core.config import aws_access_key, aws_secret_key, aws_region_name, aws_bucket_name
 
 
+
 router = APIRouter()
 
 dict_disenio = {
@@ -123,11 +124,13 @@ def get_images_from_folder(folder):
 
 def compress_image(input_path, image, calidad=85, compress_level=6, new_width=800):
     """
-    Comprime una imagen en el camino de entrada y guarda la imagen comprimida en el camino de salida.
-    
-    :param input_path: Ruta de la imagen de entrada.
-    :param output_path: Ruta donde se guardará la imagen comprimida.
-    :param calidad: Nivel de calidad de compresión (0-100), donde 100 es la mejor calidad.
+    Compresses an image and saves the compressed image.
+
+    :param input_path: Path to the input image.
+    :param image: Name of the image file.
+    :param calidad: Compression quality level (0-100), where 100 is the best quality.
+    :param compress_level: Compression level for PNG images (0-9).
+    :param new_width: New width for the resized image.
     """
     try:
         print('ESTA ES LA IMAGEN')
@@ -156,6 +159,28 @@ def compress_image(input_path, image, calidad=85, compress_level=6, new_width=80
 
 
 
+def process_image(input_path, image, size=(800, 800)):
+    """
+    Processes an image by converting it to RGB, resizing it, and saving it as a WebP file.
+
+    :param input_path: Path to the input image.
+    :param image: Name of the image file.
+    :param size: Tuple specifying the size to which the image should be resized.
+    """
+
+    image_without_extension = ''.join(image.split('.')[0:-1])
+    output_path = f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/{image_without_extension}.webp'
+    image_path = f'{input_path}/{image}'
+    try:
+        with Image.open(image_path) as img:
+            img = img.convert("RGB")  # Convertir a RGB (necesario para WebP)
+            img.thumbnail(size)  # Redimensionar manteniendo proporción
+            img.save(output_path, "WEBP")
+            print(f"Procesada: {input_path} -> {output_path}")
+    except Exception as e:
+        print(f"Error procesando {input_path}: {e}")
+
+
 @router.post("/uploadfile")
 async def create_upload_file(
     request: Request,
@@ -173,15 +198,12 @@ async def create_upload_file(
     df['DESCUENTO'] = df['DESCUENTO'].fillna(0)
 
 
-
     df.rename(
         columns={
             'DE COMPRESIÓN?': 'COMPRESION'
         }, inplace=True
     )
 
-    print('ESTAS SON LAS DIMENSIONES DEL DATAFRAME ORIGINAL')
-    print(df.shape)
 
     df_productos = df[[
         'CODIGO_PRODUCTO',
@@ -200,8 +222,6 @@ async def create_upload_file(
         'IMAGENES'
     ]].drop_duplicates()
 
-    print('ESTAS SON LAS DIMENSIONES DEL DATAFRAME')
-    print(df_productos.columns)
 
     for row in df_productos.itertuples():
         product_in = schemas.ProductCreate(
@@ -239,10 +259,12 @@ async def create_upload_file(
             images = get_images_from_folder(image_folder)
             for image_name in images:
                 url = ""
-                compress_image(image_folder, image_name)
+                image_without_extension = ''.join(image_name.split('.')[0:-1])
+                process_image(image_folder, image_name)
+                # compress_image(image_folder, image_name)
 
-                with open(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/' + image_name, "rb") as buffer:
-                    bucket = s3.Bucket('itsocks-images')
+                with open(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/' + image_without_extension + '.webp', "rb") as buffer:
+                    bucket = s3.Bucket('images-itsocks')
                     obj = bucket.Object(image_folder.split('/')[-1] + '_' +image_name)
                     obj.upload_file(buffer.name)
                     url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
@@ -257,7 +279,7 @@ async def create_upload_file(
                     obj_in=image_in
                 )
 
-                os.remove(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/{image_name}')
+                os.remove(f'{IMAGES_FOLDER}/Datos_ItSocks/temp_images/{image_without_extension}.webp')
 
 
     return "Archivo cargado con éxito"

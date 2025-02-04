@@ -14,6 +14,7 @@ export const GuiaTallas = () => {
   useEffect( () => {
     getSizeGuides().then( (data) => {
       setImgTallas(data)
+      console.log(imgTallas)
     }).catch( (error) => {
       console.log(error)
     })

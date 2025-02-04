@@ -15,7 +15,7 @@ function OpinionCliente() {
     {
       id: "c1",
       nombre_cliente: "Carolina López",
-      src: "../../../public/assets/homepage/opiniones/c1.png",
+      src: "../../../public/assets/homepage/opiniones/c1.webp",
       opinion: "Espectaculares como siempre, nunca me han quemado así estén nuevas. Nunca salgo a entrenar sin sus medias, hago gym, bici y running sin problema.",
       description: "Esta es una imagen del cliente",
       calificacion: 5
@@ -23,7 +23,7 @@ function OpinionCliente() {
     {
       id: "c2",
       nombre_cliente: "Andrés Triana",
-      src: "../../../public/assets/homepage/opiniones/c2.jpeg",
+      src: "../../../public/assets/homepage/opiniones/c2.webp",
       opinion: "Unas medias muy cómodas y de gran ayuda para lograr mis objetivos personales. El objetivo se cumplio y las medias mantuvieron mis piernas en un gran estado.",
       description: "Esta es una imagen del cliente",
       calificacion: 4
@@ -31,7 +31,7 @@ function OpinionCliente() {
     {
       id: "c3",
       nombre_cliente: "Fernanda Buitrago",
-      src: "../../../public/assets/homepage/opiniones/c3.png",
+      src: "../../../public/assets/homepage/opiniones/c3.webp",
       opinion: "Aquí andamos!!!Nuevamente! Gané un segundo puesto en una gran carrera y las medias fueron importantes porque en medio de un calor de 40 grados lo único que no me molestó fueron las piernitas .",
       description: "Esta es una imagen del cliente",
       calificacion: 5
@@ -39,7 +39,7 @@ function OpinionCliente() {
     {
       id: "c4",
       nombre_cliente: "Ana María Castillo",
-      src: "../../../public/assets/homepage/opiniones/c4.png",
+      src: "../../../public/assets/homepage/opiniones/c4.webp",
       opinion: "Me encantaron las medias!!! Excelente calidad, y los diseños son geniales. Muchas gracias.",
       description: "Esta es una imagen del cliente",
       calificacion: 5
@@ -47,7 +47,7 @@ function OpinionCliente() {
     {
       id: "c5",
       nombre_cliente: "Leidy Muñoz",
-      src: "../../../public/assets/homepage/opiniones/c5.png",
+      src: "../../../public/assets/homepage/opiniones/c5.webp",
       opinion: "Desde que compré el primer par de medias con It Socks quedé convencida de que son las mejores medias de compresión para running.",
       description: "Esta es una imagen del cliente",
       calificacion: 5
@@ -55,7 +55,7 @@ function OpinionCliente() {
     {
       id: "c6",
       nombre_cliente: "Nora Beltrán",
-      src: "../../../public/assets/homepage/opiniones/c6.jpeg",
+      src: "../../../public/assets/homepage/opiniones/c6.webp",
       opinion: "Correr es mi terapia... Me gocé esos 10k en la MMB, bajé tiempo y me encantaron las medias. Gracias, son geniales",
       description: "Esta es una imagen del cliente",
       calificacion: 5

@@ -14,6 +14,7 @@ export const TagList = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
+      <ImageField source="image_url" label="Imagen"/>
       <EditButton />
     </Datagrid>
   </List>
