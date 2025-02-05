@@ -19,6 +19,7 @@ import { OrderList, OrderEdit } from './Order'
 import { ProductOrderList, ProductOrderEdit } from './ProductOrder'
 import { SizeGuideCreate, SizeGuideList, SizeGuideEdit } from './SizeGuide';
 import { TypeImageList, TypeImageEdit, TypeImageCreate } from './TypeImage';
+import { SellsReportList } from './SellsReport/SellsReportList';
 
 import simpleRestProvider from 'ra-data-simple-rest';
 
@@ -171,6 +172,13 @@ function App() {
             create={SizeGuideCreate}
             edit={SizeGuideEdit}
             options={{ label: 'Guías de tallas' }}
+          />
+          <Resource 
+            name="sells_report"
+            list={SellsReportList}
+            // create={SizeGuideCreate}
+            // edit={SizeGuideEdit}
+            options={{ label: 'Reporte ventas' }}
           />
           
           
