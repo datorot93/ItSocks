@@ -22,4 +22,5 @@ from .crud_order import order
 from .crud_product_order import product_order
 from .crud_size_guide import size_guide
 from .crud_type_image import type_image
+from .crud_sells_report import sells_report
 # from .crud_type_design import type_design

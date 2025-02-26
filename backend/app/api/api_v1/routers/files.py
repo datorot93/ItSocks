@@ -374,7 +374,7 @@ async def upload_tags(
             crud.tag_product.create(
                 db,
                 obj_in=schemas.TagProductCreate(
-                    product_id = product.id,
+                    product_id = product[0][0],
                     tag_id = id_tag
                 )        
             )
@@ -454,10 +454,12 @@ async def upload_sizes(
             )
         
         if product:
+            print('ESTE ES EL PRODUCTO')
+            print(product[0][0])
             crud.product_size.create(
                 db,
                 obj_in=schemas.ProductSizeCreate(
-                    product_id = product.id,
+                    product_id = product[0][0],
                     size_id = dict_tallas[row[15]]
                 )
             )

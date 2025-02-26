@@ -20,13 +20,10 @@ export const TypeImageCreate = (props) => {
     const formData = new FormData();
     formData.append('file', data.file.rawFile);
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
     const response = await fetch(
       // `http://localhost/api/v1/images?id_product=${data.id_product}`,
       `http://localhost/api/v1/type_images?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
+      `http://localhost/api/v1/type_images?type_name=${data.name}&category=${data.category}&subcategory=${data.subcategory}`,
       {
         method: 'POST',
         body: formData,

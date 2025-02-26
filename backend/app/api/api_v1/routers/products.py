@@ -29,6 +29,27 @@ async def get_category_discount(
 
     return discounts
 
+@router.get("/temporada")
+async def get_temporada(
+    response: Response,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+
+):
+    """
+    Get all products with temporada
+    """
+
+    products = crud.product.get_temporada(
+        db,
+        skip,
+        limit
+    )
+    
+    return products
+
+
 @router.get("/subcategory_discount", response_model_exclude_none=True)
 async def get_subcategory_discount(
     response: Response,
@@ -456,6 +477,7 @@ async def get_product_by_id(
         raise HTTPException(status_code=400, detail="The product doesn't exists")
     
     return product
+
 
 @router.get("/category/{category}", response_model_exclude_none=True)
 async def get_category(

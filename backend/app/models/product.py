@@ -45,6 +45,7 @@ class Product(Base):
         default="Este producto combina calidad, funcionalidad y estilo en un solo paquete. Diseñado para superar tus expectativas, este producto revolucionario ofrece artesanía impecable, tecnología de vanguardia y durabilidad excepcional. Con un diseño elegante y sofisticado, se adapta a cualquier entorno y se convierte en el centro de atención. Su versatilidad te permite disfrutar de una experiencia personalizada y su seguridad confiable brinda tranquilidad. Con este producto, tienes el poder de la innovación en tus manos para destacar en todo lo que hagas. ¡Elige el futuro y descubre un mundo de posibilidades ilimitadas!"
     )
     
+    season = Column(Boolean, nullable=True, default=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
@@ -54,8 +55,8 @@ class Product(Base):
     subcategory = relationship('Subcategory', back_populates='product')
     image = relationship('Image', back_populates='product')
     tag_product = relationship('TagProduct', back_populates='product')
+
     product_size = relationship('ProductSize', back_populates='product')
     product_color = relationship('ProductColor', back_populates='product')
-
     product_order = relationship('ProductOrder', back_populates='product')
     

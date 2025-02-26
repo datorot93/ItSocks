@@ -28,6 +28,7 @@ export const ProductEdit = (props) => (
       <ReferenceInput source="id_subcategory" reference="subcategories" label="Subcategoría" />
       <ReferenceInput source="id_type" reference="types" label="Tipo" />
       <ReferenceInput source="id_design" reference="designs" label="Diseño" />
+      <BooleanInput source="season" label="Temporada"/>
       <BooleanInput source="state" label="Activo"/>
       <BooleanInput source="compresion" label="¿De compresión?"/>
       <NumberInput source="discount" label="Descuento"/>

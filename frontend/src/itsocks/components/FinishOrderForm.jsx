@@ -98,6 +98,7 @@ export const FinishOrderForm = () => {
         // const resp = setWishList(lista_wish).then( data => {
         //     console.log(data)
         //   })
+        console.log('Entré')
         const order = setOrder({
             "first_name": shipping.first_name,
             "last_name": shipping.last_name,
@@ -169,7 +170,7 @@ export const FinishOrderForm = () => {
 
         // clearCart()
         // navigate(preference.response.init_point, { replace: true })
-        window.location.href = preference.response.init_point;
+        // window.location.href = preference.response.init_point;
 
     }
     

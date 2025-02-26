@@ -174,7 +174,7 @@ function App() {
             options={{ label: 'Guías de tallas' }}
           />
           <Resource 
-            name="sells_report"
+            name="sells-reports"
             list={SellsReportList}
             // create={SizeGuideCreate}
             // edit={SizeGuideEdit}

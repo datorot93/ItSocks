@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 # from app.api.api_v1.routers import login, users
-from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers, users, tags, tag_products, product_sizes, orders, product_orders, size_guides, type_images
+from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers, users, tags, tag_products, product_sizes, orders, product_orders, size_guides, type_images, sells_reports
 
 
 api_router = APIRouter()
@@ -29,3 +29,4 @@ api_router.include_router(orders.router, prefix="/orders", tags=["orders"])
 api_router.include_router(product_orders.router, prefix="/product_orders", tags=["product_orders"])
 api_router.include_router(size_guides.router, prefix="/size_guides", tags=["size_guides"])
 api_router.include_router(type_images.router, prefix="/type_images", tags=["type_images"])
+api_router.include_router(sells_reports.router, prefix="/sells-reports", tags=["sells_reports"])

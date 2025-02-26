@@ -59,6 +59,63 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         return discounts
     
 
+    def get_temporada(
+        self,
+        db: Session,
+        skip: int,
+        limit: int
+    ):
+        
+        products = db.query(
+                Product.id,
+                Product.name,
+                Product.code,
+                Product.price,
+                Product.compresion,
+                Product.quantity,
+                Product.description,
+                Product.discount,
+                Category.discount.label('category_discount'),
+                Subcategory.discount.label('subcategory_discount'),
+                Category.name.label('category'),
+                Subcategory.name.label('subcategory'),
+                Type.name.label('type'),
+                Design.name.label('design'),
+            ).\
+            join(Subcategory, Subcategory.id == Product.id_subcategory).\
+            join(Category, Category.id == Subcategory.id_category).\
+            join(Type, Type.id == Product.id_type).\
+            join(Design, Design.id == Product.id_design).\
+            filter(
+                Product.season == True,
+                Product.state == True).offset(skip).limit(limit).all()
+
+        product_images = db.query(
+            Image.url,
+            Image.id_product
+        ).\
+        join(Product, Product.id == Image.id_product).\
+        join(Subcategory, Product.id_subcategory == Subcategory.id).\
+        join(Category, Category.id == Subcategory.id_category).\
+        filter(
+            Product.season == True,
+            Product.state == True
+        ).\
+        all()
+
+
+        lista_productos = self._get_product_list(
+            products=products,
+            product_images=product_images
+        )
+        
+        return lista_productos
+
+        # return df.query(Product).filter(
+        #     Product.season == True
+        # ).distinct().all()
+    
+
     def get_subcategory_discount(
         self,
         db: Session,
