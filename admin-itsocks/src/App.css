@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+.layout {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.menu {
+    order: 1;
+}
+
+.content {
+    order: 0;
+    flex-grow: 1;
+}

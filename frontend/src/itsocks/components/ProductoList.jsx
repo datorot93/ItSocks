@@ -28,8 +28,6 @@ export const ProductoList = ({ categoria, subcategoria, type, isPack }) => {
     window.scrollTo(0, 0);
   }, []);
 
-  const params = useParams();
-
   const { products } = useFetchItems(skip_page, setSkip, location, design, categoria, subcategoria, type);
 
   return (

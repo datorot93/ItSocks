@@ -14,6 +14,7 @@ class ProductBase(BaseModel):
     compresion: bool = None
     code: str = None
     quantity: int = None
+    season: bool = None
 
 
 class ProductCreate(ProductBase):
@@ -39,6 +40,7 @@ class ProductInDBBase(ProductBase):
     code: str = None
     quantity: int = None
     description: str = None
+    season: bool = None
     id_design: Optional[int]
     id_type: Optional[int]
     id_subcategory: Optional[int]
@@ -56,6 +58,7 @@ class Product(ProductInDBBase):
     compresion: bool = None
     code: str = None
     quantity: int = None
+    season: bool = None
     description: str = None
     id_design: Optional[int]
     id_type: Optional[int]

@@ -99,7 +99,7 @@ async def image_create(
 
     #     with open(ruta, "wb") as buffer:
     #         buffer.write(await file.read())
-    #         bucket = s3.Bucket('itsocks-images')
+    #         bucket = s3.Bucket(aws_bucket_name)
     #         obj = bucket.Object(f'{datetime.now().strftime("%Y%m%d%H%M%S")}-{file.filename}')
     #         obj.upload_file(buffer.name)
     #         url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
@@ -118,7 +118,7 @@ async def image_create(
 
     # Lee el archivo y súbelo directamente a S3
     file_content = await file.read()
-    bucket = s3.Bucket('itsocks-images')
+    bucket = s3.Bucket(aws_bucket_name)
     obj = bucket.Object(f'{datetime.now().strftime("%Y%m%d%H%M%S")}-{file_name}')
     obj.put(Body=file_content)
     url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"

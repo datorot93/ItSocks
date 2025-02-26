@@ -93,7 +93,7 @@ async def subcategory_edit(
     name: str,
     discount: int = 0,
     code: str = "",
-    file: UploadFile = File(...),
+    file: UploadFile = File(None),  # Make file optional
     db: Session = Depends(deps.get_db),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
@@ -107,23 +107,24 @@ async def subcategory_edit(
             detail=f"No existe subcategoría con el ID {id}",
         )
     
-    s3 = boto3.resource(
-        's3', 
-        aws_access_key_id=aws_access_key, 
-        aws_secret_access_key=aws_secret_key,
-        region_name=aws_region_name
-    )
-    
-    file_name = file.filename
-    url = ""
-    with open(file_name, "wb") as buffer:
-        buffer.write(await file.read())
-        bucket = s3.Bucket(aws_bucket_name)
-        obj = bucket.Object(file.filename)
-        obj.upload_file(buffer.name)
-        url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+    url = subcategory.image_url  # Default to existing URL if no new file is uploaded
 
-    
+    if file:
+        s3 = boto3.resource(
+            's3', 
+            aws_access_key_id=aws_access_key, 
+            aws_secret_access_key=aws_secret_key,
+            region_name=aws_region_name
+        )
+        
+        file_name = file.filename
+        with open(file_name, "wb") as buffer:
+            buffer.write(await file.read())
+            bucket = s3.Bucket(aws_bucket_name)
+            obj = bucket.Object(file.filename)
+            obj.upload_file(buffer.name)
+            url = f"https://{bucket.name}.s3.amazonaws.com/{obj.key}"
+
     subcategory_in = schemas.SubcategoryCreate(
         id_category = id_category,
         name = name,

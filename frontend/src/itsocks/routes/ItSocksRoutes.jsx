@@ -32,6 +32,7 @@ import { DiscountProvider } from "../../context/discount";
 import { PreferenceProvider } from "../../context/preference";
 import { getFiltersAccesorios } from "../helpers/getProductsByCategory";
 import { OrderDescription } from "../pages/OrderDescription";
+import { Season } from "../pages/Season";
 
 export const ItSocksRoutes = () => {
 
@@ -66,6 +67,11 @@ export const ItSocksRoutes = () => {
                 <Route
                   path="search/:product"
                   element={<ProductDescription />}
+                />
+
+                <Route
+                  path="temporada"
+                  element={<Season />}
                 />
 
                 {
