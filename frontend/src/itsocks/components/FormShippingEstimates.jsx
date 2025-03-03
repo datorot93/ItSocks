@@ -140,7 +140,7 @@ export const FormShippingEstimates = () => {
 
   useEffect(() => {
     if(selectedCountry === "Colombia" && selectedRegion && selectedCity) {
-      if (total < 250000) {
+      if (total < 2500000000000000) {
         getShippingCost( selectedRegion, selectedCity ).then(
           (res) => setShippingCost(Number(res.tarifa))
         ).catch(
@@ -346,10 +346,10 @@ export const FormShippingEstimates = () => {
             <div className={styles.costo_envio}>
               {total > 250000 ? (
                 <>
-                  <img src={camion} alt="Ícono de regalo" />
+                  {/* <img src={camion} alt="Ícono de regalo" />
                   <p>
                     Tienes <strong>ENVÍO GRATIS</strong>
-                  </p>
+                  </p> */}
                 </>
               ) : (
                 <p>Envío: { shippingCost.toLocaleString("es-CO", {

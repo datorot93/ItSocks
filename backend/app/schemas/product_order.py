@@ -7,6 +7,7 @@ class ProductOrderBase(BaseModel):
     quantity: int
     pack: str
     num_in_order: int
+    size: str
 
 class ProductOrderCreate(ProductOrderBase):
     product_id: int
@@ -14,6 +15,7 @@ class ProductOrderCreate(ProductOrderBase):
     quantity: int
     pack: str
     num_in_order: int
+    size: str
 
 class ProductOrderUpdate(ProductOrderBase):
     product_id: int
@@ -21,6 +23,7 @@ class ProductOrderUpdate(ProductOrderBase):
     quantity: int
     pack: str
     num_in_order: int
+    size: str
 
 class ProductOrderInDBBase(ProductOrderBase):
     id: int
@@ -29,6 +32,7 @@ class ProductOrderInDBBase(ProductOrderBase):
     quantity: int
     pack: str
     num_in_order: int
+    size: str
 
     class Config:
         orm_mode: True
@@ -39,6 +43,7 @@ class ProductOrder(ProductOrderInDBBase):
     quantity: int
     pack: str
     num_in_order: int
+    size: str
 
 class ProductOrderInDB(ProductOrderInDBBase):
     pass

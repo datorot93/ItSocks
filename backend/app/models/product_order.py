@@ -25,6 +25,7 @@ class ProductOrder(Base):
     quantity = Column(Integer, default=1, nullable=False)
     pack = Column(String, nullable=True)
     num_in_order = Column(Integer, default=1, nullable=False)
+    size = Column(String, nullable=True)
     
     product = relationship('Product', back_populates=('product_order'))
     order = relationship('Order', back_populates=('product_order'))

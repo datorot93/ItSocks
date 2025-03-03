@@ -4,6 +4,7 @@ import {
   SimpleForm,
   TextInput,
   ReferenceInput,
+  SelectInput
 } from 'react-admin';
 
 export const ProductSizeEdit = (props) => (
@@ -11,7 +12,10 @@ export const ProductSizeEdit = (props) => (
     <SimpleForm>
       <TextInput disabled source="id" />
       <ReferenceInput source="product_id" reference="products"/>
-      <ReferenceInput source="size_id" reference="sizes"/>
+      <ReferenceInput source="size_id" reference="sizes" >
+                <SelectInput optionText="size" />
+              </ReferenceInput>
+      {/* <ReferenceInput source="size" reference="sizes"/> */}
     </SimpleForm>
   </Edit>
 );

@@ -7,6 +7,8 @@ from fastapi.encoders import jsonable_encoder
 
 from app.crud.base import CRUDBase
 from app.models.order import Order
+from app.models.size import Size
+from app.models.product_size import ProductSize
 from app.schemas.order import OrderCreate, OrderUpdate
 
 from app.models.product_order import ProductOrder
@@ -188,6 +190,7 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
         query = (
             db.query(
                 Order.id,
+                Order.created_at.label('fecha_orden'),
                 Order.first_name,
                 Order.last_name,
                 Order.address,
@@ -203,15 +206,17 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
                 Order.para,
                 Order.isGift,
                 Order.state,
-                ProductOrder.quantity * Product.price.label('subtotal'),
+                Product.price,
+                ProductOrder.quantity,
+                (ProductOrder.quantity * Product.price).label('subtotal'),
                 Order.shipping_cost.label('costo_envio'),
-                Order.subtotal,
                 Order.total,
-                Order.created_at.label('fecha_orden'),
                 Product.name.label('nombre_producto'),
+                ProductOrder.size,
                 Product.compresion,
                 Subcategory.name.label('subcategoria'),
                 Type.name.label('tipo'),
+                ProductOrder.num_in_order,
                 Design.name.label('disenio')
             )
             .select_from(Order)
@@ -220,8 +225,8 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
             .join(Type, Product.id_type == Type.id)
             .join(Subcategory, Product.id_subcategory == Subcategory.id)
             .join(Design, Product.id_design == Design.id)
+            .order_by(asc(Order.id))
         )
-
         # Apply date filters if they exist
         if "from_date" in filters:
             query = query.filter(Order.created_at >= filters["from_date"])
@@ -229,6 +234,7 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
             query = query.filter(Order.created_at <= filters["to_date"])
 
         results = query.offset(skip).limit(limit).all()
+        print(results)
         
         return [
             {
@@ -249,13 +255,16 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
                 'isGift': row.isGift,
                 'state': row.state,
                 'quantity': row.quantity,
+                'valor_unitario': float(row.price),
                 'costo_envio': float(row.costo_envio),
                 'subtotal': float(row.subtotal),
                 'total': float(row.total),
                 'fecha_orden': row.fecha_orden,
                 'nombre_producto': row.nombre_producto,
+                'size': row.size,
                 'compresion': row.compresion,
                 'subcategoria': row.subcategoria,
+                'num_en_orden': row.num_in_order,
                 'tipo': row.tipo,
                 'disenio': row.disenio
             }

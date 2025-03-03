@@ -16,11 +16,10 @@ import { TagList, TagEdit, TagCreate } from './Tag'
 import { TagProductList, TagProductEdit, TagProductCreate } from './TagProduct'
 import { ProductSizeList, ProductSizeEdit, ProductSizeCreate } from './ProductSize'
 import { OrderList, OrderEdit } from './Order'
-import { ProductOrderList, ProductOrderEdit } from './ProductOrder'
 import { SizeGuideCreate, SizeGuideList, SizeGuideEdit } from './SizeGuide';
 import { TypeImageList, TypeImageEdit, TypeImageCreate } from './TypeImage';
 import { SellsReportList } from './SellsReport/SellsReportList';
-
+import { BulkPricesEdit, BulkPricesList } from './BulkPrices';
 import simpleRestProvider from 'ra-data-simple-rest';
 
 
@@ -79,10 +78,9 @@ function App() {
           />
 
           <Resource 
-            name="product_orders"
-            list={ProductOrderList}
-            edit={ProductOrderEdit}
-            create={ProductOrderEdit}
+            name="bulk_prices"
+            list={BulkPricesList}
+            edit={BulkPricesEdit}
           />
 
           <Resource

@@ -25,6 +25,7 @@ class OrderBase(BaseModel):
     subtotal: float
     shipping_guide: Optional[str] = "No asignada"
     shipping_guide_url: Optional[str] = ""
+    shipping_guide_number: Optional[str] = ""
     paid_status: Optional[str] = "Pendiente"
     preference: str
     pyment_id: Optional[str] = ""

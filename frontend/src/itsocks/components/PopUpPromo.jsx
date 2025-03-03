@@ -36,7 +36,6 @@ export const PopUpPromo = ({ setShowPopup }) => {
     }else {
       setShowErrorMessage(true)
     }
-
   }
 
 
