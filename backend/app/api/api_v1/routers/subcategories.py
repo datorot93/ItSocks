@@ -159,6 +159,7 @@ async def subcategories_list(
         skip=skip, 
         limit=limit
     )
+    
     # print(devices)
     response.headers["Content-Range"] = f"0-9/{len(subcategories)}"
     return subcategories

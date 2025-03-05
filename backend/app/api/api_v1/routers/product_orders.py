@@ -61,7 +61,6 @@ async def product_order_create(
     """
     Create a new Order
     """
-
     product_order = crud.product_order.create(
         db,
         obj_in=product_order_in

@@ -40,6 +40,7 @@ class Order(Base):
     subtotal = Column(Float, nullable=False)
     shipping_guide = Column(String, nullable=False, default='No asignada')
     shipping_guide_url = Column(String, nullable=True, default='')
+    shipping_guide_number = Column(String, nullable=True, default='')
     paid_status = Column(String, nullable=False, default='Pendiente')
     preference = Column(String, nullable=False)
     pyment_id = Column(String, nullable=True, default='')

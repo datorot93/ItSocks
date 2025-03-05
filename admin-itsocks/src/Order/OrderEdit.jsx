@@ -63,7 +63,8 @@ export const OrderEdit = (props) => (
 
        
         <h2>Guía de envío</h2>
-        <TextInput source="shipping_guide" label="Guía envío" />
+        <TextInput source="shipping_guide" label="Estado guía envío" disabled/>
+        <TextInput source="shipping_guide_number" label="Número Guía envío"/>
         <TextInput source="shipping_guide_url" label="Link Guía envío" />
 
         <h2>Información de compra</h2>

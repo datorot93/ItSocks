@@ -170,17 +170,27 @@ async def order_update(
     # print("*"*100)
     # print(order.shipping_guide)
     # print(order_in.shipping_guide)
-    prevoius_shipping_guide = order.shipping_guide
+    prevoius_shipping_guide = order.shipping_guide_url
+    previous_shipping_guide_number = order.shipping_guide_number
     prevoius_state = order.state
     
 
-    if prevoius_shipping_guide != order_in.shipping_guide:
+    if prevoius_shipping_guide != order_in.shipping_guide and previous_shipping_guide_number != order_in.shipping_guide_number:
+        
         order_in.state = "Preparado"
+        order_in.shipping_guide = "Asignada"
+                
         update_guide_send_email(
             to_email=order.email,
             order_id=order.id,
             shipping_guide=order.shipping_guide,
             url_guide=order.shipping_guide_url
+        )
+        
+        order = crud.order.update(
+            db,
+            db_obj=order,
+            obj_in=order_in
         )
 
     # if prevoius_state != order_in.state:
@@ -190,11 +200,7 @@ async def order_update(
     #         shipping_guide=order.state
     #     )
 
-    order = crud.order.update(
-        db,
-        db_obj=order,
-        obj_in=order_in
-    )
+    
     
     return order
 

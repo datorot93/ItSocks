@@ -184,6 +184,52 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
             unaccent(func.lower(Shipping.municipio_ciudad)) == unidecode(municipio_ciudad.lower())
         ).first()
 
+    def update_prices_by_department(
+        self, 
+        db: Session, 
+        *, 
+        department: str,
+        price: float
+    ):
+        """
+        Update shipping prices for a specific department
+        """
+        result = (
+            db.query(Shipping)
+            .filter(Shipping.departamento == department)
+            .update(
+                {Shipping.tarifa: price},
+                synchronize_session=False
+            )
+        )
+        
+        db.commit()
+        
+        return result
+
+    def update_prices_except(
+        self, 
+        db: Session, 
+        *, 
+        excluded_department: str,
+        price: float
+    ):
+        """
+        Update shipping prices for all departments except the excluded one
+        """
+        result = (
+            db.query(Shipping)
+            .filter(Shipping.departamento != excluded_department)
+            .update(
+                {Shipping.tarifa: price},
+                synchronize_session=False
+            )
+        )
+        
+        db.commit()
+        
+        return result
+
     # def create(
     #         self,
     #         db: Session,

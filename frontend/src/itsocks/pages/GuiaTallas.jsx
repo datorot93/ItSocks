@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// IMÁGENES
-import guia_tallas from "../../../public/assets/guia_tallas/guia_tallas.jpg";
-
 // ESTILOS
 import styles from "../../../src/ui/styles/GuiaTallas.module.css";
 import { getSizeGuides } from "../helpers/getSizeGuides";

@@ -13,6 +13,7 @@ export const setOrder = async( order ) => {
 }
 
 export const setProductOrder = async( product_order ) => {
+    console.log(product_order)
     const resp = await fetchWithoutToken(
         `product_orders`,
         product_order,

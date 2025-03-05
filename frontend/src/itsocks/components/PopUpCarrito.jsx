@@ -77,17 +77,12 @@ export const PopUpCarrito = ({ title, product, showPopUp, setShowPopUp }) => {
           </div>
 
           <div className={styles.costo_envio}>
-            <img src={camion} alt="Ícono camion" />
+            
 
             <p>
               {total < 250000 ? (
                 <>
-                  Lleva{" "}
-                  <strong>{`${(250000 - total).toLocaleString("es-CO", {
-                    style: "currency",
-                    currency: "COP",
-                  })} `}</strong>{" "}
-                  {" más y el envío te sale gratis."}
+                  
                 </>
               ) : (
                 <span>

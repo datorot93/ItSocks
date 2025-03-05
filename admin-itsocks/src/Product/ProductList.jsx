@@ -4,16 +4,12 @@ import {
   List,
   Datagrid,
   TextField,
-  SearchInput,
   TextInput,
   EditButton,
   ReferenceField,
   BooleanField,
   NumberField,
   Filter,
-  ArrayField,
-  ImageField,
-  SimpleForm,
 } from 'react-admin';
 
 const PostFilter = (props) => (
