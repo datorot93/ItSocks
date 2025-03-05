@@ -1,11 +1,12 @@
-from typing import Any, List
-from fastapi import UploadFile, APIRouter, Request, Depends, File, HTTPException, Response
+from typing import Any, List, Optional
+from fastapi import UploadFile, APIRouter, Request, Depends, File, HTTPException, Response, Query
 
 # UTILITIES
 from PIL import Image
 import os
 from datetime import datetime
 from time import sleep
+import json
 
 import boto3
 
@@ -140,22 +141,47 @@ async def image_create(
     "", 
     response_model=List[schemas.Image], 
     response_model_exclude_none=True,
+    
 )
 async def image_list(
     response: Response,
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 1000,
+    sort: Optional[str] = Query(None),
+    range: Optional[str] = Query(None),
+    filter: Optional[str] = Query(None),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """
     Get all Images
     """
-    images = crud.image.get_multi(
-        db, 
-        skip=skip, 
-        limit=limit
+    
+    print(filter)
+    
+    # Parse the sort parameter
+    sort_list = json.loads(sort) if sort else None
+
+    # Parse the range parameter
+    range_list = json.loads(range) if range else None
+
+    # Parse the filter parameter
+    filter_dict = json.loads(filter) if filter else None
+    
+    images = crud.image.get_filteret_images(
+        db,
+        filters=filter_dict,
+        sort=sort_list,
+        range=range_list
     )
+    
+    print('ESTAS SON LAS IMAGES')
+    print(images)
+    # images = crud.image.get_multi(
+    #     db, 
+    #     skip=skip, 
+    #     limit=limit
+    # )
     response.headers["Content-Range"] = f"0-9/{len(images)}"
     return images
 

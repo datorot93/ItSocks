@@ -19,6 +19,7 @@ export const ProductSizeCreate = (props) => {
     "6": "Pantorrilleras",
     "7": "Canguros",
     "8": "Tobilleras",
+    "11": "Mangas"
   }
   return (
 

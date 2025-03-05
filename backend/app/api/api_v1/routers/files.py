@@ -35,6 +35,7 @@ dict_disenio = {
     'TEMPORADA': 10,
     'TERMOS': 11,
     'VISERAS': 12,
+    'Balacas Deportivas': 15
 }
 
 dict_subcategory = {
@@ -44,7 +45,8 @@ dict_subcategory = {
     'Estampadas': 4,
     'Tejidas': 5,
     'Personalizadas': 6,
-    'Canguros': 7
+    'Canguros': 7,
+    'Balacas Deportivas': 19,
 }
 
 dict_category = {
@@ -59,7 +61,8 @@ dict_type = {
     'Largas': 4,
     'Media caña': 5,
     'Pantorrilleras': 6,
-    'Canguros': 7
+    'Canguros': 7,
+    'Balacas Deportivas': 12
 }
 
 dict_compresion = {
@@ -224,6 +227,21 @@ async def create_upload_file(
 
 
     for row in df_productos.itertuples():
+        print( 
+            row[2],
+            '',
+            float(row[12]),
+            dict_estado[row[9]],
+            '',
+            row[11],
+            dict_compresion[row[7]],
+            row[1],
+            row[13],
+            dict_disenio[row[8]],
+            dict_type[row[5]],
+            dict_subcategory[row[4]]
+        )
+        print('*'*15)
         product_in = schemas.ProductCreate(
             name= row[2],
             talla = '',

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, Integer, ForeignKey, String
+from sqlalchemy import Column, Integer, ForeignKey, String, Float
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
@@ -24,8 +24,10 @@ class ProductOrder(Base):
 
     quantity = Column(Integer, default=1, nullable=False)
     pack = Column(String, nullable=True)
+    pack_cost = Column(Float, nullable=True)
     num_in_order = Column(Integer, default=1, nullable=False)
     size = Column(String, nullable=True)
+    
     
     product = relationship('Product', back_populates=('product_order'))
     order = relationship('Order', back_populates=('product_order'))

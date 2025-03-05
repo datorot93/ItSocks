@@ -20,10 +20,6 @@ export const ImageCreate = (props) => {
     const formData = new FormData();
     formData.append('file', data.file.rawFile);
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
     const response = await fetch(`http://localhost/api/v1/images?id_product=${data.id_product}`, {
       method: 'POST',
       body: formData,
@@ -47,6 +43,7 @@ export const ImageCreate = (props) => {
     "6": "Pantorrilleras",
     "7": "Canguros",
     "8": "Tobilleras",
+    "11": "Mangas"
   }
 
   return (

@@ -12,7 +12,7 @@ import { getSubcategories } from '../helpers/getSubcategories';
 import { useState } from 'react';
 
 
-export const MediasCategory = ({ category }) => {
+export const MediasCategory = () => {
 
   const [subcategories, setSubcategories] = useState([]);
 
@@ -26,8 +26,6 @@ export const MediasCategory = ({ category }) => {
       console.log(error);
     })
   }, [])
-
-  console.log(subcategories);
 
   return (
     <div 

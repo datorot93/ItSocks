@@ -498,15 +498,10 @@ export const ProductDescription = () => {
             </div>
             
             <div className={styles.informacion_adicional}>
-              <img src={camion} alt="Envíos" />
+              
               {total < 250000 ? (
                 <p>
-                  Lleva{" "}
-                  <span>{`${(250000 - total).toLocaleString("es-CO", {
-                    style: "currency",
-                    currency: "COP",
-                  })}`}</span>{" "}
-                  más y el envío te sale gratis
+                  
                 </p>
               ) : (
                 <p>

@@ -8,6 +8,7 @@ class ProductOrderBase(BaseModel):
     pack: str
     num_in_order: int
     size: str
+    pack_cost: Optional[float] = None
 
 class ProductOrderCreate(ProductOrderBase):
     product_id: int
@@ -16,6 +17,7 @@ class ProductOrderCreate(ProductOrderBase):
     pack: str
     num_in_order: int
     size: str
+    pack_cost: Optional[float] = None
 
 class ProductOrderUpdate(ProductOrderBase):
     product_id: int
@@ -24,6 +26,7 @@ class ProductOrderUpdate(ProductOrderBase):
     pack: str
     num_in_order: int
     size: str
+    pack_cost: Optional[float] = None
 
 class ProductOrderInDBBase(ProductOrderBase):
     id: int
@@ -33,6 +36,7 @@ class ProductOrderInDBBase(ProductOrderBase):
     pack: str
     num_in_order: int
     size: str
+    pack_cost: Optional[float] = None
 
     class Config:
         orm_mode: True
@@ -44,6 +48,7 @@ class ProductOrder(ProductOrderInDBBase):
     pack: str
     num_in_order: int
     size: str
+    pack_cost: Optional[float] = None
 
 class ProductOrderInDB(ProductOrderInDBBase):
     pass

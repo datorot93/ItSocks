@@ -17,30 +17,38 @@ export const SubcategoryCreate = (props) => {
   const redirect = useRedirect();
   
   const handleSave = async (data) => {
-    const formData = new FormData();
-    if (data.file){
-      formData.append('file', data.file.rawFile);
-    }
+    // Construye la URL base con todos los parámetros obligatorios
+    const baseUrl = `http://localhost/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount || "0"}&code=${data.code || ""}`;
     
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    const response = await fetch(
-      // `http://localhost/api/v1/images?id_product=${data.id_product}`,
+    // Si hay un archivo, usa FormData para enviarlo
+    if (data.file && data.file.rawFile) {
+      const formData = new FormData();
+      formData.append('file', data.file.rawFile);
       
-      `http://localhost/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount? data.discount : "0"}&code=${data.code}`,
-      {
+      const response = await fetch(baseUrl, {
         method: 'POST',
         body: formData,
+      });
+      
+      if (response.ok) {
+        notify('Subcategory created with image successfully!');
+        redirect('/subcategories');
+      } else {
+        notify('Failed to create subcategory', { type: 'error' });
       }
-    );
-
-    if (response.ok) {
-      notify('File uploaded successfully!');
-      redirect('/subcategories'); // Redirigir a la lista de recursos
     } else {
-      notify('Failed to upload file', { type: 'error' });
+      // Si no hay archivo, envía la solicitud sin FormData
+      const response = await fetch(baseUrl, {
+        method: 'POST',
+        // No incluyas body aquí, todos los datos necesarios están en la URL
+      });
+      
+      if (response.ok) {
+        notify('Subcategory created successfully!');
+        redirect('/subcategories');
+      } else {
+        notify('Failed to create subcategory', { type: 'error' });
+      }
     }
   };
 
@@ -49,8 +57,8 @@ export const SubcategoryCreate = (props) => {
       <SimpleForm onSubmit={handleSave}>
         <ReferenceInput source="id_category" reference="categories" />
         <TextInput source="code" />
-        <TextInput source="name" />
-        <NumberInput source="discount"/>
+        <TextInput source="name" required />
+        <NumberInput source="discount" defaultValue={0} />
 
         <FileInput source="file" label="Related files" accept="image/*">
           <FileField source="src" title="title" />

@@ -1,7 +1,7 @@
 from typing import Optional, Any, Union, Dict
 
 from sqlalchemy.orm import Session
-from sqlalchemy import select, inspect, func, over, asc, desc
+from sqlalchemy import select, inspect, func, over, asc, desc, case
 
 from fastapi.encoders import jsonable_encoder
 
@@ -206,6 +206,7 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
                 Order.para,
                 Order.isGift,
                 Order.state,
+                # case((ProductOrder.pack != "", Product.price), else_= ProductOrder.pack_cost).label('price'),
                 Product.price,
                 ProductOrder.quantity,
                 (ProductOrder.quantity * Product.price).label('subtotal'),
