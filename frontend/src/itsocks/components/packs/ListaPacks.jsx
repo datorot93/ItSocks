@@ -15,7 +15,7 @@ import styles from "../../../ui/styles/Accesorios.module.css";
 
 export const ListaPacks = ({ lista_packs }) => {
 
-
+  console.log(lista_packs);
   
   return (
     <div className={styles.products_container}>

@@ -414,9 +414,9 @@ def get_email_body(name, code):
 <div align="center" class="alignment">
 <table border="0" cellpadding="0" cellspacing="0" class="social-table" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;" width="108px">
 <tr>
-<td style="padding:0 2px 0 2px;"><a href="https://www.instagram.com/itsocks_/" target="_blank"><img alt="Instagram" height="auto" src="https://images-itsocks.s3.us-east-2.amazonaws.com/instagram+icon.webp" style="display: block; height: auto; border: 0;" title="instagram" width="32"/></a></td>
-<td style="padding:0 2px 0 2px;"><a href="https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1" target="_blank"><img alt="TikTok" height="auto" src="https://images-itsocks.s3.us-east-2.amazonaws.com/tiktok+icon.webp" style="display: block; height: auto; border: 0;" title="TikTok" width="32"/></a></td>
-<td style="padding:0 2px 0 2px;"><a href="https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d" target="_blank"><img alt="Facebook" height="auto" src="https://images-itsocks.s3.us-east-2.amazonaws.com/facebook+icon.webp" style="display: block; height: auto; border: 0;" title="facebook" width="32"/></a></td>
+<td style="padding:0 2px 0 2px;"><a href="https://www.instagram.com/itsocks_/" target="_blank"><img alt="Instagram" height="auto" src="https://images-itsocks.s3.us-east-2.amazonaws.com/instagram+icon.png" style="display: block; height: auto; border: 0;" title="instagram" width="32"/></a></td>
+<td style="padding:0 2px 0 2px;"><a href="https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1" target="_blank"><img alt="TikTok" height="auto" src="https://images-itsocks.s3.us-east-2.amazonaws.com/tiktok+icon.png" style="display: block; height: auto; border: 0;" title="TikTok" width="32"/></a></td>
+<td style="padding:0 2px 0 2px;"><a href="https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d" target="_blank"><img alt="Facebook" height="auto" src="https://images-itsocks.s3.us-east-2.amazonaws.com/facebook+icon.png" style="display: block; height: auto; border: 0;" title="facebook" width="32"/></a></td>
 </tr>
 </table>
 </div>

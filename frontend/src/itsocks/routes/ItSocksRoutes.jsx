@@ -82,7 +82,7 @@ export const ItSocksRoutes = () => {
                         element={<Productos categoria={"Accesorios"} isPack={ false }/>}
                       />
                       <Route
-                        path={`accesorios/${filtro.replace('%20', '_').toLowerCase()}`}
+                        path={`accesorios/${filtro.replace('%20', '_').replace(' ', '_').toLowerCase()}`}
                         element={
                           <Productos
                             categoria={"Accesorios"}
@@ -114,13 +114,19 @@ export const ItSocksRoutes = () => {
 
                 }
                 {
-                  filtrosAccesorios.map( (filtro, index) => (
-                    <Route
-                      path={`accesorios/${filtro.replace(' ', '_')}/:nombre`}
-                      element={<ProductDescription />}
-                      key={ index }
-                    />
-                  ))
+                  filtrosAccesorios.map( (filtro, index) => {
+
+                    console.log(filtro.replace(' ', '_'))
+
+                    return (
+
+                        <Route
+                          path={`accesorios/${filtro.replace(' ', '_')}/:nombre`}
+                          element={<ProductDescription />}
+                          key={ index }
+                        />
+                    )
+                })
                 }
                 {/* <Route
                   path="accesorios/termos/:nombre"
@@ -218,6 +224,32 @@ export const ItSocksRoutes = () => {
 
                 <Route
                   path="packs/media_cania/:nombre"
+                  element={<PackProductDescription />}
+                />
+
+                {/* PACKS TOBILLERAS */}
+                <Route
+                  path="packs/tobilleras"
+                  element={<PacksProducts categoria={"Medias"} type={"Tobilleras"} />}
+                />
+
+                <Route
+                  path="packs/tobilleras/:disenio"
+                  element={<PacksProducts categoria={"Medias"} type={"Tobilleras"} />}
+                />
+
+                <Route
+                  path="packs/tobilleras/:disenio/:compresion"
+                  element={<PacksProducts categoria={"Medias"} type={"Tobilleras"} />}
+                />
+
+                <Route
+                  path="packs/tobilleras/:compresion/:disenio/:nombre"
+                  element={<PackProductDescription />}
+                />
+
+                <Route
+                  path="packs/tobilleras/:nombre"
                   element={<PackProductDescription />}
                 />
 
