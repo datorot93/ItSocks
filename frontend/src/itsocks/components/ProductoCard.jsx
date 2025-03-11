@@ -43,7 +43,7 @@ export const ProductoCard = (product, isPack) => {
         pathname.toLowerCase().split("/")[1] == "accesorios" ?
           
         <Link 
-          to={`${pathname.split("/").length === 2 ? product.design.toLowerCase() + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`}
+          to={`${pathname.split("/").length === 2 ? product.design.toLowerCase().replace(' ', '_') + "/" + product.name.toLowerCase(): product.name.toLowerCase()}`}
           onClick={handleClick}
         >
         

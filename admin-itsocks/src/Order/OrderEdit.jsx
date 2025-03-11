@@ -28,8 +28,10 @@ export const OrderEdit = (props) => (
           <TextField source="cantidad" label="Cantidad" disabled/>
           <TextField source="discount" label="Descuento" />
           <TextField source="discount_code" label="Código descuento" />
+          <TextField source="price_paid" label="Valor pagado" />
           <TextField source="pack" label="Pack" />
           <TextField source="num_in_order" label="Número en orden" />
+
         </Datagrid>
       </ArrayField>
     </Edit>
@@ -69,6 +71,7 @@ export const OrderEdit = (props) => (
         <TextField source="document" />
         <TextField source="address" />
         <TextField source="extra_info" />
+        <TextField source="special_instructions" />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <TextField source="city" />
           <span style={{ margin: '0 8px' }}>-</span>

@@ -209,6 +209,7 @@ export const FormShippingEstimates = () => {
       to: to,
       extra_information: datosExtra,
       shipping_value: shippingCost,
+      special_instructions: indicacionesExtra,
       isGift: isChecked,
       subtotal: total,
       total: total + shippingCost,

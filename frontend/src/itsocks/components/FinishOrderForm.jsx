@@ -111,6 +111,7 @@ export const FinishOrderForm = () => {
             "document": shipping.document,
             "email": shipping.email,
             "extra_info": shipping.extra_information,
+            "special_instructions": shipping.special_instructions,
             "de": shipping.from,
             "para": shipping.to,
             "isGift": shipping.isGift,
