@@ -5,6 +5,8 @@ import ScrollHorizontal from "../components/ScrollHorizontal";
 import styles from "../../ui/styles/MediasSubcategory.module.css";
 import { ScrollPersonalizadas } from "../components/ScrollPersonalizadas";
 
+import { getContactInfo } from '../helpers/getContactInfo';
+
 export const PersonalizadaPantorrillera = ({ subcategory }) => {
 
   const images = [
@@ -111,8 +113,25 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
 
   const [ filteredImages, setFilteredImages ] = useState(images);
 
+  const [contactInfo, setContactInfo] = useState({});
+  
+  // useEffect(() => {
+  //     getContactInfo().then( data => {
+  //         setContactInfo(data);
+  //     }).catch( error => {
+  //         console.log(error);
+  //     })
+  // }, []);
+
+
   useEffect(() => {
     setFilteredImages(images.filter( image => image.subcategory == subcategory.toLowerCase()));
+
+    getContactInfo().then( data => {
+        setContactInfo(data);
+    }).catch( error => {
+        console.log(error);
+  })
   }, []);
 
   console.log(subcategory)
@@ -128,13 +147,17 @@ export const PersonalizadaPantorrillera = ({ subcategory }) => {
         </p>
         <p className={ styles.negrita }>¡Contáctanos para crear juntos tus medias soñadas!</p>
       </div>
-      <a 
-        href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20personalizados%20en%20la%20categoría%20${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')},%20me%20podrías%20dar%20más%20información%2E%20Gracias`} 
-        target="_blank"
-        className={styles.contact_us}
-      >
-        <button>¡Contáctanos!</button>
-      </a>
+      {
+        contactInfo[0] && (
+          <a 
+            href={`https://api.whatsapp.com/send?phone=57${contactInfo[0]['whatsapp_number']}&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20personalizados%20en%20la%20categoría%20${subcategory.toUpperCase().replace('_', ' ').replace('CANIA', 'CAÑA')},%20me%20podrías%20dar%20más%20información%2E%20Gracias`} 
+            target="_blank"
+            className={styles.contact_us}
+          >
+            <button>¡Contáctanos!</button>
+          </a>
+        )
+      }
       
     </div>
   );

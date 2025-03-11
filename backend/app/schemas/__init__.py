@@ -22,5 +22,6 @@ from .order import Order, OrderCreate, OrderUpdate
 from .product_order import ProductOrder, ProductOrderCreate, ProductOrderUpdate
 from .size_guide import SizeGuide, SizeGuideCreate, SizeGuideUpdate
 from .type_image import TypeImage, TypeImageCreate, TypeImageUpdate
+from .contact_info import ContactInfo, ContactInfoCreate, ContactInfoUpdate
 # from .type_design import TypeDesign, TypeDesignCreate, TypeDesignUpdate
 

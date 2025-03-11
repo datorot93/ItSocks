@@ -6,10 +6,26 @@ import icono_preguntas from '../../../public/assets/mas/Icono Preguntas.svg';
 import icono_tallas from '../../../public/assets/mas/Icono tallas.svg';
 import icono_ventas_por_mayor from '../../../public/assets/mas/Icono ventas por mayor.svg';
 
+import { getContactInfo } from '../helpers/getContactInfo';
+
 import styles from '../../ui/styles/Mas.module.css';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 
 export const Mas = () => {
+
+    const [contactInfo, setContactInfo] = useState({});
+
+    useEffect(() => {
+        getContactInfo().then( data => {
+            setContactInfo(data);
+        }).catch( error => {
+            console.log(error);
+        })
+    }, []);
+    
     return (
     <>
         <section  className={ styles.main }>
@@ -17,12 +33,16 @@ export const Mas = () => {
         <div className={ styles.container }>
             <div className={ styles.link_container}>
                 <img src={ icono_ventas_por_mayor } alt="Ventas al por mayor" />
-                <a
-                    href={`https://api.whatsapp.com/send?phone=573143939837&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20al%20por%20mayor,%20me%20podrías%20dar%20más%20información%2E%20Gracias`}
-                    target='_blank'
-                >
-                    <p>Ventas al por mayor</p>        
-                </a>
+                {
+                    contactInfo[0] && (
+                        <a
+                            href={`https://api.whatsapp.com/send?phone=57${contactInfo[0]['whatsapp_number']}&text=Hola!%20Cordial%20saludo,%20estoy%20interesad@%20en%20comprar%20productos%20IT%20SOCKS%20al%20por%20mayor,%20me%20podrías%20dar%20más%20información%2E%20Gracias`}
+                            target='_blank'
+                        >
+                            <p>Ventas al por mayor</p>        
+                        </a>
+                    )
+                }
             </div>
             <div className={ styles.link_container}>
                 <img src={ icono_envios } alt="Ventas al por mayor" />

@@ -20,6 +20,7 @@ import { SizeGuideCreate, SizeGuideList, SizeGuideEdit } from './SizeGuide';
 import { TypeImageList, TypeImageEdit, TypeImageCreate } from './TypeImage';
 import { SellsReportList } from './SellsReport/SellsReportList';
 import { BulkPricesEdit, BulkPricesList } from './BulkPrices';
+import { ContactInfoList, ContactInfoEdit } from './ContactInfo';
 import simpleRestProvider from 'ra-data-simple-rest';
 
 
@@ -36,8 +37,8 @@ const httpClient = (url, options) => {
 };
 // PONER ACÁ URL DE LA API
 // const apiUrl = 'http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1';
-// const apiUrl = 'http://localhost/api/v1';
-const apiUrl = 'http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1';
+const apiUrl = 'http://localhost/api/v1';
+// const apiUrl = 'http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1';
 const dataProvider = simpleRestProvider(apiUrl, httpClient);
 
 // dataProvider.getList('products', {
@@ -178,6 +179,13 @@ function App() {
             // create={SizeGuideCreate}
             // edit={SizeGuideEdit}
             options={{ label: 'Reporte ventas' }}
+          />
+          <Resource 
+            name="contact_info"
+            label="Información de contacto"
+            list={ContactInfoList}
+            edit={ContactInfoEdit}
+            options={{ label: 'Número WhatsApp' }}
           />
           
           
