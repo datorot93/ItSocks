@@ -1,6 +1,8 @@
-from typing import Any, List
+from typing import Any, List, Optional
 
-from fastapi import APIRouter, Request, Depends, HTTPException, Response
+import json
+
+from fastapi import APIRouter, Request, Depends, HTTPException, Response, Query
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -13,22 +15,34 @@ router = APIRouter()
 async def product_size_list(
     response: Response,
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 200,
+    sort: Optional[str] = Query(None),
+    range: Optional[str] = Query(None),
+    filter: Optional[str] = Query(None),
     # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get all ProductSizes
     """
 
-    product_sizes = crud.product_size.get_multi(
-        db, 
-        skip=skip, 
-        limit=limit
+    # Parse the sort parameter
+    sort_list = json.loads(sort) if sort else None
+
+    # Parse the range parameter
+    range_list = json.loads(range) if range else None
+
+    # Parse the filter parameter
+    filter_dict = json.loads(filter) if filter else None
+    
+    
+    product_sizes = crud.product_size.get_product_sizes(
+        db,
+        sort=sort_list,
+        range=range_list,
+        filters = filter_dict
     )
 
     # print(devices)
-    response.headers["Content-Range"] = f"0-9/{len(product_sizes)}"
+    response.headers["Content-Range"] = f"0-19/{len(product_sizes)}"
     return product_sizes
 
 

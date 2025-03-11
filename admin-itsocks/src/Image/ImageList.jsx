@@ -7,21 +7,10 @@ import {
   ImageField,
   EditButton,
   ReferenceField,
-  SelectInput,
-  FunctionField,
   Filter,
   TextInput,
 } from 'react-admin';
 
-// const MyOptionRenderer = ({ record }) => {
-//   if (!record) {
-//     console.log('Record is undefined');
-//     return <span>Loading...</span>;
-//   }
-//   console.log(record);
-//   console.log('ESTE ES EL RECORD');
-//   return <span>{record.name} {record.id_type}</span>;
-// };
 
 const PostFilter = (props) => (
   <Filter {...props}>

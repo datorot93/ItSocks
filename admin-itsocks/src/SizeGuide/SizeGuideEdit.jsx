@@ -25,8 +25,8 @@ export const SizeGuideEdit = (props) => {
     }
 
     const response = await fetch(
-      // `http://localhost/api/v1/subcategories/4?id_category=1&name=Estampadas&discount=0&code=me`
-      `http://localhost/api/v1/size_guides/${data.id}?size_guide=${data.size_guide}&alt=${data.alt}`,
+      `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/size_guides/${data.id}?size_guide=${data.size_guide}&alt=${data.alt}`,
+      // `http://localhost/api/v1/size_guides/${data.id}?size_guide=${data.size_guide}&alt=${data.alt}`,
       {
         method: 'PUT',
         body: formData,

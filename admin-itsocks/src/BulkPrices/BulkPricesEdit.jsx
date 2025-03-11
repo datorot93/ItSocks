@@ -24,7 +24,8 @@ export const BulkPricesEdit = (props) => {
   
       const response = await fetch(
         // `http://localhost/api/v1/subcategories/${data.id}?id_category=${data.id_category}&name=${data.name}&discount=${data.discount}&code=${data.code}`,
-        `http://localhost/api/v1/packs/14?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}&state=${data.state}&discount=${data.discount}`,
+        // `http://localhost/api/v1/packs/14?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}&state=${data.state}&discount=${data.discount}`,
+        `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/packs/14?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}&state=${data.state}&discount=${data.discount}`,
         {
           method: 'PUT',
           body: formData,
@@ -32,7 +33,8 @@ export const BulkPricesEdit = (props) => {
       );
     }else{
       const response = await fetch(
-        `http://localhost/api/v1/packs/14?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}&state=${data.state}&discount=${data.discount}`,
+        `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/packs/14?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}&state=${data.state}&discount=${data.discount}`,
+        // `http://localhost/api/v1/packs/14?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}&state=${data.state}&discount=${data.discount}`,
         {
           method: 'PUT',
         }

@@ -429,13 +429,6 @@ async def product_list(
     """
     # Handle filtering
 
-    # if name:
-    #     filters['name'] = name
-    # if id:
-    #     filters['id'] = id
-    # if q:
-    #     filters['q'] = q
-
     # Parse the sort parameter
     sort_list = json.loads(sort) if sort else None
 

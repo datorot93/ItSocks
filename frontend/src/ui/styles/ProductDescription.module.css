@@ -254,43 +254,18 @@
 
 }
 
-.informacion_adicional {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 15px;
-    margin-top: 40px;
-    font-size: 24px;
-    align-items: center;
-}
-
-.informacion_adicional p{
-    margin: 0;
-}
-
-.informacion_adicional span{
-    color: #000;
-
-    /* carrito de compra resaltado */
-    font-family: Montserrat;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
 .tiempo_estimado {
     display: flex;
     width: 100%;
     gap: 15px;
-    margin-top: 40px;
+    margin-top: 60px;
     align-items: center;
 
     color: #000;
 
 /* carrito de compra resaltado */
     font-family: Montserrat;
-    font-size: 16px;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -665,23 +640,10 @@
     }
 
     .tiempo_estimado img {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
     }
 
-    .informacion_adicional {
-        width: 350px;
-        font-size: 12px;
-    }
-
-    .informacion_adicional span{
-        font-size: 12px;
-    }
-
-    .informacion_adicional img{
-        width: 30px;
-        height: 30px;
-    }
     .title_recomendados {
         width: 350px;
         margin: 40px 0 40px 0;
@@ -730,9 +692,4 @@
         height: 30px;
     }
 
-    .informacion_adicional p strong {
-        color: black;
-        font-weight: 700;
-        font-size: 12px;
-    }
 }

@@ -154,7 +154,7 @@ async def subcategories_list(
     """
     Get all Subcategories
     """
-    subcategories = crud.subcategory.get_multi(
+    subcategories = crud.subcategory.get_subcategory_list(
         db, 
         skip=skip, 
         limit=limit

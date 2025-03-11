@@ -18,7 +18,8 @@ export const SubcategoryCreate = (props) => {
   
   const handleSave = async (data) => {
     // Construye la URL base con todos los parámetros obligatorios
-    const baseUrl = `http://localhost/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount || "0"}&code=${data.code || ""}`;
+    // const baseUrl = `http://localhost/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount || "0"}&code=${data.code || ""}`;
+    const baseUrl = `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/subcategories?id_category=${data.id_category}&name=${data.name}&discount=${data.discount || "0"}&code=${data.code || ""}`;
     
     // Si hay un archivo, usa FormData para enviarlo
     if (data.file && data.file.rawFile) {

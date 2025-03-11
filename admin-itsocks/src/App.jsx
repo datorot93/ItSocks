@@ -36,7 +36,8 @@ const httpClient = (url, options) => {
 };
 // PONER ACÁ URL DE LA API
 // const apiUrl = 'http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1';
-const apiUrl = 'http://localhost/api/v1';
+// const apiUrl = 'http://localhost/api/v1';
+const apiUrl = 'http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1';
 const dataProvider = simpleRestProvider(apiUrl, httpClient);
 
 // dataProvider.getList('products', {

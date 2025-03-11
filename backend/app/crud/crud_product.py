@@ -1024,11 +1024,12 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         )
 
         #  Apply filters
-        if 'q' in filters:
-            query = query.\
-                filter(
-                    unaccent(func.lower(Product.name)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
-                )
+        if filters:
+            if 'q' in filters:
+                query = query.\
+                    filter(
+                        unaccent(func.lower(Product.name)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
+                    )
 
 
         # Apply sorting

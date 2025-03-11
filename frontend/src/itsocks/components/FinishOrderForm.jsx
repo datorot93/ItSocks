@@ -130,14 +130,16 @@ export const FinishOrderForm = () => {
                 cart.forEach((product, index) => {
                     if (product.name.toLowerCase().includes('pares')) {
                         product.prductos.forEach(prod => {
-                            // console.log('Este es el producto: ', product);
+                            console.log('Este es el producto: ', product);
                             const promise = setProductOrder({
                                 product_id: prod.id,
                                 order_id: data.id,
                                 quantity: prod.cantidad,
                                 pack: product.name,
                                 size: prod.selected_size,
-                                num_in_order: index + 1
+                                num_in_order: index + 1,
+                                discount: prod.discount,
+                                discount_code: ''
                             }).then(res => {
                                 console.log('Este es el res1: ', res);
                             });
@@ -150,7 +152,9 @@ export const FinishOrderForm = () => {
                             quantity: product.cantidad,
                             pack: '',
                             size: product.selected_size,
-                            num_in_order: index + 1
+                            num_in_order: index + 1,
+                            discount: product.discount,
+                            discount_code: product.discount_code
                         }).then(res => {
                             console.log('Este es el res2: ', res);
                         });

@@ -22,8 +22,8 @@ export const PackPopUpCarrito = ({
   const handleClickComprar = () => {
     useNavigate("");
   };
-  console.log("ESTE ES EL PRODUCTO DEL POPUP");
-  console.log(product);
+  // console.log("ESTE ES EL PRODUCTO DEL POPUP");
+  // console.log(product);
   return (
     <>
       {showPopUp && (
