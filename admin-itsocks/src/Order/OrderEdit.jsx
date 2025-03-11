@@ -86,8 +86,7 @@ export const OrderEdit = (props) => (
           <span style={{ margin: '0 8px' }}>Para:</span>
           <TextField source="para" label="Para"/>
         </div>
-        {/* <TextField source="de" label="De"/>
-        <TextField source="para" label="Para"/> */}
+     
         
 
        
