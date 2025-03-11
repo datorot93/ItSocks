@@ -22,8 +22,8 @@ export const TagEdit = (props) => {
 
 
 
-    const response = await fetch(`http://localhost/api/v1/tags/${data.id}?tag_name=${data.name}&discount=${data.discount}`, {
-    // const response = await fetch(`http://localhost/api/v1/tags?name=${data.name}`, {
+    const response = await fetch(`http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/tags/${data.id}?tag_name=${data.name}&discount=${data.discount}`, {
+    // const response = await fetch(`http://localhost/api/v1/tags/${data.id}?tag_name=${data.name}&discount=${data.discount}`, {
       method: 'PUT',
       body: formData,
     });

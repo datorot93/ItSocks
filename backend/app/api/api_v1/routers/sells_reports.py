@@ -66,7 +66,7 @@ def get_products_by_city(
     # No need to convert to dict since crud method already returns dictionaries
     return orders
 
-@router.get("detailed_orders")
+@router.get("/detailed_orders")
 def get_detailed_orders(
     db: Session = Depends(deps.get_db),
     skip: int = 0,

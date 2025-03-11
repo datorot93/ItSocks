@@ -27,7 +27,8 @@ class ProductOrder(Base):
     pack_cost = Column(Float, nullable=True)
     num_in_order = Column(Integer, default=1, nullable=False)
     size = Column(String, nullable=True)
-    
+    discount = Column(Integer, default=0, nullable=True)
+    discount_code = Column(String, nullable=True, default="")
     
     product = relationship('Product', back_populates=('product_order'))
     order = relationship('Order', back_populates=('product_order'))

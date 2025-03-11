@@ -187,6 +187,7 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
         limit: int = 100,
         filters: dict = {}
     ):
+        
         query = (
             db.query(
                 Order.id,
@@ -206,10 +207,19 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
                 Order.para,
                 Order.isGift,
                 Order.state,
-                # case((ProductOrder.pack != "", Product.price), else_= ProductOrder.pack_cost).label('price'),
-                Product.price,
+                ProductOrder.discount,
+                ProductOrder.discount_code,
+                ProductOrder.pack,
+                case(
+                    [(ProductOrder.pack == "", Product.price)], 
+                    else_= ProductOrder.pack_cost
+                ).label('price'),
+                # Product.price,
                 ProductOrder.quantity,
-                (ProductOrder.quantity * Product.price).label('subtotal'),
+                case(
+                    [(ProductOrder.pack == "", (ProductOrder.quantity * Product.price))],
+                    else_ = ProductOrder.pack_cost
+                ).label('subtotal'),
                 Order.shipping_cost.label('costo_envio'),
                 Order.total,
                 Product.name.label('nombre_producto'),
@@ -254,11 +264,14 @@ class CRUDSellsReport(CRUDBase[Order, OrderCreate, OrderUpdate]):
                 'de': row.de,
                 'para': row.para,
                 'isGift': row.isGift,
+                'pack': row.pack,
                 'state': row.state,
+                'discount': row.discount,
+                'discount_code': row.discount_code,
                 'quantity': row.quantity,
-                'valor_unitario': float(row.price),
-                'costo_envio': float(row.costo_envio),
-                'subtotal': float(row.subtotal),
+                'valor_unitario': float(row.price) if row.price else 0,
+                'costo_envio': float(row.costo_envio) if row.costo_envio else 0,
+                'subtotal': row.subtotal if (row.discount == 0 or row.discount is None) else (row.subtotal - (row.subtotal * row.discount / 100)),
                 'total': float(row.total),
                 'fecha_orden': row.fecha_orden,
                 'nombre_producto': row.nombre_producto,

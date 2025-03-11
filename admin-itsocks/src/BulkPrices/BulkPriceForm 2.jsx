@@ -41,7 +41,7 @@ const BulkPriceForm = () => {
           sort: { field: 'name', order: 'ASC' }
         });
         setCategories(
-          categoriesData
+          categoriesData.filter(category => category.id_category === 1)
         );
 
         // Fetch types
@@ -74,7 +74,8 @@ const BulkPriceForm = () => {
     try {
       // Crear el ID compuesto y construir la URL con el precio como query parameter
       const compositeId = `${selectedCategory}-${selectedType}`;
-      const apiUrl = `http://localhost/api/v1/bulk_prices/${compositeId}?price=${parseFloat(price)}`;
+      // const apiUrl = `http://localhost/api/v1/bulk_prices/${compositeId}?price=${parseFloat(price)}`;
+      const apiUrl = `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/bulk_prices/${compositeId}?price=${parseFloat(price)}`;
       
       // Hacer la solicitud fetch directamente en lugar de usar dataProvider
       const response = await fetch(apiUrl, {

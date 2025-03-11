@@ -1,5 +1,6 @@
 from typing import Optional, Any, Union, Dict
 
+from sqlalchemy import asc
 from sqlalchemy.orm import Session
 
 from fastapi.encoders import jsonable_encoder
@@ -18,6 +19,17 @@ class CRUDTypeImage(CRUDBase[TypeImage, TypeImageCreate, TypeImageUpdate]):
         url: str
     ):
         return db.query(TypeImage).filter(TypeImage.id_product == id_product and TypeImage.url == url).first()
+    
+    def get_type_image_list(
+        self,
+        db: Session,
+        *,
+        skip: int = 0,
+        limit: int = 100
+    ):
+        return db.query(
+            TypeImage
+        ).order_by(asc(TypeImage.priority)).offset(skip).limit(limit).all()
     
     def create(
             self,

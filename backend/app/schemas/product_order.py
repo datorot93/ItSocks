@@ -9,6 +9,8 @@ class ProductOrderBase(BaseModel):
     num_in_order: int
     size: str
     pack_cost: Optional[float] = None
+    discount: int = 0
+    discount_code: str = ""
 
 class ProductOrderCreate(ProductOrderBase):
     product_id: int
@@ -18,7 +20,9 @@ class ProductOrderCreate(ProductOrderBase):
     num_in_order: int
     size: str
     pack_cost: Optional[float] = None
-
+    discount: int = 0
+    discount_code: str = ""
+    
 class ProductOrderUpdate(ProductOrderBase):
     product_id: int
     order_id: int
@@ -27,7 +31,9 @@ class ProductOrderUpdate(ProductOrderBase):
     num_in_order: int
     size: str
     pack_cost: Optional[float] = None
-
+    discount: int = 0
+    discount_code: str = ""
+    
 class ProductOrderInDBBase(ProductOrderBase):
     id: int
     product_id: int
@@ -37,7 +43,9 @@ class ProductOrderInDBBase(ProductOrderBase):
     num_in_order: int
     size: str
     pack_cost: Optional[float] = None
-
+    discount: int = 0
+    discount_code: str = ""
+    
     class Config:
         orm_mode: True
 
@@ -49,6 +57,8 @@ class ProductOrder(ProductOrderInDBBase):
     num_in_order: int
     size: str
     pack_cost: Optional[float] = None
-
+    discount: int = 0
+    discount_code: str = ""
+    
 class ProductOrderInDB(ProductOrderInDBBase):
     pass

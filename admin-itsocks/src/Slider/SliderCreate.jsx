@@ -11,7 +11,8 @@ export const SliderCreate = (props) => {
     const formData = new FormData();
     formData.append('file', data.file.rawFile);
     console.log('formData', formData.entries())
-    const response = await fetch('http://localhost/api/v1/sliders', {
+    const response = await fetch('http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/sliders', {
+    // const response = await fetch('http://localhost/api/v1/sliders', {
       method: 'POST',
       body: formData,
     });

@@ -25,8 +25,8 @@ export const TypeImageEdit = (props) => {
     }
 
     const response = await fetch(
-      // `http://localhost/api/v1/subcategories/4?id_category=1&name=Estampadas&discount=0&code=me`
-      `http://localhost/api/v1/type_images/${data.id}?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
+      // `http://localhost/api/v1/type_images/${data.id}?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
+      `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/type_images/${data.id}?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
       {
         method: 'PUT',
         body: formData,

@@ -10,8 +10,8 @@ import 'animate.css';
 
 export const ProductoCard = (product, isPack) => {
 
-  console.log('ESTE ES EL PRODUCTO')
-  console.log(product)
+  // console.log('ESTE ES EL PRODUCTO')
+  // console.log(product)
 
   const { pathname } = useLocation();
 

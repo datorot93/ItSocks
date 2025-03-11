@@ -21,7 +21,7 @@ export const getProductSum = async() => {
 }
 
 export const getDetailedOrders = async (fromDate=null, toDate=null) => {
-    let url = `sells-reportsdetailed_orders?skip=0&limit=100`;
+    let url = `sells-reports/detailed_orders?skip=0&limit=100`;
     
     // Add query parameters if dates are provided
     const params = new URLSearchParams();

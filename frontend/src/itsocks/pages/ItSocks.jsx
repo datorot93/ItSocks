@@ -40,41 +40,41 @@ export const ItSocks = () => {
   }, []);
 
 
-  const estilosVida = [
-    {
-      id: "p1",
-      src: "../../../public/assets/homepage/estilos_vida/p1.png",
-      description: "RUNNING",
-    },
-    {
-      id: "p2",
-      src: "../../../public/assets/homepage/estilos_vida/p2.png",
-      description: "CICLISMO",
-    },
-    {
-      id: "p3",
-      src: "../../../public/assets/homepage/estilos_vida/p3.png",
-      description: "TRABAJO",
-    },
-    {
-      id: "p4",
-      src: "../../../public/assets/homepage/estilos_vida/p4.jpg",
-      description: "DÍA A DÍA",
-    },
-    {
-      id: "p5",
-      src: "../../../public/assets/homepage/estilos_vida/p5.png",
-      description: "FITNESS",
-    },
-  ];
+  // const estilosVida = [
+  //   {
+  //     id: "p1",
+  //     src: "../../../public/assets/homepage/estilos_vida/p1.png",
+  //     description: "RUNNING",
+  //   },
+  //   {
+  //     id: "p2",
+  //     src: "../../../public/assets/homepage/estilos_vida/p2.png",
+  //     description: "CICLISMO",
+  //   },
+  //   {
+  //     id: "p3",
+  //     src: "../../../public/assets/homepage/estilos_vida/p3.png",
+  //     description: "TRABAJO",
+  //   },
+  //   {
+  //     id: "p4",
+  //     src: "../../../public/assets/homepage/estilos_vida/p4.jpg",
+  //     description: "DÍA A DÍA",
+  //   },
+  //   {
+  //     id: "p5",
+  //     src: "../../../public/assets/homepage/estilos_vida/p5.png",
+  //     description: "FITNESS",
+  //   },
+  // ];
 
-  const beneficiosImage = [
-    {
-      id: "b2",
-      src: "../../../public/assets/homepage/beneficios/b2.mp4",
-      description: "Video beneficios",
-    },
-  ];
+  // const beneficiosImage = [
+  //   {
+  //     id: "b2",
+  //     src: "../../../public/assets/homepage/beneficios/b2.mp4",
+  //     description: "Video beneficios",
+  //   },
+  // ];
 
 
   

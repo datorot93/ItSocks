@@ -236,13 +236,11 @@ export const ProductDescription = () => {
     window.scrollTo(0, 0);
   };
 
-  console.log(tallas)
-
   const handleComprarAhora = () => {
     if(cantProducts > 0 ){
       if(tallas[0] && tallas[0] !== "unica"){
         if(tallaSeleccionada){
-          console.log('ENTRÉ AQUI 1')
+          // console.log('ENTRÉ AQUI 1')
           setProduct_to_add({ 
             ...producto, 
             cantidad: cantProducts,
@@ -289,7 +287,7 @@ export const ProductDescription = () => {
           alert('Debes seleccionar un color')
         }      
       }else if(tallas[0] === 'unica' && colors.length === 0){
-        console.log('ENTRÉ AQUI 3')
+        // console.log('ENTRÉ AQUI 3')
         
         setProduct_to_add({ 
           ...producto, 
@@ -496,19 +494,7 @@ export const ProductDescription = () => {
                 que demora la transportadora en entregar
               </p>
             </div>
-            
-            <div className={styles.informacion_adicional}>
-              
-              {total < 250000 ? (
-                <p>
-                  
-                </p>
-              ) : (
-                <p>
-                  Envío totalmente <strong>GRATIS</strong>.
-                </p>
-              )}
-            </div>
+          
 
           </div>
         </div>

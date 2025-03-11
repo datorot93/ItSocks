@@ -13,7 +13,8 @@ class TypeImage(Base):
     name = Column(String, nullable=False)
     category = Column(String, nullable=False)
     subcategory = Column(String, nullable=False)
-
+    priority = Column(Integer, nullable=True)
+    
     description = Column(String, nullable=True)
     alt = Column(String, nullable=True)
 

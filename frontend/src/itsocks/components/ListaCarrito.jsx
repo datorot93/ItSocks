@@ -117,7 +117,7 @@ export const ListaCarrito = () => {
                   >-</button>
                   <span>{producto.cantidad}</span>
                   <button 
-                    onClick={() => addOneToCart(producto)}
+                    // onClick={() => addOneToCart(producto)}
                     className={styles.button_right}
                   >
                     +
@@ -255,7 +255,7 @@ export const ListaCarrito = () => {
                       >-</button>
                       <span>{producto.cantidad}</span>
                       <button 
-                        onClick={() => addOneToCart(producto)}
+                        // onClick={() => addOneToCart(producto)}
                         className={styles.button_right}
                       >
                         +

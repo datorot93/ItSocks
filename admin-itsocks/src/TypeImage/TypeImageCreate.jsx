@@ -21,9 +21,9 @@ export const TypeImageCreate = (props) => {
     formData.append('file', data.file.rawFile);
 
     const response = await fetch(
-      // `http://localhost/api/v1/images?id_product=${data.id_product}`,
-      `http://localhost/api/v1/type_images?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
-      `http://localhost/api/v1/type_images?type_name=${data.name}&category=${data.category}&subcategory=${data.subcategory}`,
+      // `http://localhost/api/v1/type_images?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
+      `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/type_images?name=${data.name}&category=${data.category}&subcategory=${data.subcategory}&description=${data.description}&alt=${data.alt}`,
+      // `http://localhost/api/v1/type_images?type_name=${data.name}&category=${data.category}&subcategory=${data.subcategory}`,
       {
         method: 'POST',
         body: formData,

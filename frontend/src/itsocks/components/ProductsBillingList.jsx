@@ -20,7 +20,7 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
   // const shipping = JSON.parse(localStorage.getItem('shipping'))
 
   const { shipping, modifyShipping } = useShipping()
-  const { cart } = useCart()
+  const { cart, modifyCartProduct } = useCart()
   
   const { discount, addToDiscount, removeFromDiscount } = useDiscount()
 
@@ -28,6 +28,7 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
   const [ code, setCode ] = useState('')
   const [ currentDiscount, setCurrentDiscount ] = useState(discount ? discount : null)
   const [ inputDisabled, setInputDisabled ] = useState(false)
+  const [ productToModify, setProductToModify ] = useState({})
   // Descuentos
   const [ categoryDiscounts, setCategoryDiscounts ] = useState({});
   const [ subcategoryDiscounts, setSubcategoryDiscounts ] = useState({});
@@ -47,9 +48,15 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
     setCode(e.target.value)
   }
 
+  // useEffect(() => {
+
+    
+  // }, [])
+
   useEffect(() => {
 
     const products_categories = cart.reduce((acc, item) => {
+
       if (!acc.categories.includes(item.category) && item.category) {
           acc.categories.push(item.category.toLowerCase());
       }
@@ -87,84 +94,163 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
       (res) => setDesignDiscounts(res)
     )
 
+    
+
   }, [currentDiscount])
 
-  const handleAplicarCupon = () => {
+  useEffect( () => {
+    cart.forEach( (product) => {
+      
+      const discounts = getDiscounts(product)
+
+      const maxDiscount = Math.max.apply(null, discounts);
+      modifyCartProduct({
+        ...product,
+        discount: maxDiscount,
+        codigo_descuento: ""
+      });
+    });
+  }, [categoryDiscounts, subcategoryDiscounts, typeDiscounts, designDiscounts])
+
+
+
+  const getDiscounts = (objeto) => {
+    const discounts = []
 
     
 
-    getDiscountCode(code).then( (res) => {
-      // setDiscountCode(res.)
-      if(res){
-        console.log(res)
-        setCurrentDiscount(res)
-        addToDiscount(res)
-      }
-    })
-    setPreviusSubtotal(shipping.subtotal)
+    discounts.push(objeto.discount)
 
-    setSubtotal(cart.reduce((acumulador, objeto) => {
-      const discounts = []
+    if (categoryDiscounts[objeto.category.toLowerCase()]){
+      discounts.push(categoryDiscounts[objeto.category.toLowerCase()])
+    }
+    if (subcategoryDiscounts[objeto.subcategory.toLowerCase()]){
+      discounts.push(subcategoryDiscounts[objeto.subcategory.toLowerCase()])
+    }
+    if (typeDiscounts[objeto.type.toLowerCase()]){
+      discounts.push(typeDiscounts[objeto.type.toLowerCase()])
+    }
+    if (designDiscounts[objeto.design.toLowerCase()]){
+      discounts.push(designDiscounts[objeto.design.toLowerCase])
+    }
 
-      if (currentDiscount !== null){
-        discounts.push(currentDiscount.discount)
-      }
-      if (!objeto.name.toLowerCase().includes("pares")) {
-        
-        discounts.push(objeto.discount)
+    if (currentDiscount !== null){
+      discounts.push(currentDiscount.discount)
+    }
 
-        if (categoryDiscounts[objeto.category.toLowerCase()]){
-          discounts.push(categoryDiscounts[objeto.category.toLowerCase()])
-        }
-        if (subcategoryDiscounts[objeto.subcategory.toLowerCase()]){
-          discounts.push(subcategoryDiscounts[objeto.subcategory.toLowerCase()])
-        }
-        if (typeDiscounts[objeto.type.toLowerCase()]){
-          discounts.push(typeDiscounts[objeto.type.toLowerCase()])
-        }
-        if (designDiscounts[objeto.design.toLowerCase()]){
-          discounts.push(designDiscounts[objeto.design.toLowerCase])
-        }
-
-        return (acumulador + (objeto.cantidad * objeto.price)) -(
-          objeto.cantidad * objeto.price * (Math.max.apply(null,discounts) / 100)
-        )
-
-      } else {
-        return acumulador + objeto.price * objeto.cantidad - (
-          objeto.price * (objeto.discount / 100)
-        );
-      }
-    }, 0));
-
-
-
-    modifyShipping( { 
-      discount: 0,
-      subtotal: subtotal,
-      total: subtotal + shipping.shipping_value,
-      discount_code: 0
-    } )
-
-    setInputDisabled(true)
-
-    addToDiscount(currentDiscount)
+    return discounts
   }
 
+  const handleAplicarCupon = () => {
+    getDiscountCode(code).then((res) => {
+      if (res) {
+        // Guardar la respuesta en una variable local para usarla inmediatamente
+        const discountResponse = res;
+        setCurrentDiscount(discountResponse);
+        addToDiscount(discountResponse);
+  
+        setPreviusSubtotal(shipping.subtotal);
+  
+        // Calcular nuevo subtotal y actualizar productos 
+        const newSubtotal = cart.reduce((acumulador, objeto) => {
+          if (!objeto.name.toLowerCase().includes("pares")) {
+            // Obtener descuentos SIN incluir el nuevo código primero
+            const discountsWithoutCode = getDiscountsWithoutNewCode(objeto);
+            const maxDiscountWithoutCode = Math.max.apply(null, discountsWithoutCode);
+            
+            // Si el descuento del código es mayor o igual que el máximo actual,
+            // asignamos el código al producto
+            if (discountResponse.discount >= maxDiscountWithoutCode) {
+              // Llamar directamente a modifyCartProduct sin pasar por estado
+              modifyCartProduct({
+                ...objeto,
+                discount: discountResponse.discount,
+                discount_code: discountResponse.code // Usar el mismo nombre que en cartReducer
+              });
+              
+              // Calcular precio con descuento
+              return (acumulador + (objeto.cantidad * objeto.price)) - 
+                (objeto.cantidad * objeto.price * (discountResponse.discount / 100));
+            } else {
+              modifyCartProduct({
+                ...objeto,
+                discount: maxDiscountWithoutCode,
+                discount_code: "" // No hay código porque otro descuento es mayor
+              });
+              
+              // Calcular precio con el descuento máximo existente
+              return (acumulador + (objeto.cantidad * objeto.price)) - 
+                (objeto.cantidad * objeto.price * (maxDiscountWithoutCode / 100));
+            }
+          } else {
+            return acumulador + objeto.price * objeto.cantidad - 
+              (objeto.price * (objeto.discount / 100));
+          }
+        }, 0);
+  
+        setSubtotal(newSubtotal);
+  
+        modifyShipping({
+          discount: 0,
+          subtotal: newSubtotal,
+          total: newSubtotal + shipping.shipping_value,
+          discount_code: discountResponse.code
+        });
+  
+        setInputDisabled(true);
+        
+        console.log('Productos actualizados:', cart); // Para depuración
+      }
+    });
+  };
+  
+  // Función auxiliar para obtener descuentos sin incluir el nuevo código
+  const getDiscountsWithoutNewCode = (objeto) => {
+    const discounts = [];
+    
+    discounts.push(objeto.discount || 0);
+  
+    if (categoryDiscounts[objeto.category?.toLowerCase()]) {
+      discounts.push(categoryDiscounts[objeto.category.toLowerCase()]);
+    }
+    if (subcategoryDiscounts[objeto.subcategory?.toLowerCase()]) {
+      discounts.push(subcategoryDiscounts[objeto.subcategory.toLowerCase()]);
+    }
+    if (typeDiscounts[objeto.type?.toLowerCase()]) {
+      discounts.push(typeDiscounts[objeto.type.toLowerCase()]);
+    }
+    if (designDiscounts[objeto.design?.toLowerCase()]) {
+      discounts.push(designDiscounts[objeto.design.toLowerCase()]);
+    }
+    
+    return discounts;
+  };
 
   const handleDeleteDiscount = () => {
-    setCurrentDiscount(null)
-    setSubtotal(previusSubtotal)
-    modifyShipping( {
+    removeFromDiscount();
+    setCurrentDiscount(null);
+    setSubtotal(previusSubtotal);
+  
+    modifyShipping({
       discount: 0,
       subtotal: previusSubtotal,
       total: previusSubtotal + shipping.shipping_value,
       discount_code: ''
-    } )
-    setInputDisabled(false)
-    removeFromDiscount()
-    setCode('')
-  }
+    });
+    setInputDisabled(false);
+    
+    setCode('');
+  
+    cart.forEach((product) => {
+      if (product.discount_code !== '') {
+        modifyCartProduct({
+          ...product,
+          discount: 0,
+          discount_code: '' // Usar la misma propiedad que antes
+        });
+      }
+    });
+  };
 
   // console.log(shipping)
   return (
@@ -343,32 +429,59 @@ export const ProductsBillingList = ({ email, name, lastName, document, phone }) 
         {
           cart.map( (product, index) => {
 
-            const discounts = []
+            const discounts = getDiscounts(product)
+
+            // const discounts = []
             let final_price = 0
 
-            if (currentDiscount !== null){
-              discounts.push(currentDiscount.discount)
-            }
+            // if (currentDiscount !== null){
+            //   discounts.push(currentDiscount.discount)
+            // }
             if (!product.name.toLowerCase().includes("pares")) {
               
-              discounts.push(product.discount)
+              // discounts.push(product.discount)
       
-              if (categoryDiscounts[product.category.toLowerCase()]){
-                discounts.push(categoryDiscounts[product.category.toLowerCase()])
-              }
-              if (subcategoryDiscounts[product.subcategory.toLowerCase()]){
-                discounts.push(subcategoryDiscounts[product.subcategory.toLowerCase()])
-              }
-              if (typeDiscounts[product.type.toLowerCase()]){
-                discounts.push(typeDiscounts[product.type.toLowerCase()])
-              }
-              if (designDiscounts[product.design.toLowerCase()]){
-                discounts.push(designDiscounts[product.design.toLowerCase])
-              }
+              // if (categoryDiscounts[product.category.toLowerCase()]){
+              //   discounts.push(categoryDiscounts[product.category.toLowerCase()])
+              // }
+              // if (subcategoryDiscounts[product.subcategory.toLowerCase()]){
+              //   discounts.push(subcategoryDiscounts[product.subcategory.toLowerCase()])
+              // }
+              // if (typeDiscounts[product.type.toLowerCase()]){
+              //   discounts.push(typeDiscounts[product.type.toLowerCase()])
+              // }
+              // if (designDiscounts[product.design.toLowerCase()]){
+              //   discounts.push(designDiscounts[product.design.toLowerCase])
+              // }
+
+
       
               final_price =   (product.cantidad * product.price) - (
                 product.cantidad * product.price * (Math.max.apply(null,discounts) / 100)
               )
+              
+              // if (currentDiscount !== null){
+
+              //   modifyCartProduct({
+              //     ...product,
+              //     discount: Math.max.apply(null,discounts),
+              //     discount_code: (currentDiscount.discount && currentDiscount.discount == Math.max.apply(null,discounts)) ? currentDiscount.code : ""
+              //   })
+              // } else {
+                // modifyCartProduct({
+                //   ...product,
+                //   discount: Math.max.apply(null,discounts),
+                //   discount_code: ""
+                // })
+              // }
+              
+              // if(currentDiscount){
+              //   modifyCartProduct({
+              //     ...product,
+              //     discount: Math.max.apply(null,discounts),
+              //     discount_code: (currentDiscount.discount && currentDiscount.discount == Math.max.apply(null,discounts)) ? currentDiscount.code : ""
+              //   })
+              // }
       
             } else {
               final_price = product.price * product.cantidad - (
