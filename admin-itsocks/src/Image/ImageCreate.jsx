@@ -28,7 +28,7 @@ export const ImageCreate = (props) => {
 
     if (response.ok) {
       notify('File uploaded successfully!');
-      redirect('/#/sliders'); // Redirigir a la lista de recursos
+      redirect('/images'); // Redirigir a la lista de recursos
     } else {
       notify('Failed to upload file', { type: 'error' });
     }
