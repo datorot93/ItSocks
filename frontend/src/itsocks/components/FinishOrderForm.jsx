@@ -140,9 +140,10 @@ export const FinishOrderForm = () => {
                                 size: prod.selected_size,
                                 num_in_order: index + 1,
                                 discount: prod.discount,
-                                discount_code: ''
+                                discount_code: '',
+                                
                             }).then(res => {
-                                console.log('Este es el res1: ', res);
+                                // console.log('Este es el res1: ', res);
                             });
                             promises.push(promise);
                         });
@@ -155,7 +156,8 @@ export const FinishOrderForm = () => {
                             size: product.selected_size,
                             num_in_order: index + 1,
                             discount: product.discount,
-                            discount_code: product.discount_code
+                            discount_code: product.discount_code,
+                            price_paid: product.price - (product.price * product.discount / 100)
                         }).then(res => {
                             console.log('Este es el res2: ', res);
                         });
