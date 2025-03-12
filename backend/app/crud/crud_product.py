@@ -198,7 +198,6 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             Product.talla == talla, 
             Product.compresion == compresion,
             Product.id_subcategory == id_subcategory,
-            Product.id_category == id_category,
             Product.id_design == id_design,
             Product.id_type == id_type
         ).first()
