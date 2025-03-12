@@ -187,7 +187,6 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         compresion: bool,
         color: str,
         id_subcategory: int,
-        id_category: int,
         id_design: int,
         id_type: int
     ):
