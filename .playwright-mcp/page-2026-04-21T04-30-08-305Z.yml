@@ -1,0 +1,80 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "ItSocks Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "ItSocks Logo" [ref=e7]
+      - generic [ref=e8]:
+        - link "Icono buscar" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img "Icono buscar" [ref=e10]
+        - textbox "Buscar en nuestro sitio" [ref=e11]
+      - generic [ref=e12]:
+        - link "Medias":
+          - /url: /medias
+        - link "Accesorios":
+          - /url: /accesorios
+        - link "Packs":
+          - /url: /packs
+        - link "Más":
+          - /url: /mas
+      - generic [ref=e13]:
+        - link "0 Lista deseados" [ref=e14] [cursor=pointer]:
+          - /url: /lista_de_favoritos
+          - generic [ref=e15]:
+            - generic [ref=e16]: "0"
+            - img "Lista deseados" [ref=e17]
+        - link "0 Icono carrito" [ref=e18] [cursor=pointer]:
+          - /url: /carrito
+          - generic [ref=e19]:
+            - generic [ref=e20]: "0"
+            - img "Icono carrito" [ref=e21]
+  - generic [ref=e22]:
+    - link "Inicio" [ref=e23] [cursor=pointer]:
+      - /url: /
+    - link "| Lista de favoritos" [ref=e24] [cursor=pointer]:
+      - /url: /lista_de_favoritos
+  - generic [ref=e25]:
+    - heading "LISTA DE DESEOS" [level=1] [ref=e26]
+    - generic [ref=e28]:
+      - table [ref=e30]:
+        - rowgroup [ref=e31]:
+          - row "PRODUCTO PRECIO CANTIDAD TOTAL" [ref=e32]:
+            - columnheader "PRODUCTO" [ref=e33]
+            - columnheader "PRECIO" [ref=e34]
+            - columnheader "CANTIDAD" [ref=e35]
+            - columnheader "TOTAL" [ref=e36]
+        - rowgroup
+      - generic [ref=e37] [cursor=pointer]:
+        - img "Seguir comprando" [ref=e38]
+        - generic [ref=e39]: Seguir comprando
+      - generic [ref=e40]:
+        - button "COMPARTIR LISTA DE DESEOS" [ref=e41] [cursor=pointer]
+        - button "COMPRAR LISTA" [ref=e43] [cursor=pointer]
+  - generic [ref=e44]:
+    - generic [ref=e45]:
+      - heading "SUSCRÍBETE" [level=2] [ref=e46]
+      - paragraph [ref=e48]: Suscríbete a nuestra página y obtén acceso a descuentos exclusivos y novedades de nuestra marca.
+      - paragraph [ref=e49]: ¡Haz click ahora para unirte a nuestra comunidad!
+    - generic [ref=e50]:
+      - textbox "Dirección de correo electrónico" [ref=e51]
+      - button "Suscribir" [ref=e52] [cursor=pointer]
+  - contentinfo [ref=e53]:
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - link "Envíos, Garantías y Cambios" [ref=e56] [cursor=pointer]:
+          - /url: /mas/envios_garantias_cambios
+        - link "Políticas de protección de datos" [ref=e57] [cursor=pointer]:
+          - /url: /politicas_proteccion_datos
+        - text: "|"
+        - generic [ref=e58]:
+          - link "Ícono Instagram" [ref=e59] [cursor=pointer]:
+            - /url: https://www.instagram.com/itsocks_/
+            - img "Ícono Instagram" [ref=e60]
+          - link "Ícono Facebook" [ref=e61] [cursor=pointer]:
+            - /url: https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d
+            - img "Ícono Facebook" [ref=e62]
+          - link "Ícono TikTok" [ref=e63] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1
+            - img "Ícono TikTok" [ref=e64]
+      - img [ref=e66]

@@ -1,0 +1,311 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "ItSocks Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "ItSocks Logo" [ref=e7]
+      - generic [ref=e8]:
+        - link "Icono buscar" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img "Icono buscar" [ref=e10]
+        - textbox "Buscar en nuestro sitio" [ref=e11]
+      - generic [ref=e12]:
+        - link "Medias":
+          - /url: /medias
+        - link "Accesorios":
+          - /url: /accesorios
+        - link "Packs":
+          - /url: /packs
+        - link "Más":
+          - /url: /mas
+      - generic [ref=e13]:
+        - link "0 Lista deseados" [ref=e14] [cursor=pointer]:
+          - /url: /lista_de_favoritos
+          - generic [ref=e15]:
+            - generic [ref=e16]: "0"
+            - img "Lista deseados" [ref=e17]
+        - link "0 Icono carrito" [ref=e18] [cursor=pointer]:
+          - /url: /carrito
+          - generic [ref=e19]:
+            - generic [ref=e20]: "0"
+            - img "Icono carrito" [ref=e21]
+  - generic [ref=e22]:
+    - link "Inicio" [ref=e23] [cursor=pointer]:
+      - /url: /
+    - link "| Carrito" [ref=e24] [cursor=pointer]:
+      - /url: /carrito
+  - generic [ref=e25]:
+    - heading "CARRITO DE COMPRA" [level=1] [ref=e26]
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - table [ref=e30]:
+          - rowgroup [ref=e31]:
+            - row "PRODUCTO PRECIO CANTIDAD TOTAL" [ref=e32]:
+              - columnheader "PRODUCTO" [ref=e33]:
+                - paragraph [ref=e34]: PRODUCTO
+              - columnheader "PRECIO" [ref=e35]:
+                - paragraph [ref=e36]: PRECIO
+              - columnheader "CANTIDAD" [ref=e37]:
+                - paragraph [ref=e38]: CANTIDAD
+              - columnheader "TOTAL" [ref=e39]:
+                - paragraph [ref=e40]: TOTAL
+          - rowgroup
+        - generic [ref=e41] [cursor=pointer]:
+          - img "Seguir comprando" [ref=e42]
+          - generic [ref=e43]: Seguir comprando
+      - generic [ref=e45]:
+        - heading "DATOS DE ENVÍO" [level=3] [ref=e46]
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - paragraph [ref=e49]: País/Región
+            - combobox [ref=e50]:
+              - option "Afghanistan"
+              - option "Albania"
+              - option "Algeria"
+              - option "Andorra"
+              - option "Angola"
+              - option "Antigua and Barbuda"
+              - option "Argentina"
+              - option "Armenia"
+              - option "Australia"
+              - option "Austria"
+              - option "Azerbaijan"
+              - option "Bahamas"
+              - option "Bahrain"
+              - option "Bangladesh"
+              - option "Barbados"
+              - option "Belarus"
+              - option "Belgium"
+              - option "Belize"
+              - option "Benin"
+              - option "Bhutan"
+              - option "Bolivia"
+              - option "Bosnia and Herzegovina"
+              - option "Botswana"
+              - option "Brazil"
+              - option "Brunei"
+              - option "Bulgaria"
+              - option "Burkina Faso"
+              - option "Burundi"
+              - option "Cabo Verde"
+              - option "Cambodia"
+              - option "Cameroon"
+              - option "Canada"
+              - option "Central African Republic"
+              - option "Chad"
+              - option "Chile"
+              - option "China"
+              - option "Colombia" [selected]
+              - option "Comoros"
+              - option "Congo (Congo-Brazzaville)"
+              - option "Costa Rica"
+              - option "Croatia"
+              - option "Cuba"
+              - option "Cyprus"
+              - option "Czechia (Czech Republic)"
+              - option "Democratic Republic of the Congo"
+              - option "Denmark"
+              - option "Djibouti"
+              - option "Dominica"
+              - option "Dominican Republic"
+              - option "Ecuador"
+              - option "Egypt"
+              - option "El Salvador"
+              - option "Equatorial Guinea"
+              - option "Eritrea"
+              - option "Estonia"
+              - option "Eswatini (fmr. 'Swaziland')"
+              - option "Ethiopia"
+              - option "Fiji"
+              - option "Finland"
+              - option "France"
+              - option "Gabon"
+              - option "Gambia"
+              - option "Georgia"
+              - option "Germany"
+              - option "Ghana"
+              - option "Greece"
+              - option "Grenada"
+              - option "Guatemala"
+              - option "Guinea"
+              - option "Guinea-Bissau"
+              - option "Guyana"
+              - option "Haiti"
+              - option "Holy See"
+              - option "Honduras"
+              - option "Hungary"
+              - option "Iceland"
+              - option "India"
+              - option "Indonesia"
+              - option "Iran"
+              - option "Iraq"
+              - option "Ireland"
+              - option "Israel"
+              - option "Italy"
+              - option "Ivory Coast"
+              - option "Jamaica"
+              - option "Japan"
+              - option "Jordan"
+              - option "Kazakhstan"
+              - option "Kenya"
+              - option "Kiribati"
+              - option "Kuwait"
+              - option "Kyrgyzstan"
+              - option "Laos"
+              - option "Latvia"
+              - option "Lebanon"
+              - option "Lesotho"
+              - option "Liberia"
+              - option "Libya"
+              - option "Liechtenstein"
+              - option "Lithuania"
+              - option "Luxembourg"
+              - option "Madagascar"
+              - option "Malawi"
+              - option "Malaysia"
+              - option "Maldives"
+              - option "Mali"
+              - option "Malta"
+              - option "Marshall Islands"
+              - option "Mauritania"
+              - option "Mauritius"
+              - option "Mexico"
+              - option "Micronesia"
+              - option "Moldova"
+              - option "Monaco"
+              - option "Mongolia"
+              - option "Montenegro"
+              - option "Morocco"
+              - option "Mozambique"
+              - option "Myanmar (formerly Burma)"
+              - option "Namibia"
+              - option "Nauru"
+              - option "Nepal"
+              - option "Netherlands"
+              - option "New Zealand"
+              - option "Nicaragua"
+              - option "Niger"
+              - option "Nigeria"
+              - option "North Korea"
+              - option "North Macedonia"
+              - option "Norway"
+              - option "Oman"
+              - option "Pakistan"
+              - option "Palau"
+              - option "Palestine State"
+              - option "Panama"
+              - option "Papua New Guinea"
+              - option "Paraguay"
+              - option "Peru"
+              - option "Philippines"
+              - option "Poland"
+              - option "Portugal"
+              - option "Qatar"
+              - option "Romania"
+              - option "Russia"
+              - option "Rwanda"
+              - option "Saint Kitts and Nevis"
+              - option "Saint Lucia"
+              - option "Saint Vincent and the Grenadines"
+              - option "Samoa"
+              - option "San Marino"
+              - option "Sao Tome and Principe"
+              - option "Saudi Arabia"
+              - option "Senegal"
+              - option "Serbia"
+              - option "Seychelles"
+              - option "Sierra Leone"
+              - option "Singapore"
+              - option "Slovakia"
+              - option "Slovenia"
+              - option "Solomon Islands"
+              - option "Somalia"
+              - option "South Africa"
+              - option "South Korea"
+              - option "South Sudan"
+              - option "Spain"
+              - option "Sri Lanka"
+              - option "Sudan"
+              - option "Suriname"
+              - option "Sweden"
+              - option "Switzerland"
+              - option "Syria"
+              - option "Tajikistan"
+              - option "Tanzania"
+              - option "Thailand"
+              - option "Timor-Leste"
+              - option "Togo"
+              - option "Tonga"
+              - option "Trinidad and Tobago"
+              - option "Tunisia"
+              - option "Turkey"
+              - option "Turkmenistan"
+              - option "Tuvalu"
+              - option "Uganda"
+              - option "Ukraine"
+              - option "United Arab Emirates"
+              - option "United Kingdom"
+              - option "United States of America"
+              - option "Uruguay"
+              - option "Uzbekistan"
+              - option "Vanuatu"
+              - option "Venezuela"
+              - option "Vietnam"
+              - option "Yemen"
+              - option "Zambia"
+              - option "Zimbabwe"
+          - generic [ref=e51]:
+            - paragraph [ref=e52]: Departamento
+            - combobox [ref=e53]:
+              - option "Seleccione una departamento" [selected]
+          - generic [ref=e54]:
+            - paragraph [ref=e55]: Ciudad
+            - combobox [ref=e56]:
+              - option "Seleccione una ciudad" [selected]
+          - generic [ref=e57]:
+            - paragraph [ref=e58]: Dirección de envío
+            - textbox "Escriba su dirección" [ref=e59]
+            - textbox "Apartamento, local, etc (opcional)" [ref=e60]
+          - generic [ref=e61]:
+            - checkbox [ref=e62]
+            - text: ¡Es un regalo!
+            - img "Ícono de regalo" [ref=e63]
+          - generic [ref=e64]:
+            - paragraph [ref=e65]:
+              - strong [ref=e66]: Instrucciones especiales para el vendedor
+            - textbox [ref=e67]
+          - generic [ref=e68]:
+            - generic [ref=e69]: SUBTOTAL
+            - generic [ref=e70]: $ 0,00
+          - paragraph [ref=e72]: "Envío: $ 0,00"
+          - paragraph [ref=e74]: Gastos de envío y descuentos calculado al momento de pagar
+          - generic [ref=e75]:
+            - checkbox [ref=e76]
+            - text: Acepto los términos y condiciones
+  - generic [ref=e77]:
+    - generic [ref=e78]:
+      - heading "SUSCRÍBETE" [level=2] [ref=e79]
+      - paragraph [ref=e81]: Suscríbete a nuestra página y obtén acceso a descuentos exclusivos y novedades de nuestra marca.
+      - paragraph [ref=e82]: ¡Haz click ahora para unirte a nuestra comunidad!
+    - generic [ref=e83]:
+      - textbox "Dirección de correo electrónico" [ref=e84]
+      - button "Suscribir" [ref=e85] [cursor=pointer]
+  - contentinfo [ref=e86]:
+    - generic [ref=e87]:
+      - generic [ref=e88]:
+        - link "Envíos, Garantías y Cambios" [ref=e89] [cursor=pointer]:
+          - /url: /mas/envios_garantias_cambios
+        - link "Políticas de protección de datos" [ref=e90] [cursor=pointer]:
+          - /url: /politicas_proteccion_datos
+        - text: "|"
+        - generic [ref=e91]:
+          - link "Ícono Instagram" [ref=e92] [cursor=pointer]:
+            - /url: https://www.instagram.com/itsocks_/
+            - img "Ícono Instagram" [ref=e93]
+          - link "Ícono Facebook" [ref=e94] [cursor=pointer]:
+            - /url: https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d
+            - img "Ícono Facebook" [ref=e95]
+          - link "Ícono TikTok" [ref=e96] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1
+            - img "Ícono TikTok" [ref=e97]
+      - img [ref=e99]

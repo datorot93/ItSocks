@@ -1,0 +1,2 @@
+- [User Profile — Daniel Toro](user_profile.md) — full-stack developer, owner of ItSocks e-commerce platform
+- [Test Infrastructure — ItSocks](project_test_infra.md) — test setup quirks: sys.path hack, React Refresh globals, coverage scoping
