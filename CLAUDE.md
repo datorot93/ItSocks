@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project instructions
+
+- Cada que vayas a empezar a ejecutar un fase de un plan vas a crear una rama con un nombre apropiado para la misma siguiendo la nomenclatura feature/*
+- Al terminar cada fase y testearla vas a hacer un commit un push y un PR a main utilizando el MCP de Github.
+- Cuando se utilice el MCP de Github para crear un PR ejecuta la skill /github-pr-changelog. Especificada en el archivo @.claude/skills/github-pr-changelog/SKILL.md
+
 ## Project Overview
 
 ItSocks is an e-commerce platform for a socks store. It consists of three main applications:
