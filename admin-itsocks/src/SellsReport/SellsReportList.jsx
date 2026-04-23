@@ -71,7 +71,10 @@ export const SellsReportList = (props) => {
       'Para': order.para,
       'Es Regalo': order.isGift ? 'Sí' : 'No',
       'Estado': order.state,
+      'Descuento': order.discount,
+      'Código Descuento': order.discount_code,
       'Numero en orden': order.num_en_orden,
+      'Pack': order.pack,
       'Valor unidad': order.valor_unitario,
       'Cantidad': order.quantity,
       'Subtotal': order.subtotal,
@@ -100,7 +103,7 @@ export const SellsReportList = (props) => {
   return (
 
     <>
-      <List {...props}>
+      {/* <List {...props}>
         <Datagrid rowClick="edit">
           <TextField source="id"/>
           <TextField source = "first_name" label="Nombre"/>
@@ -119,7 +122,7 @@ export const SellsReportList = (props) => {
           <DateField source="created_at" label="Fecha creación" locales="es-CO"/>
 
         </Datagrid>
-      </List>
+      </List> */}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <div>

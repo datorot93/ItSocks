@@ -15,6 +15,11 @@ export const useCartReducer = () => {
     payload: product
   })
 
+  const modifyCartProduct = product => dispatch({
+    type: 'MODIFY_CART_PRODUCT',
+    payload: product
+  })
+
   const addOneToCart = product => dispatch({
     type: 'ADD_ONE_TO_CART',
     payload: product
@@ -35,5 +40,5 @@ export const useCartReducer = () => {
     payload: product
   })
 
-  return { state, addToCart, addPackToCart, removeFromCart, addOneToCart, subtractOneToCart, clearCart }
+  return { state, addToCart, addPackToCart, removeFromCart, addOneToCart, subtractOneToCart, clearCart, modifyCartProduct }
 }

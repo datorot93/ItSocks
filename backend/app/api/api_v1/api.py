@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 # from app.api.api_v1.routers import login, users
-from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers, users, tags, tag_products, product_sizes, orders, product_orders, size_guides, type_images, sells_reports, bulk_prices, bulk_shipping
+from app.api.api_v1.routers import categories, subcategories, types, designs, products, images, packs, shippings, discount_codes, files, payments, sliders, sizes, colors, wish_lists, customers, users, tags, tag_products, product_sizes, orders, product_orders, size_guides, type_images, sells_reports, bulk_prices, bulk_shipping, contact_infos
 
 
 api_router = APIRouter()
@@ -32,3 +32,4 @@ api_router.include_router(type_images.router, prefix="/type_images", tags=["type
 api_router.include_router(sells_reports.router, prefix="/sells-reports", tags=["sells_reports"])
 api_router.include_router(bulk_prices.router, prefix="/bulk_prices", tags=["bulk_prices"])
 api_router.include_router(bulk_shipping.router, prefix="/bulk_shipping", tags=["bulk_shipping"])
+api_router.include_router(contact_infos.router, prefix="/contact_info", tags=["contact_info"])

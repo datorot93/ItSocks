@@ -157,8 +157,6 @@ async def image_list(
     Get all Images
     """
     
-    print(filter)
-    
     # Parse the sort parameter
     sort_list = json.loads(sort) if sort else None
 

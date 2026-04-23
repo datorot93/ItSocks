@@ -87,7 +87,7 @@ async def type_images_list(
     """
     Get all type_images
     """
-    type_images = crud.type_image.get_multi(
+    type_images = crud.type_image.get_type_image_list(
         db, 
         skip=skip, 
         limit=limit

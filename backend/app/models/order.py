@@ -44,6 +44,7 @@ class Order(Base):
     paid_status = Column(String, nullable=False, default='Pendiente')
     preference = Column(String, nullable=False)
     pyment_id = Column(String, nullable=True, default='')
+    special_instructions = Column(String, nullable=True)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())

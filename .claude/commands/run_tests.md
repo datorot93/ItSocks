@@ -1,0 +1,1 @@
+Ejecuta los tests definidos en cada uno de las carpetas $PARAMS$

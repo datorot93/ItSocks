@@ -20,14 +20,15 @@ export const ImageCreate = (props) => {
     const formData = new FormData();
     formData.append('file', data.file.rawFile);
 
-    const response = await fetch(`http://localhost/api/v1/images?id_product=${data.id_product}`, {
+    const response = await fetch(`http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/images?id_product=${data.id_product}`, {
+    // const response = await fetch(`http://localhost/api/v1/images?id_product=${data.id_product}`, {
       method: 'POST',
       body: formData,
     });
 
     if (response.ok) {
       notify('File uploaded successfully!');
-      redirect('/#/sliders'); // Redirigir a la lista de recursos
+      redirect('/images'); // Redirigir a la lista de recursos
     } else {
       notify('Failed to upload file', { type: 'error' });
     }

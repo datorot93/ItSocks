@@ -185,11 +185,20 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         name: str,
         talla: str,
         compresion: bool,
-        color: str
+        color: str,
+        id_subcategory: int,
+        id_design: int,
+        id_type: int
     ):
 
         return db.query(Product).filter(
-            Product.color == color, Product.name == name, Product.talla == talla, Product.compresion == compresion
+            Product.color == color, 
+            Product.name == name, 
+            Product.talla == talla, 
+            Product.compresion == compresion,
+            Product.id_subcategory == id_subcategory,
+            Product.id_design == id_design,
+            Product.id_type == id_type
         ).first()
     
 
@@ -1024,11 +1033,12 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
         )
 
         #  Apply filters
-        if 'q' in filters:
-            query = query.\
-                filter(
-                    unaccent(func.lower(Product.name)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
-                )
+        if filters:
+            if 'q' in filters:
+                query = query.\
+                    filter(
+                        unaccent(func.lower(Product.name)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
+                    )
 
 
         # Apply sorting

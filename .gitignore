@@ -20,6 +20,10 @@ logs
 node_modules
 bower_components
 
+
+# Necesito ignorar los archivos de la carpeta Datos_Itsocks, dentro de backend/api/api_v1/routers
+backend/app/api/api_v1/routers/Datos_Itsocks/
+
 *.sublime*
 
 psd

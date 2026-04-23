@@ -29,6 +29,7 @@ class OrderBase(BaseModel):
     paid_status: Optional[str] = "Pendiente"
     preference: str
     pyment_id: Optional[str] = ""
+    special_instructions: Optional[str] = ""
 
 
 

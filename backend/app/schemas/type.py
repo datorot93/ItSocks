@@ -7,6 +7,7 @@ class TypeBase( BaseModel ):
     code: str = None
     discount: int = None
     image_url: str = None
+    priority: int = None
 
 class TypeCreate( TypeBase ):
     pass

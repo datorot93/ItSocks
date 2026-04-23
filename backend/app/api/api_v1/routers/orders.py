@@ -103,6 +103,9 @@ async def order_detail(
         
         products[-1]['cantidad'] = order.product_order[indice].quantity
         products[-1]['num_in_order'] = order.product_order[indice].num_in_order
+        products[-1]['discount'] = order.product_order[indice].discount
+        products[-1]['discount_code'] = order.product_order[indice].discount_code
+        products[-1]['price_paid'] = order.product_order[indice].price_paid
         if order.product_order[indice].pack and "pares" in order.product_order[indice].pack.lower():
             products[-1]['pack'] = order.product_order[indice].pack
         else:

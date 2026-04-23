@@ -9,6 +9,7 @@ class TypeImageBase( BaseModel ):
     description: str = ""
     alt: str = ""
     image_url: str
+    priority: int = 0
 
 class TypeImageCreate( TypeImageBase ):
     pass

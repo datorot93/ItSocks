@@ -25,8 +25,8 @@ export const TypeCreate = (props) => {
     }
 
     const response = await fetch(
-      // `http://localhost/api/v1/images?id_product=${data.id_product}`,
-      `http://localhost/api/v1/types?name=${data.name}&discount=${data.discount}&code=${data.code}`,
+      // `http://localhost/api/v1/types?name=${data.name}&discount=${data.discount}&code=${data.code}`,
+      `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/types?name=${data.name}&discount=${data.discount}&code=${data.code}`,
       {
         method: 'POST',
         body: formData,

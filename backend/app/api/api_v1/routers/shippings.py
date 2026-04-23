@@ -1,7 +1,11 @@
 from typing import Any, List
 
-from fastapi import APIRouter, UploadFile, File, Request, Depends, HTTPException, Response
+from fastapi import APIRouter, UploadFile, File, Request, Depends, HTTPException, Response, Query
 from sqlalchemy.orm import Session
+
+from typing import Optional
+
+import json
 
 from app import crud, models, schemas
 from app.api import deps
@@ -13,15 +17,31 @@ router = APIRouter()
 async def shipping_list(
     response: Response,
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
+    sort: Optional[str] = Query(None),
+    range: Optional[str] = Query(None),
+    filter: Optional[str] = Query(None),
     # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     """
     Get all shippings
     """
-    shippings = crud.shipping.get_shippings(db, skip=skip, limit=limit)
-    response.headers["Content-Range"] = f"0-9/{len(shippings)}"
+    
+    # Parse the sort parameter
+    sort_list = json.loads(sort) if sort else None
+
+    # Parse the range parameter
+    range_list = json.loads(range) if range else None
+
+    # Parse the filter parameter
+    filter_dict = json.loads(filter) if filter else None
+    
+    shippings = crud.shipping.get_shippings(
+        db,
+        sort=sort_list,
+        range=range_list,
+        filters=filter_dict
+    )
+    response.headers["Content-Range"] = f"0-19/{len(shippings)}"
     return shippings
 
 
@@ -37,8 +57,7 @@ async def shipping_municipios(
     Get all shipping municipios/cudades
     """
     shppings = crud.shipping.get_shipping_municipios(db, skip=skip, limit=limit)
-    print('ESTOS SON LOS MUNICIPIOS')
-    print(shppings)
+
     # response.headers["Content-Range"] = f"0-9/{len(shppings)}"
     return shppings
 

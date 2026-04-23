@@ -137,7 +137,7 @@ export const ProductFilter = ({
           {Object.getOwnPropertyNames(checkedItems).map((disenio) => (
 
               <Link 
-                to={disenio} 
+                to={disenio.replaceAll(' ', '_')} 
                 key={disenio}
                 // onClick={ handleClick }
               >

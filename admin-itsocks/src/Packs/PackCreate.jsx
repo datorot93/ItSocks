@@ -28,7 +28,8 @@ export const PackCreate = (props) => {
     }
 
     const response = await fetch(
-      `http://localhost/api/v1/packspack_create?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}`,
+      `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/packspack_create?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}`,
+      // `http://localhost/api/v1/packspack_create?name=${data.name}&product_quantity=${data.product_quantity}&price=${data.price}&description=${data.description}`,
       {
         method: 'POST',
         body: formData,

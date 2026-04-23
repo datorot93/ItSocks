@@ -21,6 +21,7 @@ from .order import Order
 from .product_order import ProductOrder
 from .size_guide import SizeGuide
 from .type_image import TypeImage
+from .contact_info import ContactInfo
 # from .type_design import TypeDesign
 # from .type_subcategory import TypeSubcategory
 # from .order import Order

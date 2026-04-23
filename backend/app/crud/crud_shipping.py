@@ -2,7 +2,7 @@ from typing import Optional, Any, Union, Dict
 
 from sqlalchemy.orm import Session
 
-from sqlalchemy import select, inspect, func
+from sqlalchemy import select, inspect, func, asc, desc
 from sqlalchemy.orm import join
 from sqlalchemy.sql.functions import ReturnTypeFromArgs
 
@@ -67,18 +67,31 @@ class CRUDShipping(CRUDBase[Shipping, ShippingCreate, ShippingUpdate]):
         self,
         db: Session,
         *,
-        skip: int,
-        limit: int   
+        filters: dict = {},
+        sort = None,
+        range = None,
     ):
-        shipping_list = db.query(
-                Shipping.id,
-                Shipping.municipio_ciudad,
-                Shipping.departamento,
-                Shipping.tarifa,
-            ).all()
-        # print(products)
         
-        return shipping_list
+        query = db.query(Shipping)
+        
+        if filters:
+            if 'q' in filters:
+                query = query.filter(
+                    unaccent(func.lower(Shipping.municipio_ciudad)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
+                )
+
+        if sort:
+            sort_field, sort_order = sort
+            if sort_order == 'asc':
+                query = query.order_by(asc(getattr(Shipping, sort_field)))
+            else:
+                query = query.order_by(desc(getattr(Shipping, sort_field)))
+                
+        if range:
+            start, end = range
+            query = query.offset(start).limit(end - start + 1)
+            
+        return query.all()
     
     def get_shipping_municipios(
         self,

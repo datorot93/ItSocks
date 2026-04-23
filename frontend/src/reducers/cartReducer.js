@@ -1,4 +1,3 @@
-
 export const cartInitialState = JSON.parse(window.localStorage.getItem('cart')) || []
 
 export const CART_ACTION_TYPES = {
@@ -7,7 +6,8 @@ export const CART_ACTION_TYPES = {
   REMOVE_FROM_CART: 'REMOVE_FROM_CART',
   ADD_ONE_TO_CART: 'ADD_ONE_TO_CART',
   SUBTRACT_ONE_TO_CART: 'SUBTRACT_ONE_TO_CART',
-  CLEAR_CART: 'CLEAR_CART'
+  CLEAR_CART: 'CLEAR_CART',
+  MODIFY_CART_PRODUCT: 'MODIFY_CART_PRODUCT'
 }
 
 // update localStorage with state for cart
@@ -38,6 +38,35 @@ const UPDATE_STATE_BY_ACTION = {
 
     updateLocalStorage(newState);
     return newState;
+  },
+
+  [CART_ACTION_TYPES.MODIFY_CART_PRODUCT]: (state, action) => {
+    const { id, name, selected_size, selected_color, type } = action.payload;
+    
+    // console.log('Modificando producto:', action.payload); // Añadido para debug
+    
+    // Buscar el producto específico para modificar
+    const productIndex = state.findIndex(
+      item => item.name === name && 
+      item.id === id && 
+      item.selected_size === selected_size && 
+      item.selected_color === selected_color && 
+      item.type === type
+    );
+    
+    if (productIndex >= 0) {
+      // Crear una copia del estado actual
+      const newState = [...state];
+      // Reemplazar el producto con la versión actualizada
+      newState[productIndex] = { ...action.payload };
+      
+      // console.log('Nuevo estado:', newState); // Para debug
+      updateLocalStorage(newState);
+      return newState;
+    }
+    
+    // Si no encuentra el producto, retorna el estado sin cambios
+    return state;
   },
 
   [CART_ACTION_TYPES.ADD_PACK_TO_CART]: (state, action) => {

@@ -64,7 +64,9 @@ export const BillingForm = () => {
     const [ typeDiscounts, setTypeDiscounts ] = useState({});
     const [ designDiscounts, setDesignDiscounts ] = useState({});
     
-    const { cart } = useCart()
+    const { cart, modifyCartProduct } = useCart()
+
+    // console.log(modifyCartProduct)
 
     useEffect(() => {
         const products_categories = cart.reduce((acc, item) => {
@@ -148,7 +150,7 @@ export const BillingForm = () => {
             });
         }
 
-        console.log(items_compra)
+        // console.log(items_compra)
         const datos_compra = {
             items: [...items_compra, {title: 'Envío', unit_price: shipping.shipping_value, quantity: 1}],
         }

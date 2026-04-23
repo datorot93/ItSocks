@@ -8,9 +8,49 @@ from fastapi.encoders import jsonable_encoder
 from app.crud.base import CRUDBase
 from app.models.product_size import ProductSize
 from app.models.size import Size
+from app.models.product import Product
 from app.schemas.product_size import ProductSizeCreate, ProductSizeUpdate
 
+from unidecode import unidecode
+
+from .crud_shipping import unaccent
+
+
 class CRUDProductSize(CRUDBase[ProductSize, ProductSizeCreate, ProductSizeUpdate]):
+    
+    def get_product_sizes(
+        self,
+        db: Session,
+        *,
+        filters: str,
+        sort: None,
+        range: None
+    ):
+        query = db.query(
+            ProductSize
+        ).join(
+            Product, Product.id == ProductSize.product_id
+        )
+        
+        # Apply filters
+        if filters:
+            if 'q' in filters:
+                query = query.filter(
+                    unaccent(func.lower(Product.name)).ilike(f"%{unidecode(filters['q'].strip().lower())}%")
+                )
+                
+        if sort:
+            sort_field, sort_order = sort
+            if sort_order.lower() == 'asc':
+                query = query.order_by(asc(getattr(Product, sort_field)))
+            else:
+                query = query.order_by(desc(getattr(Product, sort_field)))
+                
+        if range:
+            start, end = range
+            query = query.offset(start).limit(end - start + 1)
+            
+        return query.all()
     
     def get_size_by_name(
         self, 

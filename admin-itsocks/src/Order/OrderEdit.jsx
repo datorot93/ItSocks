@@ -26,8 +26,12 @@ export const OrderEdit = (props) => (
           <TextField source="type" disabled label="Tipo" />
           <TextField source="product_size" disabled label="Talla" />
           <TextField source="cantidad" label="Cantidad" disabled/>
+          <TextField source="discount" label="Descuento" />
+          <TextField source="discount_code" label="Código descuento" />
+          <TextField source="price_paid" label="Valor pagado" />
           <TextField source="pack" label="Pack" />
           <TextField source="num_in_order" label="Número en orden" />
+
         </Datagrid>
       </ArrayField>
     </Edit>
@@ -58,8 +62,35 @@ export const OrderEdit = (props) => (
         <TextInput source="region" label="Región envío" />
         <TextInput source="city" label="Ciudad envío" />
 
+        {/* Display fields in a single line */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <TextField source="first_name" />
+          <span style={{ margin: '0 2px' }}></span>
+          <TextField source="last_name" />
+        </div>
+        <TextField source="document" />
+        <TextField source="address" />
+        <TextField source="extra_info" />
+        <TextField source="special_instructions" />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <TextField source="city" />
+          <span style={{ margin: '0 8px' }}>-</span>
+          <TextField source="region" />
+        </div>
+        <TextField source="country" />
+        <TextField source="phone_number" />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          
+          <span style={{ margin: '0 8px' }}>De:</span>
+          <TextField source="de" label="De"/>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          
+          <span style={{ margin: '0 8px' }}>Para:</span>
+          <TextField source="para" label="Para"/>
+        </div>
+     
         
-
 
        
         <h2>Guía de envío</h2>
@@ -89,7 +120,5 @@ export const OrderEdit = (props) => (
         <hr />
       </SimpleForm>
     </Edit>
-  </>
-
-  
+  </>  
 );

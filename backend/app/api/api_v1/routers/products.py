@@ -121,7 +121,10 @@ async def product_create(
         name=product_in.name, 
         talla=product_in.talla,
         compresion=product_in.compresion,
-        color = product_in.color
+        color = product_in.color,
+        id_subcategory=product_in.id_subcategory,
+        id_type=product_in.id_type,
+        id_design=product_in.id_design
     )
     if product:
         raise HTTPException(
@@ -428,13 +431,6 @@ async def product_list(
     Get all products
     """
     # Handle filtering
-
-    # if name:
-    #     filters['name'] = name
-    # if id:
-    #     filters['id'] = id
-    # if q:
-    #     filters['q'] = q
 
     # Parse the sort parameter
     sort_list = json.loads(sort) if sort else None

@@ -25,8 +25,9 @@ export const SubcategoryEdit = (props) => {
     }
 
     const response = await fetch(
-      // `http://localhost/api/v1/subcategories/4?id_category=1&name=Estampadas&discount=0&code=me`
-      `http://localhost/api/v1/subcategories/${data.id}?id_category=${data.id_category}&name=${data.name}&discount=${data.discount}&code=${data.code}`,
+      
+      `http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/subcategories/${data.id}?id_category=${data.id_category}&name=${data.name}&discount=${data.discount}&code=${data.code}`,
+      // `http://localhost/api/v1/subcategories/${data.id}?id_category=${data.id_category}&name=${data.name}&discount=${data.discount}&code=${data.code}`,
       {
         method: 'PUT',
         body: formData,

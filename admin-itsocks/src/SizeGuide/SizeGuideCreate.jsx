@@ -22,8 +22,9 @@ export const SizeGuideCreate = (props) => {
     formData.append('file', data.file.rawFile);
 
 
-    // const response = await fetch(`http://localhost/api/v1/images?id_product=${data.id_product}`, {
-    const response = await fetch(`http://localhost/api/v1/size_guides?size_guide=${data.size_guide}&alt=${data.alt}`, {
+    
+    const response = await fetch(`http://ec2-3-138-195-156.us-east-2.compute.amazonaws.com/api/v1/size_guides?size_guide=${data.size_guide}&alt=${data.alt}`, {
+    // const response = await fetch(`http://localhost/api/v1/size_guides?size_guide=${data.size_guide}&alt=${data.alt}`, {
       method: 'POST',
       body: formData,
     });

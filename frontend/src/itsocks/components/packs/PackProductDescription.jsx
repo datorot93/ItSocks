@@ -308,18 +308,7 @@ export const PackProductDescription = () => {
             </p>
           </div>
 
-          <div className={styles.informacion_adicional}>
-            
-            {total < 250000 ? (
-              <p>
-                
-              </p>
-            ) : (
-              <p>
-                Envío totalmente <strong>GRATIS</strong>.
-              </p>
-            )}
-          </div>
+          
         </div>
       </div>
       {showPopUp && (

@@ -8,6 +8,7 @@ from app.api import deps
 
 router = APIRouter()
 
+
 @router.post("", response_model=schemas.Type, response_model_exclude_none=True)
 async def type_create(
     request: Request,
@@ -71,7 +72,7 @@ async def type_list(
     """
     Get all Subcategories
     """
-    types = crud.type.get_multi(
+    types = crud.type.get_type_list(
         db, 
         skip=skip, 
         limit=limit

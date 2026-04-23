@@ -38,6 +38,7 @@ export const PackCard = (pack) => {
     "3 Pares de pantorrilleras": "pantorrilleras",
     "4 Pares de media caña": "media_cania",
     "3 Pares de media caña": "media_cania",
+    "Pack x3 Tobilleras": "tobilleras",
   };
 
   return (

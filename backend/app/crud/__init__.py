@@ -24,4 +24,5 @@ from .crud_size_guide import size_guide
 from .crud_type_image import type_image
 from .crud_sells_report import sells_report
 from .crud_bulk_price import bulk_price
+from .crud_contact_info import contact_info
 # from .crud_type_design import type_design
