@@ -57,16 +57,16 @@ F5 (cutover frontend)
 - **Salida:** 100% de endpoints implementados. Suite de paridad con FastAPI verde. Tests de Feature al 100%.
 
 ### Fase 3 — Cutover Backend
-- **Entrada:** F2 completada y validada en staging durante al menos 72h. Backup de BD confirmado.
-- **Salida:** 100% del tráfico en producción sobre Laravel. FastAPI en standby 7 días. Error rate < 0.1%.
+- **Entrada:** F2 completada y validada en staging durante al menos 72h. Backup de BD confirmado. Ejecutar `/parity-check` y confirmar 0 fallos antes de escalar tráfico.
+- **Salida:** 100% del tráfico en producción sobre Laravel. FastAPI en standby 7 días. Monitorear con `/cutover-monitor` hasta error rate < 0.1% sostenido por 1h.
 
 ### Fase 4 — Frontend Vue 3
 - **Entrada:** F3 completada. API Laravel estable en producción.
-- **Salida:** Storefront Vue 3 con paridad funcional. Lighthouse ≥ 80 mobile. E2E del flujo de compra verde.
+- **Salida:** Storefront Vue 3 con paridad funcional. Lighthouse ≥ 80 mobile. Ejecutar `/playwright-e2e all` y confirmar 8 tests E2E verdes.
 
 ### Fase 5 — Cutover Frontend
-- **Entrada:** F4 completada y validada en staging. Redirects 301 configurados.
-- **Salida:** 100% del tráfico sobre Vue 3. Métricas de conversión ≥ baseline React.
+- **Entrada:** F4 completada y validada en staging. Redirects 301 configurados. Ejecutar `/playwright-e2e all` y confirmar 8 tests verdes antes de escalar tráfico.
+- **Salida:** 100% del tráfico sobre Vue 3. Monitorear con `/cutover-monitor` hasta métricas de conversión ≥ baseline React.
 
 ### Fase 6 — Admin Filament (finalización)
 - **Entrada:** F2 completada (puede correr en paralelo con F4).
@@ -229,12 +229,31 @@ MERCADOPAGO_PUBLIC_KEY=TEST-fake-key
 
 ---
 
+## Herramientas de Verificación por Fase
+
+| Herramienta | Cuándo usarla | F0 | F1 | F2 | F3 | F4 | F5 | F6 |
+|-------------|--------------|----|----|----|----|----|----|-----|
+| `/migration-status` | Ver estado global antes de empezar | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `/spec-lint F{N}` | Auditar la spec antes de implementar | ✓ | ✓ | ✓ | — | ✓ | — | ✓ |
+| `/parity-check` | Validar que Laravel == FastAPI antes del cutover | — | — | ✓ | ✓ | — | — | — |
+| `/cutover-monitor` | Monitorear métricas durante el cutover gradual | — | — | — | ✓ | — | ✓ | — |
+| `/playwright-e2e` | Verificar flujos del frontend en el navegador | — | — | — | — | ✓ | ✓ | — |
+| `/fase-cierre` | Cerrar la fase: tests + commit + push + PR + changelog | ✓ | ✓ | ✓ | — | ✓ | — | ✓ |
+
+> F3 y F5 no usan `/fase-cierre` porque el cierre del cutover es manual y requiere rollback progresivo controlado por el `agente-devops-cutover`.
+
+---
+
 ## Para Iniciar una Fase
 
-1. El usuario le indica al agente correspondiente: _"Lee tu spec en `.claude/specs/fase-N-nombre.spec.md` y ejecuta la Fase N"_
-2. El agente crea la rama git correspondiente
-3. El agente implementa según la spec
-4. El agente ejecuta los tests y verifica criterios de aceptación
-5. El agente hace commit, push y crea el PR via MCP GitHub
-6. El agente ejecuta `/github-pr-changelog`
-7. El usuario revisa y mergea el PR
+> **Nota sobre el hook automático:** El archivo `.claude/hooks/migration-check.sh` se activa al final de cada sesión de Claude en ramas `feature/fase-N`. Emite un cuestionario obligatorio de 4 puntos sobre tests, resultados y criterios de aceptación. Los agentes deben responder ✓/✗ antes de continuar.
+
+0. Ejecutar `/migration-status` para verificar el estado actual de todas las fases
+1. Ejecutar `/spec-lint F{N}` para auditar la spec de la fase antes de implementar
+2. El usuario le indica al agente correspondiente: _"Lee tu spec en `.claude/specs/fase-N-nombre.spec.md` y ejecuta la Fase N"_
+3. El agente crea la rama git correspondiente (`feature/fase-N-nombre`)
+4. El agente implementa según la spec
+5. El agente ejecuta los tests de la fase (ver "Infraestructura de Testing Cross-Fase")
+6. El agente verifica los criterios de aceptación de la fase
+7. El agente ejecuta `/fase-cierre` — automatiza commit + push + PR a main + changelog
+8. El usuario revisa y mergea el PR
