@@ -222,7 +222,30 @@ class ShippingCalculatorService
 
 ## 6. Patrón de Tests de Feature HTTP
 
-Crear tests que verifiquen que Laravel retorna las mismas respuestas que FastAPI:
+### 6a. Configuración base de tests
+
+```php
+// tests/TestCase.php
+abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
+{
+    use CreatesApplication;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('s3');
+        Storage::fake('local');
+    }
+
+    protected function asAdmin(): static
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        return $this->actingAs($admin, 'sanctum');
+    }
+}
+```
+
+### 6b. Tests de catálogo
 
 ```php
 // tests/Feature/Api/ProductTest.php
@@ -249,7 +272,7 @@ class ProductTest extends TestCase
     {
         $subcategory = Subcategory::factory()->create(['name' => 'pantorrilleras']);
         Product::factory()->count(3)->create(['subcategory_id' => $subcategory->id]);
-        Product::factory()->count(2)->create(); // otras subcategorías
+        Product::factory()->count(2)->create();
 
         $response = $this->getJson('/api/v1/products?filter[subcategory]=pantorrilleras');
 
@@ -261,6 +284,205 @@ class ProductTest extends TestCase
     {
         $response = $this->postJson('/api/v1/products', ['name' => 'Test']);
         $response->assertStatus(401);
+    }
+
+    public function test_crear_producto_como_admin(): void
+    {
+        $design = Design::factory()->create();
+        $type = Type::factory()->create();
+        $subcategory = Subcategory::factory()->create();
+
+        $response = $this->asAdmin()->postJson('/api/v1/products', [
+            'name' => 'Media Test Flash Larga',
+            'price' => 45000,
+            'compresion' => false,
+            'design_id' => $design->id,
+            'type_id' => $type->id,
+            'subcategory_id' => $subcategory->id,
+        ]);
+
+        $response->assertStatus(201)
+                 ->assertJsonPath('data.name', 'Media Test Flash Larga');
+    }
+}
+```
+
+### 6c. Tests de autenticación Sanctum
+
+```php
+// tests/Feature/Api/AuthTest.php
+class AuthTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_login_correcto_retorna_token(): void
+    {
+        $user = User::factory()->create(['password' => Hash::make('secret123')]);
+
+        $response = $this->postJson('/api/v1/auth/login', [
+            'email' => $user->email,
+            'password' => 'secret123',
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure(['token', 'user']);
+    }
+
+    public function test_login_incorrecto_retorna_401(): void
+    {
+        $response = $this->postJson('/api/v1/auth/login', [
+            'email' => 'noexiste@itsocks.co',
+            'password' => 'wrong',
+        ]);
+        $response->assertStatus(401);
+    }
+
+    public function test_endpoint_admin_sin_token_retorna_401(): void
+    {
+        $response = $this->getJson('/api/v1/orders');
+        $response->assertStatus(401);
+    }
+
+    public function test_endpoint_admin_con_token_invalido_retorna_401(): void
+    {
+        $response = $this->withHeaders(['Authorization' => 'Bearer token_invalido'])
+                         ->getJson('/api/v1/orders');
+        $response->assertStatus(401);
+    }
+
+    public function test_usuario_sin_rol_admin_no_puede_crear_productos(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+
+        $response = $this->actingAs($user, 'sanctum')
+                         ->postJson('/api/v1/products', ['name' => 'Test']);
+
+        $response->assertStatus(403);
+    }
+}
+```
+
+### 6d. Tests de órdenes y notificaciones (con mocks)
+
+```php
+// tests/Feature/Api/OrderTest.php
+class OrderTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_crear_orden_dispara_email_confirmacion(): void
+    {
+        Mail::fake();
+        $product = Product::factory()->create(['price' => 45000]);
+        $shipping = Shipping::factory()->create(['municipio_ciudad' => 'Bogotá', 'tarifa' => 0]);
+
+        $response = $this->postJson('/api/v1/orders', [
+            'customer_name' => 'Juan Pérez',
+            'email' => 'juan@example.com',
+            'phone' => '3001234567',
+            'shipping_city' => 'Bogotá',
+            'shipping_department' => 'Bogotá D.C.',
+            'shipping_address' => 'Calle 123 # 45-67',
+            'items' => [['product_id' => $product->id, 'quantity' => 1, 'size' => 'M']],
+        ]);
+
+        $response->assertStatus(201);
+        Mail::assertQueued(OrderConfirmation::class, fn($mail) =>
+            $mail->hasTo('juan@example.com')
+        );
+    }
+
+    public function test_agregar_guia_de_envio_dispara_email(): void
+    {
+        Mail::fake();
+        Queue::fake();
+        $order = Order::factory()->create(['status' => 'paid', 'email' => 'cliente@example.com']);
+
+        $response = $this->asAdmin()->postJson("/api/v1/orders/{$order->id}/shipping-guide", [
+            'tracking_number' => 'TCC-123456789',
+        ]);
+
+        $response->assertStatus(200);
+        Queue::assertPushed(SendShippingGuideEmail::class);
+    }
+}
+```
+
+### 6e. Tests de MercadoPago (con Http::fake)
+
+```php
+// tests/Feature/Api/PaymentTest.php
+class PaymentTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_crear_preferencia_mercadopago(): void
+    {
+        Http::fake([
+            'api.mercadopago.com/*' => Http::response([
+                'id' => 'TEST-PREFERENCE-123456',
+                'init_point' => 'https://www.mercadopago.com.co/checkout/v1/redirect?pref_id=TEST-123',
+            ], 200),
+        ]);
+
+        $order = Order::factory()->create(['total' => 80000]);
+
+        $response = $this->postJson('/api/v1/payments/preference', [
+            'order_id' => $order->id,
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJsonPath('preference_id', 'TEST-PREFERENCE-123456');
+    }
+
+    public function test_webhook_mercadopago_actualiza_estado_orden(): void
+    {
+        Http::fake([
+            'api.mercadopago.com/v1/payments/*' => Http::response([
+                'id' => 123456789,
+                'status' => 'approved',
+                'external_reference' => '42',
+            ], 200),
+        ]);
+
+        $order = Order::factory()->create(['id' => 42, 'status' => 'pending']);
+
+        $response = $this->postJson('/api/v1/payments/webhook', [
+            'type' => 'payment',
+            'data' => ['id' => '123456789'],
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('orders', ['id' => 42, 'status' => 'paid']);
+    }
+}
+```
+
+### 6f. Tests de descuentos
+
+```php
+// tests/Feature/Api/DiscountTest.php
+class DiscountTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_validar_codigo_descuento_valido(): void
+    {
+        DiscountCode::factory()->create(['code' => 'TEST10', 'discount' => 10, 'state' => true]);
+
+        $response = $this->postJson('/api/v1/discount-codes/validate', ['code' => 'TEST10']);
+
+        $response->assertStatus(200)
+                 ->assertJsonPath('valid', true)
+                 ->assertJsonPath('discount', 10);
+    }
+
+    public function test_codigo_inexistente_retorna_invalido(): void
+    {
+        $response = $this->postJson('/api/v1/discount-codes/validate', ['code' => 'NOEXISTE']);
+
+        $response->assertStatus(200)
+                 ->assertJsonPath('valid', false);
     }
 }
 ```

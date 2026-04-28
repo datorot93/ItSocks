@@ -57,16 +57,16 @@ F5 (cutover frontend)
 - **Salida:** 100% de endpoints implementados. Suite de paridad con FastAPI verde. Tests de Feature al 100%.
 
 ### Fase 3 — Cutover Backend
-- **Entrada:** F2 completada y validada en staging durante al menos 72h. Backup de BD confirmado.
-- **Salida:** 100% del tráfico en producción sobre Laravel. FastAPI en standby 7 días. Error rate < 0.1%.
+- **Entrada:** F2 completada y validada en staging durante al menos 72h. Backup de BD confirmado. Ejecutar `/parity-check` y confirmar 0 fallos antes de escalar tráfico.
+- **Salida:** 100% del tráfico en producción sobre Laravel. FastAPI en standby 7 días. Monitorear con `/cutover-monitor` hasta error rate < 0.1% sostenido por 1h.
 
 ### Fase 4 — Frontend Vue 3
 - **Entrada:** F3 completada. API Laravel estable en producción.
-- **Salida:** Storefront Vue 3 con paridad funcional. Lighthouse ≥ 80 mobile. E2E del flujo de compra verde.
+- **Salida:** Storefront Vue 3 con paridad funcional. Lighthouse ≥ 80 mobile. Ejecutar `/playwright-e2e all` y confirmar 8 tests E2E verdes.
 
 ### Fase 5 — Cutover Frontend
-- **Entrada:** F4 completada y validada en staging. Redirects 301 configurados.
-- **Salida:** 100% del tráfico sobre Vue 3. Métricas de conversión ≥ baseline React.
+- **Entrada:** F4 completada y validada en staging. Redirects 301 configurados. Ejecutar `/playwright-e2e all` y confirmar 8 tests verdes antes de escalar tráfico.
+- **Salida:** 100% del tráfico sobre Vue 3. Monitorear con `/cutover-monitor` hasta métricas de conversión ≥ baseline React.
 
 ### Fase 6 — Admin Filament (finalización)
 - **Entrada:** F2 completada (puede correr en paralelo con F4).
@@ -165,12 +165,95 @@ vitest: ^1.0
 
 ---
 
+## Infraestructura de Testing Cross-Fase
+
+Esta sección define los patrones de testing que aplican a todas las fases. Es la fuente de verdad para cualquier decisión sobre cómo escribir tests en el proyecto Laravel + Vue 3.
+
+### Stack de testing por capa
+
+| Capa | Herramienta | Tipo | Comando |
+|------|-------------|------|---------|
+| Laravel | PHPUnit + `php artisan test` | Unit + Feature | `php artisan test --coverage` |
+| Laravel | `Mail::fake()` | Mock de emails | automático en `.env.testing` |
+| Laravel | `Queue::fake()` | Mock de colas | automático en `.env.testing` |
+| Laravel | `Http::fake()` | Mock de APIs externas (MP) | por test |
+| Laravel | `Storage::fake('s3')` | Mock de S3 | por test |
+| Vue 3 | Vitest + `@vue/test-utils` | Unit stores/composables | `npm run test:unit` |
+| Vue 3 | Playwright | E2E flujos críticos | `npm run test:e2e` |
+| Vue 3 | Lighthouse CI | Performance + Accesibilidad | `npm run test:lighthouse` |
+
+### Datos compartidos entre fases
+
+El `DatabaseSeeder` de F1 es la **única fuente de datos de prueba** para F2, F4 y F6. Los datos del seeder determinan qué productos aparecen en los E2E de Playwright. Cualquier cambio en el seeder debe propagarse a los fixtures de Playwright en `e2e/fixtures/index.ts`.
+
+### Configuración de `.env.testing` (Laravel)
+
+```
+APP_ENV=testing
+DB_DATABASE=itsocks_testing
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+MAIL_MAILER=log
+CACHE_STORE=array
+MERCADOPAGO_ACCESS_TOKEN=TEST-fake-token
+MERCADOPAGO_PUBLIC_KEY=TEST-fake-key
+```
+
+### Credenciales de integraciones externas para tests
+
+| Integración | Tests de Feature (F2) | Tests E2E (F4) |
+|-------------|----------------------|----------------|
+| MercadoPago | `Http::fake(['api.mercadopago.com/*' => ...])` | `page.route()` que stub el SDK JS |
+| S3/Storage | `Storage::fake('s3')` en `setUp()` | No aplica (Playwright usa URLs placeholder) |
+| SMTP/Email | `Mail::fake()` + `MAIL_MAILER=log` | No aplica |
+| Redis/Queue | `QUEUE_CONNECTION=sync` | No aplica |
+
+### Fixtures de archivos (`tests/fixtures/`)
+
+| Archivo | Descripción | Usado en |
+|---------|-------------|---------|
+| `product_placeholder.jpg` | Imagen 400x400 JPEG 10KB | F2 tests de upload, F6 tests Filament |
+| `product_import_valid.xlsx` | 10 productos bien formados | F6 test de importación masiva |
+| `product_import_invalid.xlsx` | Excel con columnas faltantes | F6 test de validación de errores |
+| `shipping_data.json` | ~50 municipios Colombia con tarifas | F1 ShippingSeeder fallback |
+
+### Umbrales de calidad por fase
+
+| Fase | Cobertura mínima | Tests requeridos |
+|------|-----------------|-----------------|
+| F1 | N/A | Migraciones y seeders corren sin errores |
+| F2 | ≥ 90% en controllers y services | Feature tests + Auth + MP mock + Mail mock |
+| F3 | N/A | Script de paridad retorna 0 fallos |
+| F4 | ≥ 90% en stores Pinia | 8 tests E2E verdes + Lighthouse ≥ 80 mobile |
+| F6 | `--filter=Filament` verde | Queue::fake + Storage::fake + Excel fixture |
+
+---
+
+## Herramientas de Verificación por Fase
+
+| Herramienta | Cuándo usarla | F0 | F1 | F2 | F3 | F4 | F5 | F6 |
+|-------------|--------------|----|----|----|----|----|----|-----|
+| `/migration-status` | Ver estado global antes de empezar | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `/spec-lint F{N}` | Auditar la spec antes de implementar | ✓ | ✓ | ✓ | — | ✓ | — | ✓ |
+| `/parity-check` | Validar que Laravel == FastAPI antes del cutover | — | — | ✓ | ✓ | — | — | — |
+| `/cutover-monitor` | Monitorear métricas durante el cutover gradual | — | — | — | ✓ | — | ✓ | — |
+| `/playwright-e2e` | Verificar flujos del frontend en el navegador | — | — | — | — | ✓ | ✓ | — |
+| `/fase-cierre` | Cerrar la fase: tests + commit + push + PR + changelog | ✓ | ✓ | ✓ | — | ✓ | — | ✓ |
+
+> F3 y F5 no usan `/fase-cierre` porque el cierre del cutover es manual y requiere rollback progresivo controlado por el `agente-devops-cutover`.
+
+---
+
 ## Para Iniciar una Fase
 
-1. El usuario le indica al agente correspondiente: _"Lee tu spec en `.claude/specs/fase-N-nombre.spec.md` y ejecuta la Fase N"_
-2. El agente crea la rama git correspondiente
-3. El agente implementa según la spec
-4. El agente ejecuta los tests y verifica criterios de aceptación
-5. El agente hace commit, push y crea el PR via MCP GitHub
-6. El agente ejecuta `/github-pr-changelog`
-7. El usuario revisa y mergea el PR
+> **Nota sobre el hook automático:** El archivo `.claude/hooks/migration-check.sh` se activa al final de cada sesión de Claude en ramas `feature/fase-N`. Emite un cuestionario obligatorio de 4 puntos sobre tests, resultados y criterios de aceptación. Los agentes deben responder ✓/✗ antes de continuar.
+
+0. Ejecutar `/migration-status` para verificar el estado actual de todas las fases
+1. Ejecutar `/spec-lint F{N}` para auditar la spec de la fase antes de implementar
+2. El usuario le indica al agente correspondiente: _"Lee tu spec en `.claude/specs/fase-N-nombre.spec.md` y ejecuta la Fase N"_
+3. El agente crea la rama git correspondiente (`feature/fase-N-nombre`)
+4. El agente implementa según la spec
+5. El agente ejecuta los tests de la fase (ver "Infraestructura de Testing Cross-Fase")
+6. El agente verifica los criterios de aceptación de la fase
+7. El agente ejecuta `/fase-cierre` — automatiza commit + push + PR a main + changelog
+8. El usuario revisa y mergea el PR

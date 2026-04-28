@@ -432,8 +432,8 @@ export function useApi() {
 **Entregables:**
 - WishListPage con compartir por URL pública (token)
 - SizeGuidePage, ShippingPolicyPage, FAQPage, PrivacyPage
-- Tests E2E del flujo de compra completo (Playwright)
-- Tests unitarios de stores Pinia (carrito, descuentos)
+- Tests E2E del flujo de compra completo (Playwright) — ver sección 13
+- Tests unitarios de stores Pinia (carrito, descuentos) — ver sección 14
 - Optimizaciones: lazy loading de imágenes, code splitting
 
 **Criterio de aceptación:** Lighthouse ≥ 80 en mobile. Tests E2E del flujo de compra verde.
@@ -468,7 +468,405 @@ VITE_MP_PUBLIC_KEY=TEST-xxxxxxxx  # clave sandbox
 
 ---
 
-## 13. Fuera de Alcance
+## 13. Configuración Playwright E2E
+
+### Instalación
+
+```bash
+cd itsocks-vue
+npm install -D @playwright/test
+npx playwright install chromium  # suficiente para CI; agregar firefox para local
+```
+
+### `e2e/playwright.config.ts`
+
+```typescript
+import { defineConfig, devices } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './e2e/tests',
+  fullyParallel: false,  // los tests comparten estado de BD de staging
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  timeout: 30_000,
+  expect: { timeout: 8_000 },
+
+  use: {
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    // Limpiar localStorage entre tests para que el carrito empiece vacío
+    storageState: undefined,
+  },
+
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+  ],
+
+  webServer: process.env.CI ? undefined : {
+    command: 'npm run dev',
+    url: 'http://localhost:5173',
+    reuseExistingServer: true,
+  },
+})
+```
+
+### `e2e/fixtures/index.ts` — Datos compartidos entre tests
+
+```typescript
+// Datos que el seeder de Laravel ya creó (deben coincidir con ProductSeeder)
+export const TEST_PRODUCT_LARGA = {
+  name: 'Media Flash Larga',
+  category: 'Medias',
+  subcategory: 'Estampadas',
+  type: 'Largas',
+  price: 45000,
+}
+
+export const TEST_PRODUCT_ACCESORIO = {
+  name: 'Termo Test',
+  category: 'Accesorios',
+  subcategory: 'Termos',
+  price: 35000,
+}
+
+export const TEST_DISCOUNT_CODE = 'TEST10'
+export const TEST_CITY = 'Bogotá'
+export const TEST_DEPARTMENT = 'Bogotá D.C.'
+
+export const TEST_CUSTOMER = {
+  name: 'Juan',
+  lastName: 'Pérez',
+  email: 'test@playwright.com',
+  phone: '3001234567',
+  document: '12345678',
+  address: 'Calle 123 # 45-67',
+}
+```
+
+### `e2e/helpers/cart.ts` — Helper para limpiar estado
+
+```typescript
+import { Page } from '@playwright/test'
+
+export async function clearCart(page: Page) {
+  await page.evaluate(() => {
+    localStorage.removeItem('cart')
+    localStorage.removeItem('shipping')
+    localStorage.removeItem('discount')
+    localStorage.removeItem('preference')
+  })
+}
+
+export async function mockMercadoPago(page: Page) {
+  // Intercepta la carga del SDK de MercadoPago y devuelve un stub
+  await page.route('https://sdk.mercadopago.com/js/v2', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/javascript',
+      body: `
+        window.MercadoPago = function(key, opts) {
+          this.bricks = () => ({
+            create: async (type, containerId, config) => {
+              const el = document.getElementById(containerId.replace('#', ''));
+              if (el) {
+                el.innerHTML = '<button id="mp-wallet-stub" data-testid="mp-wallet">Pagar con MercadoPago (TEST)</button>';
+              }
+              config?.callbacks?.onReady?.();
+              return { unmount: () => {} };
+            }
+          });
+        };
+      `,
+    })
+  })
+}
+```
+
+### Tests E2E — Los 8 flujos críticos
+
+#### `e2e/tests/E2E-01-catalogo.spec.ts`
+```typescript
+test('E2E-01: Explorar catálogo y ver detalle de producto', async ({ page }) => {
+  await page.goto('/medias/estampadas')
+  await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible()
+
+  await page.locator('[data-testid="product-card"]').first().click()
+
+  // Verificar que la página de detalle carga correctamente
+  await expect(page.locator('[data-testid="product-name"]')).toBeVisible()
+  await expect(page.locator('[data-testid="product-price"]')).toBeVisible()
+  await expect(page.locator('[data-testid="size-selector"]')).toBeVisible()
+  await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible()
+})
+```
+
+#### `e2e/tests/E2E-02-carrito.spec.ts`
+```typescript
+test('E2E-02: Agregar producto al carrito y verificar qty', async ({ page }) => {
+  await clearCart(page)
+  await page.goto('/medias/estampadas/largas')
+
+  await page.locator('[data-testid="product-card"]').first().click()
+  await page.locator('[data-testid="size-selector"] button').first().click()
+  await page.locator('[data-testid="add-to-cart-btn"]').click()
+
+  await expect(page.locator('[data-testid="cart-count"]')).toHaveText('1')
+
+  await page.goto('/carrito')
+  await expect(page.locator('[data-testid="cart-item"]')).toHaveCount(1)
+  await expect(page.locator('[data-testid="cart-total"]')).toBeVisible()
+
+  // Incrementar cantidad
+  await page.locator('[data-testid="qty-increase"]').click()
+  await expect(page.locator('[data-testid="cart-item-qty"]')).toHaveText('2')
+
+  // Eliminar
+  await page.locator('[data-testid="remove-item-btn"]').click()
+  await expect(page.locator('[data-testid="cart-empty"]')).toBeVisible()
+})
+```
+
+#### `e2e/tests/E2E-03-checkout-envio.spec.ts`
+```typescript
+test('E2E-03: Carrito → Billing → verificar cálculo de envío', async ({ page }) => {
+  await clearCart(page)
+  // Agregar un producto primero (reutilizar helper de E2E-02)
+  await addProductToCart(page)
+
+  await page.goto('/checkout')
+  await page.locator('[data-testid="input-name"]').fill(TEST_CUSTOMER.name)
+  await page.locator('[data-testid="input-lastname"]').fill(TEST_CUSTOMER.lastName)
+  await page.locator('[data-testid="input-email"]').fill(TEST_CUSTOMER.email)
+  await page.locator('[data-testid="input-phone"]').fill(TEST_CUSTOMER.phone)
+
+  // Seleccionar departamento → esperar ciudades → seleccionar ciudad
+  await page.locator('[data-testid="department-select"]').selectOption(TEST_DEPARTMENT)
+  await page.waitForResponse(r => r.url().includes('/shippings') && r.status() === 200)
+  await page.locator('[data-testid="city-select"]').selectOption(TEST_CITY)
+
+  // Verificar que el costo de envío se calcula
+  await expect(page.locator('[data-testid="shipping-cost"]')).not.toHaveText('—')
+  await expect(page.locator('[data-testid="order-total"]')).toBeVisible()
+})
+```
+
+#### `e2e/tests/E2E-04-descuento.spec.ts`
+```typescript
+test('E2E-04: Aplicar código de descuento y verificar total', async ({ page }) => {
+  await clearCart(page)
+  await addProductToCart(page)
+  await fillShippingForm(page)
+
+  const totalAntes = await page.locator('[data-testid="order-total"]').textContent()
+
+  await page.locator('[data-testid="discount-input"]').fill(TEST_DISCOUNT_CODE)
+  await page.locator('[data-testid="apply-discount-btn"]').click()
+
+  await expect(page.locator('[data-testid="discount-applied"]')).toBeVisible()
+  const totalDespues = await page.locator('[data-testid="order-total"]').textContent()
+  expect(totalDespues).not.toBe(totalAntes)
+
+  // Quitar descuento
+  await page.locator('[data-testid="remove-discount-btn"]').click()
+  await expect(page.locator('[data-testid="discount-applied"]')).not.toBeVisible()
+})
+```
+
+#### `e2e/tests/E2E-05-finish-order.spec.ts`
+```typescript
+test('E2E-05: Billing → Finish Order → MP Wallet carga', async ({ page }) => {
+  await mockMercadoPago(page)
+  await clearCart(page)
+  await addProductToCart(page)
+  await fillShippingForm(page)
+
+  await page.locator('[data-testid="next-step-btn"]').click()
+  await page.waitForURL('**/billing')
+
+  // Verificar que el Wallet de MP aparece (stub del mock)
+  await expect(page.locator('[data-testid="mp-wallet"]')).toBeVisible({ timeout: 10_000 })
+  await expect(page.locator('[data-testid="order-summary"]')).toBeVisible()
+})
+```
+
+#### `e2e/tests/E2E-06-busqueda.spec.ts`
+```typescript
+test('E2E-06: Búsqueda de producto', async ({ page }) => {
+  await page.goto('/')
+  await page.locator('[data-testid="search-input"]').fill('flash')
+  await page.locator('[data-testid="search-input"]').press('Enter')
+
+  await page.waitForURL('**/buscar**')
+  await expect(page.locator('[data-testid="search-result"]').first()).toBeVisible()
+  await page.locator('[data-testid="search-result"]').first().click()
+  await expect(page.locator('[data-testid="product-name"]')).toBeVisible()
+})
+```
+
+#### `e2e/tests/E2E-07-favoritos.spec.ts`
+```typescript
+test('E2E-07: Agregar a favoritos y compartir lista', async ({ page }) => {
+  await page.goto('/medias/estampadas')
+  await page.locator('[data-testid="wishlist-btn"]').first().click()
+  await expect(page.locator('[data-testid="wishlist-toast"]')).toBeVisible()
+
+  await page.goto('/lista_de_favoritos')
+  await expect(page.locator('[data-testid="wishlist-item"]')).toHaveCount(1)
+
+  const shareUrl = await page.locator('[data-testid="share-url"]').inputValue()
+  expect(shareUrl).toMatch(/\/lista_de_favoritos\/[a-z0-9-]+/)
+})
+```
+
+#### `e2e/tests/E2E-08-packs.spec.ts`
+```typescript
+test('E2E-08: Ver pack y agregarlo al carrito', async ({ page }) => {
+  await clearCart(page)
+  await page.goto('/packs')
+  await expect(page.locator('[data-testid="pack-card"]').first()).toBeVisible()
+
+  await page.locator('[data-testid="pack-card"]').first().click()
+  await expect(page.locator('[data-testid="pack-detail"]')).toBeVisible()
+  await expect(page.locator('[data-testid="pack-price"]')).toBeVisible()
+
+  await page.locator('[data-testid="add-pack-to-cart-btn"]').click()
+  await expect(page.locator('[data-testid="cart-count"]')).not.toHaveText('0')
+})
+```
+
+---
+
+## 14. Tests Unitarios de Stores Pinia
+
+```typescript
+// src/stores/__tests__/cartStore.spec.ts
+import { setActivePinia, createPinia } from 'pinia'
+import { useCartStore } from '../cartStore'
+
+describe('cartStore', () => {
+  beforeEach(() => setActivePinia(createPinia()))
+
+  it('agrega producto al carrito', () => {
+    const cart = useCartStore()
+    const product = { id: 1, name: 'Media Test', price: 45000 } as any
+    const size = { id: 1, name: 'M' } as any
+
+    cart.addItem(product, size, 2)
+
+    expect(cart.items).toHaveLength(1)
+    expect(cart.items[0].quantity).toBe(2)
+    expect(cart.total).toBe(90000)
+  })
+
+  it('incrementa cantidad si el mismo producto/talla ya está', () => {
+    const cart = useCartStore()
+    const product = { id: 1, name: 'Test', price: 45000 } as any
+    const size = { id: 1, name: 'M' } as any
+
+    cart.addItem(product, size, 1)
+    cart.addItem(product, size, 1)
+
+    expect(cart.items).toHaveLength(1)
+    expect(cart.items[0].quantity).toBe(2)
+  })
+
+  it('elimina producto del carrito', () => {
+    const cart = useCartStore()
+    const product = { id: 1, name: 'Test', price: 45000 } as any
+    const size = { id: 1, name: 'M' } as any
+
+    cart.addItem(product, size, 1)
+    cart.removeItem(1, 1)
+
+    expect(cart.items).toHaveLength(0)
+  })
+})
+
+// src/stores/__tests__/discountStore.spec.ts
+describe('discountStore', () => {
+  it('aplica descuento porcentual correctamente', async () => {
+    // Mock de la API
+    vi.mock('@/api/productApi', () => ({
+      validateDiscount: vi.fn().mockResolvedValue({ valid: true, discount: 10 })
+    }))
+
+    const discount = useDiscountStore()
+    await discount.validateCode('TEST10', 100000)
+
+    expect(discount.discountAmount).toBe(10000)
+    expect(discount.code).toBe('TEST10')
+  })
+})
+```
+
+---
+
+## 15. Lighthouse CI — Configuración y Umbrales
+
+### Instalación
+
+```bash
+npm install -D @lhci/cli
+```
+
+### `lighthouserc.js`
+
+```javascript
+module.exports = {
+  ci: {
+    collect: {
+      url: [
+        'http://localhost:5173/',
+        'http://localhost:5173/medias/estampadas',
+        'http://localhost:5173/medias/estampadas/largas',
+        'http://localhost:5173/packs',
+        'http://localhost:5173/carrito',
+      ],
+      numberOfRuns: 2,
+      settings: { preset: 'desktop' },
+    },
+    assert: {
+      assertions: {
+        'categories:performance': ['error', { minScore: 0.80 }],
+        'categories:accessibility': ['error', { minScore: 0.90 }],
+        'categories:best-practices': ['warn', { minScore: 0.85 }],
+        'categories:seo': ['warn', { minScore: 0.80 }],
+        'first-contentful-paint': ['warn', { maxNumericValue: 2000 }],
+        'largest-contentful-paint': ['error', { maxNumericValue: 2500 }],
+        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],
+        'total-blocking-time': ['warn', { maxNumericValue: 300 }],
+      },
+    },
+    upload: { target: 'temporary-public-storage' },
+  },
+}
+```
+
+### Comando en `package.json`
+
+```json
+{
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:lighthouse": "lhci autorun",
+    "test:unit": "vitest run",
+    "test:all": "npm run test:unit && npm run test:e2e"
+  }
+}
+```
+
+---
+
+## 16. Fuera de Alcance
 
 - Cutover a producción (F5)
 - Panel de administración Filament (F6)
