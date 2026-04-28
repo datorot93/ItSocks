@@ -34,9 +34,8 @@ async def type_image_create(
     alt: str = "",
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    
     """
     Create a new TypeImage Image
     """
@@ -122,7 +121,7 @@ async def type_image_delete(
     request: Request,
     type_image_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a TypeImage
@@ -150,8 +149,8 @@ async def type_image_edit(
     description: str = "",
     alt: str = "",
     file: UploadFile = File(...),
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update existing TypeImage

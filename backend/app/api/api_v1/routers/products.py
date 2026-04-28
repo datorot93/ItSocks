@@ -108,7 +108,7 @@ async def product_create(
     request: Request,
     product_in: schemas.ProductCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Product
@@ -179,15 +179,15 @@ async def get_colors_tallas_by_product(
 
 
 @router.post(
-    "/tag_create", 
-    response_model=schemas.Tag, 
+    "/tag_create",
+    response_model=schemas.Tag,
     response_model_exclude_none=True
 )
 async def tag_create(
     request: Request,
     tag_in: schemas.TagCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Tag
@@ -391,16 +391,16 @@ async def get_products_by_tag_subcategories_compresion(
 
 
 @router.put(
-    "/{product_id}", 
-    response_model=schemas.Product, 
+    "/{product_id}",
+    response_model=schemas.Product,
     response_model_exclude_none=True
 )
 async def product_edit(
     request: Request,
     product_id: int,
     product_in: schemas.ProductUpdate,
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Product """
     product = crud.product.get(db, id=product_id)
@@ -851,7 +851,7 @@ async def product_delete(
     request: Request,
     product_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Station

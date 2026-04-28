@@ -13,7 +13,7 @@ async def customer_create(
     request: Request,
     customer_in: schemas.CustomerCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Customer
@@ -41,7 +41,7 @@ async def customer_edit(
     code: str,
     customer_in: schemas.CustomerUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Customer """
     customer = crud.customer.get_by_code(db, code=code)
@@ -57,8 +57,8 @@ async def customer_edit(
     return customer
 
 @router.get(
-    "/all_customers", 
-    response_model=List[schemas.Customer], 
+    "/all_customers",
+    response_model=List[schemas.Customer],
     response_model_exclude_none=True,
 )
 async def customer_list(
@@ -66,7 +66,7 @@ async def customer_list(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get all Subcategories
@@ -87,7 +87,7 @@ async def customer_delete(
     request: Request,
     code: str,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Customer

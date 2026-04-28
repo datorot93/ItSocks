@@ -15,7 +15,7 @@ async def product_order_list(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get all Orders
@@ -36,7 +36,7 @@ async def product_order_list(
 async def product_order_detail(
     product_order_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get a specific Order by id
@@ -56,7 +56,7 @@ async def product_order_create(
     request: Request,
     product_order_in: schemas.ProductOrderCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Order
@@ -75,7 +75,7 @@ async def product_order_update(
     product_order_id: int,
     product_order_in: schemas.ProductOrderUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update an Order
@@ -100,7 +100,7 @@ async def product_order_update(
 async def product_order_delete(
     product_order_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete an Order

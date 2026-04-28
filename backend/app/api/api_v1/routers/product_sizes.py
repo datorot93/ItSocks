@@ -70,7 +70,7 @@ async def product_size_create(
     request: Request,
     product_size_in: schemas.ProductSizeCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new ProductSize
@@ -98,7 +98,7 @@ async def product_size_update(
     product_size_id: int,
     product_size_in: schemas.ProductSizeUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update an ProductSize
@@ -123,7 +123,7 @@ async def product_size_update(
 async def product_size_delete(
     product_size_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete an ProductSize

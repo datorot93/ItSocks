@@ -13,7 +13,7 @@ async def design_create(
     request: Request,
     design_in: schemas.DesignCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Subcategory
@@ -40,7 +40,7 @@ async def desing_edit(
     id: int,
     design_in: schemas.DesignUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Type """
     design = crud.design.get(db, id=id)
@@ -105,7 +105,7 @@ async def design_delete(
     request: Request,
     id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Design

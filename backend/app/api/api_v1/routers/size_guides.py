@@ -31,9 +31,8 @@ async def size_guide_create(
     alt: str='',
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    
     """
     Create a new SizeGuide Image
     """
@@ -137,7 +136,7 @@ async def size_guide_delete(
     request: Request,
     size_guide_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a SizeGuide
@@ -163,8 +162,8 @@ async def size_guide_edit(
     size_guide_id: int,
     alt: str = '',
     file: UploadFile = File(None),
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update existing SizeGuide

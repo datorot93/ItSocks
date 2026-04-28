@@ -26,7 +26,7 @@ async def subcategory_create(
     file: UploadFile = File(None),
     # file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Subcategory
@@ -95,7 +95,7 @@ async def subcategory_edit(
     code: str = "",
     file: UploadFile = File(None),  # Make file optional
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Subcategory """
 
@@ -171,7 +171,7 @@ async def subcategory_delete(
     request: Request,
     subcategory_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Subcategory

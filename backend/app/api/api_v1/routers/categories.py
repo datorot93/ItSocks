@@ -14,7 +14,7 @@ async def category_create(
     request: Request,
     category_in: schemas.CategoryCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Category
@@ -40,8 +40,8 @@ async def category_edit(
     request: Request,
     category_id: int,
     category_in: schemas.CategoryUpdate,
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Category """
     category = crud.category.get(db, id=category_id)
@@ -96,7 +96,7 @@ async def category_delete(
     request: Request,
     category_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Station

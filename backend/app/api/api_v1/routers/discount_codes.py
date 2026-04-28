@@ -87,7 +87,7 @@ async def discount_code_create(
     request: Request,
     discount_code_in: schemas.DiscountCodeCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Discount Code
@@ -108,6 +108,7 @@ async def discount_code_update(
     id: int,
     discount_code_in: schemas.DiscountCodeUpdate,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update a Discount Code
@@ -127,6 +128,7 @@ async def discount_code_delete(
     request: Request,
     id: int,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a Discount Code
@@ -147,17 +149,19 @@ def send_email(to_email, name, code):
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
 
-    from_email = os.getenv("EMAIL_USER", "daaltoto@gmail.com")
-    from_email_password = os.getenv("EMAIL_APP_PASSWORD", "cldu nlga ufuf uuku")
+    from_email = os.getenv("SMTP_USER")
+    from_email_password = os.getenv("SMTP_PASSWORD")
+    smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = int(os.getenv("SMTP_PORT", "587"))
     body = get_email_body(name, code)
-    
+
     msg = MIMEMultipart()
     msg['From'] = from_email
     msg['To'] = to_email
     msg['Subject'] = "Código de descuento ItSocks"
     msg.attach(MIMEText(body, 'html'))
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server = smtplib.SMTP(smtp_host, smtp_port)
     server.starttls()
     server.login(from_email, from_email_password)
     text = msg.as_string()

@@ -29,6 +29,7 @@ def get_products_by_city(
     limit: int = 100,
     from_date: datetime = None,
     to_date: datetime = None,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get detailed orders with optional date filtering
@@ -53,6 +54,7 @@ def get_products_by_city(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get products by city
@@ -73,6 +75,7 @@ def get_detailed_orders(
     limit: int = 100,
     from_date: datetime = None,
     to_date: datetime = None,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get detailed orders with optional date filtering
@@ -97,6 +100,7 @@ def get_products_sum(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get products sum
@@ -116,7 +120,7 @@ async def get_single_order(
     order_id: int,
     response: Response,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get a specific Order by id
@@ -137,7 +141,7 @@ async def order_detail(
     order_id: int,
     # response: Response,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get a specific Order by id

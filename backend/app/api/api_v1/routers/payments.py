@@ -6,21 +6,20 @@ from sqlalchemy.orm import Session
 from app import crud, models, schemas
 from app.api import deps
 import json
+import os
 
 import mercadopago
 
 router = APIRouter()
 
-sdk = mercadopago.SDK("APP_USR-5570936269195060-121823-0c16a1942fc303996ffead6a436796ee-1600827084")
+sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
 
 @router.post("create_payment_preference")
 async def create_payment_preference(
     request: Request,
     obj_in: dict = {},
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    print(obj_in)
 
 
     obj_in['back_urls'] = {

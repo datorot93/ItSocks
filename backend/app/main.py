@@ -32,10 +32,16 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    # allow_origins=origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[
+        "https://itsocks.co",
+        "https://www.itsocks.co",
+        "http://localhost:5173",   # storefront local
+        "http://localhost:5174",   # admin local
+        "http://localhost:3000",   # React admin local alternativo
+    ],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
+    allow_credentials=True,
     expose_headers=["Content-Range"]
 )
 
