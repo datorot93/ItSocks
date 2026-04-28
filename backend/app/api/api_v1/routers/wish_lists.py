@@ -13,7 +13,7 @@ async def wish_list_create(
     request: Request,
     wish_list_in: schemas.WishListCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new WishList
@@ -65,7 +65,7 @@ async def wish_list_edit(
     code: str,
     wish_list_in: schemas.WishListUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing WishList """
     wish_list = crud.wish_list.get_by_code(db, code=code)
@@ -89,7 +89,7 @@ async def wish_list_delete(
     request: Request,
     code: str,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing WishList

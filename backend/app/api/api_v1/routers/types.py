@@ -14,7 +14,7 @@ async def type_create(
     request: Request,
     type_in: schemas.TypeCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Subcategory
@@ -42,7 +42,7 @@ async def type_edit(
     id: int,
     type_in: schemas.TypeUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Type """
     type = crud.type.get(db, id=id)
@@ -111,7 +111,7 @@ async def type_delete(
     request: Request,
     id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Type

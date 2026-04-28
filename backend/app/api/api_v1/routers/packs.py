@@ -23,7 +23,7 @@ async def pack_create(
     description: str,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Pack
@@ -156,8 +156,8 @@ async def pack_edit(
     file: UploadFile = File(default=None),
     state: bool = True,
     discount: int = 0,
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Pack """
     pack = crud.pack.get_pack_by_name(db, name=name)
@@ -208,7 +208,7 @@ async def pack_delete(
     request: Request,
     pack_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a Pack

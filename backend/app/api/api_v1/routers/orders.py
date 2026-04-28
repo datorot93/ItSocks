@@ -27,7 +27,7 @@ async def order_list(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get all Orders adsas
@@ -53,7 +53,7 @@ async def get_single_order(
     order_id: int,
     response: Response,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get a specific Order by id
@@ -74,7 +74,7 @@ async def order_detail(
     order_id: int,
     # response: Response,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get a specific Order by id
@@ -159,7 +159,7 @@ async def order_update(
     order_id: int,
     order_in: schemas.OrderUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update an Order
@@ -212,7 +212,7 @@ async def order_update(
 async def order_delete(
     order_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete an Order
@@ -229,17 +229,19 @@ async def order_delete(
     return order
 
 def update_guide_send_email(to_email, order_id, shipping_guide, url_guide):
-    from_email = os.getenv("EMAIL_USER", "daaltoto@gmail.com")
-    from_email_password = os.getenv("EMAIL_APP_PASSWORD", "cldu nlga ufuf uuku")
+    from_email = os.getenv("SMTP_USER")
+    from_email_password = os.getenv("SMTP_PASSWORD")
+    smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = int(os.getenv("SMTP_PORT", "587"))
     body = update_guide_email(order_id, shipping_guide, url_guide)
-    
+
     msg = MIMEMultipart()
     msg['From'] = from_email
     msg['To'] = to_email
     msg['Subject'] = "IT SOCKS guía de envío"
     msg.attach(MIMEText(body, 'html'))
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server = smtplib.SMTP(smtp_host, smtp_port)
     server.starttls()
     server.login(from_email, from_email_password)
     text = msg.as_string()
@@ -250,17 +252,19 @@ def update_guide_send_email(to_email, order_id, shipping_guide, url_guide):
 
 
 def update_state_send_email(to_email, order_id, state):
-    from_email = os.getenv("EMAIL_USER", "daaltoto@gmail.com")
-    from_email_password = os.getenv("EMAIL_APP_PASSWORD", "cldu nlga ufuf uuku")
+    from_email = os.getenv("SMTP_USER")
+    from_email_password = os.getenv("SMTP_PASSWORD")
+    smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = int(os.getenv("SMTP_PORT", "587"))
     body = update_guide_email(order_id, order_id, state)
-    
+
     msg = MIMEMultipart()
     msg['From'] = from_email
     msg['To'] = to_email
     msg['Subject'] = f"IT SOCKS cambio de estado de tu orden {order_id}"
     msg.attach(MIMEText(body, 'html'))
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server = smtplib.SMTP(smtp_host, smtp_port)
     server.starttls()
     server.login(from_email, from_email_password)
     text = msg.as_string()
@@ -271,18 +275,19 @@ def update_state_send_email(to_email, order_id, state):
 
 
 def create_order_send_email(to_email, order_id, total):
-    print("Sending email")
-    from_email = os.getenv("EMAIL_USER", "daaltoto@gmail.com")
-    from_email_password = os.getenv("EMAIL_APP_PASSWORD", "cldu nlga ufuf uuku")
+    from_email = os.getenv("SMTP_USER")
+    from_email_password = os.getenv("SMTP_PASSWORD")
+    smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = int(os.getenv("SMTP_PORT", "587"))
     body = create_order_email(order_id, total)
-    
+
     msg = MIMEMultipart()
     msg['From'] = from_email
     msg['To'] = to_email
     msg['Subject'] = "Confirmación compra"
     msg.attach(MIMEText(body, 'html'))
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server = smtplib.SMTP(smtp_host, smtp_port)
     server.starttls()
     server.login(from_email, from_email_password)
     text = msg.as_string()

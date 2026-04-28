@@ -64,10 +64,12 @@ def client(db):
     the in-memory SQLite session.  The 'db' fixture is shared — tests that
     request both 'client' and 'db' receive the SAME session instance.
     SMTP is NOT mocked here — individual tests must patch smtplib.SMTP.
+    Auth dependencies are overridden to bypass JWT validation in tests.
     """
     from fastapi import FastAPI
     from app.api.api_v1.routers import orders, product_orders
     from app.api import deps
+    from app.models.user import User
 
     app = FastAPI()
     app.include_router(orders.router, prefix="/orders")
@@ -79,7 +81,19 @@ def client(db):
         finally:
             pass
 
+    def override_get_current_active_superuser():
+        """Bypass auth in tests — returns a mock superuser."""
+        user = User()
+        user.id = 1
+        user.username = "testadmin"
+        user.full_name = "Test Admin"
+        user.is_admin = True
+        user.is_active = True
+        user.hashed_password = "hashed"
+        return user
+
     app.dependency_overrides[deps.get_db] = override_get_db
+    app.dependency_overrides[deps.get_current_active_superuser] = override_get_current_active_superuser
     with TestClient(app) as c:
         yield c
 

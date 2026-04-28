@@ -65,7 +65,7 @@ async def tag_create(
     name: str = "",
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Tag
@@ -117,7 +117,7 @@ async def tag_update(
     discount: int = 0,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update an Tag
@@ -163,7 +163,7 @@ async def tag_update(
 async def tag_delete(
     tag_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete an Tag

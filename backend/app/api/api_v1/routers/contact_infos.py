@@ -65,7 +65,7 @@ async def contact_info_delete(
     request: Request,
     contact_info_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a Slider
@@ -89,8 +89,8 @@ async def contact_info_edit(
     request: Request,
     contact_info_id: int,
     contact_info_in: schemas.ContactInfoUpdate,
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update existing Slider

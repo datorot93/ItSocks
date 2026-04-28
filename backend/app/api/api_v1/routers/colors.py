@@ -13,7 +13,7 @@ async def color_create(
     request: Request,
     color_in: schemas.ColorCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Color
@@ -38,7 +38,7 @@ async def color_create(
     request: Request,
     product_color_in: schemas.ProductColorCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new ProductColor
@@ -66,7 +66,7 @@ async def type_edit(
     code: str,
     type_in: schemas.TypeUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Type """
     type = crud.type.get_by_code(db, code=code)
@@ -112,7 +112,7 @@ async def type_delete(
     request: Request,
     code: str,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing Type

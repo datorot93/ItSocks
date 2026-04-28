@@ -71,7 +71,7 @@ async def image_create(
     request: Request,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Image
@@ -213,6 +213,7 @@ async def image_delete(
     request: Request,
     id_image: int,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a Image
@@ -236,6 +237,7 @@ async def image_edit(
     id_image: int,
     image_in: schemas.ImageUpdate,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """ Update an existing Image """
     image = crud.image.get(db, id=id_image)

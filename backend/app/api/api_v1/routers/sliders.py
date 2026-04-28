@@ -29,9 +29,8 @@ async def slider_create(
     # slider_in: schemas.SliderCreate,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    
     """
     Create a new Slider Image
     """
@@ -126,7 +125,7 @@ async def slider_delete(
     request: Request,
     slider_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete a Slider
@@ -150,8 +149,8 @@ async def slider_edit(
     request: Request,
     slider_id: int,
     slider_in: schemas.SliderUpdate,
-    db: Session = Depends(deps.get_db)
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update existing Slider

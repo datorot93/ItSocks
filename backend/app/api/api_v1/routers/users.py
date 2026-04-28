@@ -17,7 +17,7 @@ async def users_list(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get all users
@@ -43,8 +43,8 @@ async def users_list(
 )
 async def user_details(
     user_id: int,
-    # current_user: models.User = Depends(deps.get_current_active_user),
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Get a specific user by id.
@@ -64,7 +64,7 @@ async def user_create(
     request: Request,
     user_in: schemas.UserCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new user
@@ -85,7 +85,7 @@ async def user_edit(
     user_id: int,
     user_in: schemas.UserUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update existing user
@@ -107,7 +107,7 @@ async def user_delete(
     request: Request,
     user_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete existing user

@@ -130,7 +130,7 @@ async def update_shipping(
     shipping_id: int,
     shipping_in: schemas.ShippingUpdate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Update an existing Shipping
@@ -150,7 +150,7 @@ async def update_shipping(
 async def delete_shipping(
     shipping_id: int,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Delete an existing Shipping
@@ -168,7 +168,7 @@ async def create_shipping(
     request: Request,
     shipping_in: schemas.ShippingCreate,
     db: Session = Depends(deps.get_db),
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     """
     Create a new Shipping
