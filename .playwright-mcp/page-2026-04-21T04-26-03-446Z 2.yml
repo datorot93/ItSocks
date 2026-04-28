@@ -1,0 +1,335 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "ItSocks Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "ItSocks Logo" [ref=e7]
+      - generic [ref=e8]:
+        - link "Icono buscar" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img "Icono buscar" [ref=e10]
+        - textbox "Buscar en nuestro sitio" [ref=e11]
+      - generic [ref=e12]:
+        - link "Medias":
+          - /url: /medias
+        - link "Accesorios":
+          - /url: /accesorios
+        - link "Packs":
+          - /url: /packs
+        - link "Más":
+          - /url: /mas
+      - generic [ref=e13]:
+        - link "0 Lista deseados" [ref=e14] [cursor=pointer]:
+          - /url: /lista_de_favoritos
+          - generic [ref=e15]:
+            - generic [ref=e16]: "0"
+            - img "Lista deseados" [ref=e17]
+        - link "0 Icono carrito" [ref=e18] [cursor=pointer]:
+          - /url: /carrito
+          - generic [ref=e19]:
+            - generic [ref=e20]: "0"
+            - img "Icono carrito" [ref=e21]
+  - generic [ref=e36]:
+    - generic:
+      - generic:
+        - img "left arrow" [ref=e38] [cursor=pointer]
+        - img "left arrow" [ref=e40] [cursor=pointer]
+    - generic [ref=e41]:
+      - heading "LOS PRODUCTOS MÁS VENDIDOS" [level=2] [ref=e42]
+      - generic [ref=e43]:
+        - img "left arrow" [ref=e555] [cursor=pointer]
+        - generic [ref=e47]:
+          - link [ref=e51] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e54]:
+              - paragraph [ref=e55]: Esta es una media
+              - paragraph [ref=e56]: $ 10.000,00
+          - link [ref=e60] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Esta es una media
+              - paragraph [ref=e65]: $ 10.000,00
+          - link [ref=e69] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: Esta es una media
+              - paragraph [ref=e74]: $ 10.000,00
+          - link [ref=e78] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e81]:
+              - paragraph [ref=e82]: Esta es una media
+              - paragraph [ref=e83]: $ 10.000,00
+          - link [ref=e546] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e90]:
+              - paragraph [ref=e91]: Esta es una media
+              - paragraph [ref=e92]: $ 10.000,00
+          - link [ref=e547] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e99]:
+              - paragraph [ref=e100]: Esta es una media
+              - paragraph [ref=e101]: $ 10.000,00
+          - link "Esta es una media $ 10.000,00" [ref=e556] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e108]:
+              - paragraph [ref=e109]: Esta es una media
+              - paragraph [ref=e110]: $ 10.000,00
+          - link "Esta es una media $ 10.000,00" [ref=e557] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e117]:
+              - paragraph [ref=e118]: Esta es una media
+              - paragraph [ref=e119]: $ 10.000,00
+          - link "Esta es una media $ 10.000,00" [ref=e550] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e126]:
+              - paragraph [ref=e127]: Esta es una media
+              - paragraph [ref=e128]: $ 10.000,00
+          - link "Esta es una media $ 10.000,00" [ref=e551] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e135]:
+              - paragraph [ref=e136]: Esta es una media
+              - paragraph [ref=e137]: $ 10.000,00
+          - link [ref=e558] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e144]:
+              - paragraph [ref=e145]: Esta es una media
+              - paragraph [ref=e146]: $ 10.000,00
+          - link [ref=e559] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e153]:
+              - paragraph [ref=e154]: Esta es una media
+              - paragraph [ref=e155]: $ 10.000,00
+          - link [ref=e159] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e162]:
+              - paragraph [ref=e163]: Esta es una media
+              - paragraph [ref=e164]: $ 10.000,00
+          - link [ref=e168] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e171]:
+              - paragraph [ref=e172]: Esta es una media
+              - paragraph [ref=e173]: $ 10.000,00
+          - link [ref=e177] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e180]:
+              - paragraph [ref=e181]: Esta es una media
+              - paragraph [ref=e182]: $ 10.000,00
+          - link [ref=e186] [cursor=pointer]:
+            - /url: /medias/media caña/media_cania/diseño/medias_de_compresion/esta es una media
+            - generic [ref=e189]:
+              - paragraph [ref=e190]: Esta es una media
+              - paragraph [ref=e191]: $ 10.000,00
+        - img "left arrow" [ref=e561] [cursor=pointer]
+    - heading "ESTILOS DE VIDA" [level=2] [ref=e195]
+    - generic [ref=e200]:
+      - generic [ref=e201]:
+        - heading "BENEFICIOS DE NUESTRAS" [level=2] [ref=e202]
+        - heading "MEDIAS DE COMPRESIÓN" [level=2] [ref=e203]
+      - generic [ref=e205]:
+        - img [ref=e207]
+        - generic [ref=e216]:
+          - heading "Mejoran la circulación sanguínea" [level=5] [ref=e217]
+          - paragraph [ref=e218]: Ayudan a aumentar el flujo de sangre desde las extremidades hacia el corazón.
+      - generic [ref=e220]:
+        - img [ref=e222]
+        - generic [ref=e226]:
+          - heading "Mejoran el rendimiento deportivo" [level=5] [ref=e227]
+          - paragraph [ref=e228]: Algunos atletas utilizan medias de compresión para reducir la fatiga muscular durante el ejercicio.
+      - generic [ref=e230]:
+        - img [ref=e232]
+        - generic [ref=e239]:
+          - heading "Combinan con tu estilo" [level=5] [ref=e240]
+          - paragraph [ref=e241]: Tenemos una amplia variedad de diseños para toda ocasión.
+    - generic [ref=e242]:
+      - heading "QUÉ PIENSAN NUESTROS CLIENTES" [level=2] [ref=e243]
+      - generic [ref=e244]:
+        - img "left arrow" [ref=e563] [cursor=pointer]
+        - generic [ref=e248]:
+          - generic [ref=e251]:
+            - paragraph [ref=e252]: "\"Aquí andamos!!!Nuevamente! Gané un segundo puesto en una gran carrera y las medias fueron importantes porque en medio de un calor de 40 grados lo único que no me molestó fueron las piernitas .\""
+            - generic [ref=e253]:
+              - paragraph [ref=e254]: "-Fernanda Buitrago"
+              - generic [ref=e255]:
+                - img [ref=e256]
+                - img [ref=e258]
+                - img [ref=e260]
+                - img [ref=e262]
+                - img [ref=e264]
+          - generic [ref=e268]:
+            - paragraph [ref=e269]: "\"Me encantaron las medias!!! Excelente calidad, y los diseños son geniales. Muchas gracias.\""
+            - generic [ref=e270]:
+              - paragraph [ref=e271]: "-Ana María Castillo"
+              - generic [ref=e272]:
+                - img [ref=e273]
+                - img [ref=e275]
+                - img [ref=e277]
+                - img [ref=e279]
+                - img [ref=e281]
+          - generic [ref=e285]:
+            - paragraph [ref=e286]: "\"Desde que compré el primer par de medias con It Socks quedé convencida de que son las mejores medias de compresión para running.\""
+            - generic [ref=e287]:
+              - paragraph [ref=e288]: "-Leidy Muñoz"
+              - generic [ref=e289]:
+                - img [ref=e290]
+                - img [ref=e292]
+                - img [ref=e294]
+                - img [ref=e296]
+                - img [ref=e298]
+          - generic [ref=e302]:
+            - paragraph [ref=e303]: "\"Correr es mi terapia... Me gocé esos 10k en la MMB, bajé tiempo y me encantaron las medias. Gracias, son geniales\""
+            - generic [ref=e304]:
+              - paragraph [ref=e305]: "-Nora Beltrán"
+              - generic [ref=e306]:
+                - img [ref=e307]
+                - img [ref=e309]
+                - img [ref=e311]
+                - img [ref=e313]
+                - img [ref=e315]
+          - generic [ref=e319]:
+            - paragraph [ref=e320]: "\"Espectaculares como siempre, nunca me han quemado así estén nuevas. Nunca salgo a entrenar sin sus medias, hago gym, bici y running sin problema.\""
+            - generic [ref=e321]:
+              - paragraph [ref=e322]: "-Carolina López"
+              - generic [ref=e323]:
+                - img [ref=e324]
+                - img [ref=e326]
+                - img [ref=e328]
+                - img [ref=e330]
+                - img [ref=e332]
+          - generic [ref=e336]:
+            - paragraph [ref=e337]: "\"Unas medias muy cómodas y de gran ayuda para lograr mis objetivos personales. El objetivo se cumplio y las medias mantuvieron mis piernas en un gran estado.\""
+            - generic [ref=e338]:
+              - paragraph [ref=e339]: "-Andrés Triana"
+              - generic [ref=e340]:
+                - img [ref=e341]
+                - img [ref=e343]
+                - img [ref=e345]
+                - img [ref=e347]
+                - img [ref=e349]
+          - generic [ref=e353]:
+            - paragraph [ref=e354]: "\"Aquí andamos!!!Nuevamente! Gané un segundo puesto en una gran carrera y las medias fueron importantes porque en medio de un calor de 40 grados lo único que no me molestó fueron las piernitas .\""
+            - generic [ref=e355]:
+              - paragraph [ref=e356]: "-Fernanda Buitrago"
+              - generic [ref=e357]:
+                - img [ref=e358]
+                - img [ref=e360]
+                - img [ref=e362]
+                - img [ref=e364]
+                - img [ref=e366]
+          - generic [ref=e370]:
+            - paragraph [ref=e371]: "\"Me encantaron las medias!!! Excelente calidad, y los diseños son geniales. Muchas gracias.\""
+            - generic [ref=e372]:
+              - paragraph [ref=e373]: "-Ana María Castillo"
+              - generic [ref=e374]:
+                - img [ref=e375]
+                - img [ref=e377]
+                - img [ref=e379]
+                - img [ref=e381]
+                - img [ref=e383]
+          - generic [ref=e387]:
+            - paragraph [ref=e388]: "\"Desde que compré el primer par de medias con It Socks quedé convencida de que son las mejores medias de compresión para running.\""
+            - generic [ref=e389]:
+              - paragraph [ref=e390]: "-Leidy Muñoz"
+              - generic [ref=e391]:
+                - img [ref=e392]
+                - img [ref=e394]
+                - img [ref=e396]
+                - img [ref=e398]
+                - img [ref=e400]
+          - generic [ref=e404]:
+            - paragraph [ref=e405]: "\"Correr es mi terapia... Me gocé esos 10k en la MMB, bajé tiempo y me encantaron las medias. Gracias, son geniales\""
+            - generic [ref=e406]:
+              - paragraph [ref=e407]: "-Nora Beltrán"
+              - generic [ref=e408]:
+                - img [ref=e409]
+                - img [ref=e411]
+                - img [ref=e413]
+                - img [ref=e415]
+                - img [ref=e417]
+          - generic [ref=e421]:
+            - paragraph [ref=e422]: "\"Espectaculares como siempre, nunca me han quemado así estén nuevas. Nunca salgo a entrenar sin sus medias, hago gym, bici y running sin problema.\""
+            - generic [ref=e423]:
+              - paragraph [ref=e424]: "-Carolina López"
+              - generic [ref=e425]:
+                - img [ref=e426]
+                - img [ref=e428]
+                - img [ref=e430]
+                - img [ref=e432]
+                - img [ref=e434]
+          - generic [ref=e438]:
+            - paragraph [ref=e439]: "\"Unas medias muy cómodas y de gran ayuda para lograr mis objetivos personales. El objetivo se cumplio y las medias mantuvieron mis piernas en un gran estado.\""
+            - generic [ref=e440]:
+              - paragraph [ref=e441]: "-Andrés Triana"
+              - generic [ref=e442]:
+                - img [ref=e443]
+                - img [ref=e445]
+                - img [ref=e447]
+                - img [ref=e449]
+                - img [ref=e451]
+          - generic [ref=e455]:
+            - paragraph [ref=e456]: "\"Aquí andamos!!!Nuevamente! Gané un segundo puesto en una gran carrera y las medias fueron importantes porque en medio de un calor de 40 grados lo único que no me molestó fueron las piernitas .\""
+            - generic [ref=e457]:
+              - paragraph [ref=e458]: "-Fernanda Buitrago"
+              - generic [ref=e459]:
+                - img [ref=e460]
+                - img [ref=e462]
+                - img [ref=e464]
+                - img [ref=e466]
+                - img [ref=e468]
+          - generic [ref=e472]:
+            - paragraph [ref=e473]: "\"Me encantaron las medias!!! Excelente calidad, y los diseños son geniales. Muchas gracias.\""
+            - generic [ref=e474]:
+              - paragraph [ref=e475]: "-Ana María Castillo"
+              - generic [ref=e476]:
+                - img [ref=e477]
+                - img [ref=e479]
+                - img [ref=e481]
+                - img [ref=e483]
+                - img [ref=e485]
+          - generic [ref=e489]:
+            - paragraph [ref=e490]: "\"Desde que compré el primer par de medias con It Socks quedé convencida de que son las mejores medias de compresión para running.\""
+            - generic [ref=e491]:
+              - paragraph [ref=e492]: "-Leidy Muñoz"
+              - generic [ref=e493]:
+                - img [ref=e494]
+                - img [ref=e496]
+                - img [ref=e498]
+                - img [ref=e500]
+                - img [ref=e502]
+          - generic [ref=e506]:
+            - paragraph [ref=e507]: "\"Correr es mi terapia... Me gocé esos 10k en la MMB, bajé tiempo y me encantaron las medias. Gracias, son geniales\""
+            - generic [ref=e508]:
+              - paragraph [ref=e509]: "-Nora Beltrán"
+              - generic [ref=e510]:
+                - img [ref=e511]
+                - img [ref=e513]
+                - img [ref=e515]
+                - img [ref=e517]
+                - img [ref=e519]
+        - img "left arrow" [ref=e565] [cursor=pointer]
+  - generic [ref=e523]:
+    - generic [ref=e524]:
+      - heading "SUSCRÍBETE" [level=2] [ref=e525]
+      - paragraph [ref=e527]: Suscríbete a nuestra página y obtén acceso a descuentos exclusivos y novedades de nuestra marca.
+      - paragraph [ref=e528]: ¡Haz click ahora para unirte a nuestra comunidad!
+    - generic [ref=e529]:
+      - textbox "Dirección de correo electrónico" [ref=e530]
+      - button "Suscribir" [ref=e531] [cursor=pointer]
+  - contentinfo [ref=e532]:
+    - generic [ref=e533]:
+      - generic [ref=e534]:
+        - link "Envíos, Garantías y Cambios" [ref=e535] [cursor=pointer]:
+          - /url: /mas/envios_garantias_cambios
+        - link "Políticas de protección de datos" [ref=e536] [cursor=pointer]:
+          - /url: /politicas_proteccion_datos
+        - text: "|"
+        - generic [ref=e537]:
+          - link "Ícono Instagram" [ref=e538] [cursor=pointer]:
+            - /url: https://www.instagram.com/itsocks_/
+            - img "Ícono Instagram" [ref=e539]
+          - link "Ícono Facebook" [ref=e540] [cursor=pointer]:
+            - /url: https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d
+            - img "Ícono Facebook" [ref=e541]
+          - link "Ícono TikTok" [ref=e542] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1
+            - img "Ícono TikTok" [ref=e543]
+      - img [ref=e545]

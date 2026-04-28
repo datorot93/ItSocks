@@ -366,7 +366,169 @@ class ReporteVentas extends Page
 
 ---
 
-## 5. Criterios de Aceptación
+## 5. Tests de Filament
+
+### 5a. Fixtures de prueba
+
+Antes de implementar los tests, crear estos archivos en `tests/fixtures/`:
+
+```bash
+tests/fixtures/
+├── product_import_valid.xlsx     # 10 productos bien formados para test de importación exitosa
+├── product_import_invalid.xlsx   # Excel con columnas faltantes para test de error
+└── product_placeholder.jpg       # Imagen 400x400 JPEG para tests de upload (ya creada en F1)
+```
+
+El archivo `product_import_valid.xlsx` debe tener las columnas: `nombre`, `precio`, `categoria`, `subcategoria`, `tipo`, `disenio`, `compresion`, `activo`.
+
+### 5b. Tests de importación masiva (Queue::fake)
+
+```php
+// tests/Feature/Filament/ProductImportTest.php
+class ProductImportTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_importar_productos_despacha_job(): void
+    {
+        Queue::fake();
+
+        $admin = User::factory()->create(['is_admin' => true]);
+        $this->actingAs($admin);
+
+        $file = UploadedFile::fake()->createWithContent(
+            'productos.xlsx',
+            file_get_contents(base_path('tests/fixtures/product_import_valid.xlsx'))
+        );
+
+        $response = $this->postJson('/api/v1/files/import', ['file' => $file]);
+
+        $response->assertStatus(202);
+        Queue::assertPushed(ImportarProductosJob::class);
+    }
+
+    public function test_job_importacion_crea_productos_en_bd(): void
+    {
+        // Testear el Job directamente (sin queue, modo sync)
+        $excelPath = base_path('tests/fixtures/product_import_valid.xlsx');
+
+        (new ImportarProductosJob($excelPath))->handle();
+
+        $this->assertDatabaseCount('product', 10);
+    }
+
+    public function test_excel_invalido_retorna_error_descriptivo(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $this->actingAs($admin);
+
+        $file = UploadedFile::fake()->createWithContent(
+            'invalid.xlsx',
+            file_get_contents(base_path('tests/fixtures/product_import_invalid.xlsx'))
+        );
+
+        $response = $this->postJson('/api/v1/files/import', ['file' => $file]);
+        $response->assertStatus(422)
+                 ->assertJsonStructure(['message', 'errors']);
+    }
+}
+```
+
+### 5c. Tests de imágenes con S3 fake
+
+```php
+// tests/Feature/Filament/ProductImageTest.php
+class ProductImageTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('s3');
+    }
+
+    public function test_upload_imagen_producto_a_s3(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $product = Product::factory()->create();
+        $imageFile = UploadedFile::fake()->image('product.jpg', 400, 400);
+
+        $response = $this->actingAs($admin, 'sanctum')
+                         ->postJson('/api/v1/images', [
+                             'product_id' => $product->id,
+                             'image' => $imageFile,
+                         ]);
+
+        $response->assertStatus(201);
+        Storage::disk('s3')->assertExists(
+            $response->json('data.path')
+        );
+    }
+
+    public function test_imagen_eliminada_se_borra_de_s3(): void
+    {
+        Storage::fake('s3');
+        $admin = User::factory()->create(['is_admin' => true]);
+        $product = Product::factory()->create();
+        $image = Image::factory()->create([
+            'product_id' => $product->id,
+            'url' => 's3://itsocks-test/products/test.jpg',
+        ]);
+
+        Storage::disk('s3')->put('products/test.jpg', 'fake content');
+
+        $this->actingAs($admin, 'sanctum')
+             ->deleteJson("/api/v1/images/{$image->id}")
+             ->assertStatus(200);
+
+        Storage::disk('s3')->assertMissing('products/test.jpg');
+    }
+}
+```
+
+### 5d. Tests del dashboard de ventas
+
+```php
+// tests/Feature/Filament/DashboardTest.php
+class DashboardTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_dashboard_muestra_ventas_del_mes(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        Order::factory()->count(5)->create([
+            'total' => 80000,
+            'status' => 'paid',
+            'created_at' => now(),
+        ]);
+
+        $response = $this->actingAs($admin)
+                         ->get('/admin');
+
+        $response->assertStatus(200)
+                 ->assertSee('400.000')  // 5 × 80.000 = 400.000 COP
+                 ->assertSee('Ventas del mes');
+    }
+
+    public function test_exportar_ordenes_genera_excel(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        Order::factory()->count(3)->create();
+
+        $response = $this->actingAs($admin)
+                         ->get('/api/v1/reports/sells/export?format=xlsx');
+
+        $response->assertStatus(200)
+                 ->assertHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }
+}
+```
+
+---
+
+## 6. Criterios de Aceptación
 
 ### Funcionalidades críticas (bloquean el cierre de F6)
 - [ ] Dashboard muestra ventas del mes y gráfico de ventas diarias
@@ -382,7 +544,9 @@ class ReporteVentas extends Page
 - [ ] Usuario admin puede completar todas las operaciones del flujo de negocio diario sin `admin-itsocks/`
 
 ### Criterios técnicos
-- [ ] `php artisan test --filter=Filament` verde
+- [ ] `php artisan test --filter=Filament` verde (incluye tests de la sección 5)
+- [ ] `Queue::fake()` confirma que `ImportarProductosJob` se despacha correctamente
+- [ ] `Storage::fake('s3')` confirma que imágenes se guardan sin tocar S3 real
 - [ ] Panel accesible en `/admin` en producción
 - [ ] Sin errores al ejecutar todas las acciones críticas
 

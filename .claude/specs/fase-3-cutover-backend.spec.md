@@ -217,7 +217,82 @@ echo "FastAPI desmantelado el $(date)" >> /var/www/MIGRATION_LOG.txt
 
 ---
 
-## 9. Criterios de Éxito
+## 9. Script de Verificación de Paridad de Datos
+
+Durante el cutover, ambas APIs sirven la misma BD. Este script verifica que las respuestas sean equivalentes antes de escalar el peso de Laravel:
+
+```bash
+#!/bin/bash
+# tests/parity/verify_data_parity.sh
+# Ejecutar ANTES de escalar de 10% a 50%, y de 50% a 100%
+
+FASTAPI="http://127.0.0.1:8888/api/v1"
+LARAVEL="http://127.0.0.1:8000/api/v1"
+FAILURES=0
+ADMIN_TOKEN="$(curl -sf -X POST $LARAVEL/auth/login -H 'Content-Type: application/json' \
+  -d '{"email":"admin@itsocks.co","password":"'$ADMIN_PASSWORD'"}' | jq -r '.token')"
+
+check_count() {
+    local endpoint=$1
+    local params=${2:-""}
+    local auth_header=${3:-""}
+
+    local fa_count=$(curl -sf $auth_header "$FASTAPI/$endpoint$params" | jq -r '.total // (.data | length) // length')
+    local lv_count=$(curl -sf -H "Authorization: Bearer $ADMIN_TOKEN" "$LARAVEL/$endpoint$params" | jq -r '.meta.total // (.data | length)')
+
+    if [ "$fa_count" != "$lv_count" ]; then
+        echo "FALLA: $endpoint | FastAPI: $fa_count | Laravel: $lv_count"
+        FAILURES=$((FAILURES + 1))
+    else
+        echo "OK: $endpoint ($fa_count registros)"
+    fi
+}
+
+check_headers() {
+    local endpoint=$1
+    echo "Verificando headers de $endpoint..."
+    local fa_headers=$(curl -sI "$FASTAPI/$endpoint" | grep -i "content-range\|x-total-count" || echo "sin header")
+    local lv_headers=$(curl -sI -H "Authorization: Bearer $ADMIN_TOKEN" "$LARAVEL/$endpoint" | grep -i "content-range\|x-total-count" || echo "sin header")
+    if [ "$fa_headers" != "$lv_headers" ]; then
+        echo "ADVERTENCIA: Headers distintos en $endpoint"
+        echo "  FastAPI: $fa_headers"
+        echo "  Laravel: $lv_headers"
+    fi
+}
+
+# Verificar conteos
+check_count "products" "?per_page=1"
+check_count "categories"
+check_count "subcategories"
+check_count "types"
+check_count "designs"
+check_count "colors"
+check_count "sizes"
+check_count "tags"
+check_count "packs"
+check_count "shippings"
+check_count "orders" "?per_page=1"  # requiere auth en ambas
+
+# Verificar headers que usa React Admin (Content-Range)
+check_headers "orders?skip=0&limit=10"
+
+echo "---"
+if [ $FAILURES -eq 0 ]; then
+    echo "PARIDAD VERIFICADA — seguro escalar el cutover"
+else
+    echo "FALLOS: $FAILURES — NO escalar hasta resolver"
+fi
+exit $FAILURES
+```
+
+**Cuándo ejecutarlo:**
+- Antes de escalar de 10% → 50% (Día 2)
+- Antes de escalar de 50% → 100% (Día 3)
+- El script retorna exit code 0 si todo está OK, 1+ si hay fallos
+
+---
+
+## 10. Criterios de Éxito
 
 | Criterio | Métrica |
 |----------|---------|

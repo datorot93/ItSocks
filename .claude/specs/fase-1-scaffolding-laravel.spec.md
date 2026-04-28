@@ -312,16 +312,177 @@ Crear los equivalentes de los templates HTML generados en `orders.py` de FastAPI
 
 ## 10. Seeders de Referencia
 
-| Seeder | Contenido |
-|--------|-----------|
-| `CategorySeeder` | Mínimo: Medias, Accesorios |
-| `SubcategorySeeder` | Cortas, Pantorrilleras, Largas, Tobilleras |
-| `TypeSeeder` | Estampadas, Tejidas, Personalizadas, Compresión |
-| `DesignSeeder` | 5-10 diseños de ejemplo |
-| `ColorSeeder` | 10 colores estándar (negro, blanco, gris, azul, rojo, verde, etc.) |
-| `SizeSeeder` | Única, Infantil (21-27), Junior (27-33), Dama (35-38), Caballero (39-42) |
-| `ShippingSeeder` | 32 departamentos de Colombia + municipios principales, tarifas en COP |
-| `UserSeeder` | 1 usuario admin: admin@itsocks.co / password: secret |
+Los seeders deben producir una BD completamente funcional para staging, tests de Feature (F2) y E2E (F4). Son la **única fuente de datos de prueba** de todo el plan de migración.
+
+### Estructura de seeders
+
+```
+database/
+├── seeders/
+│   ├── DatabaseSeeder.php         → Orchestrador (llama a todos en orden)
+│   ├── UserSeeder.php             → Admin user
+│   ├── CatalogSeeder.php          → Categorías, tipos, diseños, colores, tallas, tags
+│   ├── ProductSeeder.php          → 20 productos con relaciones
+│   ├── ShippingSeeder.php         → Municipios Colombia desde JSON
+│   ├── PackSeeder.php             → 3 packs de prueba
+│   ├── DiscountCodeSeeder.php     → 2 códigos de prueba
+│   ├── SliderSeeder.php           → 3 sliders de home
+│   └── OrderSeeder.php            → 3 órdenes en distintos estados
+└── factories/
+    ├── ProductFactory.php
+    ├── OrderFactory.php
+    ├── ProductOrderFactory.php
+    └── CustomerFactory.php
+```
+
+### Datos de referencia por seeder
+
+| Seeder | Registros | Datos |
+|--------|-----------|-------|
+| `UserSeeder` | 1 | `admin@itsocks.co` / `password_test_2026` |
+| `CatalogSeeder` — Categorías | 3 | Medias, Accesorios, Temporada |
+| `CatalogSeeder` — Subcategorías | 6 | Estampadas, Tejidas, Personalizadas, Termos, Pines, Temporada |
+| `CatalogSeeder` — Tipos | 3 | Largas, Pantorrilleras, Cortas |
+| `CatalogSeeder` — Diseños | 5 | Flash, Venom, One Piece, Ansiedad, Minion |
+| `CatalogSeeder` — Colores | 8 | Negro, Blanco, Gris, Rojo, Azul, Verde, Morado, Naranja |
+| `CatalogSeeder` — Tallas | 5 | Única, Dama (35-38), Caballero (39-42), Junior (27-33), Infantil (21-27) |
+| `CatalogSeeder` — Tags | 5 | ciclismo, running, trabajo, casual, fitness |
+| `ProductSeeder` | 20 | 15 medias + 3 accesorios + 2 temporada, con colores/tallas/imágenes |
+| `PackSeeder` | 3 | Pack 3, Pack 6, Pack Especial |
+| `OrderSeeder` | 3 | Estado pending, paid, shipped |
+| `DiscountCodeSeeder` | 2 | `TEST10` (10%), `LAUNCH20` (20%), sin vencimiento |
+| `SliderSeeder` | 3 | URLs placeholder |
+| `ShippingSeeder` | ~50 | Subset representativo (ver abajo) |
+
+### ShippingSeeder — Datos de municipios
+
+El seeder carga los municipios desde `database/data/shipping.json`. Este archivo se genera exportando la tabla `shipping` de producción:
+
+```bash
+# En servidor de producción (ejecutar una vez para generar el fixture)
+psql $DATABASE_URL -c "\COPY (SELECT municipio_ciudad, departamento, tarifa FROM shipping) TO STDOUT WITH CSV HEADER" > database/data/shipping.csv
+# Convertir a JSON con python o jq
+```
+
+**Mínimo para que los tests funcionen (hardcodeado en el seeder como fallback):**
+
+```php
+// database/seeders/ShippingSeeder.php
+$fallbackData = [
+    // Bogotá (tarifa 0 — entrega en ciudad)
+    ['municipio_ciudad' => 'Bogotá', 'departamento' => 'Bogotá D.C.', 'tarifa' => 0],
+    ['municipio_ciudad' => 'Soacha', 'departamento' => 'Bogotá D.C.', 'tarifa' => 8000],
+    // Antioquia
+    ['municipio_ciudad' => 'Medellín', 'departamento' => 'Antioquia', 'tarifa' => 12000],
+    ['municipio_ciudad' => 'Bello', 'departamento' => 'Antioquia', 'tarifa' => 12000],
+    ['municipio_ciudad' => 'Envigado', 'departamento' => 'Antioquia', 'tarifa' => 12000],
+    // Valle del Cauca
+    ['municipio_ciudad' => 'Cali', 'departamento' => 'Valle del Cauca', 'tarifa' => 12000],
+    ['municipio_ciudad' => 'Palmira', 'departamento' => 'Valle del Cauca', 'tarifa' => 12000],
+    // Atlántico
+    ['municipio_ciudad' => 'Barranquilla', 'departamento' => 'Atlántico', 'tarifa' => 12000],
+    // Santander
+    ['municipio_ciudad' => 'Bucaramanga', 'departamento' => 'Santander', 'tarifa' => 12000],
+];
+```
+
+### ProductSeeder — Imágenes placeholder
+
+Todos los productos de prueba usan URLs de placeholder para evitar dependencia de S3 en tests:
+
+```php
+// database/seeders/ProductSeeder.php
+$imageUrl = 'https://placehold.co/400x400/1a1a2e/ffffff.webp?text=' . urlencode($product->name);
+Image::create(['product_id' => $product->id, 'url' => $imageUrl]);
+```
+
+### Factories Eloquent (para tests de Feature en F2)
+
+```php
+// database/factories/ProductFactory.php
+class ProductFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->words(3, true),
+            'price' => fake()->numberBetween(15000, 80000),
+            'compresion' => fake()->boolean(20),
+            'is_active' => true,
+            'design_id' => Design::factory(),
+            'type_id' => Type::factory(),
+            'subcategory_id' => Subcategory::factory(),
+        ];
+    }
+}
+
+// database/factories/OrderFactory.php
+class OrderFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'customer_name' => fake()->name(),
+            'email' => fake()->safeEmail(),
+            'phone' => '3' . fake()->numerify('########'),
+            'shipping_city' => 'Bogotá',
+            'shipping_department' => 'Bogotá D.C.',
+            'shipping_address' => fake()->streetAddress(),
+            'billing_address' => fake()->streetAddress(),
+            'subtotal' => fake()->numberBetween(30000, 300000),
+            'shipping_cost' => fake()->randomElement([0, 8000, 12000]),
+            'discount_amount' => 0,
+            'total' => fn(array $attrs) => $attrs['subtotal'] + $attrs['shipping_cost'] - $attrs['discount_amount'],
+            'status' => fake()->randomElement(['pending', 'paid', 'shipped']),
+        ];
+    }
+}
+```
+
+---
+
+## 10b. Estrategia de Imágenes en Entorno de Tests
+
+Para evitar que los tests de Feature (F2) y los E2E (F4) dependan de AWS S3, configurar el driver de storage según el entorno:
+
+### `.env.testing` (archivo que deben crear los agentes de F2 y F4)
+
+```
+APP_ENV=testing
+DB_DATABASE=itsocks_testing
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+MAIL_MAILER=log
+CACHE_STORE=array
+```
+
+### Configuración de `spatie/laravel-medialibrary` en tests
+
+```php
+// tests/TestCase.php
+protected function setUp(): void
+{
+    parent::setUp();
+    // Usar disco local en todos los tests — nunca S3 real
+    config(['filesystems.default' => 'local']);
+    Storage::fake('local');
+    Storage::fake('s3'); // intercepta llamadas a S3 sin hacer requests reales
+}
+```
+
+### Fixture de imagen para tests de upload
+
+Crear `tests/fixtures/product_placeholder.jpg` (imagen 400x400 de 10KB) para usar en tests que prueben el upload de imágenes. Esta imagen es la única que debe incluirse en el repositorio.
+
+```bash
+# Generar la imagen fixture (ejecutar una vez)
+php artisan tinker --execute="
+    \$img = imagecreatetruecolor(400, 400);
+    imagejpeg(\$img, base_path('tests/fixtures/product_placeholder.jpg'), 80);
+    imagedestroy(\$img);
+    echo 'Fixture creado';
+"
+```
 
 ---
 

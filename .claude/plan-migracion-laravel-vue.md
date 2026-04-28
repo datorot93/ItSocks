@@ -165,6 +165,70 @@ vitest: ^1.0
 
 ---
 
+## Infraestructura de Testing Cross-Fase
+
+Esta sección define los patrones de testing que aplican a todas las fases. Es la fuente de verdad para cualquier decisión sobre cómo escribir tests en el proyecto Laravel + Vue 3.
+
+### Stack de testing por capa
+
+| Capa | Herramienta | Tipo | Comando |
+|------|-------------|------|---------|
+| Laravel | PHPUnit + `php artisan test` | Unit + Feature | `php artisan test --coverage` |
+| Laravel | `Mail::fake()` | Mock de emails | automático en `.env.testing` |
+| Laravel | `Queue::fake()` | Mock de colas | automático en `.env.testing` |
+| Laravel | `Http::fake()` | Mock de APIs externas (MP) | por test |
+| Laravel | `Storage::fake('s3')` | Mock de S3 | por test |
+| Vue 3 | Vitest + `@vue/test-utils` | Unit stores/composables | `npm run test:unit` |
+| Vue 3 | Playwright | E2E flujos críticos | `npm run test:e2e` |
+| Vue 3 | Lighthouse CI | Performance + Accesibilidad | `npm run test:lighthouse` |
+
+### Datos compartidos entre fases
+
+El `DatabaseSeeder` de F1 es la **única fuente de datos de prueba** para F2, F4 y F6. Los datos del seeder determinan qué productos aparecen en los E2E de Playwright. Cualquier cambio en el seeder debe propagarse a los fixtures de Playwright en `e2e/fixtures/index.ts`.
+
+### Configuración de `.env.testing` (Laravel)
+
+```
+APP_ENV=testing
+DB_DATABASE=itsocks_testing
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+MAIL_MAILER=log
+CACHE_STORE=array
+MERCADOPAGO_ACCESS_TOKEN=TEST-fake-token
+MERCADOPAGO_PUBLIC_KEY=TEST-fake-key
+```
+
+### Credenciales de integraciones externas para tests
+
+| Integración | Tests de Feature (F2) | Tests E2E (F4) |
+|-------------|----------------------|----------------|
+| MercadoPago | `Http::fake(['api.mercadopago.com/*' => ...])` | `page.route()` que stub el SDK JS |
+| S3/Storage | `Storage::fake('s3')` en `setUp()` | No aplica (Playwright usa URLs placeholder) |
+| SMTP/Email | `Mail::fake()` + `MAIL_MAILER=log` | No aplica |
+| Redis/Queue | `QUEUE_CONNECTION=sync` | No aplica |
+
+### Fixtures de archivos (`tests/fixtures/`)
+
+| Archivo | Descripción | Usado en |
+|---------|-------------|---------|
+| `product_placeholder.jpg` | Imagen 400x400 JPEG 10KB | F2 tests de upload, F6 tests Filament |
+| `product_import_valid.xlsx` | 10 productos bien formados | F6 test de importación masiva |
+| `product_import_invalid.xlsx` | Excel con columnas faltantes | F6 test de validación de errores |
+| `shipping_data.json` | ~50 municipios Colombia con tarifas | F1 ShippingSeeder fallback |
+
+### Umbrales de calidad por fase
+
+| Fase | Cobertura mínima | Tests requeridos |
+|------|-----------------|-----------------|
+| F1 | N/A | Migraciones y seeders corren sin errores |
+| F2 | ≥ 90% en controllers y services | Feature tests + Auth + MP mock + Mail mock |
+| F3 | N/A | Script de paridad retorna 0 fallos |
+| F4 | ≥ 90% en stores Pinia | 8 tests E2E verdes + Lighthouse ≥ 80 mobile |
+| F6 | `--filter=Filament` verde | Queue::fake + Storage::fake + Excel fixture |
+
+---
+
 ## Para Iniciar una Fase
 
 1. El usuario le indica al agente correspondiente: _"Lee tu spec en `.claude/specs/fase-N-nombre.spec.md` y ejecuta la Fase N"_

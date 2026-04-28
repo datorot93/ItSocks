@@ -7,6 +7,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Cada que vayas a empezar a ejecutar un fase de un plan vas a crear una rama con un nombre apropiado para la misma siguiendo la nomenclatura feature/*
 - Al terminar cada fase y testearla vas a hacer un commit un push y un PR a main utilizando el MCP de Github.
 - Cuando se utilice el MCP de Github para crear un PR ejecuta la skill /github-pr-changelog. Especificada en el archivo @.claude/skills/github-pr-changelog/SKILL.md
+- Usa la skill /fase-cierre para automatizar el cierre completo de una fase (tests + commit + push + PR + changelog)
+
+## Skills disponibles para la migración
+
+| Skill | Comando | Cuándo usarla |
+|-------|---------|---------------|
+| Cierre de fase | `/fase-cierre` | Al terminar la implementación de una fase |
+| Paridad APIs | `/parity-check` | Antes del cutover F3 para verificar que Laravel == FastAPI |
+| Estado migración | `/migration-status` | Para ver un resumen de qué fases están completas |
+| Auditar spec | `/spec-lint` o `/spec-lint F2` | Antes de implementar una fase, para verificar que la spec está completa |
+| Monitoreo cutover | `/cutover-monitor` | Durante el cutover F3/F5 para vigilar métricas en producción |
+| Tests E2E visual | `/playwright-e2e` o `/playwright-e2e carrito` | Para verificar flujos del frontend en el navegador |
+| PR Changelog | `/github-pr-changelog` | Después de crear cualquier PR a main |
 
 ## Project Overview
 

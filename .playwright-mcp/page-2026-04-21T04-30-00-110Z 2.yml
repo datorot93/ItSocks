@@ -1,0 +1,56 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - img "Burguer Menu" [ref=e6] [cursor=pointer]
+      - link "ItSocks Logo" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img "ItSocks Logo" [ref=e9]
+      - link "Icono buscar" [ref=e11] [cursor=pointer]:
+        - /url: /
+        - img "Icono buscar" [ref=e12]
+      - generic [ref=e13]:
+        - link "0 Lista deseados" [ref=e14] [cursor=pointer]:
+          - /url: /lista_de_favoritos
+          - generic [ref=e15]:
+            - generic [ref=e16]: "0"
+            - img "Lista deseados" [ref=e17]
+        - link "0 Icono carrito" [ref=e18] [cursor=pointer]:
+          - /url: /carrito
+          - generic [ref=e19]:
+            - generic [ref=e20]: "0"
+            - img "Icono carrito" [ref=e21]
+  - generic [ref=e22]:
+    - link "Inicio" [ref=e23] [cursor=pointer]:
+      - /url: /
+    - link "| Packs" [ref=e24] [cursor=pointer]:
+      - /url: /packs
+  - generic [ref=e26]:
+    - heading "PACKS" [level=1] [ref=e28]
+    - generic [ref=e29]:
+      - img "icono filtros" [ref=e30]
+      - paragraph [ref=e31]: Filtros
+  - generic [ref=e32]:
+    - generic [ref=e33]:
+      - heading "SUSCRÍBETE" [level=2] [ref=e34]
+      - paragraph [ref=e36]: Suscríbete a nuestra página y obtén acceso a descuentos exclusivos y novedades de nuestra marca.
+      - paragraph [ref=e37]: ¡Haz click ahora para unirte a nuestra comunidad!
+    - generic [ref=e38]:
+      - textbox "Dirección de correo electrónico" [ref=e39]
+      - button "Suscribir" [ref=e40] [cursor=pointer]
+  - contentinfo [ref=e41]:
+    - generic [ref=e43]:
+      - link "Envíos, Garantías y Cambios" [ref=e44] [cursor=pointer]:
+        - /url: /mas/envios_garantias_cambios
+      - link "Políticas de protección de datos" [ref=e45] [cursor=pointer]:
+        - /url: /politicas_proteccion_datos
+      - text: "|"
+      - generic [ref=e46]:
+        - link "Ícono Instagram" [ref=e47] [cursor=pointer]:
+          - /url: https://www.instagram.com/itsocks_/
+          - img "Ícono Instagram" [ref=e48]
+        - link "Ícono Facebook" [ref=e49] [cursor=pointer]:
+          - /url: https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d
+          - img "Ícono Facebook" [ref=e50]
+        - link "Ícono TikTok" [ref=e51] [cursor=pointer]:
+          - /url: https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1
+          - img "Ícono TikTok" [ref=e52]

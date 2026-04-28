@@ -1,0 +1,64 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "ItSocks Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "ItSocks Logo" [ref=e7]
+      - generic [ref=e8]:
+        - link "Icono buscar" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img "Icono buscar" [ref=e10]
+        - textbox "Buscar en nuestro sitio" [ref=e11]
+      - generic [ref=e12]:
+        - link "Medias":
+          - /url: /medias
+        - link "Accesorios":
+          - /url: /accesorios
+        - link "Packs":
+          - /url: /packs
+        - link "Más":
+          - /url: /mas
+      - generic [ref=e13]:
+        - link "0 Lista deseados" [ref=e14] [cursor=pointer]:
+          - /url: /lista_de_favoritos
+          - generic [ref=e15]:
+            - generic [ref=e16]: "0"
+            - img "Lista deseados" [ref=e17]
+        - link "0 Icono carrito" [ref=e18] [cursor=pointer]:
+          - /url: /carrito
+          - generic [ref=e19]:
+            - generic [ref=e20]: "0"
+            - img "Icono carrito" [ref=e21]
+  - generic [ref=e22]:
+    - link "Inicio" [ref=e23] [cursor=pointer]:
+      - /url: /
+    - link "| Packs" [ref=e24] [cursor=pointer]:
+      - /url: /packs
+  - heading "PACKS" [level=1] [ref=e28]
+  - generic [ref=e29]:
+    - generic [ref=e30]:
+      - heading "SUSCRÍBETE" [level=2] [ref=e31]
+      - paragraph [ref=e33]: Suscríbete a nuestra página y obtén acceso a descuentos exclusivos y novedades de nuestra marca.
+      - paragraph [ref=e34]: ¡Haz click ahora para unirte a nuestra comunidad!
+    - generic [ref=e35]:
+      - textbox "Dirección de correo electrónico" [ref=e36]
+      - button "Suscribir" [ref=e37] [cursor=pointer]
+  - contentinfo [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - link "Envíos, Garantías y Cambios" [ref=e41] [cursor=pointer]:
+          - /url: /mas/envios_garantias_cambios
+        - link "Políticas de protección de datos" [ref=e42] [cursor=pointer]:
+          - /url: /politicas_proteccion_datos
+        - text: "|"
+        - generic [ref=e43]:
+          - link "Ícono Instagram" [ref=e44] [cursor=pointer]:
+            - /url: https://www.instagram.com/itsocks_/
+            - img "Ícono Instagram" [ref=e45]
+          - link "Ícono Facebook" [ref=e46] [cursor=pointer]:
+            - /url: https://www.facebook.com/ItSocksColombia?mibextid=LQQJ4d
+            - img "Ícono Facebook" [ref=e47]
+          - link "Ícono TikTok" [ref=e48] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@itsocksco?_t=8jyYTY4zp3e&_r=1
+            - img "Ícono TikTok" [ref=e49]
+      - img [ref=e51]
