@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,19 +42,61 @@ class Product extends Model
     ];
 
     // Scopes
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('state', true);
     }
 
-    public function scopeCompression($query)
+    public function scopeCompression(Builder $query): Builder
     {
         return $query->where('compresion', true);
     }
 
-    public function scopeSeason($query)
+    public function scopeSeason(Builder $query): Builder
     {
         return $query->where('season', true);
+    }
+
+    // Scopes para QueryBuilder (spatie/laravel-query-builder)
+    private static function likeOp(): string
+    {
+        return config('database.default') === 'pgsql' ? 'ilike' : 'like';
+    }
+
+    public function scopeCategory(Builder $query, string $category): Builder
+    {
+        $op = self::likeOp();
+        return $query->whereHas('subcategory.category', fn ($q) => $q->where('name', $op, "%{$category}%"));
+    }
+
+    public function scopeByCategory(Builder $query, string $category): Builder
+    {
+        $op = self::likeOp();
+        return $query->whereHas('subcategory.category', fn ($q) => $q->where('name', $op, "%{$category}%"));
+    }
+
+    public function scopeSubcategory(Builder $query, string $subcategory): Builder
+    {
+        $op = self::likeOp();
+        return $query->whereHas('subcategory', fn ($q) => $q->where('name', $op, "%{$subcategory}%"));
+    }
+
+    public function scopeBySubcategory(Builder $query, string $subcategory): Builder
+    {
+        $op = self::likeOp();
+        return $query->whereHas('subcategory', fn ($q) => $q->where('name', $op, "%{$subcategory}%"));
+    }
+
+    public function scopeTag(Builder $query, string $tag): Builder
+    {
+        $op = self::likeOp();
+        return $query->whereHas('tags', fn ($q) => $q->where('name', $op, "%{$tag}%"));
+    }
+
+    public function scopeByTag(Builder $query, string $tag): Builder
+    {
+        $op = self::likeOp();
+        return $query->whereHas('tags', fn ($q) => $q->where('name', $op, "%{$tag}%"));
     }
 
     // Relaciones
