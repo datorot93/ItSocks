@@ -22,19 +22,54 @@ class ShippingResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('municipio_ciudad')->label('Municipio/Ciudad')->required(),
-            Forms\Components\TextInput::make('departamento')->label('Departamento')->required(),
-            Forms\Components\TextInput::make('tarifa')->label('Tarifa (COP)')->numeric()->required(),
-        ]);
+            Forms\Components\TextInput::make('municipio_ciudad')
+                ->label('Municipio/Ciudad')
+                ->required()
+                ->maxLength(100),
+            Forms\Components\TextInput::make('departamento')
+                ->label('Departamento')
+                ->required()
+                ->maxLength(100),
+            Forms\Components\TextInput::make('tarifa')
+                ->label('Tarifa (COP)')
+                ->numeric()
+                ->required()
+                ->minValue(0),
+        ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
-        return $table->columns([
-            Tables\Columns\TextColumn::make('municipio_ciudad')->label('Municipio')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('departamento')->label('Departamento')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('tarifa')->label('Tarifa (COP)')->money('COP')->sortable(),
-        ])->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('municipio_ciudad')
+                    ->label('Municipio')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('departamento')
+                    ->label('Departamento')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('tarifa')
+                    ->label('Tarifa (COP)')
+                    ->money('COP')
+                    ->sortable(),
+            ])
+            ->defaultSort('departamento')
+            ->filters([
+                Tables\Filters\SelectFilter::make('departamento')
+                    ->label('Departamento')
+                    ->options(fn () => Shipping::distinct()->pluck('departamento', 'departamento')->sort()->toArray()),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getPages(): array
