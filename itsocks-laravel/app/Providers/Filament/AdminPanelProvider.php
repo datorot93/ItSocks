@@ -2,10 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\VentasDiariasWidget;
+use App\Filament\Widgets\VentasStatsWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -38,8 +41,23 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
+                VentasStatsWidget::class,
+                VentasDiariasWidget::class,
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make('Catálogo')
+                    ->icon('heroicon-o-tag'),
+                NavigationGroup::make('Comercio')
+                    ->icon('heroicon-o-shopping-bag'),
+                NavigationGroup::make('Logística')
+                    ->icon('heroicon-o-truck'),
+                NavigationGroup::make('Marketing')
+                    ->icon('heroicon-o-megaphone'),
+                NavigationGroup::make('Reportes')
+                    ->icon('heroicon-o-chart-bar'),
+                NavigationGroup::make('Administración')
+                    ->icon('heroicon-o-cog-6-tooth'),
             ])
             ->middleware([
                 EncryptCookies::class,

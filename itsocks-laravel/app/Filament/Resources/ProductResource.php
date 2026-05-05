@@ -22,46 +22,91 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')
-                ->label('Nombre')
-                ->required()
-                ->maxLength(255),
-            Forms\Components\Select::make('id_subcategory')
-                ->label('Subcategoría')
-                ->relationship('subcategory', 'name')
-                ->searchable()
-                ->preload(),
-            Forms\Components\Select::make('id_type')
-                ->label('Tipo')
-                ->relationship('type', 'name')
-                ->searchable()
-                ->preload(),
-            Forms\Components\Select::make('id_design')
-                ->label('Diseño')
-                ->relationship('design', 'name')
-                ->searchable()
-                ->preload(),
-            Forms\Components\TextInput::make('price')
-                ->label('Precio')
-                ->numeric()
-                ->prefix('$')
-                ->required(),
-            Forms\Components\TextInput::make('quantity')
-                ->label('Cantidad')
-                ->numeric()
-                ->default(0),
-            Forms\Components\Toggle::make('state')
-                ->label('Activo')
-                ->default(true),
-            Forms\Components\Toggle::make('compresion')
-                ->label('Compresión')
-                ->default(false),
-            Forms\Components\Toggle::make('season')
-                ->label('Temporada')
-                ->default(false),
-            Forms\Components\Textarea::make('description')
-                ->label('Descripción')
-                ->columnSpanFull(),
+            Forms\Components\Section::make('Información básica')->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('code')
+                    ->label('Código')
+                    ->maxLength(100),
+                Forms\Components\TextInput::make('price')
+                    ->label('Precio')
+                    ->numeric()
+                    ->prefix('$')
+                    ->required(),
+                Forms\Components\TextInput::make('quantity')
+                    ->label('Cantidad')
+                    ->numeric()
+                    ->default(0),
+                Forms\Components\TextInput::make('talla')
+                    ->label('Talla')
+                    ->default('Única'),
+                Forms\Components\TextInput::make('discount')
+                    ->label('Descuento (%)')
+                    ->numeric()
+                    ->default(0)
+                    ->minValue(0)
+                    ->maxValue(100),
+            ])->columns(3),
+            Forms\Components\Section::make('Clasificación')->schema([
+                Forms\Components\Select::make('id_subcategory')
+                    ->label('Subcategoría')
+                    ->relationship('subcategory', 'name')
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\Select::make('id_type')
+                    ->label('Tipo')
+                    ->relationship('type', 'name')
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\Select::make('id_design')
+                    ->label('Diseño')
+                    ->relationship('design', 'name')
+                    ->searchable()
+                    ->preload(),
+            ])->columns(3),
+            Forms\Components\Section::make('Opciones')->schema([
+                Forms\Components\Toggle::make('state')
+                    ->label('Activo')
+                    ->default(true),
+                Forms\Components\Toggle::make('compresion')
+                    ->label('Con compresión')
+                    ->default(false),
+                Forms\Components\Toggle::make('season')
+                    ->label('Temporada')
+                    ->default(false),
+            ])->columns(3),
+            Forms\Components\Section::make('Colores y Tallas')->schema([
+                Forms\Components\CheckboxList::make('colors')
+                    ->label('Colores disponibles')
+                    ->relationship('colors', 'name')
+                    ->columns(4),
+                Forms\Components\CheckboxList::make('sizes')
+                    ->label('Tallas disponibles')
+                    ->relationship('sizes', 'name')
+                    ->columns(4),
+            ]),
+            Forms\Components\Section::make('Imágenes')->schema([
+                Forms\Components\Repeater::make('images')
+                    ->label('Imágenes del producto')
+                    ->relationship('images')
+                    ->schema([
+                        Forms\Components\TextInput::make('url')
+                            ->label('URL de imagen')
+                            ->url()
+                            ->required(),
+                        Forms\Components\TextInput::make('alt')
+                            ->label('Texto alternativo'),
+                    ])
+                    ->columns(2)
+                    ->collapsible(),
+            ]),
+            Forms\Components\Section::make('Descripción')->schema([
+                Forms\Components\Textarea::make('description')
+                    ->label('Descripción')
+                    ->columnSpanFull(),
+            ]),
         ]);
     }
 
@@ -73,9 +118,17 @@ class ProductResource extends Resource
                     ->label('Nombre')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('code')
+                    ->label('Código')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('subcategory.name')
                     ->label('Subcategoría')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('type.name')
+                    ->label('Tipo')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Precio')
                     ->money('COP')
@@ -99,6 +152,9 @@ class ProductResource extends Resource
                 Tables\Filters\TernaryFilter::make('state')->label('Activo'),
                 Tables\Filters\TernaryFilter::make('compresion')->label('Compresión'),
                 Tables\Filters\TernaryFilter::make('season')->label('Temporada'),
+                Tables\Filters\SelectFilter::make('id_subcategory')
+                    ->label('Subcategoría')
+                    ->relationship('subcategory', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
