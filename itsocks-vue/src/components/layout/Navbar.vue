@@ -58,7 +58,7 @@ const categories = [
           <form @submit.prevent="submitSearch" class="hidden sm:flex items-center">
             <input
               v-model="searchQuery"
-              data-testid="search-input"
+              data-testid="nav-search-input"
               type="text"
               placeholder="Buscar..."
               class="border border-gray-300 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-accent w-40"
