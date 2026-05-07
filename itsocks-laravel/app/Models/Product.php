@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -21,6 +22,7 @@ class Product extends Model
         'id_subcategory',
         'code',
         'name',
+        'slug',
         'talla',
         'price',
         'state',
@@ -31,6 +33,31 @@ class Product extends Model
         'description',
         'season',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (self $product): void {
+            if (empty($product->slug) && !empty($product->name)) {
+                $product->slug = self::uniqueSlug($product->name, $product->id);
+            }
+        });
+    }
+
+    public static function uniqueSlug(string $source, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($source);
+        $slug = $base;
+        $i = 2;
+        while (
+            self::where('slug', $slug)
+                ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
+                ->exists()
+        ) {
+            $slug = "{$base}-{$i}";
+            $i++;
+        }
+        return $slug;
+    }
 
     protected $casts = [
         'price' => 'decimal:2',

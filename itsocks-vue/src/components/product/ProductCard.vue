@@ -25,9 +25,11 @@ function goToDetail() {
   const p = props.product
   const sub = p.subcategory?.slug ?? 'estampadas'
   const tipo = p.type?.slug ?? 'todos'
-  const disenio = p.design?.slug ?? p.slug
+  const disenio = p.design?.slug ?? 'general'
+  const compresion = p.compresion ? 'compresion' : 'sin-compresion'
+  const nombre = p.slug ?? String(p.id)
 
-  router.push(`/medias/${sub}/${tipo}/${disenio}/${p.slug}`)
+  router.push(`/medias/${sub}/${tipo}/${disenio}/${compresion}/${nombre}`)
 }
 
 function toggleWishlist() {
