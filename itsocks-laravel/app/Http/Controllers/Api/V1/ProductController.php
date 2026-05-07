@@ -57,6 +57,14 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
+    public function showBySlug(string $slug): ProductResource
+    {
+        $product = Product::where('slug', $slug)
+            ->with(['images', 'sizes', 'colors', 'design', 'type', 'subcategory', 'tags'])
+            ->firstOrFail();
+        return new ProductResource($product);
+    }
+
     public function store(CreateProductRequest $request): JsonResponse
     {
         $data = $request->validated();

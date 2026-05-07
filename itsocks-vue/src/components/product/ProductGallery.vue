@@ -32,7 +32,7 @@ function selectImage(i: number) {
     </div>
 
     <!-- Thumbnails -->
-    <div v-if="images.length > 1" class="flex gap-2 overflow-x-auto pb-1">
+    <div v-if="images && images.length > 1" class="flex gap-2 overflow-x-auto pb-1">
       <button
         v-for="(img, i) in images"
         :key="img.id"

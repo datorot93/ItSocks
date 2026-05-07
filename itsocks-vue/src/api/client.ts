@@ -28,9 +28,25 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-// Response interceptor: handle 401
+// Response interceptor: unwrap Laravel API Resource single envelopes ({data: {...}})
+// while preserving paginated responses ({data: [...], meta: {...}, links: {...}})
+// and raw arrays/primitives.
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const body = response.data
+    if (
+      body &&
+      typeof body === 'object' &&
+      !Array.isArray(body) &&
+      'data' in body &&
+      !('meta' in body) &&
+      !('links' in body) &&
+      Object.keys(body).length === 1
+    ) {
+      response.data = (body as { data: unknown }).data
+    }
+    return response
+  },
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('auth')
