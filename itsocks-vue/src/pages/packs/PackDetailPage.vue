@@ -23,7 +23,9 @@ const selectedSizes = ref<Record<number, Size>>({})
 
 const allSizesSelected = computed(() => {
   if (!pack.value) return false
-  return pack.value.products.every((pp) => !!selectedSizes.value[pp.product.id])
+  const products = pack.value.products ?? []
+  if (products.length === 0) return false
+  return products.every((pp) => !!selectedSizes.value[pp.product.id])
 })
 
 onMounted(async () => {
@@ -44,7 +46,8 @@ function selectSize(productId: number, size: Size) {
 
 function addPackToCart() {
   if (!pack.value || !allSizesSelected.value) return
-  pack.value.products.forEach((pp) => {
+  const products = pack.value.products ?? []
+  products.forEach((pp) => {
     const size = selectedSizes.value[pp.product.id]
     if (size) {
       cartStore.addItem(pp.product, size, pp.quantity, pack.value!.id)
@@ -94,7 +97,7 @@ const mainImage = computed(() =>
           </p>
 
           <!-- Products in pack -->
-          <div class="space-y-4 mb-6">
+          <div v-if="pack.products && pack.products.length" class="space-y-4 mb-6">
             <div
               v-for="pp in pack.products"
               :key="pp.product.id"

@@ -197,7 +197,11 @@ onUnmounted(() => destroyBricks())
             </button>
           </div>
 
-          <div id="mp-checkout" />
+          <div id="mp-checkout" class="min-h-[50px]">
+            <p v-if="!creatingOrder && !orderError && !mpLoaded" class="text-sm text-gray-400 text-center py-3">
+              Cargando MercadoPago...
+            </p>
+          </div>
         </div>
       </div>
 
