@@ -32,7 +32,9 @@ async function loadProducts(page = 1) {
       products.value.push(...newItems)
     }
     if (!Array.isArray(data)) {
-      hasMore.value = data.current_page < data.last_page
+      const currentPage = data.meta?.current_page ?? data.current_page
+      const lastPage = data.meta?.last_page ?? data.last_page
+      hasMore.value = currentPage != null && lastPage != null && currentPage < lastPage
     }
   } catch {
     error.value = 'No se pudieron cargar los productos'

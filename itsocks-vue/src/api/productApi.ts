@@ -12,16 +12,21 @@ export const productApi = {
     if (filters.search) params['filter[search]'] = filters.search
     if (filters.page) params.page = filters.page
     if (filters.per_page) params.per_page = filters.per_page
+    params.include = 'images,subcategory,type,design,tags'
 
     return apiClient.get<PaginatedResponse<Product>>('/products', { params })
   },
 
   getProduct(id: number) {
-    return apiClient.get<Product>(`/products/${id}`)
+    return apiClient.get<Product>(`/products/${id}`, {
+      params: { include: 'images,sizes,colors,subcategory,type,design,tags' },
+    })
   },
 
   getProductBySlug(slug: string) {
-    return apiClient.get<Product>(`/products/slug/${slug}`)
+    return apiClient.get<Product>(`/products/slug/${slug}`, {
+      params: { include: 'images,sizes,colors,subcategory,type,design,tags' },
+    })
   },
 
   searchProducts(query: string) {
@@ -30,7 +35,10 @@ export const productApi = {
 
   getProductsBySubcategory(subcategory: string) {
     return apiClient.get<PaginatedResponse<Product>>('/products', {
-      params: { 'filter[subcategory]': subcategory },
+      params: {
+        'filter[subcategory]': subcategory,
+        include: 'images,subcategory,type,design,tags',
+      },
     })
   },
 

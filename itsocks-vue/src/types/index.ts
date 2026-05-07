@@ -161,14 +161,24 @@ export interface User {
 // API response wrappers
 // ============================
 
-export interface PaginatedResponse<T> {
-  data: T[]
+export interface PaginationMeta {
   current_page: number
   last_page: number
   per_page: number
   total: number
   from: number
   to: number
+}
+
+export interface PaginatedResponse<T> {
+  data: T[]
+  meta: PaginationMeta
+  links?: {
+    first?: string
+    last?: string
+    prev?: string | null
+    next?: string | null
+  }
 }
 
 export interface ApiError {
